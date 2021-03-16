@@ -1,0 +1,44 @@
+com/technoidentity/vitalz/DataBindingTriggerClass.java
+ com.technoidentity.vitalz.DataBindingTriggerClass
+com/technoidentity/vitalz/databinding/RequestOtpBinding.java
+ com.technoidentity.vitalz.databinding.RequestOtpBinding
+com/technoidentity/vitalz/BR.java
+ com.technoidentity.vitalz.BR
+com/technoidentity/vitalz/databinding/SplashScreenBindingImpl.java
+ com.technoidentity.vitalz.databinding.SplashScreenBindingImpl
+ com.technoidentity.vitalz.databinding.SplashScreenBindingImpl$OnClickListenerImpl
+androidx/databinding/DataBinderMapperImpl.java
+ androidx.databinding.DataBinderMapperImpl
+com/technoidentity/vitalz/databinding/OtpConfirmBindingImpl.java
+ com.technoidentity.vitalz.databinding.OtpConfirmBindingImpl
+ com.technoidentity.vitalz.databinding.OtpConfirmBindingImpl$1
+ com.technoidentity.vitalz.databinding.OtpConfirmBindingImpl$2
+ com.technoidentity.vitalz.databinding.OtpConfirmBindingImpl$3
+ com.technoidentity.vitalz.databinding.OtpConfirmBindingImpl$4
+ com.technoidentity.vitalz.databinding.OtpConfirmBindingImpl$5
+ com.technoidentity.vitalz.databinding.OtpConfirmBindingImpl$6
+ com.technoidentity.vitalz.databinding.OtpConfirmBindingImpl$7
+ com.technoidentity.vitalz.databinding.OtpConfirmBindingImpl$OnClickListenerImpl
+androidx/databinding/library/baseAdapters/BR.java
+ androidx.databinding.library.baseAdapters.BR
+com/technoidentity/vitalz/databinding/RequestOtpBindingImpl.java
+ com.technoidentity.vitalz.databinding.RequestOtpBindingImpl
+ com.technoidentity.vitalz.databinding.RequestOtpBindingImpl$1
+ com.technoidentity.vitalz.databinding.RequestOtpBindingImpl$OnClickListenerImpl
+com/technoidentity/vitalz/BuildConfig.java
+ com.technoidentity.vitalz.BuildConfig
+com/technoidentity/vitalz/databinding/AddDeviceBinding.java
+ com.technoidentity.vitalz.databinding.AddDeviceBinding
+com/technoidentity/vitalz/databinding/AddDeviceBindingImpl.java
+ com.technoidentity.vitalz.databinding.AddDeviceBindingImpl
+ com.technoidentity.vitalz.databinding.AddDeviceBindingImpl$OnClickListenerImpl
+com/technoidentity/vitalz/databinding/OtpConfirmBinding.java
+ com.technoidentity.vitalz.databinding.OtpConfirmBinding
+com/technoidentity/vitalz/databinding/SplashScreenBinding.java
+ com.technoidentity.vitalz.databinding.SplashScreenBinding
+androidx/databinding/DataBindingComponent.java
+ androidx.databinding.DataBindingComponent
+com/technoidentity/vitalz/DataBinderMapperImpl.java
+ com.technoidentity.vitalz.DataBinderMapperImpl
+ com.technoidentity.vitalz.DataBinderMapperImpl$InnerBrLookup
+ com.technoidentity.vitalz.DataBinderMapperImpl$InnerLayoutIdLookup
