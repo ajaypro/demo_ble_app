@@ -9,6 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.VitalzApp">
+        <activity android:name=".tab.login.LoginActivity"></activity>
         <activity android:name=".user_selection.UserSelectionActivity" />
         <activity
             android:name=".device.DashboardActivity"
