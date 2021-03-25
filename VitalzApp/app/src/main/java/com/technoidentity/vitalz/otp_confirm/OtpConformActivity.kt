@@ -17,7 +17,7 @@ class OtpConformActivity : AppCompatActivity(), OtpConfirmInterface {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
 
-    otpConfirmBinding = DataBindingUtil.setContentView(this,R.layout.activity_otp_conform)
+    otpConfirmBinding = DataBindingUtil.setContentView(this,R.layout.activity_otp_confirm)
     otpConfirmViewModel = ViewModelProvider(this).get(OtpConfirmViewModel::class.java)
     otpConfirmBinding.viewModel = otpConfirmViewModel
 

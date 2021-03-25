@@ -1,0 +1,213 @@
+Index: build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>// Top-level build file where you can add configuration options common to all sub-projects/modules.\r\nbuildscript {\r\n    ext.kotlin_version = \"1.4.31\"\r\n    ext.hilt_version = \"2.28-alpha\"\r\n\r\n    repositories {\r\n        google()\r\n        jcenter()\r\n    }\r\n    dependencies {\r\n        classpath \"com.android.tools.build:gradle:4.1.2\"\r\n        classpath \"org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version\"\r\n        classpath \"com.google.dagger:hilt-android-gradle-plugin:$hilt_version\"\r\n\r\n        // NOTE: Do not place your application dependencies here; they belong\r\n        // in the individual module build.gradle files\r\n    }\r\n}\r\n\r\nallprojects {\r\n    repositories {\r\n        google()\r\n        jcenter()\r\n    }\r\n}\r\n\r\ntask clean(type: Delete) {\r\n    delete rootProject.buildDir\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- build.gradle	(revision 10fa249c26f910dc70a6c10bcee4333bd87bdd7c)
++++ build.gradle	(date 1616587541595)
+@@ -8,7 +8,7 @@
+         jcenter()
+     }
+     dependencies {
+-        classpath "com.android.tools.build:gradle:4.1.2"
++        classpath 'com.android.tools.build:gradle:4.1.3'
+         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+         classpath "com.google.dagger:hilt-android-gradle-plugin:$hilt_version"
+ 
+Index: .idea/compiler.xml
+===================================================================
+--- .idea/compiler.xml	(date 1616587541646)
++++ .idea/compiler.xml	(date 1616587541646)
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="CompilerConfiguration">
++    <bytecodeTargetLevel target="1.8" />
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/misc.xml
+===================================================================
+--- .idea/misc.xml	(date 1616587541690)
++++ .idea/misc.xml	(date 1616587541690)
+@@ -0,0 +1,9 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
++    <output url="file://$PROJECT_DIR$/build/classes" />
++  </component>
++  <component name="ProjectType">
++    <option name="id" value="Android" />
++  </component>
++</project>
+\ No newline at end of file
+Index: app/src/main/res/layout/activity_otp_conform.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<layout>\r\n\r\n    <data class=\"OtpConfirmBinding\">\r\n<variable\r\n    name=\"viewModel\"\r\n    type=\"com.technoidentity.vitalz.otp_confirm.OtpConfirmViewModel\" />\r\n    </data>\r\n\r\n    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n        xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n        xmlns:tools=\"http://schemas.android.com/tools\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"match_parent\"\r\n        android:background=\"@mipmap/vitalz\"\r\n        tools:context=\".otp_confirm.OtpConformActivity\">\r\n\r\n        <ImageView\r\n            android:id=\"@+id/imageView_vitalz\"\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:contentDescription=\"@string/vitalz_logo\"\r\n            app:layout_constraintBottom_toBottomOf=\"parent\"\r\n            app:layout_constraintHorizontal_bias=\"0.5\"\r\n            app:layout_constraintLeft_toLeftOf=\"parent\"\r\n            app:layout_constraintRight_toRightOf=\"parent\"\r\n            app:layout_constraintTop_toTopOf=\"parent\"\r\n            app:layout_constraintVertical_bias=\"0.2\"\r\n            app:srcCompat=\"@drawable/vitalz_icon\" />\r\n\r\n        <TextView\r\n            android:id=\"@+id/tx_waiting_otp\"\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_marginTop=\"30dp\"\r\n            android:text=\"@string/waiting_for_otp\"\r\n            android:textColor=\"@color/button_blue\"\r\n            android:textSize=\"25sp\"\r\n            android:textStyle=\"bold\"\r\n            app:layout_constraintEnd_toEndOf=\"parent\"\r\n            app:layout_constraintStart_toStartOf=\"parent\"\r\n            app:layout_constraintTop_toBottomOf=\"@+id/imageView_vitalz\" />\r\n\r\n        <TextView\r\n            android:id=\"@+id/tx_please_wait\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_marginStart=\"40dp\"\r\n            android:layout_marginTop=\"30dp\"\r\n            android:layout_marginEnd=\"40dp\"\r\n            android:gravity=\"center\"\r\n            android:text=\"@string/please_enter\"\r\n            android:textColor=\"@color/black\"\r\n            android:textSize=\"18sp\"\r\n            app:layout_constraintEnd_toEndOf=\"parent\"\r\n            app:layout_constraintStart_toStartOf=\"parent\"\r\n            app:layout_constraintTop_toBottomOf=\"@+id/tx_waiting_otp\" />\r\n\r\n        <RelativeLayout\r\n            android:id=\"@+id/relative_layout_mobile\"\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_marginTop=\"10dp\"\r\n            app:layout_constraintEnd_toEndOf=\"parent\"\r\n            app:layout_constraintStart_toStartOf=\"parent\"\r\n            app:layout_constraintTop_toBottomOf=\"@+id/tx_please_wait\">\r\n\r\n            <TextView\r\n                android:id=\"@+id/tx_send_to\"\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:text=\"@string/send_to_91\"\r\n                android:textColor=\"@color/black\"\r\n                android:textSize=\"18sp\" />\r\n\r\n            <TextView\r\n                android:id=\"@+id/tx_mobile_number\"\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_toEndOf=\"@+id/tx_send_to\"\r\n                android:hint=\"@string/fake_mobile_number\"\r\n                android:maxLength=\"10\"\r\n                android:text=\"@={viewModel.mobileNumber}\"\r\n                android:textColor=\"@color/black\"\r\n                android:textSize=\"18sp\" />\r\n\r\n        </RelativeLayout>\r\n\r\n        <RelativeLayout\r\n            android:id=\"@+id/relative_layout_otp\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_marginStart=\"20dp\"\r\n            android:layout_marginTop=\"30dp\"\r\n            android:layout_marginEnd=\"20dp\"\r\n            android:gravity=\"center\"\r\n            app:layout_constraintEnd_toEndOf=\"parent\"\r\n            app:layout_constraintStart_toStartOf=\"parent\"\r\n            app:layout_constraintTop_toBottomOf=\"@+id/relative_layout_mobile\">\r\n\r\n            <EditText\r\n                android:id=\"@+id/et_otp1\"\r\n                android:layout_width=\"50dp\"\r\n                android:layout_height=\"50dp\"\r\n                android:autofillHints=\"@string/enter_mobile_number\"\r\n                android:background=\"@drawable/edit_text_box\"\r\n                android:gravity=\"center\"\r\n                android:hint=\"@string/fake_opt\"\r\n                android:inputType=\"number\"\r\n                android:maxLength=\"1\"\r\n                android:padding=\"12dp\"\r\n                android:text=\"@={viewModel.otp1}\"\r\n                tools:ignore=\"RtlSymmetry\" />\r\n\r\n            <EditText\r\n                android:id=\"@+id/et_otp2\"\r\n                android:layout_width=\"50dp\"\r\n                android:layout_height=\"50dp\"\r\n                android:layout_marginStart=\"10dp\"\r\n                android:layout_toEndOf=\"@+id/et_otp1\"\r\n                android:autofillHints=\"@string/enter_mobile_number\"\r\n                android:background=\"@drawable/edit_text_box\"\r\n                android:gravity=\"center\"\r\n                android:hint=\"@string/fake_opt\"\r\n                android:inputType=\"number\"\r\n                android:maxLength=\"1\"\r\n                android:padding=\"12dp\"\r\n                android:text=\"@={viewModel.otp2}\"\r\n                tools:ignore=\"RtlSymmetry\" />\r\n\r\n            <EditText\r\n                android:id=\"@+id/et_otp3\"\r\n                android:layout_width=\"50dp\"\r\n                android:layout_height=\"50dp\"\r\n                android:layout_marginStart=\"10dp\"\r\n                android:layout_toEndOf=\"@+id/et_otp2\"\r\n                android:autofillHints=\"@string/enter_mobile_number\"\r\n                android:background=\"@drawable/edit_text_box\"\r\n                android:gravity=\"center\"\r\n                android:hint=\"@string/fake_opt\"\r\n                android:inputType=\"number\"\r\n                android:maxLength=\"1\"\r\n                android:padding=\"12dp\"\r\n                android:text=\"@={viewModel.otp3}\"\r\n                tools:ignore=\"RtlSymmetry\" />\r\n\r\n            <EditText\r\n                android:id=\"@+id/et_otp4\"\r\n                android:layout_width=\"50dp\"\r\n                android:layout_height=\"50dp\"\r\n                android:layout_marginStart=\"10dp\"\r\n                android:layout_toEndOf=\"@+id/et_otp3\"\r\n                android:autofillHints=\"@string/enter_mobile_number\"\r\n                android:background=\"@drawable/edit_text_box\"\r\n                android:gravity=\"center\"\r\n                android:hint=\"@string/fake_opt\"\r\n                android:inputType=\"number\"\r\n                android:maxLength=\"1\"\r\n                android:padding=\"12dp\"\r\n                android:text=\"@={viewModel.otp4}\"\r\n                tools:ignore=\"RtlSymmetry\" />\r\n\r\n        </RelativeLayout>\r\n\r\n        <Button\r\n            android:id=\"@+id/btn_confirm_otp\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"60dp\"\r\n            android:layout_marginStart=\"50dp\"\r\n            android:layout_marginTop=\"20dp\"\r\n            android:layout_marginEnd=\"50dp\"\r\n            android:backgroundTint=\"@color/button_blue\"\r\n            android:onClick=\"@{viewModel::onConfirmOtp}\"\r\n            android:text=\"@string/confirm_otp\"\r\n            android:textSize=\"20sp\"\r\n            app:layout_constraintEnd_toEndOf=\"parent\"\r\n            app:layout_constraintStart_toStartOf=\"parent\"\r\n            app:layout_constraintTop_toBottomOf=\"@+id/relative_layout_otp\" />\r\n\r\n    </androidx.constraintlayout.widget.ConstraintLayout>\r\n</layout>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_otp_conform.xml	(revision 10fa249c26f910dc70a6c10bcee4333bd87bdd7c)
++++ app/src/main/res/layout/activity_otp_conform.xml	(date 1616588064588)
+@@ -1,15 +1,16 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<layout>
++<layout xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:app="http://schemas.android.com/apk/res-auto"
++    xmlns:tools="http://schemas.android.com/tools">
+ 
+     <data class="OtpConfirmBinding">
+-<variable
+-    name="viewModel"
+-    type="com.technoidentity.vitalz.otp_confirm.OtpConfirmViewModel" />
++
++        <variable
++            name="viewModel"
++            type="com.technoidentity.vitalz.otp_confirm.OtpConfirmViewModel" />
+     </data>
+ 
+-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+-        xmlns:app="http://schemas.android.com/apk/res-auto"
+-        xmlns:tools="http://schemas.android.com/tools"
++    <androidx.constraintlayout.widget.ConstraintLayout
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:background="@mipmap/vitalz"
+@@ -56,35 +57,30 @@
+             app:layout_constraintStart_toStartOf="parent"
+             app:layout_constraintTop_toBottomOf="@+id/tx_waiting_otp" />
+ 
+-        <RelativeLayout
+-            android:id="@+id/relative_layout_mobile"
+-            android:layout_width="wrap_content"
+-            android:layout_height="wrap_content"
+-            android:layout_marginTop="10dp"
+-            app:layout_constraintEnd_toEndOf="parent"
+-            app:layout_constraintStart_toStartOf="parent"
+-            app:layout_constraintTop_toBottomOf="@+id/tx_please_wait">
+-
+-            <TextView
+-                android:id="@+id/tx_send_to"
+-                android:layout_width="wrap_content"
+-                android:layout_height="wrap_content"
+-                android:text="@string/send_to_91"
+-                android:textColor="@color/black"
+-                android:textSize="18sp" />
++        <TextView
++            android:id="@+id/tx_send_to"
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            android:text="@string/send_to_91"
++            android:textColor="@color/black"
++            android:textSize="18sp"
++            app:layout_constraintEnd_toEndOf="parent"
++            app:layout_constraintStart_toStartOf="parent"
++            app:layout_constraintTop_toBottomOf="@+id/tx_please_wait" />
+ 
+-            <TextView
+-                android:id="@+id/tx_mobile_number"
+-                android:layout_width="wrap_content"
+-                android:layout_height="wrap_content"
+-                android:layout_toEndOf="@+id/tx_send_to"
+-                android:hint="@string/fake_mobile_number"
+-                android:maxLength="10"
+-                android:text="@={viewModel.mobileNumber}"
+-                android:textColor="@color/black"
+-                android:textSize="18sp" />
+-
+-        </RelativeLayout>
++        <TextView
++            android:id="@+id/tx_mobile_number"
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            android:layout_toEndOf="@+id/tx_send_to"
++            android:hint="@string/fake_mobile_number"
++            android:maxLength="10"
++            android:text="@={viewModel.mobileNumber}"
++            android:textColor="@color/black"
++            android:textSize="18sp"
++            app:layout_constraintEnd_toEndOf="parent"
++            app:layout_constraintStart_toEndOf="@+id/tx_send_to"
++            app:layout_constraintTop_toBottomOf="@+id/tx_please_wait" />
+ 
+         <RelativeLayout
+             android:id="@+id/relative_layout_otp"
+@@ -96,7 +92,7 @@
+             android:gravity="center"
+             app:layout_constraintEnd_toEndOf="parent"
+             app:layout_constraintStart_toStartOf="parent"
+-            app:layout_constraintTop_toBottomOf="@+id/relative_layout_mobile">
++            app:layout_constraintTop_toBottomOf="@+id/tx_mobile_number">
+ 
+             <EditText
+                 android:id="@+id/et_otp1"
+Index: .idea/.gitignore
+===================================================================
+--- .idea/.gitignore	(date 1616587541497)
++++ .idea/.gitignore	(date 1616587541497)
+@@ -0,0 +1,3 @@
++# Default ignored files
++/shelf/
++/workspace.xml
+Index: .idea/jarRepositories.xml
+===================================================================
+--- .idea/jarRepositories.xml	(date 1616587541505)
++++ .idea/jarRepositories.xml	(date 1616587541505)
+@@ -0,0 +1,25 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="RemoteRepositoriesConfiguration">
++    <remote-repository>
++      <option name="id" value="central" />
++      <option name="name" value="Maven Central repository" />
++      <option name="url" value="https://repo1.maven.org/maven2" />
++    </remote-repository>
++    <remote-repository>
++      <option name="id" value="jboss.community" />
++      <option name="name" value="JBoss Community repository" />
++      <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
++    </remote-repository>
++    <remote-repository>
++      <option name="id" value="BintrayJCenter" />
++      <option name="name" value="BintrayJCenter" />
++      <option name="url" value="https://jcenter.bintray.com/" />
++    </remote-repository>
++    <remote-repository>
++      <option name="id" value="Google" />
++      <option name="name" value="Google" />
++      <option name="url" value="https://dl.google.com/dl/android/maven2/" />
++    </remote-repository>
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/gradle.xml
+===================================================================
+--- .idea/gradle.xml	(date 1616587541513)
++++ .idea/gradle.xml	(date 1616587541513)
+@@ -0,0 +1,22 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="GradleMigrationSettings" migrationVersion="1" />
++  <component name="GradleSettings">
++    <option name="linkedExternalProjectsSettings">
++      <GradleProjectSettings>
++        <option name="testRunner" value="PLATFORM" />
++        <option name="distributionType" value="DEFAULT_WRAPPED" />
++        <option name="externalProjectPath" value="$PROJECT_DIR$" />
++        <option name="gradleJvm" value="1.8" />
++        <option name="modules">
++          <set>
++            <option value="$PROJECT_DIR$" />
++            <option value="$PROJECT_DIR$/app" />
++          </set>
++        </option>
++        <option name="resolveModulePerSourceSet" value="false" />
++        <option name="useQualifiedModuleNames" value="true" />
++      </GradleProjectSettings>
++    </option>
++  </component>
++</project>
+\ No newline at end of file
