@@ -11,22 +11,18 @@ import com.technoidentity.vitalz.databinding.OtpConfirmBinding
 
 class OtpConformActivity : AppCompatActivity(), OtpConfirmInterface {
 
-  lateinit var otpConfirmViewModel: OtpConfirmViewModel
-  lateinit var otpConfirmBinding: OtpConfirmBinding
+    lateinit var otpConfirmViewModel: OtpConfirmViewModel
 
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_otp_conform)
 
-    otpConfirmBinding = DataBindingUtil.setContentView(this,R.layout.activity_otp_conform)
-    otpConfirmViewModel = ViewModelProvider(this).get(OtpConfirmViewModel::class.java)
-    otpConfirmBinding.viewModel = otpConfirmViewModel
+        //otpConfirmViewModel.setInterface(this as OtpConfirmInterface)
+    }
 
-    otpConfirmViewModel.setInterface(this as OtpConfirmInterface)
-  }
-
-  override fun navigateToActivity() {
-    val intent = Intent(this,AddDeviceActivity::class.java)
-    startActivity(intent)
-    finish()
-  }
+    override fun navigateToActivity() {
+        val intent = Intent(this, AddDeviceActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
 }

@@ -3,13 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data class="AddDeviceBinding">
-
-        <variable
-            name="viewModel"
-            type="com.technoidentity.vitalz.add_device.AddDeviceViewModel" />
-    </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -63,7 +56,6 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="50dp"
             android:backgroundTint="@color/button_blue"
-            android:onClick="@{viewModel::onAddDevice}"
             android:text="@string/add_device"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
