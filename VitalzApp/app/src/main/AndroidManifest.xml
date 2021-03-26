@@ -13,13 +13,14 @@
     <activity android:name=".tab.login.LoginActivity" />
     <activity android:name=".user_selection.UserSelectionActivity" />
     <activity android:name=".device.DeviceActivity" />
-    <activity android:name=".add_device.AddDeviceActivity" />
-    <activity android:name=".otp_confirm.OtpConformActivity">
+    <activity android:name=".add_device.AddDeviceActivity" >
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
 
         <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
+    </activity>
+    <activity android:name=".otp_confirm.OtpConformActivity">
     </activity>
     <activity android:name=".request_otp.RequestOtpActivity" />
     <activity android:name=".splash_screen.SplashScreenActivity" />
