@@ -1,186 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:background="@mipmap/vitalz"
+  tools:context=".otp_confirm.OtpConformActivity">
 
-    <data class="OtpConfirmBinding">
+  <ImageView
+    android:id="@+id/imageView_vitalz"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:contentDescription="@string/vitalz_logo"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintHorizontal_bias="0.5"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintVertical_bias="0.2"
+    app:srcCompat="@drawable/vitalz_icon" />
 
-        <variable
-            name="viewModel"
-            type="com.technoidentity.vitalz.otp_confirm.OtpConfirmViewModel" />
-    </data>
+  <TextView
+    android:id="@+id/tx_waiting_otp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="30dp"
+    android:text="@string/waiting_for_otp"
+    android:textColor="@color/button_blue"
+    android:textSize="25sp"
+    android:textStyle="bold"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/imageView_vitalz" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@mipmap/vitalz"
-        tools:context=".otp_confirm.OtpConformActivity">
+  <TextView
+    android:id="@+id/tx_please_wait"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="40dp"
+    android:layout_marginTop="30dp"
+    android:layout_marginEnd="40dp"
+    android:gravity="center"
+    android:text="@string/please_enter"
+    android:textColor="@color/black"
+    android:textSize="18sp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/tx_waiting_otp" />
 
-        <ImageView
-            android:id="@+id/imageView_vitalz"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/vitalz_logo"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.2"
-            app:srcCompat="@drawable/vitalz_icon" />
+  <TextView
+    android:id="@+id/tx_send_to"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:text="@string/send_to_91"
+    android:textColor="@color/black"
+    android:textSize="18sp"
+    app:layout_constraintEnd_toStartOf="@+id/tx_mobile_number"
+    app:layout_constraintHorizontal_chainStyle="packed"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/tx_please_wait" />
 
-        <TextView
-            android:id="@+id/tx_waiting_otp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:text="@string/waiting_for_otp"
-            android:textColor="@color/button_blue"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView_vitalz" />
+  <TextView
+    android:id="@+id/tx_mobile_number"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:hint="@string/fake_mobile_number"
+    android:maxLength="10"
+    android:text=""
+    android:textColor="@color/black"
+    android:textSize="18sp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toEndOf="@+id/tx_send_to"
+    app:layout_constraintTop_toBottomOf="@+id/tx_please_wait" />
 
-        <TextView
-            android:id="@+id/tx_please_wait"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginEnd="40dp"
-            android:gravity="center"
-            android:text="@string/please_enter"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tx_waiting_otp" />
+  <EditText
+    android:id="@+id/et_otp1"
+    style="@style/otp_editText"
+    android:text=""
+    app:layout_constraintEnd_toStartOf="@+id/et_otp2"
+    app:layout_constraintHorizontal_bias="0.5"
+    app:layout_constraintHorizontal_chainStyle="packed"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/tx_mobile_number" />
 
-        <TextView
-            android:id="@+id/tx_send_to"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/send_to_91"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toStartOf="@+id/tx_mobile_number"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tx_please_wait" />
+  <EditText
+    android:id="@+id/et_otp2"
+    style="@style/otp_editText"
+    android:layout_marginStart="@dimen/dp_8"
+    android:layout_toEndOf="@+id/et_otp1"
+    android:text=""
+    app:layout_constraintEnd_toStartOf="@+id/et_otp3"
+    app:layout_constraintHorizontal_bias="0.5"
+    app:layout_constraintStart_toEndOf="@+id/et_otp1"
+    app:layout_constraintTop_toBottomOf="@+id/tx_mobile_number" />
 
-        <TextView
-            android:id="@+id/tx_mobile_number"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:hint="@string/fake_mobile_number"
-            android:maxLength="10"
-            android:text="@={viewModel.mobileNumber}"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/tx_send_to"
-            app:layout_constraintTop_toBottomOf="@+id/tx_please_wait" />
+  <EditText
+    android:id="@+id/et_otp3"
+    style="@style/otp_editText"
+    android:layout_marginStart="@dimen/dp_8"
+    android:text=""
+    app:layout_constraintEnd_toStartOf="@+id/et_otp4"
+    app:layout_constraintHorizontal_bias="0.5"
+    app:layout_constraintStart_toEndOf="@+id/et_otp2"
+    app:layout_constraintTop_toBottomOf="@+id/tx_mobile_number" />
 
-        <EditText
-            android:id="@+id/et_otp1"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:autofillHints="@string/enter_mobile_number"
-            android:background="@drawable/edit_text_box"
-            android:gravity="center"
-            android:hint="@string/fake_opt"
-            android:inputType="number"
-            android:maxLength="1"
-            android:padding="12dp"
-            android:layout_marginTop="20dp"
-            android:text="@={viewModel.otp1}"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintEnd_toStartOf="@+id/et_otp2"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tx_mobile_number"
-            tools:ignore="RtlSymmetry" />
+  <EditText
+    android:id="@+id/et_otp4"
+    style="@style/otp_editText"
+    android:layout_marginStart="@dimen/dp_8"
+    android:text=""
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.5"
+    app:layout_constraintStart_toEndOf="@+id/et_otp3"
+    app:layout_constraintTop_toBottomOf="@+id/tx_mobile_number" />
 
-        <EditText
-            android:id="@+id/et_otp2"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="10dp"
-            android:layout_toEndOf="@+id/et_otp1"
-            android:autofillHints="@string/enter_mobile_number"
-            android:background="@drawable/edit_text_box"
-            android:gravity="center"
-            android:hint="@string/fake_opt"
-            android:inputType="number"
-            android:maxLength="1"
-            android:padding="12dp"
-            android:layout_marginTop="20dp"
-            android:text="@={viewModel.otp2}"
-            app:layout_constraintEnd_toStartOf="@+id/et_otp3"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/et_otp1"
-            app:layout_constraintTop_toBottomOf="@+id/tx_mobile_number"
-            tools:ignore="RtlSymmetry" />
+  <Button
+    android:id="@+id/btn_confirm_otp"
+    style="@style/button"
+    android:text="@string/confirm_otp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/et_otp4" />
 
-        <EditText
-            android:id="@+id/et_otp3"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="10dp"
-            android:layout_toEndOf="@+id/et_otp2"
-            android:autofillHints="@string/enter_mobile_number"
-            android:background="@drawable/edit_text_box"
-            android:gravity="center"
-            android:hint="@string/fake_opt"
-            android:inputType="number"
-            android:maxLength="1"
-            android:padding="12dp"
-            android:layout_marginTop="20dp"
-            android:text="@={viewModel.otp3}"
-            app:layout_constraintEnd_toStartOf="@+id/et_otp4"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/et_otp2"
-            app:layout_constraintTop_toBottomOf="@+id/tx_mobile_number"
-            tools:ignore="RtlSymmetry" />
-
-        <EditText
-            android:id="@+id/et_otp4"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="10dp"
-            android:layout_toEndOf="@+id/et_otp3"
-            android:autofillHints="@string/enter_mobile_number"
-            android:background="@drawable/edit_text_box"
-            android:gravity="center"
-            android:hint="@string/fake_opt"
-            android:inputType="number"
-            android:maxLength="1"
-            android:padding="12dp"
-            android:layout_marginTop="20dp"
-            android:text="@={viewModel.otp4}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/et_otp3"
-            app:layout_constraintTop_toBottomOf="@+id/tx_mobile_number"
-            tools:ignore="RtlSymmetry" />
-
-        <Button
-            android:id="@+id/btn_confirm_otp"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="50dp"
-            android:backgroundTint="@color/button_blue"
-            android:onClick="@{viewModel::onConfirmOtp}"
-            android:text="@string/confirm_otp"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/et_otp4" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+</androidx.constraintlayout.widget.ConstraintLayout>
