@@ -39,4 +39,25 @@
     <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
   </style>
 
+    <style name="viewSize" >
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="textView" parent="viewSize" >
+        <item name ="android:textSize">@dimen/sp_18</item>
+        <item name="android:layout_marginStart">@dimen/dp_20</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="viewMargin">
+        <item name="android:layout_marginStart">20dp</item>
+    </style>
+
+    <style name="viewContainer">
+        <item name="android:layout_width">@dimen/dp_220</item>
+        <item name="android:layout_height">@dimen/dp_80</item>
+        <item name="android:layout_marginTop">@dimen/dp_24</item>
+    </style>
+
 </resources>
