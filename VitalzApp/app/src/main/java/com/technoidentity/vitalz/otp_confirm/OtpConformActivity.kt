@@ -15,7 +15,7 @@ class OtpConformActivity : AppCompatActivity(), OtpConfirmInterface {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_otp_conform)
+        setContentView(R.layout.activity_otp_confirm)
 
         //otpConfirmViewModel.setInterface(this as OtpConfirmInterface)
     }
