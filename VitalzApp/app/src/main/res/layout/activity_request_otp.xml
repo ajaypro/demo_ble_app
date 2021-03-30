@@ -10,8 +10,7 @@
 
     <ImageView
         android:id="@+id/imageView_vitalz"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/viewSize"
         android:contentDescription="@string/vitalz_logo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -23,17 +22,9 @@
 
     <EditText
         android:id="@+id/et_mobile_number"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="50dp"
+        style="@style/etRequestOtp"
         android:autofillHints="@string/enter_mobile_number"
-        android:background="@drawable/edit_text_box"
         android:hint="@string/enter_mobile_number"
-        android:inputType="number"
-        android:maxLength="10"
-        android:paddingStart="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView_vitalz"
@@ -41,14 +32,8 @@
 
     <Button
         android:id="@+id/btn_request_otp"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="50dp"
-        android:backgroundTint="@color/button_blue"
+        style="@style/button"
         android:text="@string/request_otp"
-        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_mobile_number" />

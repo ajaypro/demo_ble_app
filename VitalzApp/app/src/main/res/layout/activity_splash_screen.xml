@@ -11,8 +11,7 @@
 
         <ImageView
             android:id="@+id/imageView_vitalz"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/viewSize"
             android:contentDescription="@string/vitalz_logo"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -24,14 +23,10 @@
 
         <Button
             android:id="@+id/btn_get_started"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginStart="50dp"
-            android:layout_marginEnd="50dp"
-            android:layout_marginBottom="50dp"
+            style="@style/button"
+            android:layout_marginBottom="@dimen/dp_32"
             android:backgroundTint="@color/button_Red"
             android:text="@string/get_started"
-            android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
