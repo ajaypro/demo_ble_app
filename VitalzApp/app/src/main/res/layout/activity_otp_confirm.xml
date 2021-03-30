@@ -80,7 +80,6 @@
     <EditText
         android:id="@+id/et_otp2"
         style="@style/otp_editText"
-        android:layout_marginStart="@dimen/dp_8"
         android:layout_toEndOf="@+id/et_otp1"
         android:text=""
         app:layout_constraintEnd_toStartOf="@+id/et_otp3"
@@ -91,7 +90,6 @@
     <EditText
         android:id="@+id/et_otp3"
         style="@style/otp_editText"
-        android:layout_marginStart="@dimen/dp_8"
         android:text=""
         app:layout_constraintEnd_toStartOf="@+id/et_otp4"
         app:layout_constraintHorizontal_bias="0.5"
@@ -101,7 +99,6 @@
     <EditText
         android:id="@+id/et_otp4"
         style="@style/otp_editText"
-        android:layout_marginStart="@dimen/dp_8"
         android:text=""
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
