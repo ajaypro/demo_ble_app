@@ -1,8 +1,8 @@
-package com.technoidentity.vitalz.network
+package com.technoidentity.vitalz.data.network
 
 import android.content.Context
 import com.technoidentity.vitalz.BuildConfig
-import com.technoidentity.vitalz.network.Urls.BASE_URL_Production
+import com.technoidentity.vitalz.data.network.Urls.BASE_URL_Production
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request

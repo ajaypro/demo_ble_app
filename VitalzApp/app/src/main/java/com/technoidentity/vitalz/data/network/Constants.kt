@@ -1,4 +1,4 @@
-package com.technoidentity.vitalz.network
+package com.technoidentity.vitalz.data.network
 
 import android.app.AlertDialog
 import android.content.Context

@@ -1,4 +1,4 @@
-package com.technoidentity.vitalz.network
+package com.technoidentity.vitalz.data.network
 
 object Urls {
 
