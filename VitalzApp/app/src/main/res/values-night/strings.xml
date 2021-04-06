@@ -32,11 +32,12 @@
     <string name="address">Address</string>
   <string name="photo">Photo</string>
   <string name="browse">browse</string>
-    <string name="contact_number">Contact Number</string>
+    <string name="contact_number">Phone Number</string>
   <string name="doctor_contact_number">Doctor Contact Number</string>
     <string name="list_of_medications">List of Medications</string>
     <string name="average">Average</string>
     <string name="min">Min</string>
   <string name="max">Max</string>
     <string name="bpm">BPM</string>
+    <string name="weight">Weight</string>
 </resources>
