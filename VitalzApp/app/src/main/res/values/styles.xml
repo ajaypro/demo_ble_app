@@ -20,6 +20,16 @@
         <item name="android:layout_height">@dimen/dp_50</item>
     </style>
 
+    <style name="et_address">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/dp_100</item>
+        <item name="android:layout_marginTop">@dimen/dp_5</item>
+        <item name="android:background">@drawable/edit_text_box</item>
+        <item name="android:gravity">start</item>
+        <item name="android:inputType">text</item>
+        <item name="android:padding">@dimen/dp_8</item>
+    </style>
+
     <style name="layout_dashboard">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
