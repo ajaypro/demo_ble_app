@@ -53,4 +53,5 @@
     <string name="emergency_contact_number">Emergency Contact Number</string>
     <string name="attending_doctor">Attending Doctor</string>
     <string name="submit">Submit</string>
+    <string name="username">Username</string>
 </resources>
