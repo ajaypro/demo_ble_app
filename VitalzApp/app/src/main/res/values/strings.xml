@@ -49,4 +49,8 @@
     <string name="max">Max</string>
     <string name="bpm">BPM</string>
     <string name="weight">Weight</string>
+    <string name="emergency_contact_name">Emergency Contact Name</string>
+    <string name="emergency_contact_number">Emergency Contact Number</string>
+    <string name="attending_doctor">Attending Doctor</string>
+    <string name="submit">Submit</string>
 </resources>
