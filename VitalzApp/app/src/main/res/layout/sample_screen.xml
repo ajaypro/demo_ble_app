@@ -30,17 +30,56 @@
             android:id="@+id/tv_user_name"
             style="@style/heading_dashboard"
             android:text="@string/username"
-            android:drawableStart=""
+            android:gravity="start"
+            android:drawablePadding="@dimen/dp_16"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:drawableStartCompat="@drawable/ic_username" />
 
         <EditText
-            android:id="@+id/et_name"
+            android:id="@+id/et_user_name"
             style="@style/et_dashboard"
-            android:text="@={viewModel.name}"
+            android:layout_width="@dimen/dp_300"
+            android:text=""
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_user_name" />
+
+        <TextView
+            android:id="@+id/tv_password"
+            style="@style/heading_dashboard"
+            android:text="@string/password"
+            android:gravity="start"
+            android:drawablePadding="@dimen/dp_16"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_user_name"
+            app:drawableStartCompat="@drawable/ic_password" />
+
+        <EditText
+            android:id="@+id/et_password"
+            style="@style/et_dashboard"
+            android:layout_width="@dimen/dp_300"
+            android:text=""
+            android:inputType="text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_password" />
+
+        <TextView
+            android:id="@+id/tv_forgot_password"
+            style="@style/heading_dashboard"
+            android:text="@string/forgot_password"
+            android:gravity="start"
+            android:textColor="@color/button_blue"
+            android:drawablePadding="@dimen/dp_16"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_password" />
+
+        <Button
+            style="@style/button"
+            android:layout_width="@dimen/dp_300"
+            android:text="@string/login"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_forgot_password"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
