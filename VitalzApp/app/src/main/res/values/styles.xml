@@ -84,6 +84,7 @@
         <item name="android:layout_height">@dimen/dp_32</item>
         <item name="android:layout_marginStart">@dimen/dp_16</item>
         <item name="android:layout_marginTop">@dimen/dp_8</item>
+        <item name="android:gravity">center</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
     </style>
 
