@@ -5,13 +5,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/vitalz"
-    tools:context=".tab.login.LoginActivity">
+    android:background="@mipmap/vitalz">
 
     <ImageView
         android:id="@+id/imageView_vitalz"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/viewSize"
         android:contentDescription="@string/vitalz_logo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -23,14 +21,26 @@
     
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="20dp"
-        android:layout_marginTop="20dp"
-        android:background="@color/white"
+        style="@style/layout_login"
         app:layout_constraintTop_toBottomOf="@+id/imageView_vitalz"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/tv_user_name"
+            style="@style/heading_dashboard"
+            android:text="@string/username"
+            android:drawableStart=""
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/et_name"
+            style="@style/et_dashboard"
+            android:text="@={viewModel.name}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_user_name" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

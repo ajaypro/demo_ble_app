@@ -40,7 +40,7 @@
     <string name="address">Address</string>
     <string name="photo">Photo</string>
     <string name="browse">browse</string>
-    <string name="contact_number">Contact Number</string>
+    <string name="contact_number">Phone Number</string>
     <string name="doctor_contact_number">Doctor Contact Number</string>
     <string name="list_of_medications">List of Medications</string>
     <string name="add">Add</string>
@@ -48,4 +48,10 @@
     <string name="min">Min</string>
     <string name="max">Max</string>
     <string name="bpm">BPM</string>
+    <string name="weight">Weight</string>
+    <string name="emergency_contact_name">Emergency Contact Name</string>
+    <string name="emergency_contact_number">Emergency Contact Number</string>
+    <string name="attending_doctor">Attending Doctor</string>
+    <string name="submit">Submit</string>
+    <string name="username">Username</string>
 </resources>
