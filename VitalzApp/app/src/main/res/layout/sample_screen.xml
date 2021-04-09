@@ -66,23 +66,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_password" />
 
-        <TextView
-            android:id="@+id/tv_forgot_password"
-            style="@style/heading_dashboard"
-            android:drawablePadding="@dimen/dp_16"
-            android:gravity="start"
-            android:text="@string/forgot_password"
-            android:textColor="@color/button_blue"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/et_password" />
-
         <Button
             style="@style/button"
             android:layout_width="@dimen/dp_300"
             android:text="@string/login"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_forgot_password" />
+            app:layout_constraintTop_toBottomOf="@+id/et_password" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
