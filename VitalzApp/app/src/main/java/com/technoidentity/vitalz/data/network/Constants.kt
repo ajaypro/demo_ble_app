@@ -15,27 +15,7 @@ object Constants {
 
     var TOKEN = "token"
     var PREFERENCE_NAME = "vitalz"
-    var SELECTED_OUTLET = "selectedOutlet"
-    var SELECTED_ORDER_TYPE = "selectedOrderType"
-    var ID = "userId"
-    var PRODUCTID = "productId"
-    var PRICELIST = "priceList"
-    var OUTLETNAME = "outletName"
-    var OUTLETADDRESS = "outletAddress"
-    var OUTLETSITENUMBER = "outletSitenumber"
-    var BRANCHID = "barcnhId"
-    var ORDERTYPE = "orderType"
-    var BRANCHORGID = "branchOrgId"
-    var CUSTOMERID = "customerId"
-    var USERNAME = "username"
-    var FIRST_NAME = "firstName"
-    var EMAIL = "emailId"
-    var PRODUCTIDS = "setOfProductId"
-    var DESIGNATION = "designation"
-    var MOBILE_NUMBER = "mobileNumber"
     var emailPattern = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$"
-    val IMAGE_STORED_DIRECTORY = "/Digital_Sign"
-    val PERMISSIONS_REQUEST_FOR_READ_EXTERNAL_STORAGE = 123
 
     @RequiresApi(Build.VERSION_CODES.KITKAT)
     fun haveInternet(ctx: Context): Boolean {
@@ -51,7 +31,7 @@ object Constants {
         return true
     }
 
-    fun InternetSettings(ctx: Context) {
+    fun internetSettings(ctx: Context) {
         val alertDialogBuilder = AlertDialog.Builder(ctx)
         alertDialogBuilder
             .setMessage("No internet connection on your device. Would you like to enable it?")
