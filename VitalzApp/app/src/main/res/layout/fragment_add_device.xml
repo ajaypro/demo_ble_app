@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/vitalz"
-    tools:context=".add_device.AddDeviceActivity">
+    android:background="@mipmap/vitalz">
 
     <ImageView
         android:id="@+id/imageView_vitalz"
@@ -16,19 +15,18 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.2"
+        app:layout_constraintVertical_bias="0.3"
         app:srcCompat="@drawable/vitalz_icon" />
 
     <ImageView
         android:id="@+id/imageView_add_device"
         style="@style/viewSize"
+        android:layout_marginTop="@dimen/dp_32"
         android:contentDescription="@string/vitalz_logo"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.5"
+        app:layout_constraintTop_toBottomOf="@id/imageView_vitalz"
         app:srcCompat="@mipmap/remote_add_device" />
 
     <TextView
