@@ -2,9 +2,9 @@ package com.technoidentity.vitalz.data.local
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.technoidentity.vitalz.data.datamodel.HeartRate
+import com.technoidentity.vitalz.data.datamodel.HeartRateData
 
-@Database(entities = [(HeartRate::class)], version = 1)
+@Database(entities = [(HeartRateData::class)], version = 1, exportSchema = false)
 abstract class HealthDatabase: RoomDatabase() {
 
 }
