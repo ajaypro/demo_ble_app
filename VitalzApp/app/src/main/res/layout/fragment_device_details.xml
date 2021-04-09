@@ -20,12 +20,13 @@
         app:srcCompat="@drawable/vitalz_icon" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        style="@style/viewSize"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
         android:paddingStart="@dimen/dp_40"
         android:paddingEnd="@dimen/dp_40"
         android:paddingTop="@dimen/dp_32"
         android:paddingBottom="@dimen/dp_32"
-        android:layout_marginTop="@dimen/dp_32"
+        android:layout_margin="@dimen/dp_32"
         android:background="@drawable/display_text_box"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
