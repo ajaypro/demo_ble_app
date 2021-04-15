@@ -82,6 +82,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_startDate_select"
             style="@style/dateBtn"
+            android:layout_marginEnd="@dimen/dp_5"
             app:layout_constraintEnd_toStartOf="@+id/layout_endDate_select"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -119,6 +120,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_endDate_select"
             style="@style/dateBtn"
+            android:layout_marginStart="@dimen/dp_5"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/layout_startDate_select"
