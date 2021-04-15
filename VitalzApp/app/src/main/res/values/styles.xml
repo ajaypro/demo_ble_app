@@ -97,6 +97,14 @@
         <item name="android:layout_marginStart">@dimen/dp_20</item>
     </style>
 
+    <style name="dateBtn">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">@dimen/dp_5</item>
+        <item name="android:padding">@dimen/dp_5</item>
+        <item name="android:background">@drawable/bg_dark</item>
+    </style>
+
     <style name="otp_editText">
         <item name="android:layout_width">@dimen/dp_50</item>
         <item name="android:layout_height">@dimen/dp_50</item>
