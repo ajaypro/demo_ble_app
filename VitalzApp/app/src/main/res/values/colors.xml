@@ -11,4 +11,5 @@
     <color name="button_blue">#1567AE</color>
     <color name="button_grey">#A9A9A9</color>
     <color name="button_light_grey">#DCDCDC</color>
+    <color name="textColor_red">#E81D45</color>
 </resources>
