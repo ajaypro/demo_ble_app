@@ -62,4 +62,8 @@
     <string name="sample_startDate">Apr 2 2021</string>
     <string name="end_date">End Date :</string>
     <string name="sample_endDate">Apr 9, 2021</string>
+    <string name="respiratory">Respiratory</string>
+    <string name="sample_respiratory">25</string>
+    <string name="heart_rate">Heart Rate</string>
+    <string name="sample_heart_rate">107</string>
 </resources>

@@ -27,6 +27,7 @@
             android:contentDescription="@string/back_btn"
             android:src="@drawable/ic_vital_name"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintStart_toEndOf="@id/iv_back_btn"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -93,7 +94,7 @@
             <TextView
                 android:id="@+id/tv_heart_rate_count"
                 style="@style/viewSize"
-                android:text="107"
+                android:text="@string/sample_heart_rate"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/button_Red"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -103,7 +104,7 @@
             <TextView
                 android:id="@+id/tv_heart_rate"
                 style="@style/viewSize"
-                android:text="Heart Rate"
+                android:text="@string/heart_rate"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -133,7 +134,7 @@
             <TextView
                 android:id="@+id/tv_respiratory_count"
                 style="@style/viewSize"
-                android:text="25"
+                android:text="@string/sample_respiratory"
                 android:layout_marginTop="@dimen/dp_5"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/button_Red"
@@ -144,7 +145,7 @@
             <TextView
                 android:id="@+id/tv_respiratory"
                 style="@style/viewSize"
-                android:text="Respiratory"
+                android:text="@string/respiratory"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
