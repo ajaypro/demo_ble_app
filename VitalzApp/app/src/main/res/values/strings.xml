@@ -71,7 +71,6 @@
     <string name="temperature">Temperature</string>
     <string name="oxygen_saturation">Oxygen Saturation</string>
     <string name="sample_weight">86 KG</string>
-    <string name="weight">Weight</string>
     <string name="sample_oxygen">94</string>
     <string name="posture">Posture</string>
     <string name="sample_posture">Straight</string>
