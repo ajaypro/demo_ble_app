@@ -64,6 +64,17 @@
     <string name="sample_endDate">Apr 9, 2021</string>
     <string name="respiratory">Respiratory</string>
     <string name="sample_respiratory">25</string>
-    <string name="heart_rate">Heart Rate</string>
     <string name="sample_heart_rate">107</string>
+    <string name="sample_bp">124/81</string>
+    <string name="blood_pressure">Blood Pressure</string>
+    <string name="sample_temp">38.5</string>
+    <string name="temperature">Temperature</string>
+    <string name="oxygen_saturation">Oxygen Saturation</string>
+    <string name="sample_weight">86 KG</string>
+    <string name="weight">Weight</string>
+    <string name="sample_oxygen">94</string>
+    <string name="posture">Posture</string>
+    <string name="sample_posture">Straight</string>
+    <string name="activity">Activity</string>
+    <string name="sample_activity">200 Steps</string>
 </resources>
