@@ -107,7 +107,7 @@
     <style name="dashboard_care_taker">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:padding">@dimen/dp_16</item>
+        <item name="android:padding">@dimen/dp_24</item>
         <item name="android:background">@drawable/bg_dash_board_care_taker</item>
     </style>
 
@@ -138,6 +138,12 @@
     <style name="viewSize">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="viewSize_one">
+        <item name="android:layout_width">@dimen/dp_50</item>
+        <item name="android:layout_height">@dimen/dp_50</item>
+        <item name="android:textSize">@dimen/sp_16</item>
     </style>
 
     <style name="etRequestOtp">

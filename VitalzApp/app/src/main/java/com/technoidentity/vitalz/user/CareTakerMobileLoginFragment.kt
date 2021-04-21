@@ -10,7 +10,7 @@ import com.technoidentity.vitalz.R
 class CareTakerMobileLoginFragment: Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-            inflater.inflate(R.layout.sample_screen, container, false)
+            inflater.inflate(R.layout.fragment_caretaker_login, container, false)
 
     /**
      * if device not added navigate to add device screen
