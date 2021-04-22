@@ -3,12 +3,15 @@ package com.technoidentity.vitalz.home
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.add
+import androidx.fragment.app.commit
+import androidx.fragment.app.replace
 import com.google.android.material.snackbar.Snackbar
 import com.technoidentity.vitalz.R
 import com.technoidentity.vitalz.utils.ConnectionType
 import com.technoidentity.vitalz.utils.NetworkUtil
 
-class HomeActivity: AppCompatActivity() {
+class HomeActivity : AppCompatActivity() {
 
     lateinit var networkMonitor: NetworkUtil
 
@@ -43,13 +46,38 @@ class HomeActivity: AppCompatActivity() {
             }
         }
 
+        //Loading Default Splash Screen Fragment
+        supportFragmentManager.commit {
+            setReorderingAllowed(true)
+            add<SplashFragment>(R.id.main_view)
+        }
+
+        //Loading UserSelection Fragment after 2 sec of splash screen
+        val splash = object : Thread() {
+            override fun run() {
+                try {
+                    sleep(2000)
+                    loadUserSelectionFragment()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+        }
+        splash.start()
+    }
+
+    //Handling User Selection Fragment
+    private fun loadUserSelectionFragment() {
+        supportFragmentManager.commit {
+            setReorderingAllowed(true)
+            replace<UserSelectionFragment>(R.id.main_view)
+        }
     }
 
     override fun onResume() {
         super.onResume()
         networkMonitor.register()
     }
-
 
     override fun onStop() {
         super.onStop()
