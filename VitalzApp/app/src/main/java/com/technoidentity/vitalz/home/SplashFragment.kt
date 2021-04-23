@@ -5,5 +5,4 @@ import com.technoidentity.vitalz.R
 
 class SplashFragment: Fragment(R.layout.fragment_splash_screen) {
 
-
 }

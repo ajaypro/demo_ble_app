@@ -1,37 +1,26 @@
 package com.technoidentity.vitalz.home
 
-import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import com.technoidentity.vitalz.R
-import com.technoidentity.vitalz.user.UserActivity
 
+class UserSelectionFragment: Fragment(R.layout.fragment_user_selection) {
 
-class UserSelectionFragment: Fragment() {
-    var intent = Intent()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val navController: NavController= Navigation.findNavController(view)
+        val hospitalLayout = view.findViewById<View>(R.id.hospital_layout)
+        val careTakerLayout = view.findViewById<View>(R.id.patient_care_layout)
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        val rootView: View = inflater.inflate(R.layout.fragment_user_selection, container, false)
-        intent = Intent(activity, UserActivity::class.java)
-        val hospitalButton: View = rootView.findViewById(R.id.hospital_layout)
-        val patientButton: View = rootView.findViewById(R.id.patient_care_layout)
-
-        //when Hospital Block is clicked
-        hospitalButton.setOnClickListener {
-            intent.putExtra("hospitalLayout", "HospitalLogin")
-            startActivity(intent)
+        hospitalLayout.setOnClickListener {
+            navController.navigate(R.id.action_userSelectionFragment2_to_doctorNurseLoginFragment)
         }
-        //when patient Block is clicked
-        patientButton.setOnClickListener {
-            intent.putExtra("patientLayout", "PatientLogin")
-            startActivity(intent)
+        careTakerLayout.setOnClickListener {
+            navController.navigate(R.id.action_userSelectionFragment2_to_careTakerMobileLoginFragment)
         }
-        return rootView
+
     }
 }

@@ -45,13 +45,6 @@ class HomeActivity : AppCompatActivity() {
                 }
             }
         }
-
-        //Loading Default Splash Screen Fragment
-        supportFragmentManager.commit {
-            setReorderingAllowed(true)
-            add<SplashFragment>(R.id.main_view)
-        }
-
         //Loading UserSelection Fragment after 2 sec of splash screen
         val splash = object : Thread() {
             override fun run() {
@@ -70,7 +63,7 @@ class HomeActivity : AppCompatActivity() {
     private fun loadUserSelectionFragment() {
         supportFragmentManager.commit {
             setReorderingAllowed(true)
-            replace<UserSelectionFragment>(R.id.main_view)
+            replace<UserSelectionFragment>(R.id.fragment)
         }
     }
 
