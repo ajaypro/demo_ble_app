@@ -41,6 +41,9 @@
         <action
             android:id="@+id/action_doctorNurseLoginFragment_to_doctorDashboardFragment2"
             app:destination="@id/doctorDashboardFragment" />
+        <action
+            android:id="@+id/action_doctorNurseLoginFragment_to_nurseCareTakerDashboardFragment"
+            app:destination="@id/nurseCareTakerDashboardFragment" />
     </fragment>
     <fragment
         android:id="@+id/careTakerMobileOTPFragment"
@@ -49,9 +52,6 @@
         <action
             android:id="@+id/action_careTakerMobileOTPFragment_to_nurseCareTakerDashboardFragment"
             app:destination="@id/nurseCareTakerDashboardFragment" />
-        <action
-            android:id="@+id/action_careTakerMobileOTPFragment_to_placeholder"
-            app:destination="@id/registerCareTakerForm" />
     </fragment>
     <fragment
         android:id="@+id/doctorDashboardFragment"
@@ -94,6 +94,9 @@
         <action
             android:id="@+id/action_deviceDetailsFragment_to_nurseCareTakerDashboardFragment"
             app:destination="@id/nurseCareTakerDashboardFragment" />
+        <action
+            android:id="@+id/action_deviceDetailsFragment_to_registerCareTakerForm"
+            app:destination="@id/registerCareTakerForm" />
     </fragment>
     <fragment
         android:id="@+id/nurseCareTakerDashboardFragment"
@@ -103,9 +106,5 @@
             android:id="@+id/action_nurseCareTakerDashboardFragment_to_nurseCareTakerPatientDetailFragment"
             app:destination="@id/nurseCareTakerPatientDetailFragment" />
     </fragment>
-    <fragment android:id="@+id/registerCareTakerForm" >
-        <action
-            android:id="@+id/action_registerCareTakerForm_to_nurseCareTakerDashboardFragment"
-            app:destination="@id/nurseCareTakerDashboardFragment" />
-    </fragment>
+    <fragment android:id="@+id/registerCareTakerForm" />
 </navigation>

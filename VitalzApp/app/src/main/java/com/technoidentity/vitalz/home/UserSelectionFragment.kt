@@ -16,11 +16,10 @@ class UserSelectionFragment: Fragment(R.layout.fragment_user_selection) {
         val careTakerLayout = view.findViewById<View>(R.id.patient_care_layout)
 
         hospitalLayout.setOnClickListener {
-            navController.navigate(R.id.action_userSelectionFragment2_to_doctorNurseLoginFragment)
+            navController.navigate(R.id.doctorNurseLoginFragment)
         }
         careTakerLayout.setOnClickListener {
-            navController.navigate(R.id.action_userSelectionFragment2_to_careTakerMobileLoginFragment)
+            navController.navigate(R.id.careTakerMobileLoginFragment)
         }
-
     }
 }

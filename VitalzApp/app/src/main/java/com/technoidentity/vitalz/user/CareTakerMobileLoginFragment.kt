@@ -3,6 +3,6 @@ package com.technoidentity.vitalz.user
 import androidx.fragment.app.Fragment
 import com.technoidentity.vitalz.R
 
-class CareTakerMobileLoginFragment: Fragment(R.layout.fragment_caretaker_login) {
+class CareTakerMobileLoginFragment : Fragment(R.layout.fragment_caretaker_login) {
 
 }
