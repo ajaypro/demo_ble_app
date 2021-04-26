@@ -5,8 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/vitalz"
-    tools:context=".user.UserActivity">
+    android:background="@mipmap/vitalz">
 
     <ImageView
         android:id="@+id/imageView_vitalz"
