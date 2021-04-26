@@ -8,7 +8,7 @@ import com.technoidentity.vitalz.R
 import com.technoidentity.vitalz.utils.ConnectionType
 import com.technoidentity.vitalz.utils.NetworkUtil
 
-class HomeActivity: AppCompatActivity() {
+class HomeActivity : AppCompatActivity() {
 
     lateinit var networkMonitor: NetworkUtil
 
@@ -42,14 +42,12 @@ class HomeActivity: AppCompatActivity() {
                 }
             }
         }
-
     }
 
     override fun onResume() {
         super.onResume()
         networkMonitor.register()
     }
-
 
     override fun onStop() {
         super.onStop()
