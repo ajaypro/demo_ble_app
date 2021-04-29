@@ -50,8 +50,8 @@
         android:name="com.technoidentity.vitalz.user.CareTakerMobileOTPFragment"
         android:label="CareTakerMobileOTPFragment" >
         <action
-            android:id="@+id/action_careTakerMobileOTPFragment_to_nurseCareTakerDashboardFragment"
-            app:destination="@id/nurseCareTakerDashboardFragment" />
+            android:id="@+id/action_careTakerMobileOTPFragment_to_hospitalListFragment"
+            app:destination="@id/hospitalListFragment" />
     </fragment>
     <fragment
         android:id="@+id/doctorDashboardFragment"
@@ -95,8 +95,8 @@
             android:id="@+id/action_deviceDetailsFragment_to_nurseCareTakerDashboardFragment"
             app:destination="@id/nurseCareTakerDashboardFragment" />
         <action
-            android:id="@+id/action_deviceDetailsFragment_to_registerCareTakerForm"
-            app:destination="@id/registerCareTakerForm" />
+            android:id="@+id/action_deviceDetailsFragment_to_patientProfileFragment"
+            app:destination="@id/patientProfileFragment" />
     </fragment>
     <fragment
         android:id="@+id/nurseCareTakerDashboardFragment"
@@ -106,5 +106,24 @@
             android:id="@+id/action_nurseCareTakerDashboardFragment_to_nurseCareTakerPatientDetailFragment"
             app:destination="@id/nurseCareTakerPatientDetailFragment" />
     </fragment>
-    <fragment android:id="@+id/registerCareTakerForm" />
+    <fragment
+        android:id="@+id/patientProfileFragment"
+        android:name="com.technoidentity.vitalz.hospital.PatientProfileFragment"
+        android:label="PatientProfileFragment" />
+    <fragment
+        android:id="@+id/hospitalListFragment"
+        android:name="com.technoidentity.vitalz.hospital.HospitalListFragment"
+        android:label="HospitalListFragment" >
+        <action
+            android:id="@+id/action_hospitalListFragment_to_patientListFragment"
+            app:destination="@id/patientListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/patientListFragment"
+        android:name="com.technoidentity.vitalz.hospital.PatientListFragment"
+        android:label="PatientListFragment" >
+        <action
+            android:id="@+id/action_patientListFragment_to_nurseCareTakerDashboardFragment"
+            app:destination="@id/nurseCareTakerDashboardFragment" />
+    </fragment>
 </navigation>

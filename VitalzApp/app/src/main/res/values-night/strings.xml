@@ -45,4 +45,10 @@
     <string name="attending_doctor">Attending Doctor</string>
   <string name="submit">Submit</string>
     <string name="username">Username</string>
+
+  //Toast Messages
+  <string name="empty">Please enter Mobile Number</string>
+  <string name="shortLength">Please enter 10 Digits</string>
+  <string name="invalid">Please enter Valid Mobile Number</string>
+  <string name="unknown">Please Contact Admin/Hospital</string>
 </resources>

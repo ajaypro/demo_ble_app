@@ -29,12 +29,21 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView_vitalz"
         tools:ignore="RtlSymmetry" />
 
+    <TextView
+        android:id="@+id/response_msg"
+        style="@style/viewSize"
+        android:visibility="gone"
+        android:text=""
+        android:layout_marginTop="@dimen/dp_5"
+        app:layout_constraintEnd_toEndOf="@+id/et_mobile_number"
+        app:layout_constraintTop_toBottomOf="@+id/et_mobile_number" />
+
     <Button
         android:id="@+id/btn_request_otp"
         style="@style/button"
         android:text="@string/request_otp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_mobile_number" />
+        app:layout_constraintTop_toBottomOf="@+id/response_msg" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
