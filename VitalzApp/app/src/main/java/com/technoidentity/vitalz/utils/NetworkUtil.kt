@@ -109,7 +109,6 @@ class NetworkUtil (private val context: Context) {
 }
 
 enum class ConnectionType {
-
     WIFI,
     CELLULAR
 }

@@ -99,9 +99,27 @@
         android:id="@+id/et_otp4"
         style="@style/otp_editText"
         android:text=""
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/et_otp5"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/et_otp3"
+        app:layout_constraintTop_toBottomOf="@+id/tx_mobile_number" />
+
+    <EditText
+        android:id="@+id/et_otp5"
+        style="@style/otp_editText"
+        android:text=""
+        app:layout_constraintEnd_toStartOf="@+id/et_otp6"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/et_otp4"
+        app:layout_constraintTop_toBottomOf="@+id/tx_mobile_number" />
+
+    <EditText
+        android:id="@+id/et_otp6"
+        style="@style/otp_editText"
+        android:text=""
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/et_otp5"
         app:layout_constraintTop_toBottomOf="@+id/tx_mobile_number" />
 
     <Button
@@ -110,6 +128,6 @@
         android:text="@string/confirm_otp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_otp4" />
+        app:layout_constraintTop_toBottomOf="@+id/et_otp6" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
