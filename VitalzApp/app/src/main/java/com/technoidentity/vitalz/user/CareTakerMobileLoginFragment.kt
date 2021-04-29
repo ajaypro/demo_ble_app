@@ -1,18 +1,33 @@
 package com.technoidentity.vitalz.user
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.technoidentity.vitalz.R
 import com.technoidentity.vitalz.data.network.Constants
+import com.technoidentity.vitalz.databinding.FragmentCaretakerLoginBinding
 
-class CareTakerMobileLoginFragment : Fragment(R.layout.fragment_caretaker_login), CareTakerLoginInterface {
+class CareTakerMobileLoginFragment : Fragment(), CareTakerLoginInterface {
 
     lateinit var careTakerMobileViewModel : CareTakerMobileViewModel
+    lateinit var bindingCareTakerLogin: FragmentCaretakerLoginBinding
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View?{
+        bindingCareTakerLogin = FragmentCaretakerLoginBinding.inflate(inflater)
+        careTakerMobileViewModel = ViewModelProvider(this).get(CareTakerMobileViewModel::class.java)
+        return bindingCareTakerLogin.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -29,21 +44,26 @@ class CareTakerMobileLoginFragment : Fragment(R.layout.fragment_caretaker_login)
     private fun validateMobileNumber(mobile : String) {
         when {
             mobile.isEmpty() -> {
-                Toast.makeText(context, "Please enter Mobile Number", Toast.LENGTH_SHORT).show()
+                bindingCareTakerLogin.responseMsg.visibility = View.VISIBLE
+                bindingCareTakerLogin.responseMsg.setText(R.string.empty)
             }
             mobile.length != 10 -> {
-                Toast.makeText(context, "Please enter 10 Digits", Toast.LENGTH_SHORT).show()
+                bindingCareTakerLogin.responseMsg.visibility = View.VISIBLE
+                bindingCareTakerLogin.responseMsg.setText(R.string.shortLength)
             }
             !mobile.matches(Constants.mobilePattern.toRegex()) -> {
-                Toast.makeText(context, "Please enter Valid Mobile Number", Toast.LENGTH_SHORT).show()
+                bindingCareTakerLogin.responseMsg.visibility = View.VISIBLE
+                bindingCareTakerLogin.responseMsg.setText(R.string.invalid)
             }
             mobile.matches(Constants.mobilePattern.toRegex()) -> {
                 //do api call request and on success response navigate to next EnterOTP Fragment
+                bindingCareTakerLogin.responseMsg.visibility = View.GONE
+                bindingCareTakerLogin.responseMsg.setText("")
                 careTakerMobileViewModel.loginApi(mobile)
-                Toast.makeText(context, "API Call", Toast.LENGTH_SHORT).show()
             }
             else -> {
-                Toast.makeText(context, "Please Contact Admin/Hospital", Toast.LENGTH_SHORT).show()
+                bindingCareTakerLogin.responseMsg.visibility = View.VISIBLE
+                bindingCareTakerLogin.responseMsg.setText(R.string.unknown)
             }
         }
     }
