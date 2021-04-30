@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -23,7 +22,7 @@ class CareTakerMobileLoginFragment : Fragment(), CareTakerLoginInterface {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View?{
+    ): View{
         bindingCareTakerLogin = FragmentCaretakerLoginBinding.inflate(inflater)
         careTakerMobileViewModel = ViewModelProvider(this).get(CareTakerMobileViewModel::class.java)
         return bindingCareTakerLogin.root
