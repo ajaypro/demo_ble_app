@@ -7,11 +7,11 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.technoidentity.vitalz.R
 
-class UserSelectionFragment: Fragment(R.layout.fragment_user_selection) {
+class UserSelectionFragment : Fragment(R.layout.fragment_user_selection) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val navController: NavController= Navigation.findNavController(view)
+        val navController: NavController = Navigation.findNavController(view)
         val hospitalLayout = view.findViewById<View>(R.id.hospital_layout)
         val careTakerLayout = view.findViewById<View>(R.id.patient_care_layout)
 

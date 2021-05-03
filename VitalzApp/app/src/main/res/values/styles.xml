@@ -141,6 +141,17 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
+    <style name="search_et_box">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">@dimen/dp_5</item>
+        <item name="android:drawablePadding">@dimen/dp_8</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:drawableStart">@drawable/ic_baseline_search_24</item>
+        <item name="android:textColor">@color/button_blue</item>
+        <item name="android:textColorHint">@color/button_blue</item>
+    </style>
+
     <style name="viewSize_one">
         <item name="android:layout_width">@dimen/dp_50</item>
         <item name="android:layout_height">@dimen/dp_50</item>

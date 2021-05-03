@@ -60,7 +60,7 @@
             android:id="@+id/et_password"
             style="@style/et_dashboard"
             android:layout_width="@dimen/dp_300"
-            android:inputType="text"
+            android:inputType="textPassword"
             android:text=""
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_password" />

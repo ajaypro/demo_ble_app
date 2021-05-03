@@ -4,7 +4,10 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 
-suspend fun <T : Any> runIO(dispatcherProvider: CoroutinesDispatcherProvider, work: suspend () -> T): Flow<ResultHandler<T>> =
+suspend fun <T : Any> runIO(
+    dispatcherProvider: CoroutinesDispatcherProvider,
+    work: suspend () -> T
+): Flow<ResultHandler<T>> =
     flow {
         withContext(dispatcherProvider.io) {
             try {

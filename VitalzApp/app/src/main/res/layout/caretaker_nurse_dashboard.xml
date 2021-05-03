@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -39,8 +38,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/app_bar_layout">
 
         <ImageView
@@ -49,7 +48,7 @@
             android:contentDescription="@string/remote_icon"
             android:src="@drawable/ic_ble_battery"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_time_left"
@@ -58,13 +57,13 @@
             android:text=""
             android:textColorHint="@color/black"
             app:layout_constraintStart_toEndOf="@+id/iv_remote_icon"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_time_left_unit"
             style="@style/dashboard_ble_battery"
             app:layout_constraintStart_toEndOf="@+id/tv_time_left"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/iv_connectivity_icon"
@@ -73,9 +72,23 @@
             android:contentDescription="@string/remote_icon"
             android:src="@drawable/ic_connectivity_icon"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/tv_selected_patient"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_16"
+        android:text="@string/sample_patient_name"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@id/layout_dashboard"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_ble" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_dashboard"
@@ -84,7 +97,7 @@
         android:layout_margin="@dimen/dp_16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/layout_ble">
+        app:layout_constraintTop_toBottomOf="@id/tv_selected_patient">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_heart_rate"
@@ -108,6 +121,7 @@
                 android:id="@+id/tv_heart_rate_count"
                 style="@style/viewSize"
                 android:text="@string/sample_heart_rate"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textColor="@color/button_Red"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -146,6 +160,7 @@
                 android:id="@+id/tv_respiratory_count"
                 style="@style/viewSize"
                 android:text="@string/sample_respiratory"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textColor="@color/button_Red"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -185,6 +200,7 @@
                 android:id="@+id/tv_bp_count"
                 style="@style/viewSize"
                 android:text="@string/sample_bp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textColor="@color/button_Red"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -224,6 +240,7 @@
                 android:id="@+id/tv_temperature_count"
                 style="@style/viewSize"
                 android:text="@string/sample_temp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textColor="@color/button_Red"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -263,6 +280,7 @@
                 android:id="@+id/tv_activity_count"
                 style="@style/viewSize"
                 android:text="@string/sample_activity"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textColor="@color/button_Red"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -302,6 +320,7 @@
                 android:id="@+id/tv_posture_count"
                 style="@style/viewSize"
                 android:text="@string/sample_posture"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textColor="@color/button_Red"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -340,6 +359,7 @@
                 android:id="@+id/tv_oxygen_saturation_count"
                 style="@style/viewSize"
                 android:text="@string/sample_oxygen"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textColor="@color/button_Red"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -378,6 +398,7 @@
                 android:id="@+id/tv_weight_count"
                 style="@style/viewSize"
                 android:text="@string/sample_weight"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textColor="@color/button_Red"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

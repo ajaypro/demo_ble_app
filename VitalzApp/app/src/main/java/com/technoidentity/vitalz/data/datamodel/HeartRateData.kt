@@ -12,6 +12,6 @@ data class HeartRateData(
     val timeInterval: String = "500ms",
     val heartRate: Int,
     val heartRateVariability: Int,
-    val stress:Int
+    val stress: Int
 ) {
 }

@@ -3,17 +3,12 @@ package com.technoidentity.vitalz.user
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.technoidentity.vitalz.data.repository.UserRepository
 
-class CareTakerMobileViewModel: ViewModel() {
+class CareTakerMobileViewModel(private val userRepository : UserRepository) : ViewModel() {
 
-    lateinit var careTakerLoginInterface : CareTakerLoginInterface
-    var mobileNumber : MutableLiveData<String> = MutableLiveData()
-
-    fun setInterface(careTakerLoginInterface: CareTakerLoginInterface){
-        this.careTakerLoginInterface = careTakerLoginInterface
-    }
-
-    fun loginApi(mobileNumber : String){
+    fun loginApi(mobileNumber: String) {
+//        userRepository.doMobileOTPCall(mobileNumber)
         Log.d("check Mobile ", mobileNumber)
     }
 

@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_graph"
     app:startDestination="@id/splashFragment2">
     <fragment
         android:id="@+id/splashFragment2"
         android:name="com.technoidentity.vitalz.home.SplashFragment"
-        android:label="SplashFragment" >
+        android:label="SplashFragment">
         <action
             android:id="@+id/action_splashFragment2_to_userSelectionFragment2"
             app:destination="@id/userSelectionFragment2" />
@@ -15,7 +14,7 @@
     <fragment
         android:id="@+id/userSelectionFragment2"
         android:name="com.technoidentity.vitalz.home.UserSelectionFragment"
-        android:label="UserSelectionFragment" >
+        android:label="UserSelectionFragment">
         <action
             android:id="@+id/action_userSelectionFragment2_to_careTakerMobileLoginFragment"
             app:destination="@id/careTakerMobileLoginFragment" />
@@ -26,7 +25,7 @@
     <fragment
         android:id="@+id/careTakerMobileLoginFragment"
         android:name="com.technoidentity.vitalz.user.CareTakerMobileLoginFragment"
-        android:label="CareTakerMobileLoginFragment" >
+        android:label="CareTakerMobileLoginFragment">
         <action
             android:id="@+id/action_careTakerMobileLoginFragment_to_careTakerMobileOTPFragment"
             app:destination="@id/careTakerMobileOTPFragment" />
@@ -34,7 +33,7 @@
     <fragment
         android:id="@+id/doctorNurseLoginFragment"
         android:name="com.technoidentity.vitalz.user.DoctorNurseLoginFragment"
-        android:label="DoctorNurseLoginFragment" >
+        android:label="DoctorNurseLoginFragment">
         <action
             android:id="@+id/action_doctorNurseLoginFragment_to_addDeviceFragment"
             app:destination="@id/addDeviceFragment" />
@@ -48,7 +47,7 @@
     <fragment
         android:id="@+id/careTakerMobileOTPFragment"
         android:name="com.technoidentity.vitalz.user.CareTakerMobileOTPFragment"
-        android:label="CareTakerMobileOTPFragment" >
+        android:label="CareTakerMobileOTPFragment">
         <action
             android:id="@+id/action_careTakerMobileOTPFragment_to_hospitalListFragment"
             app:destination="@id/hospitalListFragment" />
@@ -56,7 +55,7 @@
     <fragment
         android:id="@+id/doctorDashboardFragment"
         android:name="com.technoidentity.vitalz.dashboard.DoctorDashboardFragment"
-        android:label="DoctorDashboardFragment" >
+        android:label="DoctorDashboardFragment">
         <action
             android:id="@+id/action_doctorDashboardFragment_to_doctorPatientDetailFragment"
             app:destination="@id/doctorPatientDetailFragment" />
@@ -68,7 +67,7 @@
     <fragment
         android:id="@+id/addDeviceFragment"
         android:name="com.technoidentity.vitalz.bluetooth.AddDeviceFragment"
-        android:label="AddDeviceFragment" >
+        android:label="AddDeviceFragment">
         <action
             android:id="@+id/action_addDeviceFragment_to_deviceDetailsFragment"
             app:destination="@id/deviceDetailsFragment" />
@@ -76,7 +75,7 @@
     <fragment
         android:id="@+id/doctorPatientDetailFragment"
         android:name="com.technoidentity.vitalz.dashboard.DoctorPatientDetailFragment"
-        android:label="DoctorPatientDetailFragment" >
+        android:label="DoctorPatientDetailFragment">
         <argument
             android:name="patientId"
             app:argType="integer" />
@@ -87,7 +86,7 @@
     <fragment
         android:id="@+id/deviceDetailsFragment"
         android:name="com.technoidentity.vitalz.bluetooth.DeviceDetailsFragment"
-        android:label="DeviceDetailsFragment" >
+        android:label="DeviceDetailsFragment">
         <action
             android:id="@+id/action_deviceDetailsFragment_to_doctorDashboardFragment"
             app:destination="@id/doctorDashboardFragment" />
@@ -101,7 +100,7 @@
     <fragment
         android:id="@+id/nurseCareTakerDashboardFragment"
         android:name="com.technoidentity.vitalz.dashboard.NurseCareTakerDashboardFragment"
-        android:label="NurseCareTakerDashboardFragment" >
+        android:label="NurseCareTakerDashboardFragment">
         <action
             android:id="@+id/action_nurseCareTakerDashboardFragment_to_nurseCareTakerPatientDetailFragment"
             app:destination="@id/nurseCareTakerPatientDetailFragment" />
@@ -113,7 +112,7 @@
     <fragment
         android:id="@+id/hospitalListFragment"
         android:name="com.technoidentity.vitalz.hospital.HospitalListFragment"
-        android:label="HospitalListFragment" >
+        android:label="HospitalListFragment">
         <action
             android:id="@+id/action_hospitalListFragment_to_patientListFragment"
             app:destination="@id/patientListFragment" />
@@ -121,9 +120,13 @@
     <fragment
         android:id="@+id/patientListFragment"
         android:name="com.technoidentity.vitalz.hospital.PatientListFragment"
-        android:label="PatientListFragment" >
+        android:label="PatientListFragment">
         <action
             android:id="@+id/action_patientListFragment_to_nurseCareTakerDashboardFragment"
             app:destination="@id/nurseCareTakerDashboardFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/notificationsFragment"
+        android:name="com.technoidentity.vitalz.user.NotificationsFragment"
+        android:label="NotificationsFragment" />
 </navigation>
