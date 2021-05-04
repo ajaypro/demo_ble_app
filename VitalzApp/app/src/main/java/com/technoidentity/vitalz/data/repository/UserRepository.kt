@@ -1,4 +1,8 @@
 package com.technoidentity.vitalz.data.repository
 
-class UserRepository {
+import com.technoidentity.vitalz.data.network.VitalzService
+
+class UserRepository(private val vitalzService: VitalzService) {
+
+      suspend fun doMobileOTPCall(mobile: String): Boolean = vitalzService.getOTPCall(mobile)
 }

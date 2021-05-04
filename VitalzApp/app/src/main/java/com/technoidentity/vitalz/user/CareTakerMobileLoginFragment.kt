@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -14,18 +13,18 @@ import com.technoidentity.vitalz.R
 import com.technoidentity.vitalz.data.network.Constants
 import com.technoidentity.vitalz.databinding.FragmentCaretakerLoginBinding
 
-class CareTakerMobileLoginFragment : Fragment(), CareTakerLoginInterface {
+class CareTakerMobileLoginFragment : Fragment() {
 
-    lateinit var careTakerMobileViewModel : CareTakerMobileViewModel
+//    lateinit var careTakerMobileViewModel: CareTakerMobileViewModel
     lateinit var bindingCareTakerLogin: FragmentCaretakerLoginBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View?{
+    ): View {
         bindingCareTakerLogin = FragmentCaretakerLoginBinding.inflate(inflater)
-        careTakerMobileViewModel = ViewModelProvider(this).get(CareTakerMobileViewModel::class.java)
+//        careTakerMobileViewModel = ViewModelProvider(this).get(CareTakerMobileViewModel::class.java)
         return bindingCareTakerLogin.root
     }
 
@@ -34,14 +33,22 @@ class CareTakerMobileLoginFragment : Fragment(), CareTakerLoginInterface {
         val navController: NavController = Navigation.findNavController(view)
         val btnRequestOtp = view.findViewById<View>(R.id.btn_request_otp)
         val mobileNumber: EditText = view.findViewById<View>(R.id.et_mobile_number) as EditText
-        careTakerMobileViewModel.setInterface(this as CareTakerLoginInterface)
+//        careTakerMobileViewModel.setInterface(this as CareTakerLoginInterface)
 
         btnRequestOtp.setOnClickListener {
-            validateMobileNumber(mobileNumber.text.toString())
+            //Checking UI Hospital List Navigation
+            navController.navigate(R.id.hospitalListFragment)
+
+            //Checking UI Patient List Navigation
+//            navController.navigate(R.id.patientListFragment)
+
+            //Checking UI Notification List Navigation
+//            navController.navigate(R.id.notificationsFragment)
+//            validateMobileNumber(mobileNumber.text.toString())
         }
     }
 
-    private fun validateMobileNumber(mobile : String) {
+    private fun validateMobileNumber(mobile: String) {
         when {
             mobile.isEmpty() -> {
                 bindingCareTakerLogin.responseMsg.visibility = View.VISIBLE
@@ -59,7 +66,7 @@ class CareTakerMobileLoginFragment : Fragment(), CareTakerLoginInterface {
                 //do api call request and on success response navigate to next EnterOTP Fragment
                 bindingCareTakerLogin.responseMsg.visibility = View.GONE
                 bindingCareTakerLogin.responseMsg.setText("")
-                careTakerMobileViewModel.loginApi(mobile)
+//                careTakerMobileViewModel.loginApi(mobile)
             }
             else -> {
                 bindingCareTakerLogin.responseMsg.visibility = View.VISIBLE

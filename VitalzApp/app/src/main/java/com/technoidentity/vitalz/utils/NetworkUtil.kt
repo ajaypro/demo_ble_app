@@ -10,7 +10,7 @@ import android.net.Network
 import android.net.NetworkCapabilities
 import android.os.Build
 
-class NetworkUtil (private val context: Context) {
+class NetworkUtil(private val context: Context) {
 
     private var mContext = context
 

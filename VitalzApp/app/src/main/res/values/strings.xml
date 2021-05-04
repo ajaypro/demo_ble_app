@@ -53,8 +53,8 @@
     <string name="emergency_contact_number">Emergency Contact Number</string>
     <string name="attending_doctor">Attending Doctor</string>
     <string name="submit">Submit</string>
-    <string name="username">Username</string>
-    <string name="password">Password</string>
+    <string name="username">Username *</string>
+    <string name="password">Password *</string>
     <string name="forgot_password">Forgot Password ?</string>
     <string name="login">Login</string>
     <string name="heart_rate">Heart Rate</string>
@@ -83,5 +83,20 @@
     <string name="shortLength">Please enter 10 Digits</string>
     <string name="invalid">Please enter Valid Mobile Number</string>
     <string name="unknown">Please Contact Admin/Hospital</string>
+    <string name="patients">Patients</string>
+    <string name="sample_hospital">Yashoda Hospital</string>
+    <string name="id">ID :</string>
+    <string name="fake_id">3278</string>
+    <string name="sample_address">Alexander Road, Secunderabad, Telangana</string>
+    <string name="sample_patient_name">Akash Kumar</string>
+    <string name="sample_patient_age">54</string>
+    <string name="sample_age">M</string>
+    <string name="sample_patient_id">98765</string>
+    <string name="sample_patient_hospital_address">Yashoda Hospital, Secunderabad, Telangana</string>
+    <string name="notifications">Notifications</string>
+    <string name="sample_notification_title">Notification Title</string>
+    <string name="sample_date">12/04/2021 ,10:10 AM</string>
+    <string name="search_hospital">Search Hospital</string>
+    <string name="search_patient">Search Patient</string>
 
 </resources>
