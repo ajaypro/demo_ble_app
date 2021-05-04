@@ -8,7 +8,7 @@ import com.technoidentity.vitalz.data.repository.UserRepository
 class CareTakerMobileViewModel(private val userRepository : UserRepository) : ViewModel() {
 
     fun loginApi(mobileNumber: String) {
-//        userRepository.doMobileOTPCall(mobileNumber)
+//       userRepository.doMobileOTPCall(mobileNumber)
         Log.d("check Mobile ", mobileNumber)
     }
 

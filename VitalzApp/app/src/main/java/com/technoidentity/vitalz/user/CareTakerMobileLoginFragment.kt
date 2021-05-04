@@ -18,11 +18,8 @@ class CareTakerMobileLoginFragment : Fragment() {
 //    lateinit var careTakerMobileViewModel: CareTakerMobileViewModel
     lateinit var bindingCareTakerLogin: FragmentCaretakerLoginBinding
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater,
+        container: ViewGroup?, savedInstanceState: Bundle?): View {
         bindingCareTakerLogin = FragmentCaretakerLoginBinding.inflate(inflater)
 //        careTakerMobileViewModel = ViewModelProvider(this).get(CareTakerMobileViewModel::class.java)
         return bindingCareTakerLogin.root
