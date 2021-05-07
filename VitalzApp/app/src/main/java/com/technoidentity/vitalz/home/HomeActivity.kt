@@ -7,7 +7,9 @@ import com.google.android.material.snackbar.Snackbar
 import com.technoidentity.vitalz.R
 import com.technoidentity.vitalz.utils.ConnectionType
 import com.technoidentity.vitalz.utils.NetworkUtil
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HomeActivity : AppCompatActivity() {
 
     lateinit var networkMonitor: NetworkUtil

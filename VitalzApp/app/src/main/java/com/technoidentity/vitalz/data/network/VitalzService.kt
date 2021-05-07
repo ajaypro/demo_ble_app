@@ -1,7 +1,7 @@
 package com.technoidentity.vitalz.data.network
 
 import com.technoidentity.vitalz.BuildConfig
-import com.technoidentity.vitalz.data.network.Urls.BASE_URL_Production
+import com.technoidentity.vitalz.data.network.Urls.BASE_URL
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -36,7 +36,7 @@ object VitalzService {
             .addInterceptor(interceptor).connectTimeout(100, TimeUnit.SECONDS)
             .writeTimeout(100, TimeUnit.SECONDS).readTimeout(100, TimeUnit.SECONDS).build()
 
-        val retrofit = Retrofit.Builder().baseUrl(BASE_URL_Production)
+        val retrofit = Retrofit.Builder().baseUrl(BASE_URL)
             .client(client).addConverterFactory(GsonConverterFactory.create()).build()
 
         restApi = retrofit.create(VitalzApi::class.java)
@@ -49,13 +49,8 @@ object VitalzService {
 
     private fun getBaseUrl(): String {
         return when (BuildConfig.BUILD_TYPE) {
-            "debug" -> BASE_URL_Production
+            "debug" -> BASE_URL
             else -> ""
         }
-    }
-
-    suspend fun getOTPCall(mobile: String) : Boolean{
-        restApi = getRestApi()
-        return restApi.getOTP(mobile)
     }
 }

@@ -10,7 +10,7 @@ import retrofit2.http.POST
 interface VitalzApi {
 
     @POST(SEND_OTP)
-    suspend fun getOTP(@Body phoneNo: String) : Boolean
+    suspend fun getOTP(@Body phoneNo: String) : Response<Boolean>
 
     // confirm otp url that gives response object
     @POST(CARETAKER_LOGIN)
