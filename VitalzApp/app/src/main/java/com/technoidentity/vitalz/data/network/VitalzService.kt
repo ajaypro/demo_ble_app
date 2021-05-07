@@ -2,6 +2,7 @@ package com.technoidentity.vitalz.data.network
 
 import com.technoidentity.vitalz.BuildConfig
 import com.technoidentity.vitalz.data.network.Urls.BASE_URL_Production
+import com.technoidentity.vitalz.data.response.LoginResponse
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -58,4 +59,8 @@ object VitalzService {
         restApi = getRestApi()
         return restApi.getOTP(mobile)
     }
+
+    suspend fun doLogin(userId: String, password: String) : LoginResponse  =
+        restApi.getLogin()
+
 }

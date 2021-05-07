@@ -6,4 +6,5 @@ object Urls {
     const val BASE_URL_Production = "http://20.198.122.157:8023"
 
     const val SEND_OTP = "agastya/caretaker/send-otp"
+    const val LOGIN = "agastya/caretaker/login"
 }
