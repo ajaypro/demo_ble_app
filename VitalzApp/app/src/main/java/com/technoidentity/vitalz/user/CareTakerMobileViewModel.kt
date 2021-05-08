@@ -4,9 +4,13 @@ import androidx.lifecycle.*
 import com.technoidentity.vitalz.data.repository.UserRepository
 import com.technoidentity.vitalz.utils.CoroutinesDispatcherProvider
 import com.technoidentity.vitalz.utils.ResultHandler
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class CareTakerMobileViewModel : ViewModel() {
+@HiltViewModel
+class CareTakerMobileViewModel @Inject constructor(private val userRepository: UserRepository,
+                                                   private val dispatcher: CoroutinesDispatcherProvider) : ViewModel() {
 
     sealed class CareTaker {
         class Success(val resultText: String) : CareTaker()
@@ -25,15 +29,15 @@ class CareTakerMobileViewModel : ViewModel() {
         }
 
         viewModelScope.launch(dispatcher.io) {
-            _expectedResult.value = CareTaker.Loading
+            _expectedResult.postValue(CareTaker.Loading)
             when (val response = userRepository.doMobileOTPCall(mobile)) {
-                is ResultHandler.Error -> _expectedResult.value =
-                    CareTaker.Failure(response.message.toString())
+                is ResultHandler.Error -> _expectedResult.postValue(
+                    CareTaker.Failure(response.message.toString()))
                 is ResultHandler.Success -> {
                     if (response.data == null) {
-                        _expectedResult.value = CareTaker.Failure("Unexpected Error")
+                        _expectedResult.postValue(CareTaker.Failure("Unexpected Error"))
                     } else {
-                        _expectedResult.value = CareTaker.Success("Otp Sent to you mobile")
+                        _expectedResult.postValue(CareTaker.Success("Otp Sent to you mobile"))
                     }
                 }
             }

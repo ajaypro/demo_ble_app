@@ -6,14 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.technoidentity.vitalz.R
 import com.technoidentity.vitalz.data.network.Constants
 import com.technoidentity.vitalz.databinding.FragmentCaretakerLoginBinding
 import com.technoidentity.vitalz.user.CareTakerMobileViewModel.CareTaker.Success
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CareTakerMobileLoginFragment : Fragment() {
 
     private lateinit var binding: FragmentCaretakerLoginBinding
@@ -28,7 +29,7 @@ class CareTakerMobileLoginFragment : Fragment() {
         container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentCaretakerLoginBinding.inflate(layoutInflater)
 
-//        viewModel = ViewModelProvider(this, CareTakerMobileViewModelFactory(userRepository)).get(CareTakerMobileViewModel::class.java)
+       //viewModel = ViewModelProvider(this, CareTakerMobileViewModelFactory(userRepository)).get(CareTakerMobileViewModel::class.java)
 
         binding.btnRequestOtp.setOnClickListener {
             val mobileNumber = binding.etMobileNumber.text.toString()
