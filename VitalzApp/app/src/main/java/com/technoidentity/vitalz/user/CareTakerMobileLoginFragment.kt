@@ -4,32 +4,26 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.technoidentity.vitalz.R
+import com.technoidentity.vitalz.data.datamodel.login.CareTakerOtpResponse
 import com.technoidentity.vitalz.data.network.Constants
 import com.technoidentity.vitalz.databinding.FragmentCaretakerLoginBinding
-import com.technoidentity.vitalz.user.CareTakerMobileViewModel.CareTaker.Success
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class CareTakerMobileLoginFragment : Fragment() {
 
     private lateinit var binding: FragmentCaretakerLoginBinding
-//    private lateinit var viewModel : CareTakerMobileViewModel
-//    val viewModel by viewModels<CareTakerMobileViewModel>(){CareTakerMobileViewModelFactory(
-//        UserRepository(),
-//    )  }
     val viewModel : CareTakerMobileViewModel by viewModels()
-
 
     override fun onCreateView(inflater: LayoutInflater,
         container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentCaretakerLoginBinding.inflate(layoutInflater)
-
-       //viewModel = ViewModelProvider(this, CareTakerMobileViewModelFactory(userRepository)).get(CareTakerMobileViewModel::class.java)
 
         binding.btnRequestOtp.setOnClickListener {
             val mobileNumber = binding.etMobileNumber.text.toString()
@@ -60,12 +54,12 @@ class CareTakerMobileLoginFragment : Fragment() {
                     viewModel.getCareTakerResponse(mobile)
                     viewModel.expectedResult.observe(viewLifecycleOwner, {
                         when(it){
-                            is Success -> {
-                                Navigation.findNavController(requireView()).navigate(R.id.careTakerMobileOTPFragment)
+                            is CareTakerMobileViewModel.CareTaker.Success -> {
+                                val bundle = bundleOf("mobileNumber" to mobile)
+                                Navigation.findNavController(requireView()).navigate(R.id.careTakerMobileOTPFragment, bundle)
                             }
 
                             is CareTakerMobileViewModel.CareTaker.Failure -> {
-
                             }
                             else -> Unit
                         }
@@ -78,5 +72,4 @@ class CareTakerMobileLoginFragment : Fragment() {
             }
         }
     }
-
 }

@@ -1,5 +1,6 @@
 package com.technoidentity.vitalz.data.network
 
+import android.content.Context
 import com.technoidentity.vitalz.BuildConfig
 import com.technoidentity.vitalz.data.network.Urls.BASE_URL
 import okhttp3.Interceptor
@@ -13,7 +14,7 @@ import java.util.concurrent.TimeUnit
 
 object VitalzService {
 
-    private lateinit var restApi: VitalzApi
+    private var restApi: VitalzApi? = null
     var token = String()
 
     private fun init() {
@@ -42,9 +43,16 @@ object VitalzService {
         restApi = retrofit.create(VitalzApi::class.java)
     }
 
-    private fun getRestApi(): VitalzApi {
+    fun getRestApi(context: Context? = null): VitalzApi {
+        context?.let {
+            val sp = it.getSharedPreferences(Constants.PREFERENCE_NAME , Context.MODE_PRIVATE)
+            token = sp.getString(Constants.TOKEN , token)!!
+        }
+        if (restApi!= null) {
+            restApi = null
+        }
         init()
-        return restApi
+        return restApi!!
     }
 
     private fun getBaseUrl(): String {

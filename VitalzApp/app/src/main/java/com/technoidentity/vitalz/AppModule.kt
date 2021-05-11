@@ -1,7 +1,7 @@
 package com.technoidentity.vitalz
 
-import com.technoidentity.vitalz.data.network.Urls
 import com.technoidentity.vitalz.data.network.VitalzApi
+import com.technoidentity.vitalz.data.network.VitalzService
 import com.technoidentity.vitalz.data.repository.MainRepository
 import com.technoidentity.vitalz.data.repository.UserRepository
 import com.technoidentity.vitalz.utils.CoroutinesDispatcherProvider
@@ -11,8 +11,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
@@ -20,11 +18,7 @@ import javax.inject.Singleton
 object AppModule {
     @Singleton
     @Provides
-    fun vitalzApi(): VitalzApi = Retrofit.Builder()
-        .baseUrl(Urls.BASE_URL)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-        .create(VitalzApi::class.java)
+    fun vitalzApi(): VitalzApi = VitalzService.getRestApi()
 
     @Singleton
     @Provides
