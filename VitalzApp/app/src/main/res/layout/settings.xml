@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/vitalz"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/app_bar_layout"
+        style="@style/titleBar"
+        android:background="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/iv_back_btn"
+            style="@style/backBtn"
+            android:contentDescription="@string/back_btn"
+            android:src="@drawable/ic_back_btn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/iv_vitalz_name"
+            style="@style/backBtn"
+            android:contentDescription="@string/back_btn"
+            android:gravity="center"
+            android:text="Settings"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@color/textColor_red"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_20"
+        android:layout_marginTop="12dp"
+        android:background="@color/white"
+        android:padding="@dimen/dp_16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/app_bar_layout">
+
+        <ImageView
+            android:id="@+id/ic_update_profile"
+            style="@style/viewSize"
+            android:src="@drawable/ic_update_profile"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_update_profile"
+            style="@style/viewSize"
+            android:layout_marginStart="@dimen/dp_16"
+            android:text="Update Profile"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/ic_update_profile"
+            app:layout_constraintStart_toEndOf="@+id/ic_update_profile"
+            app:layout_constraintTop_toTopOf="@+id/ic_update_profile" />
+
+        <ImageView
+            android:id="@+id/ic_update_password"
+            style="@style/viewSize"
+            android:layout_marginTop="@dimen/dp_16"
+            android:src="@drawable/ic_change_password"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ic_update_profile" />
+
+        <TextView
+            android:id="@+id/textView"
+            style="@style/viewSize"
+            android:layout_marginStart="@dimen/dp_16"
+            android:text="Change Password"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/ic_update_password"
+            app:layout_constraintStart_toEndOf="@+id/ic_update_password"
+            app:layout_constraintTop_toTopOf="@+id/ic_update_password" />
+
+        <View
+            android:id="@+id/divider_profile"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/dp_16"
+            android:background="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ic_update_password" />
+
+        <TextView
+            android:id="@+id/tv_enable_fingerprint"
+            style="@style/viewSize"
+            android:layout_marginTop="@dimen/dp_16"
+            android:text="Enable Fingerprint"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider_profile"
+            app:layout_constraintVertical_chainStyle="spread" />
+
+        <Switch
+            android:id="@+id/fingerprint_switch"
+            style="@style/viewSize"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_enable_fingerprint"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_enable_fingerprint"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+        <TextView
+            android:id="@+id/textView2"
+            style="@style/viewSize"
+            android:layout_marginTop="@dimen/dp_16"
+            android:text="Push Notifications"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_enable_fingerprint" />
+
+        <Switch
+            android:id="@+id/switch1"
+            style="@style/viewSize"
+            app:layout_constraintBottom_toBottomOf="@+id/textView2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textView2"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
