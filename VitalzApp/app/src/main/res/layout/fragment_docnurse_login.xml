@@ -66,6 +66,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_password" />
 
         <Button
+            android:id="@+id/btn_login_doc_nurse"
             style="@style/button"
             android:layout_width="@dimen/dp_300"
             android:text="@string/login"

@@ -1,4 +1,4 @@
-package com.technoidentity.vitalz.data.datamodel.login
+package com.technoidentity.vitalz.data.datamodel.careTakerLogin
 
 import com.google.gson.annotations.SerializedName
 

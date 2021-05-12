@@ -10,7 +10,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.technoidentity.vitalz.R
-import com.technoidentity.vitalz.data.datamodel.login.CareTakerOtpResponse
 import com.technoidentity.vitalz.data.network.Constants
 import com.technoidentity.vitalz.databinding.FragmentCaretakerLoginBinding
 import dagger.hilt.android.AndroidEntryPoint

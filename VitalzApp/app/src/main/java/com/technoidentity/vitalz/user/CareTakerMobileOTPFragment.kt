@@ -29,7 +29,6 @@ class CareTakerMobileOTPFragment : Fragment() {
         binding = FragmentOtpConfirmBinding.inflate(layoutInflater)
         val mobile = arguments?.getString("mobileNumber")
         binding.txMobileNumber.text = mobile
-        Log.v("Check Mobile", "Stage_1 $mobile")
 
         binding.btnConfirmOtp.setOnClickListener {
             val etOtp1 = binding.etOtp1.text.toString()
@@ -42,8 +41,7 @@ class CareTakerMobileOTPFragment : Fragment() {
                 Toast.makeText(context, "Please Enter Otp", Toast.LENGTH_SHORT).show()
             } else {
                 val otpReceived: String = (etOtp1 + etOtp2 + etOtp3 + etOtp4 + etOtp5 + etOtp6)
-                Log.v("Check Mobile", "Stage_2 $otpReceived")
-                lifecycleScope.launchWhenStarted {
+                lifecycleScope.launchWhenCreated {
                     viewModel.getOtpResponse(mobile, otpReceived.toInt())
                     viewModel.expectedResult.observe(viewLifecycleOwner, {
                         when (it) {

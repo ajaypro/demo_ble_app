@@ -1,7 +1,7 @@
 package com.technoidentity.vitalz.user
 
 import androidx.lifecycle.*
-import com.technoidentity.vitalz.data.datamodel.login.CareTakerRequest
+import com.technoidentity.vitalz.data.datamodel.careTakerLogin.CareTakerRequest
 import com.technoidentity.vitalz.data.datamodel.otp.OtpRequest
 import com.technoidentity.vitalz.data.repository.UserRepository
 import com.technoidentity.vitalz.utils.CoroutinesDispatcherProvider

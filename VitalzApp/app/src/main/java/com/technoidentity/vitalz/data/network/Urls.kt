@@ -9,4 +9,10 @@ object Urls {
     const val SEND_OTP = "agastya/caretaker/send-otp"
 
     const val CARETAKER_LOGIN = "agastya/caretaker/login"
+
+    const val DOC_NURSE_LOGIN = "agastya/staff/login"
+
+    const val HOSPITAL_LIST = "agastya/hospital-name"
+
+    const val PATIENT_LIST = "agastya/patient-caretakers"
 }
