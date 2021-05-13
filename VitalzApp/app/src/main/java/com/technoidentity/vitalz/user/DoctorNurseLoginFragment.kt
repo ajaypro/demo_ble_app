@@ -1,6 +1,7 @@
 package com.technoidentity.vitalz.user
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -47,7 +48,7 @@ class DoctorNurseLoginFragment : Fragment() {
                                 Navigation.findNavController(requireView()).navigate(R.id.doctorDashboardFragment)
                             }
                             is DoctorNurseLoginViewModel.DocNurse.Failure -> {
-
+                                Toast.makeText(context,it.errorText, Toast.LENGTH_SHORT).show()
                             }
                             else -> Unit
                         }

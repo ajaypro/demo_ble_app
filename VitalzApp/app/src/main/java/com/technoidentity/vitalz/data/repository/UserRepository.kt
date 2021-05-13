@@ -1,5 +1,6 @@
 package com.technoidentity.vitalz.data.repository
 
+import android.util.Log
 import com.technoidentity.vitalz.data.datamodel.careTakerLogin.CareTakerOtpResponse
 import com.technoidentity.vitalz.data.datamodel.careTakerLogin.CareTakerRequest
 import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseResponse
@@ -23,7 +24,7 @@ class UserRepository @Inject constructor(
                 ResultHandler.Error(response.message())
             }
         } catch (e: Exception){
-            ResultHandler.Error(e.message ?: "An error occured")
+            ResultHandler.Error(e.message ?: "An error occurred")
         }
     }
 
@@ -37,21 +38,26 @@ class UserRepository @Inject constructor(
                 ResultHandler.Error(response.message())
             }
         } catch (e: Exception){
-            ResultHandler.Error(e.message ?: "An error occured")
+            ResultHandler.Error(e.message ?: "An error occurred")
         }
     }
 
     override suspend fun sendDocNurseCredentials(docNurseLogin: DocNurseRequest): ResultHandler<DocNurseResponse> {
+        val response = api.getDocNurseLogin(docNurseLogin)
         return try {
-            val response = api.getDocNurseLogin(docNurseLogin)
-            val result = response.body()
-            if (response.isSuccessful && result != null){
+            Log.v("Check Point", "Stage_6 ${response.body()}")
+            val result = response.body()!!
+            Log.v("Check Point", "Stage_1 ${response.message()}")
+            if (response.isSuccessful){
+                Log.v("Check Point", "Token ${result.token}")
                 ResultHandler.Success(result)
             }else{
+                Log.v("Check Point", "Stage_3 ${response.message()}")
                 ResultHandler.Error(response.message())
             }
         } catch (e: Exception){
-            ResultHandler.Error(e.message ?: "An error occured")
+            Log.v("Check Point", "Stage_5 ${e.message}")
+            ResultHandler.Error(e.message ?: "Contact Admin")
         }
     }
 }

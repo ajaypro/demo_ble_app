@@ -24,7 +24,7 @@ object VitalzService {
             override fun intercept(chain: Interceptor.Chain): okhttp3.Response {
                 val request = chain.request()
                 val builder: Request.Builder =
-                    request.newBuilder().header("Authorization", String.format("bearer %s", token))
+                    request.newBuilder().header("Authorization", String.format("Bearer %s", token))
 
                 val request1 = builder.build()
                 return chain.proceed(request1)

@@ -1,5 +1,6 @@
 package com.technoidentity.vitalz.user
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseRequest
 import com.technoidentity.vitalz.data.repository.UserRepository
@@ -37,10 +38,12 @@ class DoctorNurseLoginViewModel @Inject constructor(
             _expectedResult.postValue(DocNurse.Loading)
             when (val response = userRepository.sendDocNurseCredentials(request)) {
                 is ResultHandler.Error -> {
+                    Log.v("Check Point", "Stage_1 ${response.message}")
                     _expectedResult.postValue(
                         DocNurse.Failure(response.message.toString())
                     )}
                 is ResultHandler.Success -> {
+                    Log.v("Check Point", "Stage_2 ${response.message}")
                     if (response.data == null) {
                         _expectedResult.postValue(DocNurse.Failure("Unexpected Error"))
                     } else {

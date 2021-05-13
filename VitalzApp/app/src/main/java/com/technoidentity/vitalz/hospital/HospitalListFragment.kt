@@ -6,8 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.technoidentity.vitalz.R
-import com.technoidentity.vitalz.data.datamodel.HospitalData
 import com.technoidentity.vitalz.databinding.FragmentHospitalListBinding
 
 class HospitalListFragment : Fragment() {
@@ -21,31 +19,15 @@ class HospitalListFragment : Fragment() {
     ): View {
         binding = FragmentHospitalListBinding.inflate(inflater)
 
-        val hospitalList = mutableListOf(
-            HospitalData("Yashoda Hospital", "7894", "Secundarbad Hyderabad, Telangana"),
-            HospitalData("Yashoda Hospital", "7894", "Secundarbad Hyderabad, Telangana"),
-            HospitalData("Yashoda Hospital", "7894", "Secundarbad Hyderabad, Telangana"),
-            HospitalData("Yashoda Hospital", "7894", "Secundarbad Hyderabad, Telangana"),
-            HospitalData("Yashoda Hospital", "7894", "Secundarbad Hyderabad, Telangana"),
-            HospitalData("Yashoda Hospital", "7894", "Secundarbad Hyderabad, Telangana"),
-            HospitalData("Yashoda Hospital", "7894", "Secundarbad Hyderabad, Telangana"),
-            HospitalData("Yashoda Hospital", "7894", "Secundarbad Hyderabad, Telangana"),
-            HospitalData("Yashoda Hospital", "7894", "Secundarbad Hyderabad, Telangana"),
-            HospitalData("Yashoda Hospital", "7894", "Secundarbad Hyderabad, Telangana"),
-            HospitalData("Yashoda Hospital", "7894", "Secundarbad Hyderabad, Telangana"),
-            HospitalData("Yashoda Hospital", "7894", "Secundarbad Hyderabad, Telangana"),
-            HospitalData("Yashoda Hospital", "7894", "Secundarbad Hyderabad, Telangana"),
-            HospitalData("Yashoda Hospital", "7894", "Secundarbad Hyderabad, Telangana"),
-            HospitalData("Yashoda Hospital", "7894", "Secundarbad Hyderabad, Telangana"),
-            HospitalData("Yashoda Hospital", "7894", "Secundarbad Hyderabad, Telangana"),
-            HospitalData("Yashoda Hospital", "7894", "Secundarbad Hyderabad, Telangana"),
-            HospitalData("Yashoda Hospital", "7894", "Secundarbad Hyderabad, Telangana"),
-            HospitalData("Yashoda Hospital", "7894", "Secundarbad Hyderabad, Telangana"),
-        )
+        //Api call and set response in adapter
 
-        val adapter = HospitalAdapter(hospitalList)
+        setUpRecyclerView()
+        return binding.root
+    }
+
+    private fun setUpRecyclerView() {
+        val adapter = HospitalAdapter()
         binding.rvHospitalList.adapter = adapter
         binding.rvHospitalList.layoutManager = LinearLayoutManager(context)
-        return binding.root
     }
 }
