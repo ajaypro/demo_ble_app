@@ -1,6 +1,7 @@
 package com.technoidentity.vitalz.user
 
 import androidx.lifecycle.*
+import com.technoidentity.vitalz.data.datamodel.careTakerLogin.CareTakerOtpResponse
 import com.technoidentity.vitalz.data.datamodel.careTakerLogin.CareTakerRequest
 import com.technoidentity.vitalz.data.datamodel.otp.OtpRequest
 import com.technoidentity.vitalz.data.repository.UserRepository
@@ -40,31 +41,6 @@ class CareTakerMobileViewModel @Inject constructor(
                     _expectedResult.postValue(
                     CareTaker.Failure(response.message.toString())
                 )}
-                is ResultHandler.Success -> {
-                    if (response.data == null) {
-                        _expectedResult.postValue(CareTaker.Failure("Unexpected Error"))
-                    } else {
-                        _expectedResult.postValue(CareTaker.Success("Otp Sent to you mobile"))
-                    }
-                }
-            }
-        }
-    }
-
-    fun getOtpResponse(mobile: String?, otpReceived: Int) {
-        if (mobile == null && otpReceived == null) {
-            _expectedResult.value = CareTaker.Failure("Not a Valid Number")
-            return
-        }
-        val request = OtpRequest()
-        request.phoneNo = mobile
-        request.otp = otpReceived
-        viewModelScope.launch(dispatcher.io){
-            when (val response = userRepository.doOTPSendCall(request)){
-                is ResultHandler.Error -> {
-                    _expectedResult.postValue(
-                        CareTaker.Failure(response.message.toString())
-                    )}
                 is ResultHandler.Success -> {
                     if (response.data == null) {
                         _expectedResult.postValue(CareTaker.Failure("Unexpected Error"))

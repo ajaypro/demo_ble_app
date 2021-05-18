@@ -4,11 +4,16 @@ import com.technoidentity.vitalz.data.datamodel.careTakerLogin.CareTakerOtpRespo
 import com.technoidentity.vitalz.data.datamodel.careTakerLogin.CareTakerRequest
 import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseResponse
 import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseRequest
+import com.technoidentity.vitalz.data.datamodel.hospital.HospitalListData
+import com.technoidentity.vitalz.data.datamodel.hospital.HospitalListDataItem
 import com.technoidentity.vitalz.data.datamodel.otp.OtpRequest
 import com.technoidentity.vitalz.data.datamodel.otp.OtpResponse
+import com.technoidentity.vitalz.data.datamodel.patient.PatientDataList
+import com.technoidentity.vitalz.data.datamodel.patient.PatientRequest
 import com.technoidentity.vitalz.data.network.Urls.CARETAKER_LOGIN
 import com.technoidentity.vitalz.data.network.Urls.DOC_NURSE_LOGIN
 import com.technoidentity.vitalz.data.network.Urls.HOSPITAL_LIST
+import com.technoidentity.vitalz.data.network.Urls.PATIENT_LIST
 import com.technoidentity.vitalz.data.network.Urls.SEND_OTP
 import retrofit2.Response
 import retrofit2.http.Body
@@ -27,6 +32,9 @@ interface VitalzApi {
     suspend fun getDocNurseLogin(@Body request: DocNurseRequest) : Response<DocNurseResponse>
 
     @GET(HOSPITAL_LIST)
-    suspend fun getHospitalList() : Response<OtpResponse>
+    suspend fun getHospitalList() : Response<HospitalListData>
+
+    @POST(PATIENT_LIST)
+    suspend fun getPatientList(@Body request: PatientRequest) : Response<PatientDataList>
 
 }

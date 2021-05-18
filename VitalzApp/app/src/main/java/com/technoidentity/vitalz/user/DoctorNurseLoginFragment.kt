@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.technoidentity.vitalz.R
+import com.technoidentity.vitalz.data.network.Constants
 import com.technoidentity.vitalz.databinding.FragmentDocnurseLoginBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -45,6 +46,9 @@ class DoctorNurseLoginFragment : Fragment() {
                     viewModel.expectedResult.observe(viewLifecycleOwner, {
                         when(it){
                             is DoctorNurseLoginViewModel.DocNurse.Success -> {
+                                val pref = context?.getSharedPreferences(Constants.PREFERENCE_NAME, 0)
+                                pref?.edit()?.putString(Constants.TOKEN, it.data.token)?.apply()
+                                Log.v("Check", "Stage_Pref ${it.data.token}")
                                 Navigation.findNavController(requireView()).navigate(R.id.doctorDashboardFragment)
                             }
                             is DoctorNurseLoginViewModel.DocNurse.Failure -> {

@@ -7,11 +7,11 @@ import androidx.room.PrimaryKey
 data class HeartRateData(
 
     @PrimaryKey(autoGenerate = true)
-    val id: Int,
+    val id: Int?,
     val value: String? = null,
-    val timeInterval: String = "500ms",
-    val heartRate: Int,
-    val heartRateVariability: Int,
-    val stress: Int
+    val timeInterval: String? = "500ms",
+    val heartRate: Int?,
+    val heartRateVariability: Int?,
+    val stress: Int?
 ) {
 }

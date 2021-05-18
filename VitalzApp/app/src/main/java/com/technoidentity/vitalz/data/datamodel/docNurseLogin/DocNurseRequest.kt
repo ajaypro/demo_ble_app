@@ -3,7 +3,7 @@ package com.technoidentity.vitalz.data.datamodel.docNurseLogin
 import com.google.gson.annotations.SerializedName
 
 class DocNurseRequest {
-  @SerializedName("username")
+  @SerializedName("userId")
   var  username : String? = null
 
   @SerializedName("password")

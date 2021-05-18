@@ -3,6 +3,7 @@ package com.technoidentity.vitalz.user
 import android.util.Log
 import androidx.lifecycle.*
 import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseRequest
+import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseResponse
 import com.technoidentity.vitalz.data.repository.UserRepository
 import com.technoidentity.vitalz.utils.CoroutinesDispatcherProvider
 import com.technoidentity.vitalz.utils.ResultHandler
@@ -17,7 +18,7 @@ class DoctorNurseLoginViewModel @Inject constructor(
 ) : ViewModel() {
 
     sealed class DocNurse {
-        class Success(val resultText: String) : DocNurse()
+        class Success(val resultText: String, val data: DocNurseResponse) : DocNurse()
         class Failure(val errorText: String) : DocNurse()
         object Loading : DocNurse()
         object Empty : DocNurse()
@@ -28,7 +29,7 @@ class DoctorNurseLoginViewModel @Inject constructor(
 
     fun sendDocNurseCredentials(username: String, password: String) {
         if (username == null && password == null) {
-            _expectedResult.value = DoctorNurseLoginViewModel.DocNurse.Failure("Not a Valid Number")
+            _expectedResult.value = DocNurse.Failure("Not a Valid Credential")
             return
         }
         val request = DocNurseRequest()
@@ -38,16 +39,15 @@ class DoctorNurseLoginViewModel @Inject constructor(
             _expectedResult.postValue(DocNurse.Loading)
             when (val response = userRepository.sendDocNurseCredentials(request)) {
                 is ResultHandler.Error -> {
-                    Log.v("Check Point", "Stage_1 ${response.message}")
                     _expectedResult.postValue(
                         DocNurse.Failure(response.message.toString())
                     )}
                 is ResultHandler.Success -> {
-                    Log.v("Check Point", "Stage_2 ${response.message}")
                     if (response.data == null) {
                         _expectedResult.postValue(DocNurse.Failure("Unexpected Error"))
                     } else {
-                        _expectedResult.postValue(DocNurse.Success("Credentials Send"))
+                        Log.v("Check", "Stage_Suc ${response.data.token}")
+                        _expectedResult.postValue(DocNurse.Success(resultText = "Credentials Send", data = response.data))
                     }
                 }
             }

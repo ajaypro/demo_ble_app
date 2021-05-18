@@ -5,8 +5,11 @@ import com.technoidentity.vitalz.data.datamodel.careTakerLogin.CareTakerOtpRespo
 import com.technoidentity.vitalz.data.datamodel.careTakerLogin.CareTakerRequest
 import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseResponse
 import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseRequest
+import com.technoidentity.vitalz.data.datamodel.hospital.HospitalListData
 import com.technoidentity.vitalz.data.datamodel.otp.OtpRequest
 import com.technoidentity.vitalz.data.datamodel.otp.OtpResponse
+import com.technoidentity.vitalz.data.datamodel.patient.PatientDataList
+import com.technoidentity.vitalz.data.datamodel.patient.PatientRequest
 import com.technoidentity.vitalz.data.network.VitalzApi
 import com.technoidentity.vitalz.utils.ResultHandler
 import javax.inject.Inject
@@ -24,7 +27,7 @@ class UserRepository @Inject constructor(
                 ResultHandler.Error(response.message())
             }
         } catch (e: Exception){
-            ResultHandler.Error(e.message ?: "An error occurred")
+            ResultHandler.Error(e.message ?: "Contact Admin")
         }
     }
 
@@ -38,18 +41,44 @@ class UserRepository @Inject constructor(
                 ResultHandler.Error(response.message())
             }
         } catch (e: Exception){
-            ResultHandler.Error(e.message ?: "An error occurred")
+            ResultHandler.Error(e.message ?: "Contact Admin")
         }
     }
 
     override suspend fun sendDocNurseCredentials(docNurseLogin: DocNurseRequest): ResultHandler<DocNurseResponse> {
         val response = api.getDocNurseLogin(docNurseLogin)
         return try {
-            Log.v("Check Point", "Stage_6 ${response.body()}")
             val result = response.body()!!
-            Log.v("Check Point", "Stage_1 ${response.message()}")
             if (response.isSuccessful){
-                Log.v("Check Point", "Token ${result.token}")
+                ResultHandler.Success(result)
+            }else{
+                ResultHandler.Error(response.message())
+            }
+        } catch (e: Exception){
+            ResultHandler.Error(e.message ?: "Contact Admin")
+        }
+    }
+
+    override suspend fun getHospitalList(): ResultHandler<HospitalListData> {
+        val response = api.getHospitalList()
+        return try {
+            val result = response.body()!!
+            if (response.isSuccessful){
+                ResultHandler.Success(result)
+            }else{
+                ResultHandler.Error(response.message())
+            }
+        } catch (e: Exception){
+            ResultHandler.Error(e.message ?: "Contact Admin")
+        }
+    }
+
+    override suspend fun getPatientList(request: PatientRequest): ResultHandler<PatientDataList> {
+        val response = api.getPatientList(request)
+        return try {
+            val result = response.body()!!
+            if (response.isSuccessful){
+                Log.v("Check Point", "Token ${result.size}")
                 ResultHandler.Success(result)
             }else{
                 Log.v("Check Point", "Stage_3 ${response.message()}")
@@ -60,4 +89,5 @@ class UserRepository @Inject constructor(
             ResultHandler.Error(e.message ?: "Contact Admin")
         }
     }
+
 }

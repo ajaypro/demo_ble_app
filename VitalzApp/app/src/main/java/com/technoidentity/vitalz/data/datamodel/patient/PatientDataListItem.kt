@@ -4,13 +4,13 @@ import com.google.gson.annotations.SerializedName
 
 data class PatientDataListItem(
     @SerializedName("address")
-    val address: String,
+    val address: String?,
     @SerializedName("age")
-    val age: Int,
+    val age: Int?,
     @SerializedName("gender")
-    val gender: String,
+    val gender: String?,
     @SerializedName("id")
-    val id: Int,
+    val id: Int?,
     @SerializedName("name")
-    val name: String
+    val name: String?
 )

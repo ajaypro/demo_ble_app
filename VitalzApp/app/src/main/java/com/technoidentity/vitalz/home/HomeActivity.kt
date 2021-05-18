@@ -12,7 +12,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class HomeActivity : AppCompatActivity() {
 
-    lateinit var networkMonitor: NetworkUtil
+    private lateinit var networkMonitor: NetworkUtil
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
