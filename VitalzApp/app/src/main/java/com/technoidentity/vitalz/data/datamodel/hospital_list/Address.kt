@@ -1,4 +1,4 @@
-package com.technoidentity.vitalz.data.datamodel.hospital
+package com.technoidentity.vitalz.data.datamodel.hospital_list
 
 import com.google.gson.annotations.SerializedName
 

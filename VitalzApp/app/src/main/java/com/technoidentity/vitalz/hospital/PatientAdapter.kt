@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.technoidentity.vitalz.data.datamodel.patient.PatientDataListItem
+import com.technoidentity.vitalz.data.datamodel.patient_list.PatientDataListItem
 import com.technoidentity.vitalz.databinding.RecyclerViewPatientListBinding
 
 class PatientAdapter(val listener: PatientListFragment) : RecyclerView.Adapter<PatientAdapter.PatientViewHolder>() {

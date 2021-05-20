@@ -24,15 +24,5 @@ class SplashFragment : Fragment(R.layout.fragment_splash_screen) {
             delay(2000)
             navController.navigate(R.id.action_splashFragment2_to_userSelectionFragment2)
         }
-//        val countDownTimer = object : CountDownTimer(3000, 1000) {
-//            override fun onTick(millisUntilFinished: Long) {
-//            }
-//
-//            override fun onFinish() {
-//                navController.navigate(R.id.action_splashFragment2_to_userSelectionFragment2)
-//            }
-//
-//        }
-//        countDownTimer.start()
     }
 }

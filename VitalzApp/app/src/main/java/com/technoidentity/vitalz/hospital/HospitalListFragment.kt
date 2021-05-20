@@ -7,15 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.technoidentity.vitalz.R
-import com.technoidentity.vitalz.data.datamodel.hospital.HospitalListData
-import com.technoidentity.vitalz.data.datamodel.hospital.HospitalListDataItem
 import com.technoidentity.vitalz.data.network.Constants
 import com.technoidentity.vitalz.databinding.FragmentHospitalListBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -83,6 +80,10 @@ class HospitalListFragment : Fragment(), HospitalAdapter.OnItemClickListener  {
         val bundle = Bundle()
         bundle.putString("mobile", mobile)
         bundle.putString("hospitalId", hospitalAdapter.hospitals[position].id)
-        Navigation.findNavController(requireView()).navigate(R.id.patientListFragment, bundle)
+        if (hospitalAdapter.hospitals.isEmpty()){
+            Toast.makeText(context, "No Patient Available", Toast.LENGTH_SHORT).show()
+        }else{
+            Navigation.findNavController(requireView()).navigate(R.id.patientListFragment, bundle)
+        }
     }
 }

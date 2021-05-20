@@ -5,11 +5,11 @@ import com.technoidentity.vitalz.data.datamodel.careTakerLogin.CareTakerOtpRespo
 import com.technoidentity.vitalz.data.datamodel.careTakerLogin.CareTakerRequest
 import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseResponse
 import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseRequest
-import com.technoidentity.vitalz.data.datamodel.hospital.HospitalListData
+import com.technoidentity.vitalz.data.datamodel.hospital_list.HospitalListData
 import com.technoidentity.vitalz.data.datamodel.otp.OtpRequest
 import com.technoidentity.vitalz.data.datamodel.otp.OtpResponse
-import com.technoidentity.vitalz.data.datamodel.patient.PatientDataList
-import com.technoidentity.vitalz.data.datamodel.patient.PatientRequest
+import com.technoidentity.vitalz.data.datamodel.patient_list.PatientDataList
+import com.technoidentity.vitalz.data.datamodel.patient_list.PatientRequest
 import com.technoidentity.vitalz.data.network.VitalzApi
 import com.technoidentity.vitalz.utils.ResultHandler
 import javax.inject.Inject
@@ -89,5 +89,4 @@ class UserRepository @Inject constructor(
             ResultHandler.Error(e.message ?: "Contact Admin")
         }
     }
-
 }

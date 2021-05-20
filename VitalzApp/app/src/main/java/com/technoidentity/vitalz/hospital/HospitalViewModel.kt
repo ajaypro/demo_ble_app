@@ -2,8 +2,7 @@ package com.technoidentity.vitalz.hospital
 
 import android.util.Log
 import androidx.lifecycle.*
-import com.technoidentity.vitalz.data.datamodel.hospital.HospitalListData
-import com.technoidentity.vitalz.data.datamodel.hospital.HospitalListDataItem
+import com.technoidentity.vitalz.data.datamodel.hospital_list.HospitalListData
 import com.technoidentity.vitalz.data.repository.UserRepository
 import com.technoidentity.vitalz.utils.CoroutinesDispatcherProvider
 import com.technoidentity.vitalz.utils.ResultHandler

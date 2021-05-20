@@ -4,12 +4,11 @@ import com.technoidentity.vitalz.data.datamodel.careTakerLogin.CareTakerOtpRespo
 import com.technoidentity.vitalz.data.datamodel.careTakerLogin.CareTakerRequest
 import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseResponse
 import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseRequest
-import com.technoidentity.vitalz.data.datamodel.hospital.HospitalListData
-import com.technoidentity.vitalz.data.datamodel.hospital.HospitalListDataItem
+import com.technoidentity.vitalz.data.datamodel.hospital_list.HospitalListData
 import com.technoidentity.vitalz.data.datamodel.otp.OtpRequest
 import com.technoidentity.vitalz.data.datamodel.otp.OtpResponse
-import com.technoidentity.vitalz.data.datamodel.patient.PatientDataList
-import com.technoidentity.vitalz.data.datamodel.patient.PatientRequest
+import com.technoidentity.vitalz.data.datamodel.patient_list.PatientDataList
+import com.technoidentity.vitalz.data.datamodel.patient_list.PatientRequest
 import com.technoidentity.vitalz.data.network.Urls.CARETAKER_LOGIN
 import com.technoidentity.vitalz.data.network.Urls.DOC_NURSE_LOGIN
 import com.technoidentity.vitalz.data.network.Urls.HOSPITAL_LIST

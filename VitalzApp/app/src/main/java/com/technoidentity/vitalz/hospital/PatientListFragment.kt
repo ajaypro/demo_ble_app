@@ -6,10 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.technoidentity.vitalz.R
 import com.technoidentity.vitalz.databinding.FragmentPatientListBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -28,6 +32,7 @@ class PatientListFragment : Fragment(), PatientAdapter.OnItemClickListener {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentPatientListBinding.inflate(inflater)
+        val navController: NavController = Navigation.findNavController(container!!)
 
         //Getting Arguments From last Fragment
         mobile = arguments?.getString("mobile")
@@ -36,6 +41,11 @@ class PatientListFragment : Fragment(), PatientAdapter.OnItemClickListener {
 
         //setup RecyclerView
         setUpRecyclerView()
+
+        //backBtn
+        binding.ivBackBtn.setOnClickListener {
+            navController.navigateUp()
+        }
 
         if (mobile != null && hospitalId != null){
             getPatientList(mobile, hospitalId)
@@ -53,7 +63,13 @@ class PatientListFragment : Fragment(), PatientAdapter.OnItemClickListener {
             viewModel.expectedResult.observe(viewLifecycleOwner, {
                 when (it) {
                     is PatientViewModel.PatientData.Success -> {
-                        patientAdapter.patient = it.data!!
+                        if (it.data!!.isEmpty()){
+                            binding.rvPatientList.visibility = View.GONE
+                            binding.tvNoRecords.visibility = View.VISIBLE
+                            binding.tvNoRecordBackMsg.visibility = View.VISIBLE
+                        }else{
+                            patientAdapter.patient = it.data
+                        }
                     }
 
                     is PatientViewModel.PatientData.Failure -> {
@@ -73,5 +89,7 @@ class PatientListFragment : Fragment(), PatientAdapter.OnItemClickListener {
 
     override fun onItemClicked(position: Int) {
         Toast.makeText(context, "Selected Item $position", Toast.LENGTH_SHORT).show()
+        val bundle = bundleOf("mobileNumber" to mobile)
+        Navigation.findNavController(requireView()).navigate(R.id.nurseCareTakerDashboardFragment, bundle)
     }
 }
