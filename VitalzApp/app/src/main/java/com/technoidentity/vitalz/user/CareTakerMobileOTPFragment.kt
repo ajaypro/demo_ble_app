@@ -17,6 +17,7 @@ import com.technoidentity.vitalz.data.network.Constants
 import com.technoidentity.vitalz.databinding.FragmentOtpConfirmBinding
 import com.technoidentity.vitalz.user.CareTakerMobileViewModel.CareTaker.Failure
 import com.technoidentity.vitalz.user.CareTakerMobileViewModel.CareTaker.Success
+import com.technoidentity.vitalz.utils.CustomProgressDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -25,7 +26,7 @@ class CareTakerMobileOTPFragment : Fragment() {
     lateinit var binding: FragmentOtpConfirmBinding
     val viewModel: OtpMobileViewModel by viewModels()
     private val viewModelCareTaker: CareTakerMobileViewModel by viewModels()
-
+    private lateinit var progressDialog: CustomProgressDialog
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,15 +34,16 @@ class CareTakerMobileOTPFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentOtpConfirmBinding.inflate(layoutInflater)
+        progressDialog = CustomProgressDialog(this.requireContext())
 
         //Getting Arguments From last Fragment
         val mobile = arguments?.getString("mobileNumber")
         binding.txMobileNumber.text = mobile
 
         //Counter Timer For Resend OTP
-        object : CountDownTimer(30000,1000){
+        object : CountDownTimer(30000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
-                binding.tvTimer.text = "Resend OTP in ${millisUntilFinished/1000} Seconds"
+                binding.tvTimer.text = "Resend OTP in ${millisUntilFinished / 1000} Seconds"
             }
 
             override fun onFinish() {
@@ -68,20 +70,28 @@ class CareTakerMobileOTPFragment : Fragment() {
                 Toast.makeText(context, "Please Enter Otp", Toast.LENGTH_SHORT).show()
             } else {
                 val otpReceived: String = (etOtp1 + etOtp2 + etOtp3 + etOtp4 + etOtp5 + etOtp6)
+                progressDialog.showLoadingDialog(
+                    title = "Vitalz App",
+                    message = "Loading...",
+                    isCancellable = false
+                )
                 lifecycleScope.launchWhenCreated {
                     viewModel.getOtpResponse(mobile, otpReceived.toInt())
                     viewModel.expectedResult.observe(viewLifecycleOwner, {
                         when (it) {
                             is OtpMobileViewModel.OtpResponse.Success -> {
-                                val pref = context?.getSharedPreferences(Constants.PREFERENCE_NAME, 0)
+                                val pref =
+                                    context?.getSharedPreferences(Constants.PREFERENCE_NAME, 0)
                                 pref?.edit()?.putString(Constants.TOKEN, it.data?.token)?.apply()
-                                pref?.edit()?.putString(Constants.MOBILE, it.data?.user?.phoneNo)?.apply()
-                                Log.v("Check", "Stage_Pref ${it.data?.token}")
+                                pref?.edit()?.putString(Constants.MOBILE, it.data?.user?.phoneNo)
+                                    ?.apply()
+                                progressDialog.dismissLoadingDialog()
                                 Navigation.findNavController(requireView())
                                     .navigate(R.id.hospitalListFragment)
                             }
 
                             is OtpMobileViewModel.OtpResponse.Failure -> {
+                                progressDialog.dismissLoadingDialog()
                             }
                             else -> Unit
                         }
@@ -99,9 +109,9 @@ class CareTakerMobileOTPFragment : Fragment() {
                 viewModelCareTaker.getCareTakerResponse(mobile)
             }
             viewModelCareTaker.expectedResult.observe(viewLifecycleOwner, {
-                when(it){
+                when (it) {
                     is Success -> {
-                        Toast.makeText(context,"Otp Sent", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Otp Sent", Toast.LENGTH_SHORT).show()
                     }
 
                     is Failure -> {

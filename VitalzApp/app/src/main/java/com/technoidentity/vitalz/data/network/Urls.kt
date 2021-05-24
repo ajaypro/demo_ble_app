@@ -14,5 +14,5 @@ object Urls {
 
     const val PATIENT_LIST = "agastya/patient-caretakers"
 
-    const val SINGLE_PATIENT_DASHBOARD = "agastya/"
+    const val SINGLE_PATIENT_DASHBOARD = "agastya/{mobile}"
 }

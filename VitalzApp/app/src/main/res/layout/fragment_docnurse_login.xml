@@ -42,7 +42,7 @@
             android:id="@+id/et_user_name"
             style="@style/et_dashboard"
             android:layout_width="@dimen/dp_300"
-            android:text="VITALZ-2"
+            android:text=""
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_user_name" />
 
@@ -61,7 +61,7 @@
             style="@style/et_dashboard"
             android:layout_width="@dimen/dp_300"
             android:inputType="textPassword"
-            android:text="12345"
+            android:text=""
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_password" />
 

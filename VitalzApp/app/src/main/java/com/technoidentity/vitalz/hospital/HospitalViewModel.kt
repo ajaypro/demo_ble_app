@@ -23,9 +23,9 @@ class HospitalViewModel @Inject constructor(
         object Empty : HospitalData()
     }
 
-    private val _expectedResult = MutableLiveData<HospitalViewModel.HospitalData>(
-        HospitalViewModel.HospitalData.Empty)
-    val expectedResult: LiveData<HospitalViewModel.HospitalData> = _expectedResult
+    private val _expectedResult = MutableLiveData<HospitalData>(
+        HospitalData.Empty)
+    val expectedResult: LiveData<HospitalData> = _expectedResult
 
     fun getHospitalListData(token: String) {
         if (token == null) {
@@ -33,7 +33,6 @@ class HospitalViewModel @Inject constructor(
             _expectedResult.value = HospitalData.Failure("Token Expired")
             return
         }
-        val request =
         viewModelScope.launch(dispatcher.io) {
             _expectedResult.postValue(HospitalData.Loading)
             when (val response = userRepository.getHospitalList()) {

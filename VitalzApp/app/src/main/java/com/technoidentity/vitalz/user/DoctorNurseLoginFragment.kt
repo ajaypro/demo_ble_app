@@ -13,12 +13,14 @@ import androidx.navigation.Navigation
 import com.technoidentity.vitalz.R
 import com.technoidentity.vitalz.data.network.Constants
 import com.technoidentity.vitalz.databinding.FragmentDocnurseLoginBinding
+import com.technoidentity.vitalz.utils.CustomProgressDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class DoctorNurseLoginFragment : Fragment() {
     private lateinit var binding: FragmentDocnurseLoginBinding
     val viewModel: DoctorNurseLoginViewModel by viewModels()
+    private lateinit var progressDialog: CustomProgressDialog
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,6 +28,8 @@ class DoctorNurseLoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentDocnurseLoginBinding.inflate(layoutInflater)
+        progressDialog = CustomProgressDialog(this.requireContext())
+
         binding.btnLoginDocNurse.setOnClickListener {
             validateCredentials(binding.etUserName.text.toString(), binding.etPassword.text.toString())
         }
@@ -41,6 +45,11 @@ class DoctorNurseLoginFragment : Fragment() {
                 Toast.makeText(context, "Please Enter Password", Toast.LENGTH_SHORT).show()
             }
             else -> {
+                progressDialog.showLoadingDialog(
+                    title = "Vitalz App",
+                    message = "Loading...",
+                    isCancellable = false
+                )
                 lifecycleScope.launchWhenCreated {
                     viewModel.sendDocNurseCredentials(username, password)
                     viewModel.expectedResult.observe(viewLifecycleOwner, {
@@ -48,10 +57,11 @@ class DoctorNurseLoginFragment : Fragment() {
                             is DoctorNurseLoginViewModel.DocNurse.Success -> {
                                 val pref = context?.getSharedPreferences(Constants.PREFERENCE_NAME, 0)
                                 pref?.edit()?.putString(Constants.TOKEN, it.data.token)?.apply()
-                                Log.v("Check", "Stage_Pref ${it.data.token}")
+                                progressDialog.dismissLoadingDialog()
                                 Navigation.findNavController(requireView()).navigate(R.id.doctorDashboardFragment)
                             }
                             is DoctorNurseLoginViewModel.DocNurse.Failure -> {
+                                progressDialog.dismissLoadingDialog()
                                 Toast.makeText(context,it.errorText, Toast.LENGTH_SHORT).show()
                             }
                             else -> Unit

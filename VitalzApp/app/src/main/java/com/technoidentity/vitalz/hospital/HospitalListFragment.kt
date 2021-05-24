@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.technoidentity.vitalz.R
 import com.technoidentity.vitalz.data.network.Constants
 import com.technoidentity.vitalz.databinding.FragmentHospitalListBinding
+import com.technoidentity.vitalz.utils.CustomProgressDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -25,6 +26,7 @@ class HospitalListFragment : Fragment(), HospitalAdapter.OnItemClickListener  {
     private var mobile = String()
     lateinit var binding: FragmentHospitalListBinding
     private lateinit var hospitalAdapter: HospitalAdapter
+    private lateinit var progressDialog: CustomProgressDialog
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,6 +34,7 @@ class HospitalListFragment : Fragment(), HospitalAdapter.OnItemClickListener  {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentHospitalListBinding.inflate(inflater)
+        progressDialog = CustomProgressDialog(this.requireContext())
 
         //get Shared data
         val sharedPreferences =
@@ -42,6 +45,11 @@ class HospitalListFragment : Fragment(), HospitalAdapter.OnItemClickListener  {
         //setup RecyclerView
         setUpRecyclerView()
         if (token != null) {
+            progressDialog.showLoadingDialog(
+                title = "Vitalz App",
+                message = "Loading...",
+                isCancellable = false
+            )
             getHospitalList(token)
         } else {
             Toast.makeText(context, "Un-Authorized", Toast.LENGTH_SHORT).show()
@@ -59,9 +67,11 @@ class HospitalListFragment : Fragment(), HospitalAdapter.OnItemClickListener  {
                 when (it) {
                     is HospitalViewModel.HospitalData.Success -> {
                         hospitalAdapter.hospitals = it.data
+                        progressDialog.dismissLoadingDialog()
                     }
 
                     is HospitalViewModel.HospitalData.Failure -> {
+                        progressDialog.dismissLoadingDialog()
                         Toast.makeText(context, it.errorText, Toast.LENGTH_SHORT).show()
                     }
                     else -> Unit

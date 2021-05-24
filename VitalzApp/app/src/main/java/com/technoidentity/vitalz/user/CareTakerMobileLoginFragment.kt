@@ -12,6 +12,7 @@ import androidx.navigation.Navigation
 import com.technoidentity.vitalz.R
 import com.technoidentity.vitalz.data.network.Constants
 import com.technoidentity.vitalz.databinding.FragmentCaretakerLoginBinding
+import com.technoidentity.vitalz.utils.CustomProgressDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -19,10 +20,12 @@ class CareTakerMobileLoginFragment : Fragment() {
 
     private lateinit var binding: FragmentCaretakerLoginBinding
     val viewModel : CareTakerMobileViewModel by viewModels()
+    private lateinit var progressDialog: CustomProgressDialog
 
     override fun onCreateView(inflater: LayoutInflater,
         container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentCaretakerLoginBinding.inflate(layoutInflater)
+        progressDialog = CustomProgressDialog(this.requireContext())
 
         binding.btnRequestOtp.setOnClickListener {
             val mobileNumber = binding.etMobileNumber.text.toString()
@@ -49,16 +52,23 @@ class CareTakerMobileLoginFragment : Fragment() {
                 //do api call request and on success response navigate to next EnterOTP Fragment
                 binding.responseMsg.visibility = View.GONE
                 binding.responseMsg.text = ""
+                progressDialog.showLoadingDialog(
+                    title = "Vitalz App",
+                    message = "Loading...",
+                    isCancellable = false
+                )
                 lifecycleScope.launchWhenCreated {
                     viewModel.getCareTakerResponse(mobile)
                     viewModel.expectedResult.observe(viewLifecycleOwner, {
                         when(it){
                             is CareTakerMobileViewModel.CareTaker.Success -> {
+                                progressDialog.dismissLoadingDialog()
                                 val bundle = bundleOf("mobileNumber" to mobile)
                                 Navigation.findNavController(requireView()).navigate(R.id.careTakerMobileOTPFragment, bundle)
                             }
 
                             is CareTakerMobileViewModel.CareTaker.Failure -> {
+                                progressDialog.dismissLoadingDialog()
                             }
                             else -> Unit
                         }

@@ -22,7 +22,7 @@
     <EditText
         android:id="@+id/et_mobile_number"
         style="@style/etRequestOtp"
-        android:text="7011187031"
+        android:text=""
         android:autofillHints="@string/enter_mobile_number"
         android:hint="@string/enter_mobile_number"
         app:layout_constraintEnd_toEndOf="parent"

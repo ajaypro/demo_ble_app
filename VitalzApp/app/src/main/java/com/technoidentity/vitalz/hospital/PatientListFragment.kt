@@ -15,6 +15,7 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.technoidentity.vitalz.R
 import com.technoidentity.vitalz.databinding.FragmentPatientListBinding
+import com.technoidentity.vitalz.utils.CustomProgressDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -25,6 +26,7 @@ class PatientListFragment : Fragment(), PatientAdapter.OnItemClickListener {
     private var hospitalId : String? = null
     val viewModel: PatientViewModel by viewModels()
     private lateinit var patientAdapter: PatientAdapter
+    private lateinit var progressDialog: CustomProgressDialog
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,6 +34,7 @@ class PatientListFragment : Fragment(), PatientAdapter.OnItemClickListener {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentPatientListBinding.inflate(inflater)
+        progressDialog = CustomProgressDialog(this.requireContext())
         val navController: NavController = Navigation.findNavController(container!!)
 
         //Getting Arguments From last Fragment
@@ -51,13 +54,17 @@ class PatientListFragment : Fragment(), PatientAdapter.OnItemClickListener {
             getPatientList(mobile, hospitalId)
         }else{
             Toast.makeText(context, "Un-Authorized", Toast.LENGTH_SHORT).show()
-//           TODO Logout
         }
 
         return binding.root
     }
 
     private fun getPatientList(mobile: String?, hospitalId: String?) {
+        progressDialog.showLoadingDialog(
+            title = "Vitalz App",
+            message = "Loading...",
+            isCancellable = false
+        )
         lifecycleScope.launchWhenCreated {
             viewModel.getPatientListData(mobile!!,hospitalId!!)
             viewModel.expectedResult.observe(viewLifecycleOwner, {
@@ -69,10 +76,12 @@ class PatientListFragment : Fragment(), PatientAdapter.OnItemClickListener {
                             binding.tvNoRecordBackMsg.visibility = View.VISIBLE
                         }else{
                             patientAdapter.patient = it.data
+                            progressDialog.dismissLoadingDialog()
                         }
                     }
 
                     is PatientViewModel.PatientData.Failure -> {
+                        progressDialog.dismissLoadingDialog()
                         Toast.makeText(context, it.errorText, Toast.LENGTH_SHORT).show()
                     }
                     else -> Unit

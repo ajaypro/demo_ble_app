@@ -9,15 +9,15 @@ import com.technoidentity.vitalz.data.datamodel.otp.OtpRequest
 import com.technoidentity.vitalz.data.datamodel.otp.OtpResponse
 import com.technoidentity.vitalz.data.datamodel.patient_list.PatientDataList
 import com.technoidentity.vitalz.data.datamodel.patient_list.PatientRequest
+import com.technoidentity.vitalz.data.datamodel.single_patient.SinglePatientDashboardResponse
 import com.technoidentity.vitalz.data.network.Urls.CARETAKER_LOGIN
 import com.technoidentity.vitalz.data.network.Urls.DOC_NURSE_LOGIN
 import com.technoidentity.vitalz.data.network.Urls.HOSPITAL_LIST
 import com.technoidentity.vitalz.data.network.Urls.PATIENT_LIST
 import com.technoidentity.vitalz.data.network.Urls.SEND_OTP
+import com.technoidentity.vitalz.data.network.Urls.SINGLE_PATIENT_DASHBOARD
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface VitalzApi {
 
@@ -35,5 +35,8 @@ interface VitalzApi {
 
     @POST(PATIENT_LIST)
     suspend fun getPatientList(@Body request: PatientRequest) : Response<PatientDataList>
+
+    @GET(SINGLE_PATIENT_DASHBOARD)
+    suspend fun getSinglePatientDashboardList(@Path("mobile") mobile: String) : Response<SinglePatientDashboardResponse>
 
 }
