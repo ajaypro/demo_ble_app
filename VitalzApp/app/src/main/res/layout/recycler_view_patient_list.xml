@@ -7,8 +7,7 @@
 
     <TextView
         android:id="@+id/tv_patient_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/viewSize"
         android:text="@string/sample_patient_name"
         android:layout_marginStart="@dimen/dp_5"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -19,8 +18,7 @@
 
     <TextView
         android:id="@+id/tv_patient_age"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/viewSize"
         android:layout_marginStart="@dimen/dp_8"
         android:text="@string/sample_patient_age"
         android:textColor="@color/button_blue"
@@ -30,8 +28,7 @@
 
     <TextView
         android:id="@+id/tv_patient_sex"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/viewSize"
         android:layout_marginStart="@dimen/dp_8"
         android:text="@string/sample_age"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -41,8 +38,7 @@
 
     <TextView
         android:id="@+id/tv_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/viewSize"
         android:text="@string/id"
         android:layout_marginStart="@dimen/dp_5"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
@@ -52,8 +48,7 @@
 
     <TextView
         android:id="@+id/tv_patient_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/viewSize"
         android:text="@string/sample_patient_id"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
         android:textColor="@color/black"
@@ -62,8 +57,7 @@
 
     <ImageView
         android:id="@+id/iv_location"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/viewSize"
         android:src="@drawable/ic_baseline_location_on_24"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_id"
@@ -71,8 +65,7 @@
 
     <TextView
         android:id="@+id/tv_patient_hospital_address"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/viewSize"
         android:text="@string/sample_patient_hospital_address"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
         android:textColor="@color/black"
