@@ -32,9 +32,4 @@ class DoctorDashboardFragment : Fragment() {
         return binding.root
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        //LOGOUT
-        navController?.navigate(R.id.userSelectionFragment2)
-    }
 }
