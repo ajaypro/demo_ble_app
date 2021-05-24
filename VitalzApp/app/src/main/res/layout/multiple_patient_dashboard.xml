@@ -13,14 +13,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/iv_back_btn"
-            style="@style/backBtn"
-            android:contentDescription="@string/back_btn"
-            android:src="@drawable/ic_back_btn"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <TextView
             android:id="@+id/iv_vitalz_name"
             style="@style/backBtn"
