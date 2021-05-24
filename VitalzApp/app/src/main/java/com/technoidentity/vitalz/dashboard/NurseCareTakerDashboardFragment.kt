@@ -1,7 +1,7 @@
 package com.technoidentity.vitalz.dashboard
 
 import android.os.Bundle
-import android.util.Log
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +20,8 @@ class NurseCareTakerDashboardFragment : Fragment() {
     val viewModel: NurseCareTakerDashboardViewModel by viewModels()
     private var mobile : String? = null
     lateinit var binding: CaretakerNurseDashboardBinding
+    var navController: NavController? = null
+    private var exit: Boolean? = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,7 +29,7 @@ class NurseCareTakerDashboardFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = CaretakerNurseDashboardBinding.inflate(layoutInflater)
-        val navController: NavController = Navigation.findNavController(container!!)
+        navController = Navigation.findNavController(container!!)
 
         //Getting Arguments From last Fragment
         mobile = arguments?.getString("mobileNumber")

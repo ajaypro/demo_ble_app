@@ -1,7 +1,6 @@
 package com.technoidentity.vitalz.user
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,10 +30,15 @@ class DoctorNurseLoginFragment : Fragment() {
         progressDialog = CustomProgressDialog(this.requireContext())
 
         binding.btnLoginDocNurse.setOnClickListener {
-            validateCredentials(binding.etUserName.text.toString(), binding.etPassword.text.toString())
+            validateCredentials(
+                binding.etUserName.text.toString(),
+                binding.etPassword.text.toString()
+            )
         }
+
         return binding.root
     }
+
 
     private fun validateCredentials(username: String, password: String) {
         when {
@@ -53,16 +57,18 @@ class DoctorNurseLoginFragment : Fragment() {
                 lifecycleScope.launchWhenCreated {
                     viewModel.sendDocNurseCredentials(username, password)
                     viewModel.expectedResult.observe(viewLifecycleOwner, {
-                        when(it){
+                        when (it) {
                             is DoctorNurseLoginViewModel.DocNurse.Success -> {
-                                val pref = context?.getSharedPreferences(Constants.PREFERENCE_NAME, 0)
+                                val pref =
+                                    context?.getSharedPreferences(Constants.PREFERENCE_NAME, 0)
                                 pref?.edit()?.putString(Constants.TOKEN, it.data.token)?.apply()
                                 progressDialog.dismissLoadingDialog()
-                                Navigation.findNavController(requireView()).navigate(R.id.doctorDashboardFragment)
+                                Navigation.findNavController(requireView())
+                                    .navigate(R.id.doctorDashboardFragment)
                             }
                             is DoctorNurseLoginViewModel.DocNurse.Failure -> {
                                 progressDialog.dismissLoadingDialog()
-                                Toast.makeText(context,it.errorText, Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, it.errorText, Toast.LENGTH_SHORT).show()
                             }
                             else -> Unit
                         }
