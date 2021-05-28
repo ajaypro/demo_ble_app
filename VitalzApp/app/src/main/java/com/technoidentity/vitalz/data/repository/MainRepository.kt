@@ -5,6 +5,7 @@ import com.technoidentity.vitalz.data.datamodel.careTakerLogin.CareTakerRequest
 import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseResponse
 import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseRequest
 import com.technoidentity.vitalz.data.datamodel.hospital_list.HospitalListData
+import com.technoidentity.vitalz.data.datamodel.multiple_patient.MultiplePatientDashboardResponse
 import com.technoidentity.vitalz.data.datamodel.otp.OtpRequest
 import com.technoidentity.vitalz.data.datamodel.otp.OtpResponse
 import com.technoidentity.vitalz.data.datamodel.patient_list.PatientDataList
@@ -24,6 +25,8 @@ interface MainRepository {
 
     suspend fun getPatientList(request: PatientRequest): ResultHandler<PatientDataList>
 
-    suspend fun getSinglePatientDashboardList(mobile: String): ResultHandler<SinglePatientDashboardResponse>
+    suspend fun getSinglePatientDashboardList(id: String): ResultHandler<SinglePatientDashboardResponse>
+
+    suspend fun getMultiplePatientDashboardList(): ResultHandler<MultiplePatientDashboardResponse>
 
 }

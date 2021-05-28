@@ -71,6 +71,7 @@ class PatientListFragment : Fragment(), PatientAdapter.OnItemClickListener {
                 when (it) {
                     is PatientViewModel.PatientData.Success -> {
                         if (it.data!!.isEmpty()){
+                            progressDialog.dismissLoadingDialog()
                             binding.rvPatientList.visibility = View.GONE
                             binding.tvNoRecords.visibility = View.VISIBLE
                             binding.tvNoRecordBackMsg.visibility = View.VISIBLE
@@ -97,8 +98,8 @@ class PatientListFragment : Fragment(), PatientAdapter.OnItemClickListener {
     }
 
     override fun onItemClicked(position: Int) {
-        Toast.makeText(context, "Selected Item $position", Toast.LENGTH_SHORT).show()
-        val bundle = bundleOf("mobileNumber" to mobile)
+        Log.v("Check","Patient Id Sending ${patientAdapter.patient[position].id}")
+        val bundle = bundleOf("patientId" to patientAdapter.patient[position].id.toString())
         Navigation.findNavController(requireView()).navigate(R.id.nurseCareTakerDashboardFragment, bundle)
     }
 }

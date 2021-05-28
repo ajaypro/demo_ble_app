@@ -5,6 +5,7 @@ import com.technoidentity.vitalz.data.datamodel.careTakerLogin.CareTakerRequest
 import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseResponse
 import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseRequest
 import com.technoidentity.vitalz.data.datamodel.hospital_list.HospitalListData
+import com.technoidentity.vitalz.data.datamodel.multiple_patient.MultiplePatientDashboardResponse
 import com.technoidentity.vitalz.data.datamodel.otp.OtpRequest
 import com.technoidentity.vitalz.data.datamodel.otp.OtpResponse
 import com.technoidentity.vitalz.data.datamodel.patient_list.PatientDataList
@@ -13,6 +14,7 @@ import com.technoidentity.vitalz.data.datamodel.single_patient.SinglePatientDash
 import com.technoidentity.vitalz.data.network.Urls.CARETAKER_LOGIN
 import com.technoidentity.vitalz.data.network.Urls.DOC_NURSE_LOGIN
 import com.technoidentity.vitalz.data.network.Urls.HOSPITAL_LIST
+import com.technoidentity.vitalz.data.network.Urls.MULTIPLE_PATIENT_DASHBOARD
 import com.technoidentity.vitalz.data.network.Urls.PATIENT_LIST
 import com.technoidentity.vitalz.data.network.Urls.SEND_OTP
 import com.technoidentity.vitalz.data.network.Urls.SINGLE_PATIENT_DASHBOARD
@@ -37,6 +39,9 @@ interface VitalzApi {
     suspend fun getPatientList(@Body request: PatientRequest) : Response<PatientDataList>
 
     @GET(SINGLE_PATIENT_DASHBOARD)
-    suspend fun getSinglePatientDashboardList(@Path("mobile") mobile: String) : Response<SinglePatientDashboardResponse>
+    suspend fun getSinglePatientDashboardList(@Path("id") id: String) : Response<SinglePatientDashboardResponse>
+
+    @GET(MULTIPLE_PATIENT_DASHBOARD)
+    suspend fun getMultiplePatientDashboardList() : Response<MultiplePatientDashboardResponse>
 
 }

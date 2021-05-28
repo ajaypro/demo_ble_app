@@ -14,5 +14,8 @@ object Urls {
 
     const val PATIENT_LIST = "agastya/patient-caretakers"
 
-    const val SINGLE_PATIENT_DASHBOARD = "agastya/{mobile}"
+//    const val SINGLE_PATIENT_DASHBOARD = "agastya/{mobile}"
+    const val SINGLE_PATIENT_DASHBOARD = "http://52.140.120.88:8082/agastya/v1/patient/{id}"
+
+    const val MULTIPLE_PATIENT_DASHBOARD = "http://52.140.120.88:8082/agastya/v1/patients"
 }

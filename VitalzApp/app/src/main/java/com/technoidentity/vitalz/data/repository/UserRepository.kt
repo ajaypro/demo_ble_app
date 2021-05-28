@@ -6,6 +6,7 @@ import com.technoidentity.vitalz.data.datamodel.careTakerLogin.CareTakerRequest
 import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseRequest
 import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseResponse
 import com.technoidentity.vitalz.data.datamodel.hospital_list.HospitalListData
+import com.technoidentity.vitalz.data.datamodel.multiple_patient.MultiplePatientDashboardResponse
 import com.technoidentity.vitalz.data.datamodel.otp.OtpRequest
 import com.technoidentity.vitalz.data.datamodel.otp.OtpResponse
 import com.technoidentity.vitalz.data.datamodel.patient_list.PatientDataList
@@ -89,16 +90,30 @@ class UserRepository @Inject constructor(
         }
     }
 
-    override suspend fun getSinglePatientDashboardList(mobile: String): ResultHandler<SinglePatientDashboardResponse> {
-        val response = api.getSinglePatientDashboardList(mobile)
+    override suspend fun getSinglePatientDashboardList(id: String): ResultHandler<SinglePatientDashboardResponse> {
+        val response = api.getSinglePatientDashboardList(id)
         return try {
             val result = response.body()!!
             if (response.code() == 200) {
-                Log.v("Check", "Stage Error ${response.code()}")
                 ResultHandler.Success(result)
             } else {
-                Log.v("Check", "Stage Error ${response.code()}")
-                Error(response.message())
+                Error(response.code())
+            }
+        } catch (e: Exception) {
+            Error(e.message ?: "Contact Admin")
+        }
+    }
+
+    override suspend fun getMultiplePatientDashboardList(): ResultHandler<MultiplePatientDashboardResponse> {
+        val response = api.getMultiplePatientDashboardList()
+        return try {
+            val result = response.body()!!
+            if (response.code() == 200) {
+                Log.v("Check", "Stage Success ${response.code()}")
+                ResultHandler.Success(result)
+            } else {
+                Log.v("Check", "Stage Error new Api ${response.message()}")
+                Error(response.code())
             }
         } catch (e: Exception) {
             Error(e.message ?: "Contact Admin")

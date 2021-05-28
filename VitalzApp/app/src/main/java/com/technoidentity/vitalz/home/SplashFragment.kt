@@ -1,10 +1,8 @@
 package com.technoidentity.vitalz.home
 
 import android.os.Bundle
-import android.os.CountDownTimer
-import android.os.Handler
-import android.util.Log
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -23,6 +21,15 @@ class SplashFragment : Fragment(R.layout.fragment_splash_screen) {
         GlobalScope.launch(Dispatchers.Main) {
             delay(2000)
             navController.navigate(R.id.action_splashFragment2_to_userSelectionFragment2)
+        }
+
+        // This callback will only be called when MyFragment is at least Started.
+        val callback: OnBackPressedCallback =
+            object : OnBackPressedCallback(true /* enabled by default */) {
+                override fun handleOnBackPressed() {
+                }
+            }
+        this.activity?.let { requireActivity().onBackPressedDispatcher.addCallback(it, callback)
         }
     }
 }

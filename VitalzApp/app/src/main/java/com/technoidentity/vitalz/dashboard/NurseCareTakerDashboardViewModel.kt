@@ -28,22 +28,22 @@ class NurseCareTakerDashboardViewModel @Inject constructor(
         SinglePatient.Empty)
     val expectedResult: LiveData<SinglePatient> = _expectedResult
 
-    fun getSinglePatientData(mobile: String) {
-        if (mobile == null) {
-            Log.v("Check", "Stage_1 $mobile")
-            _expectedResult.value = SinglePatient.Failure("Mobile No not found")
+    fun getSinglePatientData(patientId: String) {
+        if (patientId == null) {
+            Log.v("Check", "Stage_1 $patientId")
+            _expectedResult.value = SinglePatient.Failure("Data Not found")
             return
         }
         viewModelScope.launch(dispatcher.io) {
             _expectedResult.postValue(SinglePatient.Loading)
-            when (val response = userRepository.getSinglePatientDashboardList(mobile)) {
+            when (val response = userRepository.getSinglePatientDashboardList(patientId)) {
                 is ResultHandler.Error -> {
-                    Log.v("Check", "Stage Api Error ${response.message}")
+                    Log.v("Check", "Stage Api Error VM ${response.message}")
                     _expectedResult.postValue(
                         SinglePatient.Failure(response.message.toString())
                     )}
                 is ResultHandler.Success -> {
-                    Log.v("Check", "Stage Api Success ${response.message}")
+                    Log.v("Check", "Stage Api Success VM ${response.message}")
                     if (response.data == null) {
                         Log.v("Check", "Stage Api == Null ${response.message}")
                         _expectedResult.postValue(SinglePatient.Failure("Unexpected Error"))
