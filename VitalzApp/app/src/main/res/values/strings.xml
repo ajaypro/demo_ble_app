@@ -98,5 +98,6 @@
     <string name="sample_date">12/04/2021 ,10:10 AM</string>
     <string name="search_hospital">Search Hospital</string>
     <string name="search_patient">Search Patient</string>
+    <string name="no_records_found">Sorry! No Records Found</string>
 
 </resources>

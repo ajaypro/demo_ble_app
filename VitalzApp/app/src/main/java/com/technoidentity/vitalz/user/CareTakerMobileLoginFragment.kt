@@ -4,73 +4,80 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.NavController
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.technoidentity.vitalz.R
 import com.technoidentity.vitalz.data.network.Constants
 import com.technoidentity.vitalz.databinding.FragmentCaretakerLoginBinding
+import com.technoidentity.vitalz.utils.CustomProgressDialog
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CareTakerMobileLoginFragment : Fragment() {
 
-//    lateinit var careTakerMobileViewModel: CareTakerMobileViewModel
-    lateinit var bindingCareTakerLogin: FragmentCaretakerLoginBinding
+    private lateinit var binding: FragmentCaretakerLoginBinding
+    val viewModel : CareTakerMobileViewModel by viewModels()
+    private lateinit var progressDialog: CustomProgressDialog
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        bindingCareTakerLogin = FragmentCaretakerLoginBinding.inflate(inflater)
-//        careTakerMobileViewModel = ViewModelProvider(this).get(CareTakerMobileViewModel::class.java)
-        return bindingCareTakerLogin.root
-    }
+    override fun onCreateView(inflater: LayoutInflater,
+        container: ViewGroup?, savedInstanceState: Bundle?): View {
+        binding = FragmentCaretakerLoginBinding.inflate(layoutInflater)
+        progressDialog = CustomProgressDialog(this.requireContext())
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        val navController: NavController = Navigation.findNavController(view)
-        val btnRequestOtp = view.findViewById<View>(R.id.btn_request_otp)
-        val mobileNumber: EditText = view.findViewById<View>(R.id.et_mobile_number) as EditText
-//        careTakerMobileViewModel.setInterface(this as CareTakerLoginInterface)
-
-        btnRequestOtp.setOnClickListener {
-            //Checking UI Hospital List Navigation
-            navController.navigate(R.id.hospitalListFragment)
-
-            //Checking UI Patient List Navigation
-//            navController.navigate(R.id.patientListFragment)
-
-            //Checking UI Notification List Navigation
-//            navController.navigate(R.id.notificationsFragment)
-//            validateMobileNumber(mobileNumber.text.toString())
+        binding.btnRequestOtp.setOnClickListener {
+            val mobileNumber = binding.etMobileNumber.text.toString()
+            validateMobileNumber(mobileNumber)
         }
+        return binding.root
     }
 
     private fun validateMobileNumber(mobile: String) {
         when {
             mobile.isEmpty() -> {
-                bindingCareTakerLogin.responseMsg.visibility = View.VISIBLE
-                bindingCareTakerLogin.responseMsg.setText(R.string.empty)
+                binding.responseMsg.visibility = View.VISIBLE
+                binding.responseMsg.setText(R.string.empty)
             }
             mobile.length != 10 -> {
-                bindingCareTakerLogin.responseMsg.visibility = View.VISIBLE
-                bindingCareTakerLogin.responseMsg.setText(R.string.shortLength)
+                binding.responseMsg.visibility = View.VISIBLE
+                binding.responseMsg.setText(R.string.shortLength)
             }
             !mobile.matches(Constants.mobilePattern.toRegex()) -> {
-                bindingCareTakerLogin.responseMsg.visibility = View.VISIBLE
-                bindingCareTakerLogin.responseMsg.setText(R.string.invalid)
+                binding.responseMsg.visibility = View.VISIBLE
+                binding.responseMsg.setText(R.string.invalid)
             }
             mobile.matches(Constants.mobilePattern.toRegex()) -> {
                 //do api call request and on success response navigate to next EnterOTP Fragment
-                bindingCareTakerLogin.responseMsg.visibility = View.GONE
-                bindingCareTakerLogin.responseMsg.setText("")
-//                careTakerMobileViewModel.loginApi(mobile)
+                binding.responseMsg.visibility = View.GONE
+                binding.responseMsg.text = ""
+                progressDialog.showLoadingDialog(
+                    title = "Vitalz App",
+                    message = "Loading...",
+                    isCancellable = false
+                )
+                lifecycleScope.launchWhenCreated {
+                    viewModel.getCareTakerResponse(mobile)
+                    viewModel.expectedResult.observe(viewLifecycleOwner, {
+                        when(it){
+                            is CareTakerMobileViewModel.CareTaker.Success -> {
+                                progressDialog.dismissLoadingDialog()
+                                val bundle = bundleOf("mobileNumber" to mobile)
+                                Navigation.findNavController(requireView()).navigate(R.id.careTakerMobileOTPFragment, bundle)
+                            }
+
+                            is CareTakerMobileViewModel.CareTaker.Failure -> {
+                                progressDialog.dismissLoadingDialog()
+                            }
+                            else -> Unit
+                        }
+                    })
+                }
             }
             else -> {
-                bindingCareTakerLogin.responseMsg.visibility = View.VISIBLE
-                bindingCareTakerLogin.responseMsg.setText(R.string.unknown)
+                binding.responseMsg.visibility = View.VISIBLE
+                binding.responseMsg.setText(R.string.unknown)
             }
         }
     }

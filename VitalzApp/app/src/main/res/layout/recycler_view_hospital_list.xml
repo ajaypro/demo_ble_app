@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="@dimen/dp_8"
+    android:id="@+id/hospital_container"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
@@ -54,7 +55,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/button_grey"
-        android:layout_marginTop="@dimen/dp_5"
+        android:layout_marginTop="@dimen/dp_8"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_location" />
 

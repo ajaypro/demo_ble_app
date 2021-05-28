@@ -3,6 +3,7 @@ package com.technoidentity.vitalz.data.network
 object Constants {
 
     var TOKEN = "token"
+    var MOBILE = "mobile"
     var PREFERENCE_NAME = "vitalz"
     var mobilePattern = "^[6-9][0-9]{9}\$"
     var emailPattern =
