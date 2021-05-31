@@ -3,12 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="@dimen/dp_8"
+    android:id="@+id/hospital_container"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
         android:id="@+id/tv_hospital_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/viewSize"
         android:text="@string/sample_hospital"
         android:textStyle="bold"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -18,8 +18,7 @@
 
     <TextView
         android:id="@+id/tv_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/viewSize"
         android:text="@string/id"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
         android:textColor="@color/black"
@@ -28,8 +27,7 @@
 
     <TextView
         android:id="@+id/tv_hospital_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/viewSize"
         android:text="@string/fake_id"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
         android:textColor="@color/black"
@@ -38,8 +36,7 @@
 
     <ImageView
         android:id="@+id/iv_location"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/viewSize"
         android:src="@drawable/ic_baseline_location_on_24"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_id"
@@ -47,8 +44,7 @@
 
     <TextView
         android:id="@+id/tv_hospital_address"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/viewSize"
         android:text="@string/sample_address"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
         android:textColor="@color/black"
@@ -59,7 +55,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/button_grey"
-        android:layout_marginTop="@dimen/dp_5"
+        android:layout_marginTop="@dimen/dp_8"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_location" />
 

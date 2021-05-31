@@ -60,6 +60,12 @@
         <action
             android:id="@+id/action_doctorDashboardFragment_to_doctorPatientDetailFragment"
             app:destination="@id/doctorPatientDetailFragment" />
+        <action
+            android:id="@+id/action_doctorDashboardFragment_to_notificationsFragment"
+            app:destination="@id/notificationsFragment" />
+        <action
+            android:id="@+id/action_doctorDashboardFragment_to_userSelectionFragment2"
+            app:destination="@id/userSelectionFragment2" />
     </fragment>
     <fragment
         android:id="@+id/nurseCareTakerPatientDetailFragment"
@@ -105,6 +111,12 @@
         <action
             android:id="@+id/action_nurseCareTakerDashboardFragment_to_nurseCareTakerPatientDetailFragment"
             app:destination="@id/nurseCareTakerPatientDetailFragment" />
+        <action
+            android:id="@+id/action_nurseCareTakerDashboardFragment_to_notificationsFragment"
+            app:destination="@id/notificationsFragment" />
+        <action
+            android:id="@+id/action_nurseCareTakerDashboardFragment_to_userSelectionFragment2"
+            app:destination="@id/userSelectionFragment2" />
     </fragment>
     <fragment
         android:id="@+id/patientProfileFragment"

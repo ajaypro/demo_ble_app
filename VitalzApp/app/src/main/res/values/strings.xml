@@ -111,5 +111,6 @@
     <string name="search_hospital">Search Hospital</string>
     <string name="search_patient">Search Patient</string>
     <string name="ble_not_suppported">This device does not support Bluetooth, You cannot use the app</string>
+    <string name="no_records_found">Sorry! No Records Found</string>
 
 </resources>
