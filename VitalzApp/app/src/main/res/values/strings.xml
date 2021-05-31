@@ -78,14 +78,26 @@
     <string name="sample_activity">200 Steps</string>
     <string name="hospitals">Hospitals</string>
 
-    //Toast Messages
     <string name="empty">Please enter Mobile Number</string>
     <string name="shortLength">Please enter 10 Digits</string>
     <string name="invalid">Please enter Valid Mobile Number</string>
     <string name="unknown">Please Contact Admin/Hospital</string>
     <string name="patients">Patients</string>
     <string name="sample_hospital">Yashoda Hospital</string>
+    <string name="device_name">Device Name</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="disconnected">Disconnected</string>
+    <string name="unable_to_connect">Device disconnected</string>
+    <string name="location_permission_available">Location Permission available, Start Scanning…</string>
+    <string name="location_permission_not_available">Location Permission not available, requesting…</string>
+    <string name="location_permission_required">Location Permission required for Bluetooth Scanning…</string>
+    <string name="location_permission_granted">Location Permission granted start Bluetooth Scanning…</string>
+    <string name="location_permission_denied">Location Permission denied </string>
+
+    <string name="dBm">dBm</string>
     <string name="id">ID :</string>
+    <string name="mac">MAC :</string>
     <string name="fake_id">3278</string>
     <string name="sample_address">Alexander Road, Secunderabad, Telangana</string>
     <string name="sample_patient_name">Akash Kumar</string>
@@ -98,5 +110,6 @@
     <string name="sample_date">12/04/2021 ,10:10 AM</string>
     <string name="search_hospital">Search Hospital</string>
     <string name="search_patient">Search Patient</string>
+    <string name="ble_not_suppported">This device does not support Bluetooth, You cannot use the app</string>
 
 </resources>
