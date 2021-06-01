@@ -1,8 +1,10 @@
 package com.technoidentity.vitalz.user
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.technoidentity.vitalz.data.datamodel.otp.OtpRequest
-import com.technoidentity.vitalz.data.datamodel.otp.OtpResponse
 import com.technoidentity.vitalz.data.repository.UserRepository
 import com.technoidentity.vitalz.utils.CoroutinesDispatcherProvider
 import com.technoidentity.vitalz.utils.ResultHandler
@@ -27,10 +29,6 @@ class OtpMobileViewModel @Inject constructor(
     val expectedResult: LiveData<OtpResponse> = _expectedResult
 
     fun getOtpResponse(mobile: String?, otpReceived: Int) {
-        if (mobile == null && otpReceived == null) {
-            _expectedResult.value = OtpResponse.Failure("Not a Valid Number")
-            return
-        }
         val request = OtpRequest()
         request.phoneNo = mobile
         request.otp = otpReceived
@@ -52,20 +50,5 @@ class OtpMobileViewModel @Inject constructor(
                 }
             }
         }
-    }
-}
-
-class OtpMobileViewModelFactory(
-    private val userRepository: UserRepository,
-    private val dispatcher: CoroutinesDispatcherProvider
-) : ViewModelProvider.Factory {
-
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(OtpMobileViewModel::class.java)) {
-            return OtpMobileViewModel(
-                userRepository, dispatcher
-            ) as T
-        }
-        throw IllegalArgumentException("Unknown class name")
     }
 }

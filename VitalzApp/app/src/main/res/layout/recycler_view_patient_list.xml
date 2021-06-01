@@ -50,6 +50,7 @@
         android:id="@+id/tv_patient_id"
         style="@style/viewSize"
         android:text="@string/sample_patient_id"
+        android:layout_marginStart="@dimen/dp_8"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
         android:textColor="@color/black"
         app:layout_constraintStart_toEndOf="@id/tv_id"

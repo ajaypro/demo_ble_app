@@ -9,8 +9,8 @@ data class PatientDataListItem(
     val age: Int?,
     @SerializedName("gender")
     val gender: String?,
-    @SerializedName("id")
-    val id: Int?,
+    @SerializedName("patientId")
+    val id: String?,
     @SerializedName("name")
     val name: String?
 )

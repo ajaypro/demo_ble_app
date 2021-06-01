@@ -22,8 +22,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class HospitalListFragment : Fragment(), HospitalAdapter.OnItemClickListener  {
 
     val viewModel: HospitalViewModel by viewModels()
-    private var token = String()
-    private var mobile = String()
+    private lateinit var token : String
+    private lateinit var mobile : String
     lateinit var binding: FragmentHospitalListBinding
     private lateinit var hospitalAdapter: HospitalAdapter
     private lateinit var progressDialog: CustomProgressDialog
@@ -50,7 +50,7 @@ class HospitalListFragment : Fragment(), HospitalAdapter.OnItemClickListener  {
                 message = "Loading...",
                 isCancellable = false
             )
-            getHospitalList(token)
+            getHospitalList(mobile)
         } else {
             Toast.makeText(context, "Un-Authorized", Toast.LENGTH_SHORT).show()
 //           TODO Logout
@@ -60,9 +60,9 @@ class HospitalListFragment : Fragment(), HospitalAdapter.OnItemClickListener  {
         return binding.root
     }
 
-    private fun getHospitalList(token: String) {
+    private fun getHospitalList(mobile: String) {
         lifecycleScope.launchWhenCreated {
-            viewModel.getHospitalListData(token)
+            viewModel.getHospitalListData(mobile)
             viewModel.expectedResult.observe(viewLifecycleOwner, {
                 when (it) {
                     is HospitalViewModel.HospitalData.Success -> {

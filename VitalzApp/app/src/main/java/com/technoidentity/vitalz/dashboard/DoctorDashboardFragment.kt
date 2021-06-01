@@ -21,7 +21,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class DoctorDashboardFragment : Fragment() {
 
     private lateinit var binding: MultiplePatientDashboardBinding
-    var navController: NavController? = null
+    private var navController: NavController? = null
     private var token = String()
     val viewModel: DoctorDashboardViewModel by viewModels()
     private lateinit var doctorAdapter: MultiplePatientAdapter
