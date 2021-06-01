@@ -65,7 +65,6 @@ class DoctorDashboardFragment : Fragment() {
             title = "Vitalz App",
             message = "Loading...",
             isCancellable = false)
-        lifecycleScope.launchWhenCreated {
             viewModel.getMultiplePatientData(token)
             viewModel.expectedResult.observe(viewLifecycleOwner, {
                 when (it) {
@@ -84,7 +83,6 @@ class DoctorDashboardFragment : Fragment() {
                     else -> Unit
                 }
             })
-        }
     }
 
     private fun setUpRecyclerView() = binding.rvMultiplePatientDashboardList.apply {

@@ -57,7 +57,6 @@ class CareTakerMobileLoginFragment : Fragment() {
                     message = "Loading...",
                     isCancellable = false
                 )
-                lifecycleScope.launchWhenCreated {
                     viewModel.getCareTakerResponse(mobile)
                     viewModel.expectedResult.observe(viewLifecycleOwner, {
                         when(it){
@@ -73,7 +72,6 @@ class CareTakerMobileLoginFragment : Fragment() {
                             else -> Unit
                         }
                     })
-                }
             }
             else -> {
                 binding.responseMsg.visibility = View.VISIBLE

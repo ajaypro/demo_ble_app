@@ -54,26 +54,24 @@ class DoctorNurseLoginFragment : Fragment() {
                     message = "Loading...",
                     isCancellable = false
                 )
-                lifecycleScope.launchWhenCreated {
-                    viewModel.sendDocNurseCredentials(username, password)
-                    viewModel.expectedResult.observe(viewLifecycleOwner, {
-                        when (it) {
-                            is DoctorNurseLoginViewModel.DocNurse.Success -> {
-                                val pref =
-                                    context?.getSharedPreferences(Constants.PREFERENCE_NAME, 0)
-                                pref?.edit()?.putString(Constants.TOKEN, it.data.token)?.apply()
-                                progressDialog.dismissLoadingDialog()
-                                Navigation.findNavController(requireView())
-                                    .navigate(R.id.doctorDashboardFragment)
-                            }
-                            is DoctorNurseLoginViewModel.DocNurse.Failure -> {
-                                progressDialog.dismissLoadingDialog()
-                                Toast.makeText(context, it.errorText, Toast.LENGTH_SHORT).show()
-                            }
-                            else -> Unit
+                viewModel.sendDocNurseCredentials(username, password)
+                viewModel.expectedResult.observe(viewLifecycleOwner, {
+                    when (it) {
+                        is DoctorNurseLoginViewModel.DocNurse.Success -> {
+                            val pref =
+                                context?.getSharedPreferences(Constants.PREFERENCE_NAME, 0)
+                            pref?.edit()?.putString(Constants.TOKEN, it.data.token)?.apply()
+                            progressDialog.dismissLoadingDialog()
+                            Navigation.findNavController(requireView())
+                                .navigate(R.id.doctorDashboardFragment)
                         }
-                    })
-                }
+                        is DoctorNurseLoginViewModel.DocNurse.Failure -> {
+                            progressDialog.dismissLoadingDialog()
+                            Toast.makeText(context, it.errorText, Toast.LENGTH_SHORT).show()
+                        }
+                        else -> Unit
+                    }
+                })
             }
         }
     }
