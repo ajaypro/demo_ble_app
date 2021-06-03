@@ -61,7 +61,6 @@ class HospitalListFragment : Fragment(), HospitalAdapter.OnItemClickListener  {
     }
 
     private fun getHospitalList(mobile: String) {
-        lifecycleScope.launchWhenCreated {
             viewModel.getHospitalListData(mobile)
             viewModel.expectedResult.observe(viewLifecycleOwner, {
                 when (it) {
@@ -77,7 +76,6 @@ class HospitalListFragment : Fragment(), HospitalAdapter.OnItemClickListener  {
                     else -> Unit
                 }
             })
-        }
     }
 
     private fun setUpRecyclerView() = binding.rvHospitalList.apply {
