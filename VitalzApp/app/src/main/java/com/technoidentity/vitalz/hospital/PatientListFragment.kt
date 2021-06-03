@@ -65,7 +65,6 @@ class PatientListFragment : Fragment(), PatientAdapter.OnItemClickListener {
             message = "Loading...",
             isCancellable = false
         )
-        lifecycleScope.launchWhenCreated {
             viewModel.getPatientListData(mobile!!,hospitalId!!)
             viewModel.expectedResult.observe(viewLifecycleOwner, {
                 when (it) {
@@ -88,7 +87,6 @@ class PatientListFragment : Fragment(), PatientAdapter.OnItemClickListener {
                     else -> Unit
                 }
             })
-        }
     }
 
     private fun setUpRecyclerView() = binding.rvPatientList.apply {

@@ -2,7 +2,6 @@ package com.technoidentity.vitalz.user
 
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +9,6 @@ import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.technoidentity.vitalz.R
 import com.technoidentity.vitalz.data.network.Constants
@@ -75,23 +73,21 @@ class CareTakerMobileOTPFragment : Fragment() {
                     message = "Loading...",
                     isCancellable = false
                 )
-                lifecycleScope.launchWhenCreated {
-                    viewModel.getOtpResponse(mobile, otpReceived.toInt())
-                    viewModel.expectedResult.observe(viewLifecycleOwner, {
-                        when (it) {
-                            is OtpMobileViewModel.OtpResponse.Success -> {
-                                val pref =
-                                    context?.getSharedPreferences(Constants.PREFERENCE_NAME, 0)
-                                pref?.edit()?.putString(Constants.TOKEN, it.data?.token)?.apply()
-                                pref?.edit()?.putString(Constants.MOBILE, it.data?.user?.phoneNo)
-                                    ?.apply()
-                                progressDialog.dismissLoadingDialog()
-                                Navigation.findNavController(requireView())
-                                    .navigate(R.id.hospitalListFragment)
-                            }
+                viewModel.getOtpResponse(mobile, otpReceived.toInt())
+                viewModel.expectedResult.observe(viewLifecycleOwner, {
+                    when (it) {
+                        is OtpMobileViewModel.OtpResponse.Success -> {
+                            val pref =
+                                context?.getSharedPreferences(Constants.PREFERENCE_NAME, 0)
+                            pref?.edit()?.putString(Constants.TOKEN, it.data?.token)?.apply()
+                            pref?.edit()?.putString(Constants.MOBILE, it.data?.user?.phoneNo)
+                                ?.apply()
+                            progressDialog.dismissLoadingDialog()
+                            Navigation.findNavController(requireView())
+                                .navigate(R.id.hospitalListFragment)
+                        }
 
                             is OtpMobileViewModel.OtpResponse.Failure -> {
-                                Toast.makeText(context, it.errorText, Toast.LENGTH_SHORT).show()
                                 progressDialog.dismissLoadingDialog()
                             }
                             else -> Unit
@@ -99,29 +95,25 @@ class CareTakerMobileOTPFragment : Fragment() {
                     })
                 }
             }
-        }
         return binding.root
     }
 
     private fun resendOtpApiCall(mobile: String?) {
-
-        lifecycleScope.launchWhenCreated {
-            if (mobile != null) {
-                viewModelCareTaker.getCareTakerResponse(mobile)
-            }
-            viewModelCareTaker.expectedResult.observe(viewLifecycleOwner, {
-                when (it) {
-                    is Success -> {
-                        Toast.makeText(context, "Otp Sent", Toast.LENGTH_SHORT).show()
-                    }
-
-                    is Failure -> {
-                        Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show()
-                    }
-                    else -> Unit
-                }
-            })
+        if (mobile != null) {
+            viewModelCareTaker.getCareTakerResponse(mobile)
         }
+        viewModelCareTaker.expectedResult.observe(viewLifecycleOwner, {
+            when (it) {
+                is Success -> {
+                    Toast.makeText(context, "Otp Sent", Toast.LENGTH_SHORT).show()
+                }
+
+                is Failure -> {
+                    Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show()
+                }
+                else -> Unit
+            }
+        })
     }
 
     private fun setFocusChangeOnTextEntered() {

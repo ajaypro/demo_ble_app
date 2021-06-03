@@ -31,18 +31,18 @@ class CareTakerMobileViewModel @Inject constructor(
     fun getCareTakerResponse(mobile: String) {
         val request = CareTakerRequest()
         request.phoneNo = mobile
-        viewModelScope.launch(dispatcher.io) {
-            _expectedResult.postValue(CareTaker.Loading)
+        viewModelScope.launch {
+            _expectedResult.value = CareTaker.Loading
             when (val response = userRepository.doMobileOTPCall(request)) {
                 is ResultHandler.Error -> {
-                    _expectedResult.postValue(
-                    CareTaker.Failure(response.message.toString())
+                    _expectedResult.value =
+                    CareTaker.Failure(response.message.toString()
                 )}
                 is ResultHandler.Success -> {
                     if (response.data == null) {
-                        _expectedResult.postValue(CareTaker.Failure("Unexpected Error"))
+                        _expectedResult.value = CareTaker.Failure("Unexpected Error")
                     } else {
-                        _expectedResult.postValue(CareTaker.Success("Otp Sent to you mobile"))
+                        _expectedResult.value = CareTaker.Success("Otp Sent to you mobile")
                     }
                 }
             }
