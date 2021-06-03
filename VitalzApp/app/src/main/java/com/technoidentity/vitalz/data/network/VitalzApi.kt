@@ -5,6 +5,7 @@ import com.technoidentity.vitalz.data.datamodel.careTakerLogin.CareTakerRequest
 import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseResponse
 import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseRequest
 import com.technoidentity.vitalz.data.datamodel.hospital_list.HospitalListData
+import com.technoidentity.vitalz.data.datamodel.hospital_list.HospitalListRequest
 import com.technoidentity.vitalz.data.datamodel.multiple_patient.MultiplePatientDashboardResponse
 import com.technoidentity.vitalz.data.datamodel.otp.OtpRequest
 import com.technoidentity.vitalz.data.datamodel.otp.OtpResponse
@@ -32,8 +33,8 @@ interface VitalzApi {
     @POST(DOC_NURSE_LOGIN)
     suspend fun getDocNurseLogin(@Body request: DocNurseRequest) : Response<DocNurseResponse>
 
-    @GET(HOSPITAL_LIST)
-    suspend fun getHospitalList() : Response<HospitalListData>
+    @POST(HOSPITAL_LIST)
+    suspend fun getHospitalList(@Body request: HospitalListRequest) : Response<HospitalListData>
 
     @POST(PATIENT_LIST)
     suspend fun getPatientList(@Body request: PatientRequest) : Response<PatientDataList>

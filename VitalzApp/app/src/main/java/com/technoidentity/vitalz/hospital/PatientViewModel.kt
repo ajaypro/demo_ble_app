@@ -1,7 +1,9 @@
 package com.technoidentity.vitalz.hospital
 
-import android.util.Log
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.technoidentity.vitalz.data.datamodel.patient_list.PatientDataList
 import com.technoidentity.vitalz.data.datamodel.patient_list.PatientRequest
 import com.technoidentity.vitalz.data.repository.UserRepository
@@ -29,11 +31,6 @@ class PatientViewModel @Inject constructor(
     val expectedResult: LiveData<PatientData> = _expectedResult
 
     fun getPatientListData(mobile: String, hospitalId: String) {
-        if (mobile == null) {
-            Log.v("Check", "Stage_1 $mobile")
-            _expectedResult.value = PatientData.Failure("Mobile No not found")
-            return
-        }
         val request = PatientRequest()
         request.hospitalId = hospitalId
         request.phoneNo = mobile
@@ -48,25 +45,10 @@ class PatientViewModel @Inject constructor(
                     if (response.data == null) {
                         _expectedResult.postValue(PatientData.Failure("Unexpected Error"))
                     } else {
-                        _expectedResult.postValue(PatientData.Success("Otp Sent to you mobile", response.data))
+                        _expectedResult.postValue(PatientData.Success("Patient List", response.data))
                     }
                 }
             }
         }
-    }
-}
-
-class PatientViewModelFactory(
-    private val userRepository: UserRepository,
-    private val dispatcher: CoroutinesDispatcherProvider
-) : ViewModelProvider.Factory {
-
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(PatientViewModel::class.java)) {
-            return PatientViewModel(
-                userRepository, dispatcher
-            ) as T
-        }
-        throw IllegalArgumentException("Unknown class name")
     }
 }

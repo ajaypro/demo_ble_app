@@ -8,9 +8,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import com.technoidentity.vitalz.R
 import com.technoidentity.vitalz.data.datamodel.single_patient.SinglePatientDashboardResponse
 import com.technoidentity.vitalz.databinding.CaretakerNurseDashboardBinding
 import com.technoidentity.vitalz.utils.CustomProgressDialog
@@ -53,18 +53,21 @@ class NurseCareTakerDashboardFragment : Fragment() {
             Toast.makeText(context, "Un-Authorized", Toast.LENGTH_SHORT).show()
         }
 
+        //ViewProfilePage
+        binding.ivViewProfile.setOnClickListener {
+            navController!!.navigate(R.id.patientProfileFragment)
+        }
+
         return binding.root
     }
 
     private fun singleDashboardApi(mobile: String) {
-        lifecycleScope.launchWhenCreated {
             viewModel.getSinglePatientData(mobile)
             viewModel.expectedResult.observe(viewLifecycleOwner, {
                 when (it) {
                     is NurseCareTakerDashboardViewModel.SinglePatient.Success -> {
                         progressDialog.dismissLoadingDialog()
                         setDataFromApiResponse(it.data)
-                        Toast.makeText(context, it.resultText, Toast.LENGTH_SHORT).show()
                     }
 
                     is NurseCareTakerDashboardViewModel.SinglePatient.Failure -> {
@@ -74,18 +77,17 @@ class NurseCareTakerDashboardFragment : Fragment() {
                     else -> Unit
                 }
             })
-        }
     }
 
     private fun setDataFromApiResponse(data: SinglePatientDashboardResponse) {
         binding.tvSelectedPatient.text = data.name
-//        binding.tvHeartRateCount.text = data.heartRate.ratePerMinute
-//        binding.tvRespiratoryCount.text = data
-//        binding.tvTemperatureCount.text = data
-//        binding.tvBpCount.text = data
-//        binding.tvActivityCount.text = data
-//        binding.tvPostureCount.text = data
-//        binding.tvOxygenSaturationCount.text = data
-//        binding.tvWeightCount.text = data
+        binding.tvHeartRateCount.text = data.heartRate.ratePerMinute.last().toString()
+        binding.tvRespiratoryCount.text = data.respiratoryRate.ratePerMinute.last().toString()
+        binding.tvTemperatureCount.text = data.temperature.bodyTemperature.last().toString()
+        binding.tvBpCount.text = (data.bloodPressure.systolicPressure.last().toString()+ "/" +data.bloodPressure.diastolicPressure.last().toString())
+        binding.tvActivityCount.text = data.step.stepCount.toString()
+        binding.tvPostureCount.text = data.posture.bodyPosture.last()
+        binding.tvOxygenSaturationCount.text = data.oxygenSaturation.oxygenPercentage.last().toString()
+        binding.tvWeightCount.text = data.weight.weight.toString()
     }
 }

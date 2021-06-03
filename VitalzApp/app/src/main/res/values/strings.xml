@@ -85,7 +85,7 @@
     <string name="unknown">Please Contact Admin/Hospital</string>
     <string name="patients">Patients</string>
     <string name="sample_hospital">Yashoda Hospital</string>
-    <string name="id">ID :</string>
+    <string name="id">ID : </string>
     <string name="fake_id">3278</string>
     <string name="sample_address">Alexander Road, Secunderabad, Telangana</string>
     <string name="sample_patient_name">Akash Kumar</string>
