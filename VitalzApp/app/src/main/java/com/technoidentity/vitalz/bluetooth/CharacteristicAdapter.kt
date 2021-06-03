@@ -34,6 +34,7 @@ class CharacteristicAdapter(
     ) : RecyclerView.ViewHolder(view) {
 
         fun bind(characteristic: BluetoothGattCharacteristic) {
+
             binding.characteristicUuid.text = characteristic.uuid.toString()
             binding.characteristicProperties.text = characteristic.printProperties()
             binding.root.setOnClickListener { onClickListener.invoke(characteristic) }

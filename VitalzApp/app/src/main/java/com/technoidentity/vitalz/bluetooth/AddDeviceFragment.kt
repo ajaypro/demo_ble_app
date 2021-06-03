@@ -47,7 +47,6 @@ class AddDeviceFragment : Fragment() {
         ActivityResultContracts.RequestPermission()
     ) { isGranted: Boolean ->
         if (isGranted) {
-            // Permission has been granted. Start camera preview Activity.
             layout.showSnackbar(
                 R.string.location_permission_granted,
                 Snackbar.LENGTH_INDEFINITE,
@@ -64,9 +63,6 @@ class AddDeviceFragment : Fragment() {
             )
         }
     }
-
-//    private val isLocationPermissionGranted
-//        get() = hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -114,40 +110,6 @@ class AddDeviceFragment : Fragment() {
         }
     }
 
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//        when (requestCode) {
-//            ENABLE_BLUETOOTH_REQUEST_CODE -> {
-//                if (resultCode != Activity.RESULT_OK) {
-//                    promptEnableBluetooth()
-//                }
-//            }
-//        }
-//    }
-//
-//    override fun onRequestPermissionsResult(
-//        requestCode: Int,
-//        permissions: Array<out String>,
-//        grantResults: IntArray
-//    ) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-//        when (requestCode) {
-//            LOCATION_PERMISSION_REQUEST_CODE -> {
-//                if (grantResults.firstOrNull() == PackageManager.PERMISSION_DENIED) {
-//                    requestLocationPermission()
-//                } else {
-//                    startBleScan()
-//                }
-//            }
-//        }
-//    }
-
-    /*******************************************
-     * Private functions
-     *******************************************/
-
-
-
     private fun requestLocationPermission() {
 //        if (isLocationPermissionGranted) {
 //            return
@@ -170,13 +132,16 @@ class AddDeviceFragment : Fragment() {
 
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
             == PackageManager.PERMISSION_GRANTED) {
-            layout.showSnackbar(
-                R.string.location_permission_available,
-                Snackbar.LENGTH_INDEFINITE,
-                R.string.ok
-            ) {
-                findNavController().navigate(R.id.action_addDeviceFragment_to_bleScanResultFragment)
-            }
+
+            findNavController().navigate(R.id.action_addDeviceFragment_to_bleScanResultFragment)
+
+//            layout.showSnackbar(
+//                R.string.location_permission_available,
+//                Snackbar.LENGTH_INDEFINITE,
+//                R.string.ok
+//            ) {
+//                findNavController().navigate(R.id.action_addDeviceFragment_to_bleScanResultFragment)
+//            }
         } else {
 
             if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {

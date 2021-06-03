@@ -27,9 +27,6 @@ class SplashFragment : Fragment(R.layout.fragment_splash_screen) {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentSplashScreenBinding.inflate(inflater)
-//        (requireActivity() as AppCompatActivity).apply {
-//            supportActionBar?.hide()
-//        }
         requireActivity().actionBar?.hide()
         return binding.root
     }

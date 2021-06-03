@@ -1,9 +1,13 @@
 package com.technoidentity.vitalz.utils
 
+import android.app.Activity
 import android.content.Context
+import android.content.DialogInterface
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -57,7 +61,38 @@ fun View.showSnackbar(
     val snackbar = Snackbar.make(this, msg, length)
     if (actionMessage != null) {
         snackbar.setAction(actionMessage) {
-            action(this)
+            action(it)
         }.show()
     }
+}
+
+fun showAlert(activity: Activity, title: String, message: String, positiveButtonMsg: String,
+              onClickListener: DialogInterface.OnClickListener ) {
+
+    AlertDialog.Builder(activity)
+        .setTitle(title)
+        .setMessage(message)
+        .setPositiveButton(positiveButtonMsg){ _, _ ->
+            onClickListener
+        }
+        .show()
+}
+
+fun showAlertWithNegative(activity: Activity, title: String, message: String, positiveButtonMsg: String, negativeButtonMsg: String,
+              onClickListener: DialogInterface.OnClickListener ) {
+
+    AlertDialog.Builder(activity)
+        .setTitle(title)
+        .setMessage(message)
+        .setPositiveButton(positiveButtonMsg){ _, _ ->
+            activity.onBackPressed()
+        }
+        .setNegativeButton(negativeButtonMsg){ dialog, _ ->
+            dialog.cancel()
+        }
+        .show()
+}
+
+fun isTablet(ctx: Context): Boolean {
+    return ctx.resources.configuration.screenLayout and Configuration.SCREENLAYOUT_SIZE_MASK >= Configuration.SCREENLAYOUT_SIZE_LARGE
 }

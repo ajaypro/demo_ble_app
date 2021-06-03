@@ -10,8 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.technoidentity.vitalz.R
 import com.technoidentity.vitalz.databinding.ScanResultItemListBinding
 
-class BluetoothScanResultAdapter(val bluetoothScanResultClickListener: BluetoothScanResultClickListener) :
-    ListAdapter<ScanResult, BluetoothScanResultAdapter.ScanResultViewHolder>(DealsDiffCallBack()) {
+class BluetoothScanResultAdapter(val result: List<ScanResult>, val bluetoothScanResultClickListener: BluetoothScanResultClickListener) :
+    //ListAdapter<ScanResult, BluetoothScanResultAdapter.ScanResultViewHolder>(DealsDiffCallBack()) {
+    RecyclerView.Adapter<BluetoothScanResultAdapter.ScanResultViewHolder>() {
 
     lateinit var binding: ScanResultItemListBinding
 
@@ -22,7 +23,7 @@ class BluetoothScanResultAdapter(val bluetoothScanResultClickListener: Bluetooth
     }
 
     override fun onBindViewHolder(viewHolder: ScanResultViewHolder, position: Int) {
-        val item = getItem(position)
+        val item = result[position]
         viewHolder.bindView(item, bluetoothScanResultClickListener)
 
     }
@@ -38,6 +39,8 @@ class BluetoothScanResultAdapter(val bluetoothScanResultClickListener: Bluetooth
             binding.root.setOnClickListener { bluetoothScanResultClickListener.onClick(scanResult) }
         }
     }
+
+    override fun getItemCount() = result.size
 }
 
 class DealsDiffCallBack: DiffUtil.ItemCallback<ScanResult>() {

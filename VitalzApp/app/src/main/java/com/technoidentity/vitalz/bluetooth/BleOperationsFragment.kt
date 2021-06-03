@@ -3,10 +3,12 @@ package com.technoidentity.vitalz.bluetooth
 import android.annotation.SuppressLint
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothGattCharacteristic
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -52,15 +54,11 @@ class BleOperationsFragment: Fragment() {
         ConnectionManager.registerListener(connectionEventListener)
         super.onCreate(savedInstanceState)
         device = arguments?.getParcelable(BluetoothDevice.EXTRA_DEVICE)
-            ?: error("Missing BluetoothDevice from BleScanResultFragment!")
+            ?: error(getString(R.string.error_with_device))
 
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentBleoperationsBinding.bind(LayoutInflater.from(context).inflate(R.layout.fragment_bleoperations,container, false))
         setupRecyclerView()
 
@@ -95,11 +93,37 @@ class BleOperationsFragment: Fragment() {
             binding.logScrollView.fullScroll(View.FOCUS_DOWN)
 
     }
-    override fun onDestroy() {
-        ConnectionManager.unregisterListener(connectionEventListener)
-        ConnectionManager.teardownConnection(device)
-        super.onDestroy()
+
+    override fun onPause() {
+        ConnectionManager.unregisterListener(connectionEventListener).also {
+            showToast(context, "listerner unregistered")
+        }
+        ConnectionManager.teardownConnection(device).also {
+            showToast(context, "device disconnected")
+        }
+        super.onPause()
+        showAlert(requireActivity(), "Device disconnected", " Device will be disconnected",
+            "OK", DialogInterface.OnClickListener{ dialog, which ->
+               requireActivity().onBackPressed()
+            })
+
     }
+
+//    override fun onStop() {
+//        ConnectionManager.unregisterListener(connectionEventListener).also {
+//            showToast(context, "listerner unregistered")
+//        }
+//        ConnectionManager.teardownConnection(device).also {
+//            showToast(context, "device disconnected")
+//        }
+//        super.onStop()
+//    }
+
+//    override fun onDestroy() {
+//        ConnectionManager.unregisterListener(connectionEventListener)
+//        ConnectionManager.teardownConnection(device)
+//        super.onDestroy()
+//    }
 
     private fun showCharacteristicOptions(characteristic: BluetoothGattCharacteristic) {
         characteristicProperties[characteristic]?.let { properties ->
@@ -153,13 +177,16 @@ class BleOperationsFragment: Fragment() {
     private val connectionEventListener by lazy {
         ConnectionEventListener().apply {
             onDisconnect = {
-//                runOnUiThread {
-//                    alert {
-//                        title = "Disconnected"
-//                        message = "Disconnected from device."
-//                        positiveButton("OK") { onBackPressed() }
-//                    }.show()
-//                }
+                activity?.runOnUiThread {
+                    AlertDialog.Builder(requireContext())
+                        .setTitle("Disconnected")
+                        .setMessage("Disconnected from device.")
+                        .setPositiveButton("ok") { _, _ ->
+                            requireActivity().onBackPressed()
+                        }
+                        .show()
+
+                }
                 showToast(context, "Device disconnected")
             }
 
