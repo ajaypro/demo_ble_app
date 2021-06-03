@@ -23,11 +23,13 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/tv_hospital_id"
         app:layout_constraintTop_toBottomOf="@id/tv_hospital_name" />
 
     <TextView
         android:id="@+id/tv_hospital_id"
         style="@style/viewSize"
+        android:layout_marginStart="@dimen/dp_8"
         android:text="@string/fake_id"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
         android:textColor="@color/black"

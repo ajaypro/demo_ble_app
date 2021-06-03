@@ -28,10 +28,6 @@ class DoctorNurseLoginViewModel @Inject constructor(
     val expectedResult: LiveData<DocNurse> = _expectedResult
 
     fun sendDocNurseCredentials(username: String, password: String) {
-        if (username == null && password == null) {
-            _expectedResult.value = DocNurse.Failure("Not a Valid Credential")
-            return
-        }
         val request = DocNurseRequest()
         request.username = username
         request.password = password
@@ -52,20 +48,5 @@ class DoctorNurseLoginViewModel @Inject constructor(
                 }
             }
         }
-    }
-}
-
-class DocNurseViewModelFactory(
-    private val userRepository: UserRepository,
-    private val dispatcher: CoroutinesDispatcherProvider
-) : ViewModelProvider.Factory {
-
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(DoctorNurseLoginViewModel::class.java)) {
-            return CareTakerMobileViewModel(
-                userRepository, dispatcher
-            ) as T
-        }
-        throw IllegalArgumentException("Unknown class name")
     }
 }

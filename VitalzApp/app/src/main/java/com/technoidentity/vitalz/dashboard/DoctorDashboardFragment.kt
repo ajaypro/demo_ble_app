@@ -21,7 +21,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class DoctorDashboardFragment : Fragment() {
 
     private lateinit var binding: MultiplePatientDashboardBinding
-    var navController: NavController? = null
+    private var navController: NavController? = null
     private var token = String()
     val viewModel: DoctorDashboardViewModel by viewModels()
     private lateinit var doctorAdapter: MultiplePatientAdapter
@@ -65,7 +65,6 @@ class DoctorDashboardFragment : Fragment() {
             title = "Vitalz App",
             message = "Loading...",
             isCancellable = false)
-        lifecycleScope.launchWhenCreated {
             viewModel.getMultiplePatientData(token)
             viewModel.expectedResult.observe(viewLifecycleOwner, {
                 when (it) {
@@ -84,7 +83,6 @@ class DoctorDashboardFragment : Fragment() {
                     else -> Unit
                 }
             })
-        }
     }
 
     private fun setUpRecyclerView() = binding.rvMultiplePatientDashboardList.apply {
