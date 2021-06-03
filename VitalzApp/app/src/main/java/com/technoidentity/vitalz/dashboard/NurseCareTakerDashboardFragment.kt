@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
@@ -24,6 +25,7 @@ class NurseCareTakerDashboardFragment : Fragment() {
     lateinit var binding: CaretakerNurseDashboardBinding
     var navController: NavController? = null
     private lateinit var progressDialog: CustomProgressDialog
+    private lateinit var responseData: SinglePatientDashboardResponse
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,7 +57,9 @@ class NurseCareTakerDashboardFragment : Fragment() {
 
         //ViewProfilePage
         binding.ivViewProfile.setOnClickListener {
-            navController!!.navigate(R.id.patientProfileFragment)
+            val bundle = bundleOf("patientData" to responseData)
+            Log.v("Stage VP", "View Profile $responseData")
+            navController!!.navigate(R.id.patientProfileFragment , bundle)
         }
 
         return binding.root
@@ -80,6 +84,7 @@ class NurseCareTakerDashboardFragment : Fragment() {
     }
 
     private fun setDataFromApiResponse(data: SinglePatientDashboardResponse) {
+        responseData = data
         binding.tvSelectedPatient.text = data.name
         binding.tvHeartRateCount.text = data.heartRate.ratePerMinute.last().toString()
         binding.tvRespiratoryCount.text = data.respiratoryRate.ratePerMinute.last().toString()
