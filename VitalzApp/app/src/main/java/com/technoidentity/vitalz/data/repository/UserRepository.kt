@@ -6,6 +6,7 @@ import com.technoidentity.vitalz.data.datamodel.careTakerLogin.CareTakerRequest
 import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseRequest
 import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseResponse
 import com.technoidentity.vitalz.data.datamodel.hospital_list.HospitalListData
+import com.technoidentity.vitalz.data.datamodel.hospital_list.HospitalListRequest
 import com.technoidentity.vitalz.data.datamodel.multiple_patient.MultiplePatientDashboardResponse
 import com.technoidentity.vitalz.data.datamodel.otp.OtpRequest
 import com.technoidentity.vitalz.data.datamodel.otp.OtpResponse
@@ -62,8 +63,8 @@ class UserRepository @Inject constructor(
         }
     }
 
-    override suspend fun getHospitalList(): ResultHandler<HospitalListData> {
-        val response = api.getHospitalList()
+    override suspend fun getHospitalList(mobile: HospitalListRequest): ResultHandler<HospitalListData> {
+        val response = api.getHospitalList(mobile)
         return try {
             val result = response.body()!!
             if (response.isSuccessful) {

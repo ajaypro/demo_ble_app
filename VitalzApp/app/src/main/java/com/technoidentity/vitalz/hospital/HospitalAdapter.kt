@@ -1,15 +1,18 @@
 package com.technoidentity.vitalz.hospital
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.technoidentity.vitalz.R
 import com.technoidentity.vitalz.data.datamodel.hospital_list.HospitalListDataItem
 import com.technoidentity.vitalz.databinding.RecyclerViewHospitalListBinding
 
-class HospitalAdapter(val listener: HospitalListFragment) : RecyclerView.Adapter<HospitalAdapter.HospitalViewHolder>() {
+class HospitalAdapter(val listener: HospitalListFragment) :
+    RecyclerView.Adapter<HospitalAdapter.HospitalViewHolder>() {
 
     private val diffCallBack = object : DiffUtil.ItemCallback<HospitalListDataItem>() {
         override fun areItemsTheSame(
@@ -51,19 +54,26 @@ class HospitalAdapter(val listener: HospitalListFragment) : RecyclerView.Adapter
     override fun onBindViewHolder(holder: HospitalViewHolder, position: Int) {
         holder.binding.apply {
             val hospital = hospitals[position]
-            val fullAddress: String = (hospital.address?.let { it.street } + hospital.address?.let { it.city } +
-                    hospital.address?.let { it.state } + hospital.address?.let { it.zipCode })
-            tvHospitalName.text = hospital.hospitalName
+            val fullAddress: String =
+                (hospital.address?.let { it.street } + hospital.address?.let { it.city } +
+                        hospital.address?.let { it.state } + hospital.address?.let { it.zipCode })
+            if (hospital.status == true) {
+                tvHospitalName.text = hospital.hospitalName
+            } else {
+                tvHospitalName.setTextColor(Color.GRAY)
+                tvHospitalName.text = hospital.hospitalName
+            }
             tvHospitalId.text = hospital.id
             tvHospitalAddress.text = fullAddress
         }
     }
 
     inner class HospitalViewHolder(val binding: RecyclerViewHospitalListBinding) :
-        RecyclerView.ViewHolder(binding.root),View.OnClickListener{
+        RecyclerView.ViewHolder(binding.root), View.OnClickListener {
         init {
             binding.root.setOnClickListener(this)
         }
+
         override fun onClick(v: View?) {
             listener.onItemClicked(layoutPosition)
         }

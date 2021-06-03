@@ -69,7 +69,7 @@ class HomeActivity : AppCompatActivity() {
             val metrics = DisplayMetrics()
             val activity = activityContext as Activity
             activity.windowManager.defaultDisplay.getMetrics(metrics)
-            if (metrics.densityDpi == DisplayMetrics.DENSITY_DEFAULT || metrics.densityDpi == DisplayMetrics.DENSITY_HIGH || metrics.densityDpi == DisplayMetrics.DENSITY_MEDIUM || metrics.densityDpi == DisplayMetrics.DENSITY_TV || metrics.densityDpi == DisplayMetrics.DENSITY_XHIGH) {
+            if ( metrics.densityDpi == DisplayMetrics.DENSITY_HIGH) {
                 Toast.makeText(
                 this, "Detected... You're using a Tab Phone", Toast.LENGTH_SHORT).show()
                 return true

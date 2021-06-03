@@ -61,6 +61,7 @@
             style="@style/et_dashboard"
             android:layout_width="@dimen/dp_300"
             android:inputType="textPassword"
+            android:drawableEnd="@drawable/ic_baseline_remove_red_eye_24"
             android:text="12345"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_password" />

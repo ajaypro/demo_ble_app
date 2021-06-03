@@ -103,7 +103,7 @@
             <EditText
                 android:id="@+id/et_name"
                 style="@style/et_dashboard"
-                android:text="@={viewModel.name}"
+                android:text=""
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_user_name" />
 
@@ -118,7 +118,7 @@
                 android:id="@+id/et_age"
                 style="@style/heading_dashboard_spinner"
                 android:layout_width="@dimen/dp_150"
-                android:text="@={viewModel.age}"
+                android:text=""
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_age" />
 
@@ -135,7 +135,7 @@
                 android:id="@+id/et_gender"
                 style="@style/heading_dashboard_spinner"
                 android:layout_width="@dimen/dp_150"
-                android:text="@={viewModel.age}"
+                android:text=""
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/et_age"
                 app:layout_constraintTop_toBottomOf="@+id/tv_age" />
@@ -151,7 +151,7 @@
                 android:id="@+id/et_height"
                 style="@style/heading_dashboard_spinner"
                 android:layout_width="@dimen/dp_150"
-                android:text="@={viewModel.age}"
+                android:text=""
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_height" />
 
@@ -168,7 +168,7 @@
                 android:id="@+id/et_weight"
                 style="@style/heading_dashboard_spinner"
                 android:layout_width="@dimen/dp_150"
-                android:text="@={viewModel.age}"
+                android:text=""
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/et_age"
                 app:layout_constraintTop_toBottomOf="@+id/tv_weight" />
@@ -275,6 +275,7 @@
                 android:layout_width="match_parent"
                 style="@style/button"
                 android:text="@string/submit"
+                android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/et_id_hospital" />

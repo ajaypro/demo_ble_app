@@ -91,6 +91,7 @@ class CareTakerMobileOTPFragment : Fragment() {
                             }
 
                             is OtpMobileViewModel.OtpResponse.Failure -> {
+                                Toast.makeText(context, it.errorText, Toast.LENGTH_SHORT).show()
                                 progressDialog.dismissLoadingDialog()
                             }
                             else -> Unit
@@ -115,6 +116,7 @@ class CareTakerMobileOTPFragment : Fragment() {
                     }
 
                     is Failure -> {
+                        Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show()
                     }
                     else -> Unit
                 }

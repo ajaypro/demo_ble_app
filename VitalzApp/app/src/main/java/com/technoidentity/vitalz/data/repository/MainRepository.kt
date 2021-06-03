@@ -5,6 +5,7 @@ import com.technoidentity.vitalz.data.datamodel.careTakerLogin.CareTakerRequest
 import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseResponse
 import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseRequest
 import com.technoidentity.vitalz.data.datamodel.hospital_list.HospitalListData
+import com.technoidentity.vitalz.data.datamodel.hospital_list.HospitalListRequest
 import com.technoidentity.vitalz.data.datamodel.multiple_patient.MultiplePatientDashboardResponse
 import com.technoidentity.vitalz.data.datamodel.otp.OtpRequest
 import com.technoidentity.vitalz.data.datamodel.otp.OtpResponse
@@ -21,7 +22,7 @@ interface MainRepository {
 
     suspend fun sendDocNurseCredentials(docNurseLogin: DocNurseRequest): ResultHandler<DocNurseResponse>
 
-    suspend fun getHospitalList(): ResultHandler<HospitalListData>
+    suspend fun getHospitalList(mobile: HospitalListRequest): ResultHandler<HospitalListData>
 
     suspend fun getPatientList(request: PatientRequest): ResultHandler<PatientDataList>
 
