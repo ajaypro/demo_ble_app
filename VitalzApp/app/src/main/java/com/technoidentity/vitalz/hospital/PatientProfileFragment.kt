@@ -1,20 +1,18 @@
 package com.technoidentity.vitalz.hospital
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.technoidentity.vitalz.data.datamodel.single_patient.SinglePatientDashboardResponse
 import com.technoidentity.vitalz.databinding.FragmentViewProfileBinding
 
 class PatientProfileFragment : Fragment() {
 
     private lateinit var binding: FragmentViewProfileBinding
-    private lateinit var navController: NavController
-    private lateinit var profileData: SinglePatientDashboardResponse
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -22,17 +20,21 @@ class PatientProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentViewProfileBinding.inflate(layoutInflater)
-        navController =  Navigation.findNavController(container!!)
 
         //Getting Arguments From last Fragment
-//        profileData = arguments?.getBundle("patientData")
+        val profileData: SinglePatientDashboardResponse? = arguments?.getParcelable("patientData")
+        Log.v("Check", "Profile $profileData")
+        setDataInUI(profileData)
 
         binding.ivBackBtn.setOnClickListener {
-            navController.navigateUp()
+            findNavController().navigateUp()
         }
 
-
-
         return binding.root
+    }
+
+    private fun setDataInUI(profileData: SinglePatientDashboardResponse?) {
+        binding.etName.text = profileData?.name
+        binding.etAge.text = profileData?.dateOfBirth
     }
 }

@@ -1,7 +1,10 @@
 package com.technoidentity.vitalz.data.datamodel.single_patient
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class SinglePatientDashboardResponse(
     @SerializedName("bloodPressure")
     val bloodPressure: BloodPressure,
@@ -33,4 +36,4 @@ data class SinglePatientDashboardResponse(
     val temperature: Temperature,
     @SerializedName("weight")
     val weight: Weight
-)
+):Parcelable
