@@ -53,6 +53,8 @@ class HospitalListFragment : Fragment(), HospitalAdapter.OnItemClickListener  {
             Toast.makeText(context, "Un-Authorized", Toast.LENGTH_SHORT).show()
         }
 
+        //Search has Cancel icon with visibility GONE
+
         return binding.root
     }
 

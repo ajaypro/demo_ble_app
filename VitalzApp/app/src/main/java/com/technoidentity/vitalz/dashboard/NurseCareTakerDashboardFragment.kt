@@ -53,7 +53,7 @@ class NurseCareTakerDashboardFragment : Fragment() {
         //ViewProfilePage
         binding.ivViewProfile.setOnClickListener {
             findNavController().navigate(R.id.
-            action_nurseCareTakerPatientDetailFragment_to_patientProfileFragment , bundleOf("patientData" to responseData))
+            action_nurseCareTakerDashboardFragment_to_patientProfileFragment , bundleOf("patientData" to responseData))
         }
 
         return binding.root

@@ -41,6 +41,7 @@
         style="@style/viewSize"
         android:text="@string/id"
         android:layout_marginStart="@dimen/dp_5"
+        android:layout_marginTop="@dimen/dp_5"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
@@ -49,16 +50,19 @@
     <TextView
         android:id="@+id/tv_patient_id"
         style="@style/viewSize"
-        android:text="@string/sample_patient_id"
         android:layout_marginStart="@dimen/dp_8"
+        android:text="@string/sample_patient_id"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
         android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_id"
         app:layout_constraintStart_toEndOf="@id/tv_id"
-        app:layout_constraintTop_toBottomOf="@id/tv_patient_name" />
+        app:layout_constraintTop_toTopOf="@+id/tv_id" />
 
     <ImageView
         android:id="@+id/iv_location"
         style="@style/viewSize"
+        android:layout_marginStart="@dimen/dp_5"
+        android:layout_marginTop="@dimen/dp_5"
         android:src="@drawable/ic_baseline_location_on_24"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_id"
@@ -70,8 +74,10 @@
         android:text="@string/sample_patient_hospital_address"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
         android:textColor="@color/black"
+        android:layout_marginStart="@dimen/dp_5"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_location"
         app:layout_constraintStart_toEndOf="@id/iv_location"
-        app:layout_constraintTop_toBottomOf="@id/tv_patient_id" />
+        app:layout_constraintTop_toTopOf="@+id/iv_location" />
 
     <View
         android:id="@+id/patient_divider"

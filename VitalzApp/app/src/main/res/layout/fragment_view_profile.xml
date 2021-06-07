@@ -36,70 +36,19 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <ImageView
-            android:id="@+id/iv_remote_icon"
-            style="@style/dashboard_ble"
-            android:contentDescription="@string/remote_icon"
-            android:src="@drawable/ic_ble_battery"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/app_bar_layout" />
-
-        <TextView
-            android:id="@+id/tv_time_left"
-            style="@style/dashboard_ble"
-            android:hint="@string/fake_time_left"
-            android:text=""
-            android:textColorHint="@color/black"
-            app:layout_constraintStart_toEndOf="@+id/iv_remote_icon"
-            app:layout_constraintTop_toBottomOf="@+id/app_bar_layout" />
-
-        <TextView
-            android:id="@+id/tv_time_left_unit"
-            style="@style/dashboard_ble_battery"
-            app:layout_constraintStart_toEndOf="@+id/tv_time_left"
-            app:layout_constraintTop_toBottomOf="@+id/app_bar_layout" />
-
-        <ImageView
-            android:id="@+id/iv_connectivity_icon"
-            style="@style/dashboard_ble"
-            android:layout_marginEnd="@dimen/dp_20"
-            android:visibility="invisible"
-            android:contentDescription="@string/remote_icon"
-            android:src="@drawable/ic_connectivity_icon"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/app_bar_layout" />
-
         <androidx.constraintlayout.widget.ConstraintLayout
             style="@style/layout_dashboard"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_connectivity_icon">
-
-            <ImageView
-                android:id="@+id/iv_add_user"
-                style="@style/viewSize"
-                android:contentDescription="@string/remote_icon"
-                android:src="@drawable/ic_baseline_person_24"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tv_user_registration"
-                style="@style/viewSize"
-                android:layout_marginStart="@dimen/dp_16"
-                android:text="Profile"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/button_blue"
-                app:layout_constraintStart_toEndOf="@+id/iv_add_user"
-                app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/app_bar_layout">
 
             <TextView
                 android:id="@+id/tv_user_name"
                 style="@style/heading_dashboard"
                 android:text="@string/name"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_user_registration" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/et_name"

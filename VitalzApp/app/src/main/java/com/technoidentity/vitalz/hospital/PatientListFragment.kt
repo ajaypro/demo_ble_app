@@ -51,6 +51,8 @@ class PatientListFragment : Fragment(), PatientAdapter.OnItemClickListener {
             Toast.makeText(context, "Un-Authorized", Toast.LENGTH_SHORT).show()
         }
 
+        //In Search Cancel button visibility GONE , please enable while typing
+
         return binding.root
     }
 
