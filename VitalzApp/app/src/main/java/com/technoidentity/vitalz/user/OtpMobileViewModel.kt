@@ -32,7 +32,7 @@ class OtpMobileViewModel @Inject constructor(
         val request = OtpRequest()
         request.phoneNo = mobile
         request.otp = otpReceived
-        viewModelScope.launch(dispatcher.io) {
+        viewModelScope.launch {
             when (val response = userRepository.doOTPSendCall(request)) {
                 is ResultHandler.Error -> {
                     _expectedResult.postValue(

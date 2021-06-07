@@ -18,7 +18,8 @@ import javax.inject.Singleton
 object AppModule {
     @Singleton
     @Provides
-    fun vitalzApi(): VitalzApi = VitalzService.getRestApi()
+    fun vitalzApi() : VitalzApi = VitalzService.getRestApi()!!
+
 
     @Singleton
     @Provides

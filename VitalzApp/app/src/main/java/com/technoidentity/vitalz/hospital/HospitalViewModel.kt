@@ -33,7 +33,7 @@ class HospitalViewModel @Inject constructor(
     fun getHospitalListData(mobile: String) {
         val request = HospitalListRequest()
         request.mobile = mobile
-        viewModelScope.launch(dispatcher.io) {
+        viewModelScope.launch {
             _expectedResult.postValue(HospitalData.Loading)
             when (val response = userRepository.getHospitalList(request)) {
                 is ResultHandler.Error -> {

@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit
 
 object VitalzService {
 
-    private var restApi: VitalzApi? = null
+    private var restApi : VitalzApi? = null
     var token = String()
 
     private fun init() {
@@ -48,7 +48,7 @@ object VitalzService {
             val sp = it.getSharedPreferences(Constants.PREFERENCE_NAME , Context.MODE_PRIVATE)
             token = sp.getString(Constants.TOKEN , token).toString()
         }
-        if (restApi!= null) {
+        if (restApi != null) {
             restApi = null
         }
         init()

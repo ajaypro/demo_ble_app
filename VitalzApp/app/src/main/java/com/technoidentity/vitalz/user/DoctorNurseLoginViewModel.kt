@@ -33,7 +33,7 @@ class DoctorNurseLoginViewModel @Inject constructor(
         val request = DocNurseRequest()
         request.username = username
         request.password = password
-        viewModelScope.launch(dispatcher.io) {
+        viewModelScope.launch {
             _expectedResult.postValue(DocNurse.Loading)
             when (val response = userRepository.sendDocNurseCredentials(request)) {
                 is ResultHandler.Error -> {
