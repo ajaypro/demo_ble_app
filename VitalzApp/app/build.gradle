@@ -117,4 +117,6 @@ dependencies {
     //graph
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
+    implementation 'com.jakewharton.timber:timber:4.7.1'
+
 }

@@ -36,7 +36,7 @@ class OtpMobileViewModel @Inject constructor(
             when (val response = userRepository.doOTPSendCall(request)) {
                 is ResultHandler.Error -> {
                     _expectedResult.postValue(
-                        OtpResponse.Failure(response.message.toString())
+                        OtpResponse.Failure("Please enter valid OTP")
                     )
                 }
                 is ResultHandler.Success -> {

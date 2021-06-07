@@ -1,35 +1,64 @@
 package com.technoidentity.vitalz.home
 
+import android.content.Context
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.os.CountDownTimer
+import android.view.LayoutInflater
 import android.view.View
-import androidx.activity.OnBackPressedCallback
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.technoidentity.vitalz.R
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import com.technoidentity.vitalz.data.network.Constants
+import com.technoidentity.vitalz.data.network.Constants.TABLET
+import com.technoidentity.vitalz.databinding.FragmentSplashScreenBinding
+import com.technoidentity.vitalz.utils.showSnackbar
 
 class SplashFragment : Fragment(R.layout.fragment_splash_screen) {
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        val navController: NavController = Navigation.findNavController(view)
+    lateinit var binding: FragmentSplashScreenBinding
+    private var TAB = String()
 
-        GlobalScope.launch(Dispatchers.Main) {
-            delay(2000)
-            navController.navigate(R.id.action_splashFragment2_to_userSelectionFragment2)
-        }
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentSplashScreenBinding.inflate(layoutInflater)
+//        requireActivity().actionBar?.hide()
 
-        // This callback will only be called when MyFragment is at least Started.
-        val callback: OnBackPressedCallback =
-            object : OnBackPressedCallback(true /* enabled by default */) {
-                override fun handleOnBackPressed() {
-                }
+        //if Tablet - Get started Button else after 2sec navigate to user Selection
+        //shared preferences
+        val sp = context?.getSharedPreferences(Constants.PREFERENCE_NAME, Context.MODE_PRIVATE)
+        TAB = sp?.getString(TABLET, TAB).toString()
+
+        if (TAB == "Tab"){
+            binding.btnGetStarted.visibility = View.VISIBLE
+            binding.btnGetStarted.setOnClickListener{
+                findNavController().navigate(R.id.action_splashFragment_to_userSelectionFragment2)
             }
-        this.activity?.let { requireActivity().onBackPressedDispatcher.addCallback(it, callback)
+        }else{
+            val countDownTimer = object : CountDownTimer(3000, 1000) {
+                override fun onTick(millisUntilFinished: Long) {
+                }
+
+                override fun onFinish() {
+                    if (!requireActivity().packageManager.hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
+                        binding.root.showSnackbar(R.string.ble_not_suppported, Snackbar.LENGTH_INDEFINITE, R.string.ok){
+                            activity?.finish()
+                        }
+                    } else {
+//                    navController.navigate(R.id.action_splashFragment_to_addDeviceFragment)
+                        findNavController().navigate(R.id.action_splashFragment_to_userSelectionFragment2)
+                    }
+                }
+
+            }
+            countDownTimer.start()
         }
+
+        return binding.root
     }
 }

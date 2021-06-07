@@ -42,7 +42,7 @@ class UserRepository @Inject constructor(
             if (response.isSuccessful && result != null) {
                 ResultHandler.Success(result)
             } else {
-                Error(response.message())
+                ResultHandler.Error(response.message())
             }
         } catch (e: Exception) {
             Error(e.message ?: "Contact Admin")
