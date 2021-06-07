@@ -73,7 +73,11 @@
     <fragment
         android:id="@+id/nurseCareTakerPatientDetailFragment"
         android:name="com.technoidentity.vitalz.dashboard.NurseCareTakerPatientDetailFragment"
-        android:label="NurseCareTakerPatientDetailFragment" />
+        android:label="NurseCareTakerPatientDetailFragment" >
+        <action
+            android:id="@+id/action_nurseCareTakerPatientDetailFragment_to_patientProfileFragment"
+            app:destination="@id/patientProfileFragment" />
+    </fragment>
     <fragment
         android:id="@+id/addDeviceFragment"
         android:name="com.technoidentity.vitalz.bluetooth.AddDeviceFragment"

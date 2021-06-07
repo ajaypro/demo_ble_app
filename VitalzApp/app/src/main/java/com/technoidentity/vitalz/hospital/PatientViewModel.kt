@@ -20,7 +20,7 @@ class PatientViewModel @Inject constructor(
 ) : ViewModel() {
 
     sealed class PatientData {
-        class Success(val resultText: String, val data: PatientDataList?) : PatientData()
+        class Success(val resultText: String, val data: PatientDataList) : PatientData()
         class Failure(val errorText: String) : PatientData()
         object Loading : PatientData()
         object Empty : PatientData()

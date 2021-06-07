@@ -1,6 +1,5 @@
 package com.technoidentity.vitalz.data.repository
 
-import android.util.Log
 import com.technoidentity.vitalz.data.datamodel.careTakerLogin.CareTakerOtpResponse
 import com.technoidentity.vitalz.data.datamodel.careTakerLogin.CareTakerRequest
 import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseRequest
@@ -42,7 +41,7 @@ class UserRepository @Inject constructor(
             if (response.isSuccessful && result != null) {
                 ResultHandler.Success(result)
             } else {
-                ResultHandler.Error(response.message())
+                Error(response.message())
             }
         } catch (e: Exception) {
             Error(e.message ?: "Contact Admin")
@@ -52,7 +51,7 @@ class UserRepository @Inject constructor(
     override suspend fun sendDocNurseCredentials(docNurseLogin: DocNurseRequest): ResultHandler<DocNurseResponse> {
         val response = api.getDocNurseLogin(docNurseLogin)
         return try {
-            val result = response.body()!!
+            val result = response.body()
             if (response.isSuccessful) {
                 ResultHandler.Success(result)
             } else {
@@ -66,7 +65,7 @@ class UserRepository @Inject constructor(
     override suspend fun getHospitalList(mobile: HospitalListRequest): ResultHandler<HospitalListData> {
         val response = api.getHospitalList(mobile)
         return try {
-            val result = response.body()!!
+            val result = response.body()
             if (response.isSuccessful) {
                 ResultHandler.Success(result)
             } else {
@@ -80,7 +79,7 @@ class UserRepository @Inject constructor(
     override suspend fun getPatientList(request: PatientRequest): ResultHandler<PatientDataList> {
         val response = api.getPatientList(request)
         return try {
-            val result = response.body()!!
+            val result = response.body()
             if (response.isSuccessful) {
                 ResultHandler.Success(result)
             } else {
@@ -94,7 +93,7 @@ class UserRepository @Inject constructor(
     override suspend fun getSinglePatientDashboardList(id: String): ResultHandler<SinglePatientDashboardResponse> {
         val response = api.getSinglePatientDashboardList(id)
         return try {
-            val result = response.body()!!
+            val result = response.body()
             if (response.code() == 200) {
                 ResultHandler.Success(result)
             } else {
@@ -108,12 +107,10 @@ class UserRepository @Inject constructor(
     override suspend fun getMultiplePatientDashboardList(): ResultHandler<MultiplePatientDashboardResponse> {
         val response = api.getMultiplePatientDashboardList()
         return try {
-            val result = response.body()!!
+            val result = response.body()
             if (response.code() == 200) {
-                Log.v("Check", "Stage Success ${response.code()}")
                 ResultHandler.Success(result)
             } else {
-                Log.v("Check", "Stage Error new Api ${response.message()}")
                 Error(response.code())
             }
         } catch (e: Exception) {

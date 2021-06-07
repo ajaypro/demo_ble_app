@@ -29,5 +29,4 @@ interface MainRepository {
     suspend fun getSinglePatientDashboardList(id: String): ResultHandler<SinglePatientDashboardResponse>
 
     suspend fun getMultiplePatientDashboardList(): ResultHandler<MultiplePatientDashboardResponse>
-
 }

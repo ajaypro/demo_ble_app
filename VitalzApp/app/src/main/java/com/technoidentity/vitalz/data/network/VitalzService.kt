@@ -43,16 +43,16 @@ object VitalzService {
         restApi = retrofit.create(VitalzApi::class.java)
     }
 
-    fun getRestApi(context: Context? = null): VitalzApi {
+    fun getRestApi(context: Context? = null): VitalzApi? {
         context?.let {
             val sp = it.getSharedPreferences(Constants.PREFERENCE_NAME , Context.MODE_PRIVATE)
-            token = sp.getString(Constants.TOKEN , token)!!
+            token = sp.getString(Constants.TOKEN , token).toString()
         }
         if (restApi!= null) {
             restApi = null
         }
         init()
-        return restApi!!
+        return restApi
     }
 
     private fun getBaseUrl(): String {

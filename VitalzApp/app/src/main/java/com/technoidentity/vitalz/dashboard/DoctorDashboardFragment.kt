@@ -33,7 +33,6 @@ class DoctorDashboardFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = MultiplePatientDashboardBinding.inflate(layoutInflater)
-        navController = Navigation.findNavController(container!!)
         progressDialog = CustomProgressDialog(this.requireContext())
 
         //get Shared data

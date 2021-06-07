@@ -1,7 +1,6 @@
 package com.technoidentity.vitalz.hospital
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,7 +22,6 @@ class PatientProfileFragment : Fragment() {
 
         //Getting Arguments From last Fragment
         val profileData: SinglePatientDashboardResponse? = arguments?.getParcelable("patientData")
-        Log.v("Check", "Profile $profileData")
         setDataInUI(profileData)
 
         binding.ivBackBtn.setOnClickListener {

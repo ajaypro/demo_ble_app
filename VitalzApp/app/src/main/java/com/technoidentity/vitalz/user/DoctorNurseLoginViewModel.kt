@@ -1,7 +1,9 @@
 package com.technoidentity.vitalz.user
 
-import android.util.Log
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseRequest
 import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseResponse
 import com.technoidentity.vitalz.data.repository.UserRepository
@@ -42,7 +44,6 @@ class DoctorNurseLoginViewModel @Inject constructor(
                     if (response.data == null) {
                         _expectedResult.postValue(DocNurse.Failure("Unexpected Error"))
                     } else {
-                        Log.v("Check", "Stage_Suc ${response.data.token}")
                         _expectedResult.postValue(DocNurse.Success(resultText = "Credentials Send", data = response.data))
                     }
                 }

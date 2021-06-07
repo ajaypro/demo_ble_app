@@ -1,10 +1,13 @@
 package com.technoidentity.vitalz.data.datamodel.careTakerLogin
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
-class CareTakerOtpResponse {
+@Parcelize
+data class CareTakerOtpResponse (
     @SerializedName("reason")
-    var reason: String? = null
+    var reason: String? = null,
     @SerializedName("success")
     var success: Boolean? = null
-}
+): Parcelable

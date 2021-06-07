@@ -37,7 +37,6 @@ class NurseCareTakerDashboardFragment : Fragment() {
 
         //Getting Arguments From last Fragment
         val patientId = arguments?.getString("patientId")
-        Log.v("Check","Patient Id receiving $patientId")
 
         //Api call to fetch Latest data
         if (patientId != null){
@@ -53,8 +52,8 @@ class NurseCareTakerDashboardFragment : Fragment() {
 
         //ViewProfilePage
         binding.ivViewProfile.setOnClickListener {
-            Log.v("Stage VP", "View Profile $responseData")
-            findNavController().navigate(R.id.patientProfileFragment , bundleOf("patientData" to responseData))
+            findNavController().navigate(R.id.
+            action_nurseCareTakerPatientDetailFragment_to_patientProfileFragment , bundleOf("patientData" to responseData))
         }
 
         return binding.root
