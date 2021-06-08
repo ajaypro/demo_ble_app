@@ -10,7 +10,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.listener.OnChartGestureListener
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.technoidentity.vitalz.R
+import com.technoidentity.vitalz.data.datamodel.single_patient.HeartRate
 import com.technoidentity.vitalz.data.datamodel.single_patient.SinglePatientDashboardResponse
 import com.technoidentity.vitalz.databinding.CaretakerNurseDashboardBinding
 import com.technoidentity.vitalz.utils.CustomProgressDialog
@@ -24,6 +31,10 @@ class NurseCareTakerDashboardFragment : Fragment() {
     lateinit var binding: CaretakerNurseDashboardBinding
     var navController: NavController? = null
     private lateinit var progressDialog: CustomProgressDialog
+    lateinit var lineDataSet: LineDataSet
+    lateinit var lineListHeart: ArrayList<HeartRate>
+    lateinit var singlePatientDashboardResponse: SinglePatientDashboardResponse
+    lateinit var lineData: LineData
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -58,6 +69,9 @@ class NurseCareTakerDashboardFragment : Fragment() {
             navController!!.navigate(R.id.patientProfileFragment)
         }
 
+        //pieChart
+        lineListHeart = ArrayList()
+
         return binding.root
     }
 
@@ -67,6 +81,7 @@ class NurseCareTakerDashboardFragment : Fragment() {
                 when (it) {
                     is NurseCareTakerDashboardViewModel.SinglePatient.Success -> {
                         progressDialog.dismissLoadingDialog()
+                        singlePatientDashboardResponse = it.data
                         setDataFromApiResponse(it.data)
                     }
 

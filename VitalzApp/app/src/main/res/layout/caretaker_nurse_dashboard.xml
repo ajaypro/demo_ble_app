@@ -69,6 +69,7 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+
     <TextView
         android:id="@+id/tv_selected_patient"
         android:layout_width="wrap_content"
@@ -80,18 +81,40 @@
         android:textColor="@color/black"
         app:layout_constraintBottom_toTopOf="@id/layout_dashboard"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layout_ble" />
-
+        app:layout_constraintTop_toBottomOf="@+id/layout_ble"
+        app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
         android:id="@+id/iv_view_profile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="@dimen/dp_16"
         android:src="@drawable/ic_edit_profile"
-        app:layout_constraintBottom_toTopOf="@+id/layout_dashboard"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layout_ble" />
+
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/pie_chart_heart_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_60"
+        android:layout_marginTop="@dimen/dp_16"
+        android:layout_marginStart="@dimen/dp_16"
+        android:layout_marginEnd="@dimen/dp_16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_view_profile" />
+
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/pie_chart_bp_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_60"
+        android:layout_marginTop="@dimen/dp_16"
+        android:layout_marginStart="@dimen/dp_16"
+        android:layout_marginEnd="@dimen/dp_16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pie_chart_heart_layout" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_dashboard"
@@ -100,7 +123,7 @@
         android:layout_margin="@dimen/dp_16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_selected_patient">
+        app:layout_constraintTop_toBottomOf="@id/pie_chart_bp_layout">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_heart_rate"
