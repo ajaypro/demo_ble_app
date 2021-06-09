@@ -20,7 +20,7 @@ interface MainRepository {
 
     suspend fun doOTPSendCall(otpRequest: OtpRequest): ResultHandler<OtpResponse>
 
-    suspend fun sendDocNurseCredentials(docNurseLogin: DocNurseRequest): ResultHandler<DocNurseResponse>
+    suspend fun sendDocNurseCredentials(docNurseLogin: DocNurseRequest): ResultHandler<DocNurseResponse>?
 
     suspend fun getHospitalList(mobile: HospitalListRequest): ResultHandler<HospitalListData>
 

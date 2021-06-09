@@ -43,11 +43,6 @@ class HospitalListFragment : Fragment(), HospitalAdapter.OnItemClickListener  {
         //setup RecyclerView
         setUpRecyclerView()
         if (mobile != null) {
-            progressDialog.showLoadingDialog(
-                title = "Vitalz App",
-                message = "Loading...",
-                isCancellable = false
-            )
             getHospitalList(mobile)
         } else {
             Toast.makeText(context, "Un-Authorized", Toast.LENGTH_SHORT).show()
@@ -59,6 +54,10 @@ class HospitalListFragment : Fragment(), HospitalAdapter.OnItemClickListener  {
     }
 
     private fun getHospitalList(mobile: String) {
+        progressDialog.showLoadingDialog(
+            title = "Vitalz App",
+            message = "Loading...",
+            isCancellable = false)
             viewModel.getHospitalListData(mobile)
             viewModel.expectedResult.observe(viewLifecycleOwner, {
                 when (it) {

@@ -39,16 +39,17 @@ class NurseCareTakerDashboardFragment : Fragment() {
         val patientId = arguments?.getString("patientId")
 
         //Api call to fetch Latest data
-        if (patientId != null){
+        patientId?.let {
             singleDashboardApi(patientId)
             progressDialog.showLoadingDialog(
                 title = "Vitalz App",
                 message = "Loading...",
                 isCancellable = false
             )
-        }else{
+        }?: run {
             Toast.makeText(context, "Un-Authorized", Toast.LENGTH_SHORT).show()
         }
+
 
         //ViewProfilePage
         binding.ivViewProfile.setOnClickListener {

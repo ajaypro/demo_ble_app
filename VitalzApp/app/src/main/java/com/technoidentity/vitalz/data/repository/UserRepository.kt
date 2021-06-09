@@ -23,7 +23,7 @@ class UserRepository @Inject constructor(
     override suspend fun doMobileOTPCall(mobile: CareTakerRequest): ResultHandler<CareTakerOtpResponse> {
         return try {
             val response = api.getOTP(mobile)
-            val result = response.body()
+            val result = response.let { it.body() }
             if (response.isSuccessful && result != null) {
                 ResultHandler.Success(result)
             } else {
@@ -37,7 +37,7 @@ class UserRepository @Inject constructor(
     override suspend fun doOTPSendCall(otpRequest: OtpRequest): ResultHandler<OtpResponse> {
         return try {
             val response = api.getLogin(otpRequest)
-            val result = response.body()
+            val result = response.let { it.body() }
             if (response.isSuccessful && result != null) {
                 ResultHandler.Success(result)
             } else {
@@ -48,14 +48,30 @@ class UserRepository @Inject constructor(
         }
     }
 
-    override suspend fun sendDocNurseCredentials(docNurseLogin: DocNurseRequest): ResultHandler<DocNurseResponse> {
+    //    override suspend fun sendDocNurseCredentials(docNurseLogin: DocNurseRequest): ResultHandler<DocNurseResponse> {
+//
+//            val response = api.getDocNurseLogin(docNurseLogin)
+//            if (response.isSuccessful) {
+//                response?.let {
+//                    it.body()?.let {
+//                       return ResultHandler.Success(it)
+//                    }
+//                }
+//            } else {
+//               return Error(response.message())
+//            }
+//        }
+    override suspend fun sendDocNurseCredentials(docNurseLogin: DocNurseRequest): ResultHandler<DocNurseResponse>? {
         val response = api.getDocNurseLogin(docNurseLogin)
         return try {
-            val result = response.body()
-            if (response.isSuccessful) {
-                ResultHandler.Success(result)
-            } else {
-                Error(response.message())
+            response.let { it ->
+                if (it.isSuccessful) {
+                    it.body()?.let {
+                        ResultHandler.Success(it)
+                    }
+                } else {
+                    Error(response.message())
+                }
             }
         } catch (e: Exception) {
             Error(e.message ?: "Contact Admin")
@@ -63,9 +79,9 @@ class UserRepository @Inject constructor(
     }
 
     override suspend fun getHospitalList(mobile: HospitalListRequest): ResultHandler<HospitalListData> {
-        val response = api.getHospitalList(mobile)
         return try {
-            val result = response.body()
+            val response = api.getHospitalList(mobile)
+            val result = response.let { it.body() }
             if (response.isSuccessful) {
                 ResultHandler.Success(result)
             } else {
@@ -77,9 +93,9 @@ class UserRepository @Inject constructor(
     }
 
     override suspend fun getPatientList(request: PatientRequest): ResultHandler<PatientDataList> {
-        val response = api.getPatientList(request)
         return try {
-            val result = response.body()
+            val response = api.getPatientList(request)
+            val result = response.let { it.body() }
             if (response.isSuccessful) {
                 ResultHandler.Success(result)
             } else {
@@ -91,9 +107,9 @@ class UserRepository @Inject constructor(
     }
 
     override suspend fun getSinglePatientDashboardList(id: String): ResultHandler<SinglePatientDashboardResponse> {
-        val response = api.getSinglePatientDashboardList(id)
         return try {
-            val result = response.body()
+            val response = api.getSinglePatientDashboardList(id)
+            val result = response.let { it.body() }
             if (response.code() == 200) {
                 ResultHandler.Success(result)
             } else {
@@ -105,9 +121,9 @@ class UserRepository @Inject constructor(
     }
 
     override suspend fun getMultiplePatientDashboardList(): ResultHandler<MultiplePatientDashboardResponse> {
-        val response = api.getMultiplePatientDashboardList()
         return try {
-            val result = response.body()
+            val response = api.getMultiplePatientDashboardList()
+            val result = response.let { it.body() }
             if (response.code() == 200) {
                 ResultHandler.Success(result)
             } else {
