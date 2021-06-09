@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.technoidentity.vitalz.R
 import com.technoidentity.vitalz.data.network.Constants
 import com.technoidentity.vitalz.databinding.FragmentDocnurseLoginBinding
@@ -61,8 +62,7 @@ class DoctorNurseLoginFragment : Fragment() {
                                 context?.getSharedPreferences(Constants.PREFERENCE_NAME, 0)
                             pref?.edit()?.putString(Constants.TOKEN, it.data.token)?.apply()
                             progressDialog.dismissLoadingDialog()
-                            Navigation.findNavController(requireView())
-                                .navigate(R.id.doctorDashboardFragment)
+                            findNavController().navigate(R.id.doctorDashboardFragment)
                         }
                         is DoctorNurseLoginViewModel.DocNurse.Failure -> {
                             progressDialog.dismissLoadingDialog()

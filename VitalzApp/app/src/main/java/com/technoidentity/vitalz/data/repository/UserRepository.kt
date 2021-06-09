@@ -20,47 +20,40 @@ import javax.inject.Inject
 class UserRepository @Inject constructor(
     private val api: VitalzApi
 ) : MainRepository {
-    override suspend fun doMobileOTPCall(mobile: CareTakerRequest): ResultHandler<CareTakerOtpResponse> {
+    override suspend fun doMobileOTPCall(mobile: CareTakerRequest): ResultHandler<CareTakerOtpResponse>? {
+        val response = api.getOTP(mobile)
         return try {
-            val response = api.getOTP(mobile)
-            val result = response.let { it.body() }
-            if (response.isSuccessful && result != null) {
-                ResultHandler.Success(result)
-            } else {
-                Error(response.message())
+            response.let { it ->
+                if (it.isSuccessful) {
+                    it.body()?.let {
+                        ResultHandler.Success(it)
+                    }
+                } else {
+                    Error(response.message())
+                }
             }
         } catch (e: Exception) {
             Error(e.message ?: "Contact Admin")
         }
     }
 
-    override suspend fun doOTPSendCall(otpRequest: OtpRequest): ResultHandler<OtpResponse> {
+    override suspend fun doOTPSendCall(otpRequest: OtpRequest): ResultHandler<OtpResponse>? {
+        val response = api.getLogin(otpRequest)
         return try {
-            val response = api.getLogin(otpRequest)
-            val result = response.let { it.body() }
-            if (response.isSuccessful && result != null) {
-                ResultHandler.Success(result)
-            } else {
-                Error(response.message())
+            response.let { it ->
+                if (it.isSuccessful) {
+                    it.body()?.let {
+                        ResultHandler.Success(it)
+                    }
+                } else {
+                    Error(response.message())
+                }
             }
         } catch (e: Exception) {
             Error(e.message ?: "Contact Admin")
         }
     }
 
-    //    override suspend fun sendDocNurseCredentials(docNurseLogin: DocNurseRequest): ResultHandler<DocNurseResponse> {
-//
-//            val response = api.getDocNurseLogin(docNurseLogin)
-//            if (response.isSuccessful) {
-//                response?.let {
-//                    it.body()?.let {
-//                       return ResultHandler.Success(it)
-//                    }
-//                }
-//            } else {
-//               return Error(response.message())
-//            }
-//        }
     override suspend fun sendDocNurseCredentials(docNurseLogin: DocNurseRequest): ResultHandler<DocNurseResponse>? {
         val response = api.getDocNurseLogin(docNurseLogin)
         return try {
@@ -78,56 +71,68 @@ class UserRepository @Inject constructor(
         }
     }
 
-    override suspend fun getHospitalList(mobile: HospitalListRequest): ResultHandler<HospitalListData> {
+    override suspend fun getHospitalList(mobile: HospitalListRequest): ResultHandler<HospitalListData>? {
+        val response = api.getHospitalList(mobile)
         return try {
-            val response = api.getHospitalList(mobile)
-            val result = response.let { it.body() }
-            if (response.isSuccessful) {
-                ResultHandler.Success(result)
-            } else {
-                Error(response.message())
+            response.let { it ->
+                if (it.isSuccessful) {
+                    it.body()?.let {
+                        ResultHandler.Success(it)
+                    }
+                } else {
+                    Error(response.message())
+                }
             }
         } catch (e: Exception) {
             Error(e.message ?: "Contact Admin")
         }
     }
 
-    override suspend fun getPatientList(request: PatientRequest): ResultHandler<PatientDataList> {
+    override suspend fun getPatientList(request: PatientRequest): ResultHandler<PatientDataList>? {
+        val response = api.getPatientList(request)
         return try {
-            val response = api.getPatientList(request)
-            val result = response.let { it.body() }
-            if (response.isSuccessful) {
-                ResultHandler.Success(result)
-            } else {
-                Error(response.message())
+            response.let { it ->
+                if (it.isSuccessful) {
+                    it.body()?.let {
+                        ResultHandler.Success(it)
+                    }
+                } else {
+                    Error(response.message())
+                }
             }
         } catch (e: Exception) {
             Error(e.message ?: "Contact Admin")
         }
     }
 
-    override suspend fun getSinglePatientDashboardList(id: String): ResultHandler<SinglePatientDashboardResponse> {
+    override suspend fun getSinglePatientDashboardList(id: String): ResultHandler<SinglePatientDashboardResponse>? {
+        val response = api.getSinglePatientDashboardList(id)
         return try {
-            val response = api.getSinglePatientDashboardList(id)
-            val result = response.let { it.body() }
-            if (response.code() == 200) {
-                ResultHandler.Success(result)
-            } else {
-                Error(response.code())
+            response.let { it ->
+                if (it.isSuccessful) {
+                    it.body()?.let {
+                        ResultHandler.Success(it)
+                    }
+                } else {
+                    Error(response.message())
+                }
             }
         } catch (e: Exception) {
             Error(e.message ?: "Contact Admin")
         }
     }
 
-    override suspend fun getMultiplePatientDashboardList(): ResultHandler<MultiplePatientDashboardResponse> {
+    override suspend fun getMultiplePatientDashboardList(): ResultHandler<MultiplePatientDashboardResponse>? {
+        val response = api.getMultiplePatientDashboardList()
         return try {
-            val response = api.getMultiplePatientDashboardList()
-            val result = response.let { it.body() }
-            if (response.code() == 200) {
-                ResultHandler.Success(result)
-            } else {
-                Error(response.code())
+            response.let { it ->
+                if (it.isSuccessful) {
+                    it.body()?.let {
+                        ResultHandler.Success(it)
+                    }
+                } else {
+                    Error(response.message())
+                }
             }
         } catch (e: Exception) {
             Error(e.message ?: "Contact Admin")

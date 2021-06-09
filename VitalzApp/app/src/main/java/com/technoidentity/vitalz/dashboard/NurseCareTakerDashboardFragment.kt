@@ -1,7 +1,6 @@
 package com.technoidentity.vitalz.dashboard
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,8 +43,7 @@ class NurseCareTakerDashboardFragment : Fragment() {
             progressDialog.showLoadingDialog(
                 title = "Vitalz App",
                 message = "Loading...",
-                isCancellable = false
-            )
+                isCancellable = false)
         }?: run {
             Toast.makeText(context, "Un-Authorized", Toast.LENGTH_SHORT).show()
         }

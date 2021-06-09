@@ -34,17 +34,16 @@ class HospitalViewModel @Inject constructor(
         val request = HospitalListRequest()
         request.mobile = mobile
         viewModelScope.launch {
-            _expectedResult.postValue(HospitalData.Loading)
+            _expectedResult.value = HospitalData.Loading
             when (val response = userRepository.getHospitalList(request)) {
                 is ResultHandler.Error -> {
-                    _expectedResult.postValue(
-                        HospitalData.Failure(response.message.toString())
-                    )}
+                    _expectedResult.value =
+                        HospitalData.Failure(response.message.toString())}
                 is ResultHandler.Success -> {
                     if (response.data == null) {
-                        _expectedResult.postValue(HospitalData.Failure("Unexpected Error"))
+                        _expectedResult.value = HospitalData.Failure("Unexpected Error")
                     } else {
-                        _expectedResult.postValue(HospitalData.Success("Hospital List", response.data))
+                        _expectedResult.value = HospitalData.Success("Hospital List", response.data)
                     }
                 }
             }

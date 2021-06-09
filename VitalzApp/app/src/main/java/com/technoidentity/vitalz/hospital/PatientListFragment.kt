@@ -19,8 +19,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class PatientListFragment : Fragment(), PatientAdapter.OnItemClickListener {
 
     lateinit var binding: FragmentPatientListBinding
-    private var mobile: String? = null
-    private var hospitalId: String? = null
+    lateinit var hospitalId : String
+    lateinit var mobile : String
     val viewModel: PatientViewModel by viewModels()
     private lateinit var patientAdapter: PatientAdapter
     private lateinit var progressDialog: CustomProgressDialog
@@ -34,8 +34,8 @@ class PatientListFragment : Fragment(), PatientAdapter.OnItemClickListener {
         progressDialog = CustomProgressDialog(this.requireContext())
 
         //Getting Arguments From last Fragment
-        mobile = arguments?.getString("mobile")
-        hospitalId = arguments?.getString("hospitalId")
+        mobile = arguments?.getString("mobile").toString()
+        hospitalId = arguments?.getString("hospitalId").toString()
 
         //setup RecyclerView
         setUpRecyclerView()
@@ -45,9 +45,11 @@ class PatientListFragment : Fragment(), PatientAdapter.OnItemClickListener {
             findNavController().navigateUp()
         }
 
-        if (mobile != null && hospitalId != null) {
-            getPatientList(mobile, hospitalId)
-        } else {
+        mobile.let {it->
+            hospitalId.let { hospital->
+                getPatientList(it, hospital)
+            }
+        }. run {
             Toast.makeText(context, "Un-Authorized", Toast.LENGTH_SHORT).show()
         }
 
@@ -56,13 +58,12 @@ class PatientListFragment : Fragment(), PatientAdapter.OnItemClickListener {
         return binding.root
     }
 
-    private fun getPatientList(mobile: String?, hospitalId: String?) {
+    private fun getPatientList(mobile: String, hospitalId: String) {
         progressDialog.showLoadingDialog(
             title = "Vitalz App",
             message = "Loading...",
-            isCancellable = false
-        )
-        mobile?.let { hospitalId?.let { hospital -> viewModel.getPatientListData(it, hospital) } }
+            isCancellable = false)
+        viewModel.getPatientListData(mobile, hospitalId)
         viewModel.expectedResult.observe(viewLifecycleOwner, {
             when (it) {
                 is PatientViewModel.PatientData.Success -> {

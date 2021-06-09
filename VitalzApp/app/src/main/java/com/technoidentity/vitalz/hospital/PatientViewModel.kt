@@ -35,17 +35,17 @@ class PatientViewModel @Inject constructor(
         request.hospitalId = hospitalId
         request.phoneNo = mobile
         viewModelScope.launch {
-            _expectedResult.postValue(PatientData.Loading)
+            _expectedResult.value = PatientData.Loading
             when (val response = userRepository.getPatientList(request)) {
                 is ResultHandler.Error -> {
-                    _expectedResult.postValue(
+                    _expectedResult.value =
                         PatientData.Failure(response.message.toString())
-                    )}
+                    }
                 is ResultHandler.Success -> {
                     if (response.data == null) {
-                        _expectedResult.postValue(PatientData.Failure("Unexpected Error"))
+                        _expectedResult.value = PatientData.Failure("Unexpected Error")
                     } else {
-                        _expectedResult.postValue(PatientData.Success("Patient List", response.data))
+                        _expectedResult.value = PatientData.Success("Patient List", response.data)
                     }
                 }
             }

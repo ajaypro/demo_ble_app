@@ -8,7 +8,7 @@ import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.technoidentity.vitalz.R
 import com.technoidentity.vitalz.data.network.Constants
 import com.technoidentity.vitalz.databinding.FragmentCaretakerLoginBinding
@@ -63,7 +63,7 @@ class CareTakerMobileLoginFragment : Fragment() {
                             is CareTakerMobileViewModel.CareTaker.Success -> {
                                 progressDialog.dismissLoadingDialog()
                                 val bundle = bundleOf("mobileNumber" to mobile)
-                                Navigation.findNavController(requireView()).navigate(
+                                findNavController().navigate(
                                     R.id.action_careTakerMobileLoginFragment_to_careTakerMobileOTPFragment, bundle)
                             }
 

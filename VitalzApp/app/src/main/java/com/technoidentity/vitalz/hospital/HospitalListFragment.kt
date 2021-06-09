@@ -42,9 +42,9 @@ class HospitalListFragment : Fragment(), HospitalAdapter.OnItemClickListener  {
 
         //setup RecyclerView
         setUpRecyclerView()
-        if (mobile != null) {
-            getHospitalList(mobile)
-        } else {
+        mobile.let {
+            getHospitalList(it)
+        }. run {
             Toast.makeText(context, "Un-Authorized", Toast.LENGTH_SHORT).show()
         }
 

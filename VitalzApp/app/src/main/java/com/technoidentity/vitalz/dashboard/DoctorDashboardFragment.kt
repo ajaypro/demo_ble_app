@@ -8,9 +8,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.technoidentity.vitalz.data.network.Constants
 import com.technoidentity.vitalz.databinding.MultiplePatientDashboardBinding
@@ -21,8 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class DoctorDashboardFragment : Fragment() {
 
     private lateinit var binding: MultiplePatientDashboardBinding
-    private var navController: NavController? = null
-    private var token = String()
+    private lateinit var token: String
     val viewModel: DoctorDashboardViewModel by viewModels()
     private lateinit var doctorAdapter: MultiplePatientAdapter
     private lateinit var progressDialog: CustomProgressDialog
@@ -50,16 +46,16 @@ class DoctorDashboardFragment : Fragment() {
         setUpRecyclerView()
 
         //Api call to fetch Latest data
-        if (token != null){
-            multiplePatientDashboardApi()
-        }else{
+        token.let {
+            multiplePatientDashboardApi(it)
+        }?: run{
             Toast.makeText(context, "Un-Authorized", Toast.LENGTH_SHORT).show()
         }
 
         return binding.root
     }
 
-    private fun multiplePatientDashboardApi() {
+    private fun multiplePatientDashboardApi(token: String) {
         progressDialog.showLoadingDialog(
             title = "Vitalz App",
             message = "Loading...",

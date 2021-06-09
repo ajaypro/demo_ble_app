@@ -34,17 +34,17 @@ class DoctorNurseLoginViewModel @Inject constructor(
         request.username = username
         request.password = password
         viewModelScope.launch {
-            _expectedResult.postValue(DocNurse.Loading)
+            _expectedResult.value = DocNurse.Loading
             when (val response = userRepository.sendDocNurseCredentials(request)) {
                 is ResultHandler.Error -> {
-                    _expectedResult.postValue(
-                        DocNurse.Failure(response.message.toString())
+                    _expectedResult.value =
+                        DocNurse.Failure(response.message.toString()
                     )}
                 is ResultHandler.Success -> {
                     if (response.data == null) {
-                        _expectedResult.postValue(DocNurse.Failure("Unexpected Error"))
+                        _expectedResult.value = DocNurse.Failure("Unexpected Error")
                     } else {
-                        _expectedResult.postValue(DocNurse.Success(resultText = "Credentials Send", data = response.data))
+                        _expectedResult.value = DocNurse.Success(resultText = "Credentials Send", data = response.data)
                     }
                 }
             }

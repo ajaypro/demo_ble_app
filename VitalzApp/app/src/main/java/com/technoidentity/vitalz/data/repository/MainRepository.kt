@@ -16,17 +16,17 @@ import com.technoidentity.vitalz.utils.ResultHandler
 
 interface MainRepository {
 
-    suspend fun doMobileOTPCall(mobile: CareTakerRequest): ResultHandler<CareTakerOtpResponse>
+    suspend fun doMobileOTPCall(mobile: CareTakerRequest): ResultHandler<CareTakerOtpResponse>?
 
-    suspend fun doOTPSendCall(otpRequest: OtpRequest): ResultHandler<OtpResponse>
+    suspend fun doOTPSendCall(otpRequest: OtpRequest): ResultHandler<OtpResponse>?
 
     suspend fun sendDocNurseCredentials(docNurseLogin: DocNurseRequest): ResultHandler<DocNurseResponse>?
 
-    suspend fun getHospitalList(mobile: HospitalListRequest): ResultHandler<HospitalListData>
+    suspend fun getHospitalList(mobile: HospitalListRequest): ResultHandler<HospitalListData>?
 
-    suspend fun getPatientList(request: PatientRequest): ResultHandler<PatientDataList>
+    suspend fun getPatientList(request: PatientRequest): ResultHandler<PatientDataList>?
 
-    suspend fun getSinglePatientDashboardList(id: String): ResultHandler<SinglePatientDashboardResponse>
+    suspend fun getSinglePatientDashboardList(id: String): ResultHandler<SinglePatientDashboardResponse>?
 
-    suspend fun getMultiplePatientDashboardList(): ResultHandler<MultiplePatientDashboardResponse>
+    suspend fun getMultiplePatientDashboardList(): ResultHandler<MultiplePatientDashboardResponse>?
 }
