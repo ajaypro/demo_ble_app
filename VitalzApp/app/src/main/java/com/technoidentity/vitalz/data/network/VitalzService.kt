@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit
 object VitalzService {
 
     private var restApi : VitalzApi? = null
-    var token : String? = null
+    var token = String()
 
     private fun init() {
         val interceptor = HttpLoggingInterceptor()
@@ -46,7 +46,7 @@ object VitalzService {
     fun getRestApi(context: Context? = null): VitalzApi? {
         context?.let {
             val sp = it.getSharedPreferences(Constants.PREFERENCE_NAME , Context.MODE_PRIVATE)
-            token = sp.getString(Constants.TOKEN , token)
+            token = sp.getString(Constants.TOKEN , token).toString()
         }
         if (restApi != null) {
             restApi = null

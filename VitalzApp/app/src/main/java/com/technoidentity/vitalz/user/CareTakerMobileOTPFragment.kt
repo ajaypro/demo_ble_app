@@ -73,14 +73,14 @@ class CareTakerMobileOTPFragment : Fragment() {
                     message = "Loading...",
                     isCancellable = false
                 )
-                viewModel.getOtpResponse(mobile, otpReceived.toInt())
+                mobile?.let { it1 -> viewModel.getOtpResponse(it1, otpReceived.toInt()) }
                 viewModel.expectedResult.observe(viewLifecycleOwner, {
                     when (it) {
                         is OtpMobileViewModel.OtpResponse.Success -> {
                             val pref =
                                 context?.getSharedPreferences(Constants.PREFERENCE_NAME, 0)
-                            pref?.edit()?.putString(Constants.TOKEN, it.data?.token)?.apply()
-                            pref?.edit()?.putString(Constants.MOBILE, it.data?.user?.phoneNo)?.apply()
+                            pref?.edit()?.putString(Constants.TOKEN, it.data.token)?.apply()
+                            pref?.edit()?.putString(Constants.MOBILE, it.data.user?.phoneNo)?.apply()
                             progressDialog.dismissLoadingDialog()
                             findNavController()
                                 .navigate(R.id.action_careTakerMobileOTPFragment_to_hospitalListFragment)

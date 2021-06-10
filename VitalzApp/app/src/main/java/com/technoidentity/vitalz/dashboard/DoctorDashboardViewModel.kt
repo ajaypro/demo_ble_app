@@ -37,7 +37,7 @@ class DoctorDashboardViewModel @Inject constructor(
             _expectedResult.value = SinglePatient.Failure("Data Not found")
             return
         }
-        viewModelScope.launch(dispatcher.io) {
+        viewModelScope.launch {
             _expectedResult.value = SinglePatient.Loading
             when (val response = userRepository.getMultiplePatientDashboardList()) {
                 is ResultHandler.Error -> {
