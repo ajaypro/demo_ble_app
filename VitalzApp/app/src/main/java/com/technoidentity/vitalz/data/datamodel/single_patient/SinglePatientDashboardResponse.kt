@@ -6,34 +6,48 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class SinglePatientDashboardResponse(
+    @SerializedName("address")
+    val address: String,
+    @SerializedName("age")
+    val age: Int,
     @SerializedName("bloodPressure")
     val bloodPressure: BloodPressure,
     @SerializedName("contactNumber")
     val contactNumber: String,
-    @SerializedName("dateOfBirth")
-    val dateOfBirth: String,
     @SerializedName("device")
     val device: Device,
-    @SerializedName("emailId")
-    val emailId: String,
+    @SerializedName("doctorContactNumber")
+    val doctorContactNumber: String,
+    @SerializedName("doctorName")
+    val doctorName: String,
+    @SerializedName("emergencyContactName")
+    val emergencyContactName: String,
+    @SerializedName("emergencyContactNumber")
+    val emergencyContactNumber: String,
+    @SerializedName("gender")
+    val gender: String,
     @SerializedName("heartRate")
     val heartRate: HeartRate,
     @SerializedName("height")
     val height: Double,
+    @SerializedName("hospitalId")
+    val hospitalId: String,
     @SerializedName("name")
     val name: String,
+    @SerializedName("otherHealthIssues")
+    val otherHealthIssues: String,
     @SerializedName("oxygenSaturation")
     val oxygenSaturation: OxygenSaturation,
+    @SerializedName("patientId")
+    val patientId: String,
     @SerializedName("posture")
     val posture: Posture,
     @SerializedName("respiratoryRate")
     val respiratoryRate: RespiratoryRate,
-    @SerializedName("sleep")
-    val sleep: Sleep,
     @SerializedName("step")
     val step: Step,
     @SerializedName("temprature")
     val temperature: Temperature,
     @SerializedName("weight")
     val weight: Weight
-):Parcelable
+): Parcelable

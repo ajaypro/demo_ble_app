@@ -1,7 +1,6 @@
 package com.technoidentity.vitalz.hospital
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,7 +22,6 @@ class PatientProfileFragment : Fragment() {
 
         //Getting Arguments From last Fragment
         val profileData: SinglePatientDashboardResponse? = arguments?.getParcelable("patientData")
-        Log.v("Check", "Profile $profileData")
         setDataInUI(profileData)
 
         binding.ivBackBtn.setOnClickListener {
@@ -35,6 +33,15 @@ class PatientProfileFragment : Fragment() {
 
     private fun setDataInUI(profileData: SinglePatientDashboardResponse?) {
         binding.etName.text = profileData?.name
-        binding.etAge.text = profileData?.dateOfBirth
+        binding.etAge.text = profileData?.age.toString()
+        binding.etGender.text = profileData?.gender
+        binding.etHeight.text = profileData?.height.toString()
+        binding.etWeight.text = profileData?.weight.toString()
+        binding.etAddress.text = profileData?.address
+        binding.tvContactNumber.text = profileData?.doctorContactNumber
+        binding.etEmergencyContactName.text = profileData?.emergencyContactName
+        binding.etEmergencyContactNumber.text = profileData?.emergencyContactNumber
+        binding.etAttendingDoctor.text = profileData?.doctorName
+        binding.etIdHospital.text = profileData?.hospitalId
     }
 }
