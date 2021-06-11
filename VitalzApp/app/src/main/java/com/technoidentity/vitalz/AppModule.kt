@@ -1,5 +1,6 @@
 package com.technoidentity.vitalz
 
+import android.content.Context
 import com.technoidentity.vitalz.data.network.VitalzApi
 import com.technoidentity.vitalz.data.network.VitalzService
 import com.technoidentity.vitalz.data.repository.MainRepository
@@ -8,6 +9,7 @@ import com.technoidentity.vitalz.utils.CoroutinesDispatcherProvider
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -18,8 +20,7 @@ import javax.inject.Singleton
 object AppModule {
     @Singleton
     @Provides
-    fun vitalzApi() : VitalzApi = VitalzService.getRestApi()!!
-
+    fun providesVitalzApi(@ApplicationContext context: Context) : VitalzApi = VitalzService.getRestApi(context)
 
     @Singleton
     @Provides

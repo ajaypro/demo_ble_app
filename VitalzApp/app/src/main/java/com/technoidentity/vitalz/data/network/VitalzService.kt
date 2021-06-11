@@ -14,8 +14,15 @@ import java.util.concurrent.TimeUnit
 
 object VitalzService {
 
-    private var restApi : VitalzApi? = null
+    private lateinit var restApi : VitalzApi
     var token = String()
+
+    fun getRestApi(context: Context): VitalzApi {
+        val sp = context.getSharedPreferences(Constants.PREFERENCE_NAME , Context.MODE_PRIVATE)
+        token = sp.getString(Constants.TOKEN , token).toString()
+        init()
+        return restApi
+    }
 
     private fun init() {
         val interceptor = HttpLoggingInterceptor()
@@ -23,9 +30,11 @@ object VitalzService {
             @Throws(IOException::class)
             override fun intercept(chain: Interceptor.Chain): okhttp3.Response {
                 val request = chain.request()
-                val builder: Request.Builder =
+                val builder: Request.Builder = if(token.isEmpty()){
+                    request.newBuilder()
+                }else{
                     request.newBuilder().header("Authorization", String.format("Bearer %s", token))
-
+                }
                 val request1 = builder.build()
                 return chain.proceed(request1)
             }
@@ -41,24 +50,5 @@ object VitalzService {
             .client(client).addConverterFactory(GsonConverterFactory.create()).build()
 
         restApi = retrofit.create(VitalzApi::class.java)
-    }
-
-    fun getRestApi(context: Context? = null): VitalzApi? {
-        context?.let {
-            val sp = it.getSharedPreferences(Constants.PREFERENCE_NAME , Context.MODE_PRIVATE)
-            token = sp.getString(Constants.TOKEN , token).toString()
-        }
-        if (restApi != null) {
-            restApi = null
-        }
-        init()
-        return restApi
-    }
-
-    private fun getBaseUrl(): String {
-        return when (BuildConfig.BUILD_TYPE) {
-            "debug" -> BASE_URL
-            else -> ""
-        }
     }
 }
