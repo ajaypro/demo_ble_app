@@ -30,18 +30,18 @@ class NurseCareTakerDashboardViewModel @Inject constructor(
     val expectedResult: LiveData<SinglePatient> = _expectedResult
 
     fun getSinglePatientData(patientId: String) {
-        viewModelScope.launch(dispatcher.io) {
-            _expectedResult.postValue(SinglePatient.Loading)
+        viewModelScope.launch{
+            _expectedResult.value = SinglePatient.Loading
             when (val response = userRepository.getSinglePatientDashboardList(patientId)) {
                 is ResultHandler.Error -> {
-                    _expectedResult.postValue(
+                    _expectedResult.value =
                         SinglePatient.Failure(response.message.toString())
-                    )}
+                    }
                 is ResultHandler.Success -> {
                     if (response.data == null) {
-                        _expectedResult.postValue(SinglePatient.Failure("Unexpected Error"))
+                        _expectedResult.value = SinglePatient.Failure("Unexpected Error")
                     } else {
-                        _expectedResult.postValue(SinglePatient.Success(resultText = "Single Patient Dashboard Data",data = response.data))
+                        _expectedResult.value = SinglePatient.Success(resultText = "Single Patient Dashboard Data",data = response.data)
                     }
                 }
             }

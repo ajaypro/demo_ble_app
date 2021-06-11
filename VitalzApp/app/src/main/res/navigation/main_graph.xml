@@ -11,6 +11,9 @@
             app:destination="@id/addDeviceFragment"
             app:popUpTo="@+id/splashFragment"
             app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/action_splashFragment_to_userSelectionFragment2"
+            app:destination="@id/userSelectionFragment2" />
     </fragment>
     <fragment
         android:id="@+id/userSelectionFragment2"
@@ -117,6 +120,9 @@
         <action
             android:id="@+id/action_nurseCareTakerDashboardFragment_to_userSelectionFragment2"
             app:destination="@id/userSelectionFragment2" />
+        <action
+            android:id="@+id/action_nurseCareTakerDashboardFragment_to_patientProfileFragment"
+            app:destination="@id/patientProfileFragment" />
     </fragment>
     <fragment
         android:id="@+id/patientProfileFragment"
