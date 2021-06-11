@@ -10,6 +10,7 @@ data class CareTakerOtpResponse (
     @Expose
     @SerializedName("reason")
     var reason: String? = null,
+    @Expose
     @SerializedName("success")
     var success: Boolean? = null
 ): Parcelable
