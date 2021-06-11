@@ -7,6 +7,8 @@ import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseRequest
 import com.technoidentity.vitalz.data.datamodel.hospital_list.HospitalListData
 import com.technoidentity.vitalz.data.datamodel.hospital_list.HospitalListRequest
 import com.technoidentity.vitalz.data.datamodel.multiple_patient.MultiplePatientDashboardResponse
+import com.technoidentity.vitalz.data.datamodel.notification.NotificationRequest
+import com.technoidentity.vitalz.data.datamodel.notification.NotificationResponse
 import com.technoidentity.vitalz.data.datamodel.otp.OtpRequest
 import com.technoidentity.vitalz.data.datamodel.otp.OtpResponse
 import com.technoidentity.vitalz.data.datamodel.patient_list.PatientDataList
@@ -16,6 +18,7 @@ import com.technoidentity.vitalz.data.network.Urls.CARETAKER_LOGIN
 import com.technoidentity.vitalz.data.network.Urls.DOC_NURSE_LOGIN
 import com.technoidentity.vitalz.data.network.Urls.HOSPITAL_LIST
 import com.technoidentity.vitalz.data.network.Urls.MULTIPLE_PATIENT_DASHBOARD
+import com.technoidentity.vitalz.data.network.Urls.NOTIFICATIONS
 import com.technoidentity.vitalz.data.network.Urls.PATIENT_LIST
 import com.technoidentity.vitalz.data.network.Urls.SEND_OTP
 import com.technoidentity.vitalz.data.network.Urls.SINGLE_PATIENT_DASHBOARD
@@ -44,5 +47,8 @@ interface VitalzApi {
 
     @GET(MULTIPLE_PATIENT_DASHBOARD)
     suspend fun getMultiplePatientDashboardList() : Response<MultiplePatientDashboardResponse>
+
+    @POST(NOTIFICATIONS)
+    suspend fun getNotificationsList(request: NotificationRequest): Response<NotificationResponse>
 
 }

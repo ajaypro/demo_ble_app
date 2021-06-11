@@ -17,4 +17,6 @@ object Urls {
     const val SINGLE_PATIENT_DASHBOARD = "http://52.140.120.88:8082/agastya/v1/patient/{id}"
 
     const val MULTIPLE_PATIENT_DASHBOARD = "http://52.140.120.88:8082/agastya/v1/patients"
+
+    const val NOTIFICATIONS = "/agastya/notification"
 }

@@ -14,7 +14,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class PatientViewModel @Inject constructor(
+class
+PatientViewModel @Inject constructor(
     private val userRepository: UserRepository,
     private val dispatcher: CoroutinesDispatcherProvider
 ) : ViewModel() {
