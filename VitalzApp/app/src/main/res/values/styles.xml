@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.VitalzApp" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.VitalzApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="android:windowDisablePreview">true</item>
         <item name="colorPrimary">@color/purple_500</item>
@@ -43,7 +43,7 @@
     <style name="heading_dashboard">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginTop">@dimen/dp_20</item>
+        <item name="android:layout_marginTop">@dimen/dp_12</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
     </style>
@@ -69,6 +69,17 @@
         <item name="android:inputType">number</item>
         <item name="android:background">@drawable/edit_text_box</item>
         <item name="android:drawableEnd">@drawable/ic_baseline_expand_more_24</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
+    </style>
+
+    <style name="dashboard_fields">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/dp_5</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:gravity">start</item>
+        <item name="android:padding">@dimen/dp_8</item>
+        <item name="android:inputType">number</item>
+        <item name="android:background">@drawable/edit_text_box</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
     </style>
 

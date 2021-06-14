@@ -21,6 +21,7 @@ class DoctorDashboardViewModel @Inject constructor(
     sealed class SinglePatient {
         class Success(val resultText: String, val data: MultiplePatientDashboardResponse) :
             SinglePatient()
+
         class Failure(val errorText: String) : SinglePatient()
         object Loading : SinglePatient()
         object Empty : SinglePatient()
@@ -36,24 +37,22 @@ class DoctorDashboardViewModel @Inject constructor(
             _expectedResult.value = SinglePatient.Failure("Data Not found")
             return
         }
-        viewModelScope.launch(dispatcher.io) {
-            _expectedResult.postValue(SinglePatient.Loading)
+        viewModelScope.launch {
+            _expectedResult.value = SinglePatient.Loading
             when (val response = userRepository.getMultiplePatientDashboardList()) {
                 is ResultHandler.Error -> {
-                    _expectedResult.postValue(
+                    _expectedResult.value =
                         SinglePatient.Failure(response.message.toString())
-                    )
                 }
                 is ResultHandler.Success -> {
                     if (response.data == null) {
-                        _expectedResult.postValue(SinglePatient.Failure("Unexpected Error"))
+                        _expectedResult.value = SinglePatient.Failure("Unexpected Error")
                     } else {
-                        _expectedResult.postValue(
+                        _expectedResult.value =
                             SinglePatient.Success(
                                 "Patient List",
                                 response.data
                             )
-                        )
                     }
                 }
             }
