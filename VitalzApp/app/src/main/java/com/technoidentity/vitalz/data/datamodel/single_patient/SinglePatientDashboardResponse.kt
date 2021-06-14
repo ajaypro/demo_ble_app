@@ -1,53 +1,55 @@
 package com.technoidentity.vitalz.data.datamodel.single_patient
 
 import android.os.Parcelable
+import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class SinglePatientDashboardResponse(
-    @SerializedName("address")
-    val address: String,
-    @SerializedName("age")
-    val age: Int,
+    @Expose
     @SerializedName("bloodPressure")
     val bloodPressure: BloodPressure,
+    @Expose
     @SerializedName("contactNumber")
     val contactNumber: String,
+    @Expose
+    @SerializedName("dateOfBirth")
+    val dateOfBirth: String,
+    @Expose
     @SerializedName("device")
     val device: Device,
-    @SerializedName("doctorContactNumber")
-    val doctorContactNumber: String,
-    @SerializedName("doctorName")
-    val doctorName: String,
-    @SerializedName("emergencyContactName")
-    val emergencyContactName: String,
-    @SerializedName("emergencyContactNumber")
-    val emergencyContactNumber: String,
-    @SerializedName("gender")
-    val gender: String,
+    @Expose
+    @SerializedName("emailId")
+    val emailId: String,
+    @Expose
     @SerializedName("heartRate")
     val heartRate: HeartRate,
+    @Expose
     @SerializedName("height")
     val height: Double,
-    @SerializedName("hospitalId")
-    val hospitalId: String,
+    @Expose
     @SerializedName("name")
     val name: String,
-    @SerializedName("otherHealthIssues")
-    val otherHealthIssues: String,
+    @Expose
     @SerializedName("oxygenSaturation")
     val oxygenSaturation: OxygenSaturation,
-    @SerializedName("patientId")
-    val patientId: String,
+    @Expose
     @SerializedName("posture")
     val posture: Posture,
+    @Expose
     @SerializedName("respiratoryRate")
     val respiratoryRate: RespiratoryRate,
+    @Expose
+    @SerializedName("sleep")
+    val sleep: Sleep,
+    @Expose
     @SerializedName("step")
     val step: Step,
+    @Expose
     @SerializedName("temprature")
     val temperature: Temperature,
+    @Expose
     @SerializedName("weight")
     val weight: Weight
-): Parcelable
+):Parcelable

@@ -20,7 +20,7 @@ class PatientViewModel @Inject constructor(
 ) : ViewModel() {
 
     sealed class PatientData {
-        class Success(val resultText: String, val data: PatientDataList?) : PatientData()
+        class Success(val resultText: String, val data: PatientDataList) : PatientData()
         class Failure(val errorText: String) : PatientData()
         object Loading : PatientData()
         object Empty : PatientData()
@@ -34,18 +34,18 @@ class PatientViewModel @Inject constructor(
         val request = PatientRequest()
         request.hospitalId = hospitalId
         request.phoneNo = mobile
-        viewModelScope.launch(dispatcher.io) {
-            _expectedResult.postValue(PatientData.Loading)
+        viewModelScope.launch {
+            _expectedResult.value = PatientData.Loading
             when (val response = userRepository.getPatientList(request)) {
                 is ResultHandler.Error -> {
-                    _expectedResult.postValue(
+                    _expectedResult.value =
                         PatientData.Failure(response.message.toString())
-                    )}
+                    }
                 is ResultHandler.Success -> {
                     if (response.data == null) {
-                        _expectedResult.postValue(PatientData.Failure("Unexpected Error"))
+                        _expectedResult.value = PatientData.Failure("Unexpected Error")
                     } else {
-                        _expectedResult.postValue(PatientData.Success("Patient List", response.data))
+                        _expectedResult.value = PatientData.Success("Patient List", response.data)
                     }
                 }
             }

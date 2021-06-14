@@ -1,7 +1,6 @@
 package com.technoidentity.vitalz.dashboard
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,24 +36,23 @@ class NurseCareTakerDashboardFragment : Fragment() {
 
         //Getting Arguments From last Fragment
         val patientId = arguments?.getString("patientId")
-        Log.v("Check","Patient Id receiving $patientId")
 
         //Api call to fetch Latest data
-        if (patientId != null){
+        patientId?.let {
             singleDashboardApi(patientId)
             progressDialog.showLoadingDialog(
                 title = "Vitalz App",
                 message = "Loading...",
-                isCancellable = false
-            )
-        }else{
+                isCancellable = false)
+        }?: run {
             Toast.makeText(context, "Un-Authorized", Toast.LENGTH_SHORT).show()
         }
 
+
         //ViewProfilePage
         binding.ivViewProfile.setOnClickListener {
-            Log.v("Stage VP", "View Profile $responseData")
-            findNavController().navigate(R.id.patientProfileFragment , bundleOf("patientData" to responseData))
+            findNavController().navigate(R.id.
+            action_nurseCareTakerDashboardFragment_to_patientProfileFragment , bundleOf("patientData" to responseData))
         }
 
         return binding.root

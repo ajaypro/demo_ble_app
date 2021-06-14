@@ -1,7 +1,9 @@
 package com.technoidentity.vitalz.user
 
-import android.util.Log
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseRequest
 import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseResponse
 import com.technoidentity.vitalz.data.repository.UserRepository
@@ -31,19 +33,18 @@ class DoctorNurseLoginViewModel @Inject constructor(
         val request = DocNurseRequest()
         request.username = username
         request.password = password
-        viewModelScope.launch(dispatcher.io) {
-            _expectedResult.postValue(DocNurse.Loading)
+        viewModelScope.launch {
+            _expectedResult.value = DocNurse.Loading
             when (val response = userRepository.sendDocNurseCredentials(request)) {
                 is ResultHandler.Error -> {
-                    _expectedResult.postValue(
-                        DocNurse.Failure(response.message.toString())
+                    _expectedResult.value =
+                        DocNurse.Failure(response.message.toString()
                     )}
                 is ResultHandler.Success -> {
                     if (response.data == null) {
-                        _expectedResult.postValue(DocNurse.Failure("Unexpected Error"))
+                        _expectedResult.value = DocNurse.Failure("Unexpected Error")
                     } else {
-                        Log.v("Check", "Stage_Suc ${response.data.token}")
-                        _expectedResult.postValue(DocNurse.Success(resultText = "Credentials Send", data = response.data))
+                        _expectedResult.value = DocNurse.Success(resultText = "Credentials Send", data = response.data)
                     }
                 }
             }

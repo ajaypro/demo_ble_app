@@ -2,13 +2,17 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_graph"
-    app:startDestination="@id/splashFragment2">
+    app:startDestination="@id/splashFragment">
     <fragment
-        android:id="@+id/splashFragment2"
-        android:name="com.technoidentity.vitalz.home.SplashFragment"
-        android:label="SplashFragment">
+        android:id="@+id/splashFragment"
+        android:name="com.technoidentity.vitalz.home.SplashFragment">
         <action
-            android:id="@+id/action_splashFragment2_to_userSelectionFragment2"
+            android:id="@+id/action_splashFragment_to_addDeviceFragment"
+            app:destination="@id/addDeviceFragment"
+            app:popUpTo="@+id/splashFragment"
+            app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/action_splashFragment_to_userSelectionFragment2"
             app:destination="@id/userSelectionFragment2" />
     </fragment>
     <fragment
@@ -75,8 +79,8 @@
         android:name="com.technoidentity.vitalz.bluetooth.AddDeviceFragment"
         android:label="AddDeviceFragment">
         <action
-            android:id="@+id/action_addDeviceFragment_to_deviceDetailsFragment"
-            app:destination="@id/deviceDetailsFragment" />
+            android:id="@+id/action_addDeviceFragment_to_bleScanResultFragment"
+            app:destination="@id/bleScanResultFragment" />
     </fragment>
     <fragment
         android:id="@+id/doctorPatientDetailFragment"
@@ -116,6 +120,9 @@
         <action
             android:id="@+id/action_nurseCareTakerDashboardFragment_to_userSelectionFragment2"
             app:destination="@id/userSelectionFragment2" />
+        <action
+            android:id="@+id/action_nurseCareTakerDashboardFragment_to_patientProfileFragment"
+            app:destination="@id/patientProfileFragment" />
     </fragment>
     <fragment
         android:id="@+id/patientProfileFragment"
@@ -141,4 +148,19 @@
         android:id="@+id/notificationsFragment"
         android:name="com.technoidentity.vitalz.user.NotificationsFragment"
         android:label="NotificationsFragment" />
+    <fragment
+        android:id="@+id/bleScanResultFragment"
+        android:name="com.technoidentity.vitalz.bluetooth.BleScanResultFragment"
+        android:label="BleScanResultFragment" >
+        <argument
+            android:name="bleDevice"
+            app:argType="android.bluetooth.BluetoothDevice" />
+        <action
+            android:id="@+id/action_bleScanResultFragment_to_bleOperationsFragment"
+            app:destination="@id/bleOperationsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/bleOperationsFragment"
+        android:name="com.technoidentity.vitalz.bluetooth.BleOperationsFragment"
+        android:label="BleOperationsFragment" />
 </navigation>
