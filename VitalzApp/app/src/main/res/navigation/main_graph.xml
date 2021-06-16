@@ -71,10 +71,6 @@
             app:destination="@id/userSelectionFragment2" />
     </fragment>
     <fragment
-        android:id="@+id/nurseCareTakerPatientDetailFragment"
-        android:name="com.technoidentity.vitalz.dashboard.NurseCareTakerPatientDetailFragment"
-        android:label="NurseCareTakerPatientDetailFragment" />
-    <fragment
         android:id="@+id/addDeviceFragment"
         android:name="com.technoidentity.vitalz.bluetooth.AddDeviceFragment"
         android:label="AddDeviceFragment">
@@ -90,8 +86,8 @@
             android:name="patientId"
             app:argType="integer" />
         <action
-            android:id="@+id/action_doctorPatientDetailFragment_to_nurseCareTakerPatientDetailFragment"
-            app:destination="@id/nurseCareTakerPatientDetailFragment" />
+            android:id="@+id/action_doctorPatientDetailFragment_to_dashboardDetailsHeartFragment"
+            app:destination="@id/dashboardDetailsHeartFragment" />
     </fragment>
     <fragment
         android:id="@+id/deviceDetailsFragment"
@@ -112,9 +108,6 @@
         android:name="com.technoidentity.vitalz.dashboard.NurseCareTakerDashboardFragment"
         android:label="NurseCareTakerDashboardFragment">
         <action
-            android:id="@+id/action_nurseCareTakerDashboardFragment_to_nurseCareTakerPatientDetailFragment"
-            app:destination="@id/nurseCareTakerPatientDetailFragment" />
-        <action
             android:id="@+id/action_nurseCareTakerDashboardFragment_to_notificationsFragment"
             app:destination="@id/notificationsFragment" />
         <action
@@ -123,6 +116,9 @@
         <action
             android:id="@+id/action_nurseCareTakerDashboardFragment_to_patientProfileFragment"
             app:destination="@id/patientProfileFragment" />
+        <action
+            android:id="@+id/action_nurseCareTakerDashboardFragment_to_dashboardDetailsHeartFragment"
+            app:destination="@id/dashboardDetailsHeartFragment" />
     </fragment>
     <fragment
         android:id="@+id/patientProfileFragment"
@@ -163,4 +159,8 @@
         android:id="@+id/bleOperationsFragment"
         android:name="com.technoidentity.vitalz.bluetooth.BleOperationsFragment"
         android:label="BleOperationsFragment" />
+    <fragment
+        android:id="@+id/dashboardDetailsHeartFragment"
+        android:name="com.technoidentity.vitalz.dashboard.DashboardDetailsHeartFragment"
+        android:label="DashboardDetailsHeartFragment" />
 </navigation>

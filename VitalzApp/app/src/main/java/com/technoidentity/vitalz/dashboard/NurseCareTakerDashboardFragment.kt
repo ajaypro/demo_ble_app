@@ -55,6 +55,12 @@ class NurseCareTakerDashboardFragment : Fragment() {
             action_nurseCareTakerDashboardFragment_to_patientProfileFragment , bundleOf("patientData" to responseData))
         }
 
+        //heartRate Detail
+        binding.layoutHeartRate.setOnClickListener {
+            findNavController().navigate(R.id.action_nurseCareTakerDashboardFragment_to_dashboardDetailsHeartFragment,
+                bundleOf("heartData" to responseData.heartRate))
+        }
+
         return binding.root
     }
 

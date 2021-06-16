@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,7 +10,9 @@
         android:id="@+id/app_bar_layout"
         style="@style/titleBar"
         android:background="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/layout_heart_rate_calculator"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -36,48 +39,18 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ImageView
-        android:id="@+id/iv_remote_icon"
-        style="@style/dashboard_ble"
-        android:contentDescription="@string/remote_icon"
-        android:src="@drawable/ic_ble_battery"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/app_bar_layout" />
-
-    <TextView
-        android:id="@+id/tv_time_left"
-        style="@style/dashboard_ble"
-        android:hint="@string/fake_time_left"
-        android:text=""
-        android:textColorHint="@color/black"
-        app:layout_constraintStart_toEndOf="@+id/iv_remote_icon"
-        app:layout_constraintTop_toBottomOf="@+id/app_bar_layout" />
-
-    <TextView
-        android:id="@+id/tv_time_left_unit"
-        style="@style/dashboard_ble_battery"
-        app:layout_constraintStart_toEndOf="@+id/tv_time_left"
-        app:layout_constraintTop_toBottomOf="@+id/app_bar_layout" />
-
-    <ImageView
-        android:id="@+id/iv_connectivity_icon"
-        style="@style/dashboard_ble"
-        android:layout_marginEnd="@dimen/dp_20"
-        android:contentDescription="@string/remote_icon"
-        android:src="@drawable/ic_connectivity_icon"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/app_bar_layout" />
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_heart_rate_calculator"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_margin="20dp"
         android:background="@drawable/bg_border"
         android:padding="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_connectivity_icon">
+        app:layout_constraintTop_toBottomOf="@+id/app_bar_layout">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_startDate_select"
@@ -160,8 +133,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_16"
-            android:padding="@dimen/dp_5"
             android:background="@drawable/bg_dark"
+            android:padding="@dimen/dp_5"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/layout_endDate_select">
@@ -190,8 +163,8 @@
             <TextView
                 android:id="@+id/tv_max"
                 style="@style/viewSize"
-                android:text="@string/max"
                 android:layout_marginEnd="@dimen/dp_16"
+                android:text="@string/max"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/button_blue"
                 android:textStyle="bold"
@@ -203,8 +176,8 @@
                 style="@style/viewSize"
                 android:text="@string/fake_opt"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textStyle="bold"
                 android:textColor="@color/black"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_average" />
 
@@ -223,8 +196,8 @@
                 style="@style/viewSize"
                 android:text="@string/fake_opt"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textStyle="bold"
                 android:textColor="@color/black"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toStartOf="@+id/tv_max_rate"
                 app:layout_constraintStart_toEndOf="@+id/tv_avg_bpm"
                 app:layout_constraintTop_toBottomOf="@+id/tv_min" />
@@ -245,8 +218,8 @@
                 android:layout_marginEnd="@dimen/dp_5"
                 android:text="@string/fake_opt"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textStyle="bold"
                 android:textColor="@color/black"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/tv_max_bpm"
                 app:layout_constraintTop_toBottomOf="@+id/tv_max" />
@@ -263,14 +236,15 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/chart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/layout_heart_cal"
-            app:layout_constraintStart_toStartOf="parent"
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/heart_bar_chart"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/dp_16"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layout_heart_cal" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
