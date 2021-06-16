@@ -56,10 +56,7 @@ class DoctorDashboardFragment : Fragment() {
     }
 
     private fun multiplePatientDashboardApi(token: String) {
-        progressDialog.showLoadingDialog(
-            title = "Vitalz App",
-            message = "Loading...",
-            isCancellable = false)
+        progressDialog.showLoadingDialog()
             viewModel.getMultiplePatientData(token)
             viewModel.expectedResult.observe(viewLifecycleOwner, {
                 when (it) {
