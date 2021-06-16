@@ -59,10 +59,7 @@ class PatientListFragment : Fragment(), PatientAdapter.OnItemClickListener {
     }
 
     private fun getPatientList(mobile: String, hospitalId: String) {
-        progressDialog.showLoadingDialog(
-            title = "Vitalz App",
-            message = "Loading...",
-            isCancellable = false)
+        progressDialog.showLoadingDialog()
         viewModel.getPatientListData(mobile, hospitalId)
         viewModel.expectedResult.observe(viewLifecycleOwner, {
             when (it) {

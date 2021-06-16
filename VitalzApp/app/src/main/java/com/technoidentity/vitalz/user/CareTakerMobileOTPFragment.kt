@@ -68,11 +68,7 @@ class CareTakerMobileOTPFragment : Fragment() {
                 Toast.makeText(context, "Please Enter Otp", Toast.LENGTH_SHORT).show()
             } else {
                 val otpReceived: String = (etOtp1 + etOtp2 + etOtp3 + etOtp4 + etOtp5 + etOtp6)
-                progressDialog.showLoadingDialog(
-                    title = "Vitalz App",
-                    message = "Loading...",
-                    isCancellable = false
-                )
+                progressDialog.showLoadingDialog()
                 mobile?.let { it1 -> viewModel.getOtpResponse(it1, otpReceived.toInt()) }
                 viewModel.expectedResult.observe(viewLifecycleOwner, {
                     when (it) {

@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
+    id 'androidx.navigation.safeargs'
     id 'kotlin-android-extensions'
 }
 
@@ -58,6 +59,7 @@ dependencies {
     //Lifecycle
     implementation "androidx.lifecycle:lifecycle-extensions:${library.lifeCycle}"
     kapt "androidx.lifecycle:lifecycle-compiler:${library.lifeCycle}"
+
     //Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:${library.navigation}"
     implementation "androidx.navigation:navigation-ui-ktx:${library.navigation}"

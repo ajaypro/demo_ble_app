@@ -49,11 +49,7 @@ class DoctorNurseLoginFragment : Fragment() {
                 Toast.makeText(context, "Please Enter Password", Toast.LENGTH_SHORT).show()
             }
             else -> {
-                progressDialog.showLoadingDialog(
-                    title = "Vitalz App",
-                    message = "Loading...",
-                    isCancellable = false
-                )
+                progressDialog.showLoadingDialog()
                 viewModel.sendDocNurseCredentials(username, password)
                 viewModel.expectedResult.observe(viewLifecycleOwner, {
                     when (it) {
