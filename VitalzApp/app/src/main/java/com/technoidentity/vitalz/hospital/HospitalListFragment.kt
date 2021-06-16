@@ -54,10 +54,7 @@ class HospitalListFragment : Fragment(), HospitalAdapter.OnItemClickListener  {
     }
 
     private fun getHospitalList(mobile: String) {
-        progressDialog.showLoadingDialog(
-            title = "Vitalz App",
-            message = "Loading...",
-            isCancellable = false)
+        progressDialog.showLoadingDialog()
             viewModel.getHospitalListData(mobile)
             viewModel.expectedResult.observe(viewLifecycleOwner, {
                 when (it) {

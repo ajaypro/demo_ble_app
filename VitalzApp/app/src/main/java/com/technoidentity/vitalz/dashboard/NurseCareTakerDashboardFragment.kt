@@ -49,11 +49,7 @@ class NurseCareTakerDashboardFragment : Fragment() {
             //Api call to fetch Latest data
             patientId?.let {
                 singleDashboardApi(it)
-                progressDialog.showLoadingDialog(
-                    title = "Vitalz App",
-                    message = "Loading...",
-                    isCancellable = false
-                )
+                progressDialog.showLoadingDialog()
             } ?: run {
                 Toast.makeText(context, "Un-Authorized", Toast.LENGTH_SHORT).show()
             }
