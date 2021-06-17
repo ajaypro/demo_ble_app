@@ -34,21 +34,31 @@ class DashboardDetailsHeartFragment : Fragment() {
         //Getting Arguments From last Fragment
         val heartData: HeartRate? = arguments?.getParcelable("heartData")
 
-        //Set Date for 7 days
+        //Calender declaration
         val c = Calendar.getInstance()
-        val year = c.get(Calendar.YEAR)
-        val month = c.get(Calendar.MONTH)
         val day = c.get(Calendar.DAY_OF_MONTH)
+        val month = c.get(Calendar.MONTH)
+        val year = c.get(Calendar.YEAR)
 
+        //condition for 7 days more than the selected day
+        c.add(Calendar.DAY_OF_MONTH, +6)
 
-        val dpd = DatePickerDialog(requireActivity(), DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-
-            // Display Selected date in textbox
-//            binding.tvSelectedStartDate.setText("" + dayOfMonth + " " + MONTHS[monthOfYear] + ", " + year)
-
-        }, year, month, day)
-
-        dpd.show()
+        //Always check for month because they start from 0 as jan and 11 as dec. So, add 1 in month. And Add 2 Days more than present day & change the color of the DatePicker
+        val datePickerDialog = DatePickerDialog(
+            this,
+            R.style.DialogTheme,
+            DatePickerDialog.OnDateSetListener { view, mYear, mMonth, mDay ->
+                val date = "" + mYear + "-" + (mMonth + 1) + "-" + mDay
+                (v as Button).text = date
+                if (selectedDate == "dateOfOrder") {
+                    cartViewModel.dateOfOrder = date
+                } else {
+                    cartViewModel.dateOfDelivery = date
+                }
+            }, year, month, day
+        )
+        datePickerDialog.datePicker.minDate = c.timeInMillis
+        datePickerDialog.show()
 
         //Bar Chart
         initializeBarChart()
