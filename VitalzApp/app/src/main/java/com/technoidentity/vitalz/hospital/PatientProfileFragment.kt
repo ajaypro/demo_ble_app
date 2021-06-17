@@ -36,16 +36,18 @@ class PatientProfileFragment : Fragment() {
     }
 
     private fun setDataInUI(profileData: SinglePatientDashboardResponse) {
-        binding.etName.text = profileData.name
-        binding.etAge.text = profileData.age.toString()
-        binding.etGender.text = profileData.gender
-        binding.etHeight.text = profileData.height.toString()
-        binding.etWeight.text = profileData.weight.weight.toString()
-        binding.etAddress.text = profileData.address
-        binding.tvContactNumber.text = profileData.doctorContactNumber
-        binding.etEmergencyContactName.text = profileData.emergencyContactName
-        binding.etEmergencyContactNumber.text = profileData.emergencyContactNumber
-        binding.etAttendingDoctor.text = profileData.doctorName
-        binding.etIdHospital.text = profileData.hospitalId
+        binding.apply {
+            etName.text = profileData.name
+            etAge.text = profileData.age.toString()
+            etGender.text = profileData.gender
+            etHeight.text = profileData.height.toString()
+            etWeight.text = profileData.weight.weight.toString()
+            etAddress.text = profileData.address
+            tvContactNumber.text = profileData.doctorContactNumber
+            etEmergencyContactName.text = profileData.emergencyContactName
+            etEmergencyContactNumber.text = profileData.emergencyContactNumber
+            etAttendingDoctor.text = profileData.doctorName
+            etIdHospital.text = profileData.hospitalId
+        }
     }
 }
