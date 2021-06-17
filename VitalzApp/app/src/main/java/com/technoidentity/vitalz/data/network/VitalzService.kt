@@ -19,7 +19,7 @@ object VitalzService {
 
     fun getRestApi(context: Context): VitalzApi {
         val sp = context.getSharedPreferences(Constants.PREFERENCE_NAME , Context.MODE_PRIVATE)
-        token = sp.getString(Constants.TOKEN , token).toString()
+        token = sp.getString(Constants.TOKEN , "").toString()
         init()
         return restApi
     }

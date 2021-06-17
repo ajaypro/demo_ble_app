@@ -52,11 +52,7 @@ class CareTakerMobileLoginFragment : Fragment() {
                 //do api call request and on success response navigate to next EnterOTP Fragment
                 binding.responseMsg.visibility = View.GONE
                 binding.responseMsg.text = ""
-                progressDialog.showLoadingDialog(
-                    title = "Vitalz App",
-                    message = "Loading...",
-                    isCancellable = false
-                )
+                progressDialog.showLoadingDialog()
                     viewModel.getCareTakerResponse(mobile)
                     viewModel.expectedResult.observe(viewLifecycleOwner, {
                         if (it.success){
