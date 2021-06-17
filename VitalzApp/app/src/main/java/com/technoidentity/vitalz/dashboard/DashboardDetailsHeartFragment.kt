@@ -44,21 +44,21 @@ class DashboardDetailsHeartFragment : Fragment() {
         c.add(Calendar.DAY_OF_MONTH, +6)
 
         //Always check for month because they start from 0 as jan and 11 as dec. So, add 1 in month. And Add 2 Days more than present day & change the color of the DatePicker
-        val datePickerDialog = DatePickerDialog(
-            this,
-            R.style.DialogTheme,
-            DatePickerDialog.OnDateSetListener { view, mYear, mMonth, mDay ->
-                val date = "" + mYear + "-" + (mMonth + 1) + "-" + mDay
-                (v as Button).text = date
-                if (selectedDate == "dateOfOrder") {
-                    cartViewModel.dateOfOrder = date
-                } else {
-                    cartViewModel.dateOfDelivery = date
-                }
-            }, year, month, day
-        )
-        datePickerDialog.datePicker.minDate = c.timeInMillis
-        datePickerDialog.show()
+//        val datePickerDialog = DatePickerDialog(
+//            this,
+//            R.style.DialogTheme,
+//            DatePickerDialog.OnDateSetListener { view, mYear, mMonth, mDay ->
+//                val date = "" + mYear + "-" + (mMonth + 1) + "-" + mDay
+//                (v as Button).text = date
+//                if (selectedDate == "dateOfOrder") {
+//                    cartViewModel.dateOfOrder = date
+//                } else {
+//                    cartViewModel.dateOfDelivery = date
+//                }
+//            }, year, month, day
+//        )
+//        datePickerDialog.datePicker.minDate = c.timeInMillis
+//        datePickerDialog.show()
 
         //Bar Chart
         initializeBarChart()

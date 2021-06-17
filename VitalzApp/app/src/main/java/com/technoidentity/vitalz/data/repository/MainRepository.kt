@@ -16,7 +16,7 @@ import com.technoidentity.vitalz.utils.ResultHandler
 
 interface MainRepository {
 
-    suspend fun doMobileOTPCall(mobile: CareTakerRequest): ResultHandler<CareTakerOtpResponse>?
+    suspend fun doMobileOTPCall(mobile: CareTakerRequest): CareTakerOtpResponse
 
     suspend fun doOTPSendCall(otpRequest: OtpRequest): ResultHandler<OtpResponse>?
 

@@ -109,15 +109,10 @@ class CareTakerMobileOTPFragment : Fragment() {
             viewModelCareTaker.getCareTakerResponse(mobile)
         }
         viewModelCareTaker.expectedResult.observe(viewLifecycleOwner, {
-            when (it) {
-                is Success -> {
-                    Toast.makeText(context, "Otp Sent", Toast.LENGTH_SHORT).show()
-                }
-
-                is Failure -> {
-                    Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show()
-                }
-                else -> Unit
+            if (it.success){
+                Toast.makeText(context, "Otp Sent", Toast.LENGTH_SHORT).show()
+            }else{
+                Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show()
             }
         })
     }

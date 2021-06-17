@@ -20,21 +20,10 @@ import javax.inject.Inject
 class UserRepository @Inject constructor(
     private val api: VitalzApi
 ) : MainRepository {
-    override suspend fun doMobileOTPCall(mobile: CareTakerRequest): ResultHandler<CareTakerOtpResponse>? {
-        val response = api.getOTP(mobile)
-        return try {
-            response.let { it ->
-                if (it.isSuccessful) {
-                    it.body()?.let {
-                        ResultHandler.Success(it)
-                    }
-                } else {
-                    Error(response.message())
-                }
-            }
-        } catch (e: Exception) {
-            Error(e.message ?: "Contact Admin")
-        }
+    override suspend fun doMobileOTPCall(mobile: CareTakerRequest): CareTakerOtpResponse {
+        return kotlin.runCatching {
+            api.getOTP(mobile)
+        }.getOrThrow()
     }
 
     override suspend fun doOTPSendCall(otpRequest: OtpRequest): ResultHandler<OtpResponse>? {

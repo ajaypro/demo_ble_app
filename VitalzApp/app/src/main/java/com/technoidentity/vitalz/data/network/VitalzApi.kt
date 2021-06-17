@@ -25,7 +25,7 @@ import retrofit2.http.*
 interface VitalzApi {
 
     @POST(SEND_OTP)
-    suspend fun getOTP(@Body request: CareTakerRequest) : Response<CareTakerOtpResponse>
+    suspend fun getOTP(@Body request: CareTakerRequest) : CareTakerOtpResponse
 
     @POST(CARETAKER_LOGIN)
     suspend fun getLogin(@Body request: OtpRequest) : Response<OtpResponse>
