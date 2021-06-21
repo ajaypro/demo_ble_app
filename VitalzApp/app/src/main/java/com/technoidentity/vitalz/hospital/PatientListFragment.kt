@@ -9,7 +9,6 @@ import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -98,6 +97,6 @@ class PatientListFragment : Fragment(), PatientAdapter.OnItemClickListener {
     override fun onItemClicked(position: Int) {
         Log.v("Check","Patient Id Sending ${patientAdapter.patient[position].id}")
         val bundle = bundleOf("patientId" to patientAdapter.patient[position].id.toString())
-        Navigation.findNavController(requireView()).navigate(R.id.nurseCareTakerDashboardFragment, bundle)
+        Navigation.findNavController(requireView()).navigate(R.id.singlePatientDashboardFragment, bundle)
     }
 }

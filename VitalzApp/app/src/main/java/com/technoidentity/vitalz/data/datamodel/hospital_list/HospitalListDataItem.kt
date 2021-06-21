@@ -6,9 +6,9 @@ data class HospitalListDataItem(
     @SerializedName("address")
     val address: Address?,
     @SerializedName("hospitalName")
-    val hospitalName: String?,
+    val hospitalName: String,
     @SerializedName("id")
-    val id: String?,
+    val id: String,
     @SerializedName("status")
-    val status: Boolean?
+    val status: Boolean
 )

@@ -2,16 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_graph"
-    app:startDestination="@id/splashFragment">
-    <fragment
-        android:id="@+id/splashFragment"
-        android:name="com.technoidentity.vitalz.home.SplashFragment">
-        <action
-            android:id="@+id/action_splashFragment_to_addDeviceFragment"
-            app:destination="@id/addDeviceFragment"
-            app:popUpTo="@+id/splashFragment"
-            app:popUpToInclusive="true"/>
-    </fragment>
+    app:startDestination="@id/homeFragment">
     <fragment
         android:id="@+id/userSelectionFragment2"
         android:name="com.technoidentity.vitalz.home.UserSelectionFragment"
@@ -42,8 +33,8 @@
             android:id="@+id/action_doctorNurseLoginFragment_to_doctorDashboardFragment2"
             app:destination="@id/doctorDashboardFragment" />
         <action
-            android:id="@+id/action_doctorNurseLoginFragment_to_nurseCareTakerDashboardFragment"
-            app:destination="@id/nurseCareTakerDashboardFragment" />
+            android:id="@+id/action_doctorNurseLoginFragment_to_singlePatientDashboardFragment"
+            app:destination="@id/singlePatientDashboardFragment" />
     </fragment>
     <fragment
         android:id="@+id/careTakerMobileOTPFragment"
@@ -68,8 +59,8 @@
             app:destination="@id/userSelectionFragment2" />
     </fragment>
     <fragment
-        android:id="@+id/nurseCareTakerPatientDetailFragment"
-        android:name="com.technoidentity.vitalz.dashboard.NurseCareTakerPatientDetailFragment"
+        android:id="@+id/singlePatientDetailFragment"
+        android:name="com.technoidentity.vitalz.dashboard.SinglePatientDetailFragment"
         android:label="NurseCareTakerPatientDetailFragment" />
     <fragment
         android:id="@+id/addDeviceFragment"
@@ -87,8 +78,8 @@
             android:name="patientId"
             app:argType="integer" />
         <action
-            android:id="@+id/action_doctorPatientDetailFragment_to_nurseCareTakerPatientDetailFragment"
-            app:destination="@id/nurseCareTakerPatientDetailFragment" />
+            android:id="@+id/action_doctorPatientDetailFragment_to_singlePatientDetailFragment"
+            app:destination="@id/singlePatientDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/deviceDetailsFragment"
@@ -98,24 +89,24 @@
             android:id="@+id/action_deviceDetailsFragment_to_doctorDashboardFragment"
             app:destination="@id/doctorDashboardFragment" />
         <action
-            android:id="@+id/action_deviceDetailsFragment_to_nurseCareTakerDashboardFragment"
-            app:destination="@id/nurseCareTakerDashboardFragment" />
+            android:id="@+id/action_deviceDetailsFragment_to_singlePatientDashboardFragment"
+            app:destination="@id/singlePatientDashboardFragment" />
         <action
             android:id="@+id/action_deviceDetailsFragment_to_patientProfileFragment"
             app:destination="@id/patientProfileFragment" />
     </fragment>
     <fragment
-        android:id="@+id/nurseCareTakerDashboardFragment"
-        android:name="com.technoidentity.vitalz.dashboard.NurseCareTakerDashboardFragment"
-        android:label="NurseCareTakerDashboardFragment">
+        android:id="@+id/singlePatientDashboardFragment"
+        android:name="com.technoidentity.vitalz.dashboard.SinglePatientDashboardFragment"
+        android:label="SinglePatientDashboardFragment">
         <action
-            android:id="@+id/action_nurseCareTakerDashboardFragment_to_nurseCareTakerPatientDetailFragment"
-            app:destination="@id/nurseCareTakerPatientDetailFragment" />
+            android:id="@+id/action_singlePatientDashboardFragment_to_singlePatientDetailFragment"
+            app:destination="@id/singlePatientDetailFragment" />
         <action
-            android:id="@+id/action_nurseCareTakerDashboardFragment_to_notificationsFragment"
+            android:id="@+id/action_singlePatientDashboardFragment_to_notificationsFragment"
             app:destination="@id/notificationsFragment" />
         <action
-            android:id="@+id/action_nurseCareTakerDashboardFragment_to_userSelectionFragment2"
+            android:id="@+id/action_singlePatientDashboardFragment_to_userSelectionFragment2"
             app:destination="@id/userSelectionFragment2" />
     </fragment>
     <fragment
@@ -135,8 +126,8 @@
         android:name="com.technoidentity.vitalz.hospital.PatientListFragment"
         android:label="PatientListFragment">
         <action
-            android:id="@+id/action_patientListFragment_to_nurseCareTakerDashboardFragment"
-            app:destination="@id/nurseCareTakerDashboardFragment" />
+            android:id="@+id/action_patientListFragment_to_singlePatientDashboardFragment"
+            app:destination="@id/singlePatientDashboardFragment" />
     </fragment>
     <fragment
         android:id="@+id/notificationsFragment"
@@ -146,15 +137,23 @@
         android:id="@+id/bleScanResultFragment"
         android:name="com.technoidentity.vitalz.bluetooth.BleScanResultFragment"
         android:label="BleScanResultFragment" >
-        <argument
-            android:name="bleDevice"
-            app:argType="android.bluetooth.BluetoothDevice" />
         <action
-            android:id="@+id/action_bleScanResultFragment_to_bleOperationsFragment"
-            app:destination="@id/bleOperationsFragment" />
+            android:id="@+id/action_bleScanResultFragment_to_deviceDetailsFragment"
+            app:destination="@id/deviceDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/bleOperationsFragment"
         android:name="com.technoidentity.vitalz.bluetooth.BleOperationsFragment"
         android:label="BleOperationsFragment" />
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.technoidentity.vitalz.home.HomeFragment"
+        android:label="HomeFragment" >
+        <action
+            android:id="@+id/action_homeFragment_to_addDeviceFragment"
+            app:destination="@id/addDeviceFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_singlePatientDashboardFragment"
+            app:destination="@id/singlePatientDashboardFragment" />
+    </fragment>
 </navigation>

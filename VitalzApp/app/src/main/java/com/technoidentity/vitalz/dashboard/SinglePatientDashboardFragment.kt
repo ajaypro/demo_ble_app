@@ -7,22 +7,23 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.technoidentity.vitalz.R
 import com.technoidentity.vitalz.data.datamodel.single_patient.SinglePatientDashboardResponse
-import com.technoidentity.vitalz.databinding.CaretakerNurseDashboardBinding
+import com.technoidentity.vitalz.databinding.FragmentSinglePaitentDashboardBinding
+import com.technoidentity.vitalz.home.HomeViewModel
 import com.technoidentity.vitalz.utils.CustomProgressDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class NurseCareTakerDashboardFragment : Fragment() {
+class SinglePatientDashboardFragment : Fragment() {
 
-    val viewModel: NurseCareTakerDashboardViewModel by viewModels()
+    val viewModel: SinglePatientDashboardViewModel by viewModels()
+    val homeViewModel: HomeViewModel by activityViewModels()
     private var patientId : String? = null
-    lateinit var binding: CaretakerNurseDashboardBinding
-    var navController: NavController? = null
+    lateinit var binding: FragmentSinglePaitentDashboardBinding
     private lateinit var progressDialog: CustomProgressDialog
 
     override fun onCreateView(
@@ -30,8 +31,7 @@ class NurseCareTakerDashboardFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = CaretakerNurseDashboardBinding.inflate(layoutInflater)
-        navController = Navigation.findNavController(container!!)
+        binding = FragmentSinglePaitentDashboardBinding.inflate(layoutInflater)
         progressDialog = CustomProgressDialog(this.requireContext())
 
         //check if nurse or caretaker
@@ -55,7 +55,7 @@ class NurseCareTakerDashboardFragment : Fragment() {
 
         //ViewProfilePage
         binding.ivViewProfile.setOnClickListener {
-            navController!!.navigate(R.id.patientProfileFragment)
+            findNavController().navigate(R.id.action_singlePatientDashboardFragment_to_userSelectionFragment2)
         }
 
         return binding.root
@@ -65,12 +65,12 @@ class NurseCareTakerDashboardFragment : Fragment() {
             viewModel.getSinglePatientData(mobile)
             viewModel.expectedResult.observe(viewLifecycleOwner, {
                 when (it) {
-                    is NurseCareTakerDashboardViewModel.SinglePatient.Success -> {
+                    is SinglePatientDashboardViewModel.SinglePatient.Success -> {
                         progressDialog.dismissLoadingDialog()
                         setDataFromApiResponse(it.data)
                     }
 
-                    is NurseCareTakerDashboardViewModel.SinglePatient.Failure -> {
+                    is SinglePatientDashboardViewModel.SinglePatient.Failure -> {
                         progressDialog.dismissLoadingDialog()
                         Toast.makeText(context, it.errorText, Toast.LENGTH_SHORT).show()
                     }

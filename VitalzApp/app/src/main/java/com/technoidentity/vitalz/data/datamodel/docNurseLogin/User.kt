@@ -6,13 +6,14 @@ data class User(
     @SerializedName("email")
     val email: String?,
     @SerializedName("id")
-    val id: String?,
+    val id: String,
     @SerializedName("name")
-    val name: String?,
+    val name: String,
     @SerializedName("phoneExt")
     val phoneExt: String?,
     @SerializedName("phoneNo")
     val phoneNo: String?,
     @SerializedName("role")
     val role: String?
+
 )

@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class NurseCareTakerDashboardViewModel @Inject constructor(
+class SinglePatientDashboardViewModel @Inject constructor(
     private val userRepository: UserRepository,
     private val dispatcher: CoroutinesDispatcherProvider
 ) : ViewModel() {

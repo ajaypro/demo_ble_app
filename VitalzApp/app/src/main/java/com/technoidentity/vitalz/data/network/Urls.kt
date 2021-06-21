@@ -17,4 +17,8 @@ object Urls {
     const val SINGLE_PATIENT_DASHBOARD = "http://52.140.120.88:8082/agastya/v1/patient/{id}"
 
     const val MULTIPLE_PATIENT_DASHBOARD = "http://52.140.120.88:8082/agastya/v1/patients"
+
+    const val SEND_DEVICE = "/device/save-device"
+
+    const val GET_DEVICE_LIST = "device/device-list"
 }

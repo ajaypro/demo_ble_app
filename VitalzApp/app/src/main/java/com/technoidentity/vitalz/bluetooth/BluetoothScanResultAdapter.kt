@@ -1,6 +1,6 @@
 package com.technoidentity.vitalz.bluetooth
 
-import android.bluetooth.le.ScanResult
+import android.bluetooth.BluetoothDevice
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,50 +8,53 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.technoidentity.vitalz.R
-import com.technoidentity.vitalz.databinding.ScanResultItemListBinding
+import com.technoidentity.vitalz.databinding.DeviceItemListBinding
+import com.technoidentity.vitalz.home.HomeViewModel
 
-class BluetoothScanResultAdapter(val result: List<ScanResult>, val bluetoothScanResultClickListener: BluetoothScanResultClickListener) :
-    //ListAdapter<ScanResult, BluetoothScanResultAdapter.ScanResultViewHolder>(DealsDiffCallBack()) {
-    RecyclerView.Adapter<BluetoothScanResultAdapter.ScanResultViewHolder>() {
+class BluetoothScanResultAdapter(private val bleDeviceClickListener: BleDeviceClickListener, val viewModel: HomeViewModel) :
+    ListAdapter<BluetoothDevice, BluetoothScanResultAdapter.DeviceListViewHolder>(DeviceDiffCallBack()) {
 
-    lateinit var binding: ScanResultItemListBinding
+    lateinit var binding: DeviceItemListBinding
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScanResultViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DeviceListViewHolder {
 
-        binding = ScanResultItemListBinding.bind(LayoutInflater.from(parent.context).inflate(R.layout.scan_result_item_list, parent, false))
-        return ScanResultViewHolder(binding.root)
+        binding = DeviceItemListBinding.bind(LayoutInflater.from(parent.context).inflate(R.layout.device_item_list, parent, false))
+        return DeviceListViewHolder(binding.root)
     }
 
-    override fun onBindViewHolder(viewHolder: ScanResultViewHolder, position: Int) {
-        val item = result[position]
-        viewHolder.bindView(item, bluetoothScanResultClickListener)
+    override fun onBindViewHolder(viewHolder: DeviceListViewHolder, position: Int) {
+        val item = getItem(position)
+        viewHolder.bindView(item, bleDeviceClickListener)
 
     }
 
-    inner class ScanResultViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class DeviceListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        fun bindView(scanResult: ScanResult, bluetoothScanResultClickListener: BluetoothScanResultClickListener) {
-            binding.apply {
-                bleDeviceName.text = scanResult.device.name?: "Unnamed"
-                bleMacTxt.text = scanResult.device.address
-                bleSignalStrength.text = "${scanResult.rssi}".plus("dBm")
+        fun bindView(bleDevice: BluetoothDevice, bleDeviceClickListener: BleDeviceClickListener) {
+            viewModel.registeredDevice(bleDevice).apply {
+                if(this.first){
+                    binding.bleDeviceName.text = this.second
+                } else {
+                    binding.bleDeviceName.text = this.second
+                    binding.bleMacTxt.text = this.third
+                }
+                binding.root.setOnClickListener { bleDeviceClickListener.onClick(bleDevice) }
             }
-            binding.root.setOnClickListener { bluetoothScanResultClickListener.onClick(scanResult) }
+
         }
     }
 
-    override fun getItemCount() = result.size
 }
 
-class DealsDiffCallBack: DiffUtil.ItemCallback<ScanResult>() {
-    override fun areItemsTheSame(oldItem: ScanResult, newItem: ScanResult): Boolean {
+class DeviceDiffCallBack: DiffUtil.ItemCallback<BluetoothDevice>() {
+    override fun areItemsTheSame(oldItem: BluetoothDevice, newItem: BluetoothDevice): Boolean {
         return oldItem == newItem
     }
 
-    override fun areContentsTheSame(oldItem: ScanResult, newItem: ScanResult): Boolean {
-        return oldItem.device.address == newItem.device.address
+    override fun areContentsTheSame(oldItem: BluetoothDevice, newItem: BluetoothDevice): Boolean {
+        return oldItem.address == newItem.address
     }
 }
-class BluetoothScanResultClickListener(val clickListener: (scanResult :ScanResult) -> Unit) {
-    fun onClick(scanResult :ScanResult) = clickListener(scanResult)
+class BleDeviceClickListener(val onClickListener: (bleDevice: BluetoothDevice) -> Unit) {
+    fun onClick(bleDevice: BluetoothDevice)  = onClickListener(bleDevice)
 }

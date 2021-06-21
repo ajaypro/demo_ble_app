@@ -10,11 +10,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.technoidentity.vitalz.R
 import com.technoidentity.vitalz.databinding.FragmentBleoperationsBinding
+import com.technoidentity.vitalz.home.HomeViewModel
 import com.technoidentity.vitalz.utils.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -22,6 +24,8 @@ import java.util.*
 class BleOperationsFragment: Fragment() {
 
     private lateinit var device: BluetoothDevice
+    val viewModel: HomeViewModel by activityViewModels()
+
     private val dateFormatter = SimpleDateFormat("MMM d, HH:mm:ss", Locale.US)
     private val characteristics by lazy {
         ConnectionManager.servicesOnDevice(device)?.flatMap { service ->
@@ -55,12 +59,15 @@ class BleOperationsFragment: Fragment() {
         super.onCreate(savedInstanceState)
         device = arguments?.getParcelable(BluetoothDevice.EXTRA_DEVICE)
             ?: error(getString(R.string.error_with_device))
-
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentBleoperationsBinding.bind(LayoutInflater.from(context).inflate(R.layout.fragment_bleoperations,container, false))
         setupRecyclerView()
+
+//        viewModel.isDeviceConnected.collect{
+//            showToast(requireActivity(), "$device is connected from operations fragment")
+//        })
 
         return binding.root
     }
@@ -102,10 +109,10 @@ class BleOperationsFragment: Fragment() {
             showToast(context, "device disconnected")
         }
         super.onPause()
-        showAlert(requireActivity(), "Device disconnected", " Device will be disconnected",
-            "OK", DialogInterface.OnClickListener{ dialog, which ->
-               requireActivity().onBackPressed()
-            })
+//        showAlert(requireActivity(), "Device disconnected", " Device will be disconnected",
+//            "OK", DialogInterface.OnClickListener{ dialog, which ->
+//               requireActivity().onBackPressed()
+//            })
 
     }
 

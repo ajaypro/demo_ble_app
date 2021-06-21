@@ -34,8 +34,8 @@ class PatientViewModel @Inject constructor(
         val request = PatientRequest()
         request.hospitalId = hospitalId
         request.phoneNo = mobile
-        viewModelScope.launch(dispatcher.io) {
-            _expectedResult.postValue(PatientData.Loading)
+        viewModelScope.launch{
+            _expectedResult.value = PatientData.Loading
             when (val response = userRepository.getPatientList(request)) {
                 is ResultHandler.Error -> {
                     _expectedResult.postValue(

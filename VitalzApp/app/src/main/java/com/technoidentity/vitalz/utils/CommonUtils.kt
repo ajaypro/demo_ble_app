@@ -14,6 +14,8 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 import com.technoidentity.vitalz.data.network.Constants
 import com.technoidentity.vitalz.data.network.VitalzService
+import java.nio.charset.Charset
+import java.util.*
 
 fun getToken(context: Context) {
     val sp = context.getSharedPreferences(Constants.PREFERENCE_NAME, Context.MODE_PRIVATE)
@@ -38,6 +40,10 @@ fun showToast(context: Context?, message: String) {
 /**
  * View Extensions
  */
+
+fun View.showSnackbar(msgId: Int, length: Int) {
+    showSnackbar(msgId, length)
+}
 
 fun View.showSnackbar(msgId: Int, length: Int, actionMessageId: Int) {
     showSnackbar(msgId, length, actionMessageId) {}
@@ -66,33 +72,45 @@ fun View.showSnackbar(
     }
 }
 
-fun showAlert(activity: Activity, title: String, message: String, positiveButtonMsg: String,
-              onClickListener: DialogInterface.OnClickListener ) {
+fun Context.showAlert(
+    title: String,
+    message: String,
+    isCancelable: Boolean = false,
+    positiveBtnClickListener: ((dialog: DialogInterface, which: Int) -> Unit)? = null,
+    negativeBtnClickListener: DialogInterface.OnClickListener? = null,
+    cancelBtnClickListener: DialogInterface.OnCancelListener? = null,
+    dismissBtnClickListener: DialogInterface.OnDismissListener? = null
+) {
+    val builder = AlertDialog.Builder(this)
 
-    AlertDialog.Builder(activity)
-        .setTitle(title)
-        .setMessage(message)
-        .setPositiveButton(positiveButtonMsg){ _, _ ->
-            onClickListener
+    with(builder) {
+        setTitle(title)
+        setMessage(message)
+        setCancelable(isCancelable)
+        positiveBtnClickListener?.let {
+            setPositiveButton(
+                android.R.string.ok,
+                DialogInterface.OnClickListener(function = positiveBtnClickListener)
+            )
         }
-        .show()
-}
 
-fun showAlertWithNegative(activity: Activity, title: String, message: String, positiveButtonMsg: String, negativeButtonMsg: String,
-              onClickListener: DialogInterface.OnClickListener ) {
+        negativeBtnClickListener?.let { setNegativeButton(android.R.string.no, it) }
 
-    AlertDialog.Builder(activity)
-        .setTitle(title)
-        .setMessage(message)
-        .setPositiveButton(positiveButtonMsg){ _, _ ->
-            activity.onBackPressed()
-        }
-        .setNegativeButton(negativeButtonMsg){ dialog, _ ->
-            dialog.cancel()
-        }
-        .show()
+        if (isCancelable) cancelBtnClickListener?.let { setOnCancelListener(it) }
+
+        dismissBtnClickListener?.let { setOnDismissListener(it) }
+        show()
+    }
 }
 
 fun isTablet(ctx: Context): Boolean {
     return ctx.resources.configuration.screenLayout and Configuration.SCREENLAYOUT_SIZE_MASK >= Configuration.SCREENLAYOUT_SIZE_LARGE
+}
+
+fun UUID.getShortUuid(): String {
+    return "0x" + this.toString().substring(4, 8).toUpperCase()
+}
+
+fun ByteArray.convertToString(charset: Charset = Charset.defaultCharset()): String {
+    return String(this, charset)
 }

@@ -6,5 +6,5 @@ data class DocNurseResponse(
     @SerializedName("token")
     val token: String?,
     @SerializedName("user")
-    val user: User?
+    val user: User?,
 )
