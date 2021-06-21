@@ -58,12 +58,16 @@ class HospitalAdapter(val listener: HospitalListFragment) :
                         hospital.address?.let { it.state } + hospital.address?.let { it.zipCode })
             if (hospital.status == true) {
                 tvHospitalName.text = hospital.hospitalName
+                tvHospitalId.text = hospital.id
+                tvHospitalAddress.text = fullAddress
             } else {
                 tvHospitalName.setTextColor(Color.GRAY)
                 tvHospitalName.text = hospital.hospitalName
+                tvHospitalId.setTextColor(Color.GRAY)
+                tvHospitalId.text = hospital.id
+                tvHospitalAddress.setTextColor(Color.GRAY)
+                tvHospitalAddress.text = fullAddress
             }
-            tvHospitalId.text = hospital.id
-            tvHospitalAddress.text = fullAddress
         }
     }
 
@@ -74,7 +78,9 @@ class HospitalAdapter(val listener: HospitalListFragment) :
         }
 
         override fun onClick(v: View?) {
-            listener.onItemClicked(layoutPosition)
+            if (hospitals[layoutPosition].status == true) {
+                listener.onItemClicked(layoutPosition)
+            }
         }
     }
 }
