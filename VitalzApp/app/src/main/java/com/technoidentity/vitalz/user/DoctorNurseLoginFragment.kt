@@ -1,13 +1,13 @@
 package com.technoidentity.vitalz.user
 
 import android.os.Bundle
+import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.technoidentity.vitalz.R
 import com.technoidentity.vitalz.data.network.Constants
@@ -20,6 +20,7 @@ class DoctorNurseLoginFragment : Fragment() {
     private lateinit var binding: FragmentDocnurseLoginBinding
     val viewModel: DoctorNurseLoginViewModel by viewModels()
     private lateinit var progressDialog: CustomProgressDialog
+    private var isPasswordVisible: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,6 +35,21 @@ class DoctorNurseLoginFragment : Fragment() {
                 binding.etUserName.text.toString(),
                 binding.etPassword.text.toString()
             )
+        }
+
+        //Password visibility
+        binding.etPassword.inputType =
+            InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+        binding.ivPasswordVisibility.setOnClickListener {
+            if (!isPasswordVisible){
+                isPasswordVisible = true
+                binding.ivPasswordVisibility.setImageResource(R.drawable.ic_baseline_remove_red_eye_24)
+                binding.etPassword.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+            }else{
+                isPasswordVisible = false
+                binding.etPassword.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                binding.ivPasswordVisibility.setImageResource(R.drawable.ic_baseline_visibility_off_24)
+            }
         }
 
         return binding.root
