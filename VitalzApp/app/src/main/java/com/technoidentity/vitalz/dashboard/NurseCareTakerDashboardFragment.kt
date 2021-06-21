@@ -39,9 +39,9 @@ class NurseCareTakerDashboardFragment : Fragment() {
         //check if nurse or caretaker
         //nurse -> visibility of BLE layout
         if (isTablet(requireContext())) {
-            binding.layoutBle.visibility = View.VISIBLE
+            binding.ivConnectivityIcon.visibility = View.VISIBLE
         }else {
-            binding.layoutBle.visibility = View.GONE
+            binding.ivConnectivityIcon.visibility = View.GONE
         }
             //Getting Arguments From last Fragment
             val patientId = arguments?.getString("patientId")

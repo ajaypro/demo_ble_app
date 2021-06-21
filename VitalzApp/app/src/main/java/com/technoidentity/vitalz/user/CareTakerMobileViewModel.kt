@@ -36,7 +36,7 @@ class CareTakerMobileViewModel @Inject constructor(
             when (val response = userRepository.doMobileOTPCall(request)) {
                 is ResultHandler.Error -> {
                     _expectedResult.value =
-                    CareTaker.Failure(response.message.toString()
+                    CareTaker.Failure("Contact Hospital"
                 )}
                 is ResultHandler.Success -> {
                     if (response.data == null) {
