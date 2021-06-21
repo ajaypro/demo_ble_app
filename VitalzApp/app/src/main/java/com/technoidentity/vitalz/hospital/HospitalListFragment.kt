@@ -77,14 +77,20 @@ class HospitalListFragment : Fragment(), HospitalAdapter.OnItemClickListener  {
     }
 
     override fun onItemClicked(position: Int) {
-        val bundle = Bundle()
-        bundle.putString("mobile", mobile)
-        bundle.putString("hospitalId", hospitalAdapter.hospitals[position].id)
-        if (hospitalAdapter.hospitals.isEmpty()){
-            Toast.makeText(context, "No Patient Available", Toast.LENGTH_SHORT).show()
+        if (hospitalAdapter.hospitals[position].status == true) {
+            val bundle = Bundle()
+            bundle.putString("mobile", mobile)
+            bundle.putString("hospitalId", hospitalAdapter.hospitals[position].id)
+            if (hospitalAdapter.hospitals.isEmpty()) {
+                Toast.makeText(context, "No Patient Available", Toast.LENGTH_SHORT).show()
+            } else {
+                Navigation.findNavController(requireView()).navigate(
+                    R.id.action_hospitalListFragment_to_patientListFragment, bundle
+                )
+            }
         }else{
-            Navigation.findNavController(requireView()).navigate(
-                R.id.action_hospitalListFragment_to_patientListFragment, bundle)
+            binding.rvHospitalList.isClickable = false
+            binding.rvHospitalList.isEnabled = false
         }
     }
 }

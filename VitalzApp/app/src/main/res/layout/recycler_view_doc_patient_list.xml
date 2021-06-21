@@ -64,9 +64,9 @@
         android:id="@+id/layout_temp"
         style="@style/viewSize"
         android:layout_marginTop="@dimen/dp_8"
-        app:layout_constraintEnd_toStartOf="@+id/layout_spo2"
+        app:layout_constraintEnd_toStartOf="@+id/layout_pos"
         app:layout_constraintHorizontal_chainStyle="spread"
-        app:layout_constraintStart_toEndOf="@+id/layout_bp"
+        app:layout_constraintStart_toEndOf="@+id/layout_spo2"
         app:layout_constraintTop_toBottomOf="@id/tv_patient_name">
 
         <ImageView
@@ -102,8 +102,8 @@
         android:id="@+id/layout_spo2"
         style="@style/viewSize"
         android:layout_marginTop="@dimen/dp_8"
-        app:layout_constraintEnd_toStartOf="@+id/layout_pos"
-        app:layout_constraintStart_toEndOf="@+id/layout_temp"
+        app:layout_constraintEnd_toStartOf="@+id/layout_temp"
+        app:layout_constraintStart_toEndOf="@+id/layout_bp"
         app:layout_constraintTop_toBottomOf="@+id/tv_patient_name">
 
         <ImageView
