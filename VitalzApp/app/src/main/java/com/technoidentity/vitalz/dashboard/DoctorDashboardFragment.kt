@@ -6,9 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.technoidentity.vitalz.R
 import com.technoidentity.vitalz.data.network.Constants
 import com.technoidentity.vitalz.databinding.MultiplePatientDashboardBinding
 import com.technoidentity.vitalz.utils.CustomProgressDialog
@@ -36,21 +39,11 @@ class DoctorDashboardFragment : Fragment() {
             context?.getSharedPreferences(Constants.PREFERENCE_NAME, Context.MODE_PRIVATE)
         token = sharedPreferences?.getString(Constants.TOKEN, null).toString()
 
-        //Check Mobile or Tablet
-        //mobile -> open multiple patient Dashboard page
-        //tablet -> check BLE Connected or not
-        //yes -> open Multiple Patient dashboard page
-        //no -> connect BLE and then navigate to Multiple patient dashboard page
-
         //RecyclerViewSetup
         setUpRecyclerView()
 
         //Api call to fetch Latest data
-        token.let {
-            multiplePatientDashboardApi(it)
-        }?: run{
-            Toast.makeText(context, "Un-Authorized", Toast.LENGTH_SHORT).show()
-        }
+        multiplePatientDashboardApi(token)
 
         return binding.root
     }
@@ -84,6 +77,8 @@ class DoctorDashboardFragment : Fragment() {
     }
 
     fun onItemClicked(layoutPosition: Int) {
+        val bundle = bundleOf("patientId" to doctorAdapter.multiplePatient[layoutPosition].patientId)
+        findNavController().navigate(R.id.action_doctorDashboardFragment_to_nurseCareTakerDashboardFragment, bundle )
     }
 
 }

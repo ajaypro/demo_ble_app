@@ -14,6 +14,9 @@
         <action
             android:id="@+id/action_splashFragment_to_userSelectionFragment2"
             app:destination="@id/userSelectionFragment2" />
+        <action
+            android:id="@+id/action_splashFragment_to_dashboardDetailsHeartFragment"
+            app:destination="@id/dashboardDetailsHeartFragment" />
     </fragment>
     <fragment
         android:id="@+id/userSelectionFragment2"
@@ -61,14 +64,14 @@
         android:name="com.technoidentity.vitalz.dashboard.DoctorDashboardFragment"
         android:label="DoctorDashboardFragment">
         <action
-            android:id="@+id/action_doctorDashboardFragment_to_doctorPatientDetailFragment"
-            app:destination="@id/doctorPatientDetailFragment" />
-        <action
             android:id="@+id/action_doctorDashboardFragment_to_notificationsFragment"
             app:destination="@id/notificationsFragment" />
         <action
             android:id="@+id/action_doctorDashboardFragment_to_userSelectionFragment2"
             app:destination="@id/userSelectionFragment2" />
+        <action
+            android:id="@+id/action_doctorDashboardFragment_to_nurseCareTakerDashboardFragment"
+            app:destination="@id/nurseCareTakerDashboardFragment" />
     </fragment>
     <fragment
         android:id="@+id/addDeviceFragment"
@@ -77,17 +80,6 @@
         <action
             android:id="@+id/action_addDeviceFragment_to_bleScanResultFragment"
             app:destination="@id/bleScanResultFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/doctorPatientDetailFragment"
-        android:name="com.technoidentity.vitalz.dashboard.DoctorPatientDetailFragment"
-        android:label="DoctorPatientDetailFragment">
-        <argument
-            android:name="patientId"
-            app:argType="integer" />
-        <action
-            android:id="@+id/action_doctorPatientDetailFragment_to_dashboardDetailsHeartFragment"
-            app:destination="@id/dashboardDetailsHeartFragment" />
     </fragment>
     <fragment
         android:id="@+id/deviceDetailsFragment"

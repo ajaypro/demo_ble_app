@@ -45,12 +45,10 @@ class PatientListFragment : Fragment(), PatientAdapter.OnItemClickListener {
             findNavController().navigateUp()
         }
 
-        mobile.let {it->
+        mobile.let {mobile->
             hospitalId.let { hospital->
-                getPatientList(it, hospital)
+                getPatientList(mobile, hospital)
             }
-        }. run {
-            Toast.makeText(context, "Un-Authorized", Toast.LENGTH_SHORT).show()
         }
 
         //In Search Cancel button visibility GONE , please enable while typing

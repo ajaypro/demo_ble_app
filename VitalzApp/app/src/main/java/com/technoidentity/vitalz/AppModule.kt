@@ -6,6 +6,7 @@ import com.technoidentity.vitalz.data.network.VitalzService
 import com.technoidentity.vitalz.data.repository.MainRepository
 import com.technoidentity.vitalz.data.repository.UserRepository
 import com.technoidentity.vitalz.utils.CoroutinesDispatcherProvider
+import com.technoidentity.vitalz.utils.CustomProgressDialog
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,7 +21,7 @@ import javax.inject.Singleton
 object AppModule {
     @Singleton
     @Provides
-    fun providesVitalzApi(@ApplicationContext context: Context) : VitalzApi = VitalzService.getRestApi(context)
+    fun providesVitalzApi() : VitalzApi = VitalzService.getRestApi()!!
 
     @Singleton
     @Provides
@@ -38,4 +39,8 @@ object AppModule {
         override val unconfined: CoroutineDispatcher
             get() = Dispatchers.Unconfined
     }
+
+    @Singleton
+    @Provides
+    fun providesCustomProgressBarDialog(@ApplicationContext context: Context) = CustomProgressDialog(context)
 }

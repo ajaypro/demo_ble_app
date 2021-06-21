@@ -25,7 +25,7 @@ class NurseCareTakerDashboardFragment : Fragment() {
 
     val viewModel: NurseCareTakerDashboardViewModel by viewModels()
     lateinit var binding: CaretakerNurseDashboardBinding
-    private lateinit var progressDialog: CustomProgressDialog
+    lateinit var progressDialog: CustomProgressDialog
     lateinit var singlePatientDashboardResponse: SinglePatientDashboardResponse
 
     override fun onCreateView(
@@ -40,32 +40,34 @@ class NurseCareTakerDashboardFragment : Fragment() {
         //nurse -> visibility of BLE layout
         if (isTablet(requireContext())) {
             binding.layoutBle.visibility = View.VISIBLE
-        }else {
+        } else {
             binding.layoutBle.visibility = View.GONE
         }
-            //Getting Arguments From last Fragment
-            val patientId = arguments?.getString("patientId")
+        //Getting Arguments From last Fragment
+        val patientId = arguments?.getString("patientId")
 
-            //Api call to fetch Latest data
-            patientId?.let {
-                singleDashboardApi(it)
-                progressDialog.showLoadingDialog()
-            } ?: run {
-                Toast.makeText(context, "Un-Authorized", Toast.LENGTH_SHORT).show()
-            }
+        //Api call to fetch Latest data
+        patientId?.let {
+            singleDashboardApi(it)
+            progressDialog.showLoadingDialog()
+        } ?: run {
+            Toast.makeText(context, "Un-Authorized", Toast.LENGTH_SHORT).show()
+        }
 
-            //ViewProfilePage
-            binding.ivViewProfile.setOnClickListener {
-                findNavController().navigate(
-                    R.id.action_nurseCareTakerDashboardFragment_to_patientProfileFragment,
-                    bundleOf("patientData" to singlePatientDashboardResponse)
-                )
-            }
+        //ViewProfilePage
+        binding.ivViewProfile.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_nurseCareTakerDashboardFragment_to_patientProfileFragment,
+                bundleOf("patientData" to singlePatientDashboardResponse)
+            )
+        }
 
         //heartRate Detail
         binding.layoutHeartRate.setOnClickListener {
-            findNavController().navigate(R.id.action_nurseCareTakerDashboardFragment_to_dashboardDetailsHeartFragment,
-                bundleOf("heartData" to singlePatientDashboardResponse.heartRate))
+            findNavController().navigate(
+                R.id.action_nurseCareTakerDashboardFragment_to_dashboardDetailsHeartFragment,
+                bundleOf("heartData" to singlePatientDashboardResponse.heartRate)
+            )
         }
 
         return binding.root

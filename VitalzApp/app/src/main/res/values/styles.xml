@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.VitalzApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.VitalzApp" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="android:windowDisablePreview">true</item>
         <item name="colorPrimary">@color/purple_500</item>
@@ -202,6 +202,24 @@
         <item name="android:layout_width">@dimen/dp_220</item>
         <item name="android:layout_height">@dimen/dp_80</item>
         <item name="android:layout_marginTop">@dimen/dp_24</item>
+    </style>
+
+    <style name="DialogTheme" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="colorAccent">@color/button_blue</item>
+    </style>
+
+    <style name="Theme.VitalzApp." parent="Theme.MaterialComponents.Light.NoActionBar">
+        ...
+        <item name="circularProgressIndicatorStyle">@style/Widget.App.CircularProgressIndicator</item>
+    </style>
+
+    <style name="Widget.App.CircularProgressIndicator" parent="Widget.MaterialComponents.CircularProgressIndicator">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.CircularProgressIndicator</item>
+        <item name="trackThickness">20dp</item>
+    </style>
+
+    <style name="ThemeOverlay.App.CircularProgressIndicator" parent="">
+        <item name="colorPrimary">@color/button_blue</item>
     </style>
 
 </resources>

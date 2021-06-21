@@ -44,8 +44,6 @@ class HospitalListFragment : Fragment(), HospitalAdapter.OnItemClickListener  {
         setUpRecyclerView()
         mobile.let {
             getHospitalList(it)
-        }. run {
-            Toast.makeText(context, "Un-Authorized", Toast.LENGTH_SHORT).show()
         }
 
         //Search has Cancel icon with visibility GONE

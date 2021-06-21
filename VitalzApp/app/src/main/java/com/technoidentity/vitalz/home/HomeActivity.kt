@@ -2,6 +2,7 @@ package com.technoidentity.vitalz.home
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import com.technoidentity.vitalz.databinding.ActivityMainBinding
@@ -42,7 +43,8 @@ class HomeActivity : AppCompatActivity() {
                         }
                     }
                     false -> {
-                        Snackbar.make(View(this), "No Connection", Snackbar.LENGTH_SHORT).show()
+                        Toast.makeText(this,"No Connection", Toast.LENGTH_SHORT).show()
+//                        Snackbar.make(View(this), "No Connection", Snackbar.LENGTH_SHORT).show()
                     }
                 }
             }

@@ -13,8 +13,6 @@ import androidx.navigation.fragment.findNavController
 import com.technoidentity.vitalz.R
 import com.technoidentity.vitalz.data.network.Constants
 import com.technoidentity.vitalz.databinding.FragmentOtpConfirmBinding
-import com.technoidentity.vitalz.user.CareTakerMobileViewModel.CareTaker.Failure
-import com.technoidentity.vitalz.user.CareTakerMobileViewModel.CareTaker.Success
 import com.technoidentity.vitalz.utils.CustomProgressDialog
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -45,6 +43,7 @@ class CareTakerMobileOTPFragment : Fragment() {
             }
 
             override fun onFinish() {
+                clearOtp()
                 binding.tvTimer.text = "Resend OTP"
                 binding.tvTimer.setTextColor(resources.getColor(R.color.button_blue))
                 binding.tvTimer.setOnClickListener {
@@ -76,28 +75,35 @@ class CareTakerMobileOTPFragment : Fragment() {
                             val pref =
                                 context?.getSharedPreferences(Constants.PREFERENCE_NAME, 0)
                             pref?.edit()?.putString(Constants.TOKEN, it.data.token)?.apply()
-                            pref?.edit()?.putString(Constants.MOBILE, it.data.user?.phoneNo)?.apply()
+                            pref?.edit()?.putString(Constants.MOBILE, it.data.user?.phoneNo)
+                                ?.apply()
                             progressDialog.dismissLoadingDialog()
                             findNavController()
                                 .navigate(R.id.action_careTakerMobileOTPFragment_to_hospitalListFragment)
                         }
 
-                            is OtpMobileViewModel.OtpResponse.Failure -> {
-                                Toast.makeText(context, it.errorText, Toast.LENGTH_SHORT).show()
-                                binding.etOtp1.setText("")
-                                binding.etOtp2.setText("")
-                                binding.etOtp3.setText("")
-                                binding.etOtp4.setText("")
-                                binding.etOtp5.setText("")
-                                binding.etOtp6.setText("")
-                                progressDialog.dismissLoadingDialog()
-                            }
-                            else -> Unit
+                        is OtpMobileViewModel.OtpResponse.Failure -> {
+                            Toast.makeText(context, it.errorText, Toast.LENGTH_SHORT).show()
+                            clearOtp()
+                            progressDialog.dismissLoadingDialog()
                         }
-                    })
-                }
+                        else -> Unit
+                    }
+                })
             }
+        }
         return binding.root
+    }
+
+    private fun clearOtp() {
+        binding.apply {
+            this.etOtp1.setText("")
+            this.etOtp2.setText("")
+            this.etOtp3.setText("")
+            this.etOtp4.setText("")
+            this.etOtp5.setText("")
+            this.etOtp6.setText("")
+        }
     }
 
     private fun resendOtpApiCall(mobile: String?) {
@@ -105,29 +111,31 @@ class CareTakerMobileOTPFragment : Fragment() {
             viewModelCareTaker.getCareTakerResponse(mobile)
         }
         viewModelCareTaker.expectedResult.observe(viewLifecycleOwner, {
-            if (it.success){
+            if (it.success) {
                 Toast.makeText(context, "Otp Sent", Toast.LENGTH_SHORT).show()
-            }else{
+            } else {
                 Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show()
             }
         })
     }
 
     private fun setFocusChangeOnTextEntered() {
-        binding.etOtp1.doOnTextChanged { text, start, before, count ->
-            binding.etOtp2.requestFocus()
-        }
-        binding.etOtp2.doOnTextChanged { text, start, before, count ->
-            binding.etOtp3.requestFocus()
-        }
-        binding.etOtp3.doOnTextChanged { text, start, before, count ->
-            binding.etOtp4.requestFocus()
-        }
-        binding.etOtp4.doOnTextChanged { text, start, before, count ->
-            binding.etOtp5.requestFocus()
-        }
-        binding.etOtp5.doOnTextChanged { text, start, before, count ->
-            binding.etOtp6.requestFocus()
+        binding.apply {
+            etOtp1.doOnTextChanged { text, start, before, count ->
+                etOtp2.requestFocus()
+            }
+            etOtp2.doOnTextChanged { text, start, before, count ->
+                etOtp3.requestFocus()
+            }
+            etOtp3.doOnTextChanged { text, start, before, count ->
+                etOtp4.requestFocus()
+            }
+            etOtp4.doOnTextChanged { text, start, before, count ->
+                etOtp5.requestFocus()
+            }
+            etOtp5.doOnTextChanged { text, start, before, count ->
+                etOtp6.requestFocus()
+            }
         }
     }
 }
