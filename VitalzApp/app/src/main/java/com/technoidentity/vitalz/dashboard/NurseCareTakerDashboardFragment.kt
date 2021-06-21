@@ -26,7 +26,7 @@ class NurseCareTakerDashboardFragment : Fragment() {
     val viewModel: NurseCareTakerDashboardViewModel by viewModels()
     lateinit var binding: CaretakerNurseDashboardBinding
     private lateinit var progressDialog: CustomProgressDialog
-    lateinit var singlePatientDashboardResponse: SinglePatientDashboardResponse
+    private lateinit var singlePatientDashboardResponse: SinglePatientDashboardResponse
 
     override fun onCreateView(
         inflater: LayoutInflater,
