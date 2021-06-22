@@ -27,7 +27,6 @@ class SplashFragment : Fragment() {
 
         //if Tablet - Get started Button else after 2sec navigate to user Selection
         //shared preferences
-
         if (isTablet(requireContext())) {
             binding.btnGetStarted.visibility = View.VISIBLE
             binding.btnGetStarted.setOnClickListener {

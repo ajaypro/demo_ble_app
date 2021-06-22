@@ -50,8 +50,6 @@ class NurseCareTakerDashboardFragment : Fragment() {
             patientId?.let {
                 singleDashboardApi(it)
                 progressDialog.showLoadingDialog()
-            } ?: run {
-                Toast.makeText(context, "Un-Authorized", Toast.LENGTH_SHORT).show()
             }
 
             //ViewProfilePage
