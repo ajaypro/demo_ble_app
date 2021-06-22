@@ -27,8 +27,6 @@ suspend fun <T : Any> runIO(
     }
 
 sealed class ResultHandler<out T : Any>(val data: T?, val message: Any?) {
-     class Success<out T : Any>(data: T) : ResultHandler<T>(data, null)
-     class Error<T : Any>(message: Any) : ResultHandler<T>(null, message)
+    class Success<out T : Any>(data: T) : ResultHandler<T>(data, null)
+    class Error<T : Any>(message: Any) : ResultHandler<T>(null, message)
 }
-
-

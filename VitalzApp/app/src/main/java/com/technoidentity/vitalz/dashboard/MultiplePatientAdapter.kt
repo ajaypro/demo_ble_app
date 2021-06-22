@@ -6,11 +6,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.technoidentity.vitalz.data.datamodel.hospital_list.HospitalListDataItem
-import com.technoidentity.vitalz.data.datamodel.multiple_patient.MultiplePatientDashboardResponse
 import com.technoidentity.vitalz.data.datamodel.multiple_patient.MultiplePatientDashboardResponseItem
 import com.technoidentity.vitalz.databinding.RecyclerViewDocPatientListBinding
-import com.technoidentity.vitalz.databinding.RecyclerViewHospitalListBinding
 
 class MultiplePatientAdapter(val listener: DoctorDashboardFragment) :
     RecyclerView.Adapter<MultiplePatientAdapter.MultiplePatientViewHolder>() {
@@ -56,10 +53,11 @@ class MultiplePatientAdapter(val listener: DoctorDashboardFragment) :
         holder.binding.apply {
             val patientsInfo = multiplePatient[position]
             tvPatientName.text = patientsInfo.name
-//            tvBloopPressureCount.text
-//            tvTempCount.text
-//            tvSpoCount.text
-//            tvPosCount.text
+            tvBloopPressureCount.text = (patientsInfo.bloodPressure.systolicPressure.last().toString() +
+                    "/" + patientsInfo.bloodPressure.diastolicPressure.last().toString())
+            tvTempCount.text = patientsInfo.temperature.bodyTemperature.last().toString()
+            tvSpoCount.text = patientsInfo.oxygenSaturation.oxygenPercentage.last().toString()
+            tvPosCount.text = patientsInfo.posture.bodyPosture.last()
         }
     }
 

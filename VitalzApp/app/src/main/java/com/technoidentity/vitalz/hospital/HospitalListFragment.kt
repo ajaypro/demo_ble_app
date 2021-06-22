@@ -2,14 +2,12 @@ package com.technoidentity.vitalz.hospital
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.technoidentity.vitalz.R
@@ -44,23 +42,19 @@ class HospitalListFragment : Fragment(), HospitalAdapter.OnItemClickListener  {
 
         //setup RecyclerView
         setUpRecyclerView()
-        if (token != null) {
-            progressDialog.showLoadingDialog(
-                title = "Vitalz App",
-                message = "Loading...",
-                isCancellable = false
-            )
-            getHospitalList(mobile)
-        } else {
+        mobile.let {
+            getHospitalList(it)
+        }. run {
             Toast.makeText(context, "Un-Authorized", Toast.LENGTH_SHORT).show()
-//           TODO Logout
-            Log.v("Check", "StageFail_NewFrag $token")
         }
+
+        //Search has Cancel icon with visibility GONE
 
         return binding.root
     }
 
     private fun getHospitalList(mobile: String) {
+        progressDialog.showLoadingDialog()
             viewModel.getHospitalListData(mobile)
             viewModel.expectedResult.observe(viewLifecycleOwner, {
                 when (it) {
@@ -91,7 +85,8 @@ class HospitalListFragment : Fragment(), HospitalAdapter.OnItemClickListener  {
         if (hospitalAdapter.hospitals.isEmpty()){
             Toast.makeText(context, "No Patient Available", Toast.LENGTH_SHORT).show()
         }else{
-            Navigation.findNavController(requireView()).navigate(R.id.patientListFragment, bundle)
+            Navigation.findNavController(requireView()).navigate(
+                R.id.action_hospitalListFragment_to_patientListFragment, bundle)
         }
     }
 }

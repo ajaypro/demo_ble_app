@@ -1,5 +1,6 @@
 package com.technoidentity.vitalz
 
+import android.content.Context
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.le.BluetoothLeScanner
 import android.bluetooth.le.ScanFilter
@@ -19,6 +20,7 @@ import com.technoidentity.vitalz.utils.CoroutinesDispatcherProvider
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -29,7 +31,7 @@ import javax.inject.Singleton
 object AppModule {
     @Singleton
     @Provides
-    fun vitalzApi(): VitalzApi = VitalzService.getRestApi()
+    fun providesVitalzApi(@ApplicationContext context: Context) : VitalzApi = VitalzService.getRestApi(context)
 
     @Singleton
     @Provides

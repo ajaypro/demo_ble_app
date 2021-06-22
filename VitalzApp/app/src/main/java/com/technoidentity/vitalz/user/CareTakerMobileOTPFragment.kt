@@ -9,7 +9,7 @@ import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.technoidentity.vitalz.R
 import com.technoidentity.vitalz.data.network.Constants
 import com.technoidentity.vitalz.databinding.FragmentOtpConfirmBinding
@@ -68,26 +68,28 @@ class CareTakerMobileOTPFragment : Fragment() {
                 Toast.makeText(context, "Please Enter Otp", Toast.LENGTH_SHORT).show()
             } else {
                 val otpReceived: String = (etOtp1 + etOtp2 + etOtp3 + etOtp4 + etOtp5 + etOtp6)
-                progressDialog.showLoadingDialog(
-                    title = "Vitalz App",
-                    message = "Loading...",
-                    isCancellable = false
-                )
-                viewModel.getOtpResponse(mobile, otpReceived.toInt())
+                progressDialog.showLoadingDialog()
+                mobile?.let { it1 -> viewModel.getOtpResponse(it1, otpReceived.toInt()) }
                 viewModel.expectedResult.observe(viewLifecycleOwner, {
                     when (it) {
                         is OtpMobileViewModel.OtpResponse.Success -> {
                             val pref =
                                 context?.getSharedPreferences(Constants.PREFERENCE_NAME, 0)
-                            pref?.edit()?.putString(Constants.TOKEN, it.data?.token)?.apply()
-                            pref?.edit()?.putString(Constants.MOBILE, it.data?.user?.phoneNo)
-                                ?.apply()
+                            pref?.edit()?.putString(Constants.TOKEN, it.data.token)?.apply()
+                            pref?.edit()?.putString(Constants.MOBILE, it.data.user?.phoneNo)?.apply()
                             progressDialog.dismissLoadingDialog()
-                            Navigation.findNavController(requireView())
-                                .navigate(R.id.hospitalListFragment)
+                            findNavController()
+                                .navigate(R.id.action_careTakerMobileOTPFragment_to_hospitalListFragment)
                         }
 
                             is OtpMobileViewModel.OtpResponse.Failure -> {
+                                Toast.makeText(context, it.errorText, Toast.LENGTH_SHORT).show()
+                                binding.etOtp1.setText("")
+                                binding.etOtp2.setText("")
+                                binding.etOtp3.setText("")
+                                binding.etOtp4.setText("")
+                                binding.etOtp5.setText("")
+                                binding.etOtp6.setText("")
                                 progressDialog.dismissLoadingDialog()
                             }
                             else -> Unit

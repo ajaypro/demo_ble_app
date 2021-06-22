@@ -5,6 +5,7 @@ plugins {
     id 'kotlin-parcelize'
     id 'dagger.hilt.android.plugin'
     id 'androidx.navigation.safeargs.kotlin'
+    id 'kotlin-android-extensions'
 }
 
 android {
@@ -36,6 +37,10 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+
+    androidExtensions {
+        experimental = true
     }
 }
 
@@ -117,5 +122,7 @@ dependencies {
 
     //graph
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
+
 
 }

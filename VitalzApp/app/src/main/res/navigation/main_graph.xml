@@ -137,6 +137,9 @@
         android:id="@+id/bleScanResultFragment"
         android:name="com.technoidentity.vitalz.bluetooth.BleScanResultFragment"
         android:label="BleScanResultFragment" >
+        <argument
+            android:name="bleDevice"
+            app:argType="android.bluetooth.BluetoothDevice" />
         <action
             android:id="@+id/action_bleScanResultFragment_to_deviceDetailsFragment"
             app:destination="@id/deviceDetailsFragment" />
