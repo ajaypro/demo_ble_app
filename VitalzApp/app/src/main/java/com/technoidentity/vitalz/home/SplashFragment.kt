@@ -3,21 +3,18 @@ package com.technoidentity.vitalz.home
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.os.Handler
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.technoidentity.vitalz.R
 import com.technoidentity.vitalz.databinding.FragmentSplashScreenBinding
+import com.technoidentity.vitalz.utils.isTablet
 import com.technoidentity.vitalz.utils.showSnackbar
 
-class SplashFragment : Fragment(R.layout.fragment_splash_screen) {
+class SplashFragment : Fragment() {
 
     lateinit var binding: FragmentSplashScreenBinding
 
@@ -25,30 +22,40 @@ class SplashFragment : Fragment(R.layout.fragment_splash_screen) {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentSplashScreenBinding.inflate(inflater)
-        requireActivity().actionBar?.hide()
-        return binding.root
-    }
+    ): View {
+        binding = FragmentSplashScreenBinding.inflate(layoutInflater)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        val navController: NavController = Navigation.findNavController(view)
-        val countDownTimer = object : CountDownTimer(3000, 1000) {
-            override fun onTick(millisUntilFinished: Long) {
+        //if Tablet - Get started Button else after 2sec navigate to user Selection
+        //shared preferences
+
+        if (isTablet(requireContext())) {
+            binding.btnGetStarted.visibility = View.VISIBLE
+            binding.btnGetStarted.setOnClickListener {
+                findNavController().navigate(R.id.action_splashFragment_to_userSelectionFragment2)
             }
-
-            override fun onFinish() {
-                if (!requireActivity().packageManager.hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
-                    binding.root.showSnackbar(R.string.ble_not_suppported, Snackbar.LENGTH_INDEFINITE, R.string.ok){
-                        activity?.finish()
-                    }
-                } else {
-                    navController.navigate(R.id.action_splashFragment_to_addDeviceFragment)
+        } else {
+            val countDownTimer = object : CountDownTimer(3000, 1000) {
+                override fun onTick(millisUntilFinished: Long) {
                 }
-            }
 
+                override fun onFinish() {
+                    if (!requireActivity().packageManager.hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
+                        binding.root.showSnackbar(
+                            R.string.ble_not_suppported,
+                            Snackbar.LENGTH_INDEFINITE,
+                            R.string.ok
+                        ) {
+                            activity?.finish()
+                        }
+                    } else {
+//                    navController.navigate(R.id.action_splashFragment_to_addDeviceFragment)
+                        findNavController().navigate(R.id.action_splashFragment_to_userSelectionFragment2)
+                    }
+                }
+
+            }
+            countDownTimer.start()
         }
-        countDownTimer.start()
+        return binding.root
     }
 }

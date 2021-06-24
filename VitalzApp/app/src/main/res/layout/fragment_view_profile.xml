@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@mipmap/vitalz"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@mipmap/vitalz">
+        android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/app_bar_layout"
@@ -37,71 +36,21 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <ImageView
-            android:id="@+id/iv_remote_icon"
-            style="@style/dashboard_ble"
-            android:contentDescription="@string/remote_icon"
-            android:src="@drawable/ic_ble_battery"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/app_bar_layout" />
-
-        <TextView
-            android:id="@+id/tv_time_left"
-            style="@style/dashboard_ble"
-            android:hint="@string/fake_time_left"
-            android:text=""
-            android:textColorHint="@color/black"
-            app:layout_constraintStart_toEndOf="@+id/iv_remote_icon"
-            app:layout_constraintTop_toBottomOf="@+id/app_bar_layout" />
-
-        <TextView
-            android:id="@+id/tv_time_left_unit"
-            style="@style/dashboard_ble_battery"
-            app:layout_constraintStart_toEndOf="@+id/tv_time_left"
-            app:layout_constraintTop_toBottomOf="@+id/app_bar_layout" />
-
-        <ImageView
-            android:id="@+id/iv_connectivity_icon"
-            style="@style/dashboard_ble"
-            android:layout_marginEnd="@dimen/dp_20"
-            android:visibility="invisible"
-            android:contentDescription="@string/remote_icon"
-            android:src="@drawable/ic_connectivity_icon"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/app_bar_layout" />
-
         <androidx.constraintlayout.widget.ConstraintLayout
             style="@style/layout_dashboard"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_connectivity_icon">
-
-            <ImageView
-                android:id="@+id/iv_add_user"
-                style="@style/viewSize"
-                android:contentDescription="@string/remote_icon"
-                android:src="@drawable/ic_add_user"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tv_user_registration"
-                style="@style/viewSize"
-                android:layout_marginStart="@dimen/dp_16"
-                android:text="@string/user_registration"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/button_blue"
-                app:layout_constraintStart_toEndOf="@+id/iv_add_user"
-                app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/app_bar_layout">
 
             <TextView
                 android:id="@+id/tv_user_name"
                 style="@style/heading_dashboard"
                 android:text="@string/name"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_user_registration" />
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <EditText
+            <TextView
                 android:id="@+id/et_name"
                 style="@style/et_dashboard"
                 android:text=""
@@ -115,9 +64,9 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/et_name" />
 
-            <EditText
+            <TextView
                 android:id="@+id/et_age"
-                style="@style/heading_dashboard_spinner"
+                style="@style/dashboard_fields"
                 android:layout_width="@dimen/dp_150"
                 android:text=""
                 app:layout_constraintStart_toStartOf="parent"
@@ -132,9 +81,9 @@
                 app:layout_constraintStart_toEndOf="@+id/et_age"
                 app:layout_constraintTop_toBottomOf="@+id/et_name" />
 
-            <EditText
+            <TextView
                 android:id="@+id/et_gender"
-                style="@style/heading_dashboard_spinner"
+                style="@style/dashboard_fields"
                 android:layout_width="@dimen/dp_150"
                 android:text=""
                 app:layout_constraintEnd_toEndOf="parent"
@@ -148,9 +97,9 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/et_age" />
 
-            <EditText
+            <TextView
                 android:id="@+id/et_height"
-                style="@style/heading_dashboard_spinner"
+                style="@style/dashboard_fields"
                 android:layout_width="@dimen/dp_150"
                 android:text=""
                 app:layout_constraintStart_toStartOf="parent"
@@ -165,9 +114,9 @@
                 app:layout_constraintStart_toEndOf="@+id/et_age"
                 app:layout_constraintTop_toBottomOf="@+id/et_gender" />
 
-            <EditText
+            <TextView
                 android:id="@+id/et_weight"
-                style="@style/heading_dashboard_spinner"
+                style="@style/dashboard_fields"
                 android:layout_width="@dimen/dp_150"
                 android:text=""
                 app:layout_constraintEnd_toEndOf="parent"
@@ -183,7 +132,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/et_weight" />
 
-            <EditText
+            <TextView
                 android:id="@+id/et_address"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_100"
@@ -192,6 +141,7 @@
                 android:gravity="start"
                 android:inputType="text"
                 android:padding="@dimen/dp_8"
+                android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toEndOf="parent"
@@ -206,7 +156,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/et_address" />
 
-            <EditText
+            <TextView
                 android:id="@+id/tv_contact_number"
                 style="@style/et_dashboard"
                 android:inputType="number"
@@ -222,7 +172,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_contact_number" />
 
-            <EditText
+            <TextView
                 android:id="@+id/et_emergency_contact_name"
                 style="@style/et_dashboard"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -236,7 +186,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/et_emergency_contact_name" />
 
-            <EditText
+            <TextView
                 android:id="@+id/et_emergency_contact_number"
                 style="@style/et_dashboard"
                 android:inputType="number"
@@ -251,7 +201,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/et_emergency_contact_number" />
 
-            <EditText
+            <TextView
                 android:id="@+id/et_attending_doctor"
                 style="@style/et_dashboard"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -265,21 +215,12 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/et_attending_doctor" />
 
-            <EditText
+            <TextView
                 android:id="@+id/et_id_hospital"
                 style="@style/et_dashboard"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_id_hospital" />
-
-            <Button
-                android:layout_width="match_parent"
-                style="@style/button"
-                android:text="@string/submit"
-                android:visibility="visible"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/et_id_hospital" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

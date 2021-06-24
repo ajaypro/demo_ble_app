@@ -18,10 +18,10 @@ class CustomProgressDialog(context: Context) {
     mDialogBox = m_Dialog.create()
   }
 
-  fun showLoadingDialog(title: String, message: String, isCancellable: Boolean) {
-    mDialogBox.setTitle(title)
-    m_Message.text = message
-    mDialogBox.setCancelable(isCancellable)
+  fun showLoadingDialog() {
+    mDialogBox.setTitle("Vitalz App")
+    m_Message.text = "Loading..."
+    mDialogBox.setCancelable(false)
     mDialogBox.show()
   }
 

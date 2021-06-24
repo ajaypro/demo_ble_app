@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -48,7 +47,7 @@
             style="@style/dashboard_ble"
             android:hint="@string/fake_time_left"
             android:text=""
-            android:textColorHint="@color/black"
+            android:textColor="@color/black"
             app:layout_constraintStart_toEndOf="@+id/iv_remote_icon"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -69,6 +68,7 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+
     <TextView
         android:id="@+id/tv_selected_patient"
         android:layout_width="wrap_content"
@@ -80,18 +80,80 @@
         android:textColor="@color/black"
         app:layout_constraintBottom_toTopOf="@id/layout_dashboard"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layout_ble" />
-
+        app:layout_constraintTop_toBottomOf="@+id/layout_ble"
+        app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
         android:id="@+id/iv_view_profile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="@dimen/dp_16"
         android:src="@drawable/ic_edit_profile"
-        app:layout_constraintBottom_toTopOf="@+id/layout_dashboard"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layout_ble" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/pie_chart_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="@dimen/dp_16"
+        android:padding="@dimen/dp_16"
+        app:layout_constraintTop_toBottomOf="@+id/iv_view_profile">
+
+        <ImageView
+            android:id="@+id/display_heart_chart"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_30"
+            android:src="@drawable/iv_heart_rate"
+            app:layout_constraintEnd_toStartOf="@+id/pie_chart_heart_layout"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/button_Red" />
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/pie_chart_heart_layout"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_50"
+            android:layout_marginStart="@dimen/dp_16"
+            app:layout_constraintBottom_toBottomOf="@+id/display_heart_chart"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_weight="9"
+            app:layout_constraintStart_toEndOf="@+id/display_heart_chart"
+            app:layout_constraintTop_toTopOf="@+id/display_heart_chart" />
+
+        <ImageView
+            android:id="@+id/display_respiratory_chart"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_30"
+            android:layout_marginTop="@dimen/dp_16"
+            android:src="@drawable/ic__respiratory"
+            app:layout_constraintEnd_toStartOf="@+id/pie_chart_respiratory_layout"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/display_heart_chart"
+            app:tint="@android:color/holo_blue_light" />
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/pie_chart_respiratory_layout"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_50"
+            android:layout_marginStart="@dimen/dp_16"
+            app:layout_constraintBottom_toBottomOf="@+id/display_respiratory_chart"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_weight="9"
+            app:layout_constraintStart_toEndOf="@+id/display_respiratory_chart"
+            app:layout_constraintTop_toTopOf="@+id/display_respiratory_chart" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_dashboard"
@@ -100,7 +162,7 @@
         android:layout_margin="@dimen/dp_16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_selected_patient">
+        app:layout_constraintTop_toBottomOf="@id/pie_chart_layout">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_heart_rate"
