@@ -49,7 +49,7 @@ class NotificationAdapter : RecyclerView.Adapter<NotificationAdapter.Notificatio
         holder.binding.apply {
             val notifications = notification[position]
             tvNotificationTitle.text = notifications.description
-            tvNotificationDate.text = notifications.date
+            tvNotificationDate.text = notifications.createdTime
         }
     }
 

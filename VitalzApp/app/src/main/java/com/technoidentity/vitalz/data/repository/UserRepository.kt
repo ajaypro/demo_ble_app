@@ -7,7 +7,8 @@ import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseResponse
 import com.technoidentity.vitalz.data.datamodel.hospital_list.HospitalListData
 import com.technoidentity.vitalz.data.datamodel.hospital_list.HospitalListRequest
 import com.technoidentity.vitalz.data.datamodel.multiple_patient.MultiplePatientDashboardResponse
-import com.technoidentity.vitalz.data.datamodel.notification.NotificationRequest
+import com.technoidentity.vitalz.data.datamodel.notification.NotificationCareTakerRequest
+import com.technoidentity.vitalz.data.datamodel.notification.NotificationDoctorRequest
 import com.technoidentity.vitalz.data.datamodel.notification.NotificationResponse
 import com.technoidentity.vitalz.data.datamodel.otp.OtpRequest
 import com.technoidentity.vitalz.data.datamodel.otp.OtpResponse
@@ -120,8 +121,36 @@ class UserRepository @Inject constructor(
         }
     }
 
-    override suspend fun getNotificationList(request: NotificationRequest): ResultHandler<NotificationResponse> {
-        val response = api.getNotificationsList(request)
+    override suspend fun getNotificationCareTakerList(request: NotificationCareTakerRequest): ResultHandler<NotificationResponse> {
+        val response = api.getNotificationsCareTakerList(request)
+        return try {
+            val result = response.body()!!
+            if (response.code() == 200) {
+                ResultHandler.Success(result)
+            } else {
+                Error(response.code())
+            }
+        } catch (e: Exception) {
+            Error(e.message ?: "Contact Admin")
+        }
+    }
+
+    override suspend fun getNotificationDoctorList(request: NotificationDoctorRequest): ResultHandler<NotificationResponse> {
+        val response = api.getNotificationsDoctorList(request)
+        return try {
+            val result = response.body()!!
+            if (response.code() == 200) {
+                ResultHandler.Success(result)
+            } else {
+                Error(response.code())
+            }
+        } catch (e: Exception) {
+            Error(e.message ?: "Contact Admin")
+        }
+    }
+
+    override suspend fun getNotificationAdminNurseList(): ResultHandler<NotificationResponse> {
+        val response = api.getNotificationsAdminNurseList()
         return try {
             val result = response.body()!!
             if (response.code() == 200) {

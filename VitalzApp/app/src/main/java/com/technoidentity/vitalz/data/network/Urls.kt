@@ -18,5 +18,9 @@ object Urls {
 
     const val MULTIPLE_PATIENT_DASHBOARD = "http://52.140.120.88:8082/agastya/v1/patients"
 
-    const val NOTIFICATIONS = "/agastya/notification"
+    const val NOTIFICATION_CARE_TAKER = "/notification/patient"
+
+    const val NOTIFICATION_DOCTOR = "/notification/doctor"
+
+    const val NOTIFICATION_ADMIN_NURSE = "/notification/admin-nurse"
 }

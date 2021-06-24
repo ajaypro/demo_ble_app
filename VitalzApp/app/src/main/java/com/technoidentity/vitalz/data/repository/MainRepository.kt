@@ -7,7 +7,8 @@ import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseRequest
 import com.technoidentity.vitalz.data.datamodel.hospital_list.HospitalListData
 import com.technoidentity.vitalz.data.datamodel.hospital_list.HospitalListRequest
 import com.technoidentity.vitalz.data.datamodel.multiple_patient.MultiplePatientDashboardResponse
-import com.technoidentity.vitalz.data.datamodel.notification.NotificationRequest
+import com.technoidentity.vitalz.data.datamodel.notification.NotificationCareTakerRequest
+import com.technoidentity.vitalz.data.datamodel.notification.NotificationDoctorRequest
 import com.technoidentity.vitalz.data.datamodel.notification.NotificationResponse
 import com.technoidentity.vitalz.data.datamodel.otp.OtpRequest
 import com.technoidentity.vitalz.data.datamodel.otp.OtpResponse
@@ -32,6 +33,10 @@ interface MainRepository {
 
     suspend fun getMultiplePatientDashboardList(): ResultHandler<MultiplePatientDashboardResponse>
 
-    suspend fun getNotificationList(request: NotificationRequest): ResultHandler<NotificationResponse>
+    suspend fun getNotificationCareTakerList(request: NotificationCareTakerRequest): ResultHandler<NotificationResponse>
+
+    suspend fun getNotificationDoctorList(request: NotificationDoctorRequest): ResultHandler<NotificationResponse>
+
+    suspend fun getNotificationAdminNurseList(): ResultHandler<NotificationResponse>
 
 }

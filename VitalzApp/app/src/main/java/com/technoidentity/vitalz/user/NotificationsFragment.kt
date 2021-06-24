@@ -17,9 +17,10 @@ import dagger.hilt.android.AndroidEntryPoint
 class NotificationsFragment : Fragment() {
 
     lateinit var binding: FragmentNotificationsBinding
-    lateinit var notificationAdapter: NotificationAdapter
+    private lateinit var notificationAdapter: NotificationAdapter
     val viewModel: NotificationViewModel by viewModels()
-    private lateinit var userId: String
+    private lateinit var patientId: String
+    private lateinit var doctorMobileNumber: String
     private lateinit var progressDialog: CustomProgressDialog
 
     override fun onCreateView(
@@ -27,26 +28,29 @@ class NotificationsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentNotificationsBinding.inflate(inflater)
+        binding = FragmentNotificationsBinding.inflate(layoutInflater)
         progressDialog = CustomProgressDialog(this.requireContext())
+
+        //get patient Id from Shared Prefs
 
         //RecyclerView Setup
         setupRecyclerView()
-        userId.let{
-            getNotificationsListApi(userId)
-        }?: run {
-            Toast.makeText(context, "Un-Authorized", Toast.LENGTH_SHORT).show()
-        }
+
+        //GetApi Call
+        getNotificationsCareTakerListApi(patientId)
+        //handle After Bottom Navigation PR... from HomeViewModel
+//        getNotificationDoctorListApi(doctorMobileNumber)
+//        getNotificationAdminNurseListApi()
 
         return binding.root
     }
 
-    private fun getNotificationsListApi(userId: String) {
+    private fun getNotificationsCareTakerListApi(patientId: String) {
         progressDialog.showLoadingDialog(
             title = "Vitalz App",
             message = "Loading...",
             isCancellable = false)
-        viewModel.getNotificationsListData(userId)
+        viewModel.getNotificationsCareTakerListData(patientId)
         viewModel.expectedResult.observe(viewLifecycleOwner, {
             when (it) {
                 is NotificationViewModel.NotificationData.Success -> {
