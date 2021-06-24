@@ -1,5 +1,6 @@
 package com.technoidentity.vitalz.dashboard
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,13 +10,16 @@ import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.technoidentity.vitalz.R
 import com.technoidentity.vitalz.data.datamodel.single_patient.SinglePatientDashboardResponse
+import com.technoidentity.vitalz.data.network.Constants
 import com.technoidentity.vitalz.databinding.CaretakerNurseDashboardBinding
+import com.technoidentity.vitalz.home.HomeActivityViewModel
 import com.technoidentity.vitalz.utils.CustomProgressDialog
 import com.technoidentity.vitalz.utils.isTablet
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,8 +28,10 @@ import dagger.hilt.android.AndroidEntryPoint
 class NurseCareTakerDashboardFragment : Fragment() {
 
     val viewModel: NurseCareTakerDashboardViewModel by viewModels()
+    private val homeViewModel: HomeActivityViewModel by viewModels()
     lateinit var binding: CaretakerNurseDashboardBinding
     private lateinit var progressDialog: CustomProgressDialog
+    private lateinit var patientId: String
     lateinit var singlePatientDashboardResponse: SinglePatientDashboardResponse
 
     override fun onCreateView(
@@ -36,29 +42,32 @@ class NurseCareTakerDashboardFragment : Fragment() {
         binding = CaretakerNurseDashboardBinding.inflate(layoutInflater)
         progressDialog = CustomProgressDialog(this.requireContext())
 
+        //get Shared data for Patient Id
+        val sharedPreferences =
+            context?.getSharedPreferences(Constants.PREFERENCE_NAME, Context.MODE_PRIVATE)
+        patientId = sharedPreferences?.getString(Constants.PATIENTID, null).toString()
+
         //check if nurse or caretaker
         //nurse -> visibility of BLE layout
         if (isTablet(requireContext())) {
             binding.layoutBle.visibility = View.VISIBLE
-        }else {
+        } else {
             binding.layoutBle.visibility = View.GONE
         }
-            //Getting Arguments From last Fragment
-            val patientId = arguments?.getString("patientId")
 
-            //Api call to fetch Latest data
-            patientId?.let {
-                singleDashboardApi(it)
-                progressDialog.showLoadingDialog()
-            }
+        //Api call to fetch Latest data
+        patientId.let {
+            singleDashboardApi(it)
+            progressDialog.showLoadingDialog()
+        }
 
-            //ViewProfilePage
-            binding.ivViewProfile.setOnClickListener {
-                findNavController().navigate(
-                    R.id.action_nurseCareTakerDashboardFragment_to_patientProfileFragment,
-                    bundleOf("patientData" to singlePatientDashboardResponse)
-                )
-            }
+        //ViewProfilePage
+        binding.ivViewProfile.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_nurseCareTakerDashboardFragment_to_patientProfileFragment,
+                bundleOf("patientData" to singlePatientDashboardResponse)
+            )
+        }
 
         return binding.root
     }

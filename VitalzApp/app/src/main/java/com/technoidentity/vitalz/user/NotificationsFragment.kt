@@ -5,15 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.technoidentity.vitalz.MyApplication
-import com.technoidentity.vitalz.data.datamodel.NotificationData
 import com.technoidentity.vitalz.databinding.FragmentNotificationsBinding
-import com.technoidentity.vitalz.hospital.NotificationAdapter
+import com.technoidentity.vitalz.home.HomeActivityViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class NotificationsFragment: Fragment() {
 
     lateinit var binding: FragmentNotificationsBinding
+    private val homeViewModel: HomeActivityViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -22,25 +24,26 @@ class NotificationsFragment: Fragment() {
     ): View {
         binding = FragmentNotificationsBinding.inflate(inflater)
 
-        val notificationData = mutableListOf(
-            NotificationData("Notification Title","21/04/2021"),
-            NotificationData("Notification Title","21/04/2021"),
-            NotificationData("Notification Title","21/04/2021"),
-            NotificationData("Notification Title","21/04/2021"),
-            NotificationData("Notification Title","21/04/2021"),
-            NotificationData("Notification Title","21/04/2021"),
-            NotificationData("Notification Title","21/04/2021"),
-            NotificationData("Notification Title","21/04/2021"),
-            NotificationData("Notification Title","21/04/2021"),
-            NotificationData("Notification Title","21/04/2021"),
-            NotificationData("Notification Title","21/04/2021"),
-            NotificationData("Notification Title","21/04/2021"),
-            NotificationData("Notification Title","21/04/2021"),
-            NotificationData("Notification Title","21/04/2021"),
-            NotificationData("Notification Title","21/04/2021"),
-            NotificationData("Notification Title","21/04/2021"),
-            NotificationData("Notification Title","21/04/2021"),
-        )
+
+//        val notificationData = mutableListOf(
+//            NotificationData("Notification Title","21/04/2021"),
+//            NotificationData("Notification Title","21/04/2021"),
+//            NotificationData("Notification Title","21/04/2021"),
+//            NotificationData("Notification Title","21/04/2021"),
+//            NotificationData("Notification Title","21/04/2021"),
+//            NotificationData("Notification Title","21/04/2021"),
+//            NotificationData("Notification Title","21/04/2021"),
+//            NotificationData("Notification Title","21/04/2021"),
+//            NotificationData("Notification Title","21/04/2021"),
+//            NotificationData("Notification Title","21/04/2021"),
+//            NotificationData("Notification Title","21/04/2021"),
+//            NotificationData("Notification Title","21/04/2021"),
+//            NotificationData("Notification Title","21/04/2021"),
+//            NotificationData("Notification Title","21/04/2021"),
+//            NotificationData("Notification Title","21/04/2021"),
+//            NotificationData("Notification Title","21/04/2021"),
+//            NotificationData("Notification Title","21/04/2021"),
+//        )
 
         val myAdapter = NotificationAdapter(notificationData)
         binding.rvNotificationList.adapter = myAdapter

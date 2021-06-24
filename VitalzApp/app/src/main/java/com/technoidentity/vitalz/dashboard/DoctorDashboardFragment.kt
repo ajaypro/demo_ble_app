@@ -6,11 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.technoidentity.vitalz.R
 import com.technoidentity.vitalz.data.network.Constants
 import com.technoidentity.vitalz.databinding.MultiplePatientDashboardBinding
+import com.technoidentity.vitalz.home.HomeActivityViewModel
 import com.technoidentity.vitalz.utils.CustomProgressDialog
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -20,6 +24,7 @@ class DoctorDashboardFragment : Fragment() {
     private lateinit var binding: MultiplePatientDashboardBinding
     private lateinit var token: String
     val viewModel: DoctorDashboardViewModel by viewModels()
+    val homeViewModel: HomeActivityViewModel by viewModels()
     private lateinit var doctorAdapter: MultiplePatientAdapter
     private lateinit var progressDialog: CustomProgressDialog
 
@@ -46,11 +51,7 @@ class DoctorDashboardFragment : Fragment() {
         setUpRecyclerView()
 
         //Api call to fetch Latest data
-        token.let {
-            multiplePatientDashboardApi(it)
-        }?: run{
-            Toast.makeText(context, "Un-Authorized", Toast.LENGTH_SHORT).show()
-        }
+        multiplePatientDashboardApi(token)
 
         return binding.root
     }

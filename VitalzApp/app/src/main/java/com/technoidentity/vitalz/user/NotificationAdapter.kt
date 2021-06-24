@@ -1,4 +1,4 @@
-package com.technoidentity.vitalz.hospital
+package com.technoidentity.vitalz.user
 
 import android.view.LayoutInflater
 import android.view.View
