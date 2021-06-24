@@ -1,5 +1,6 @@
 package com.technoidentity.vitalz.dashboard
 
+import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.os.Bundle
 import android.util.Log
@@ -7,13 +8,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.XAxis.XAxisPosition
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.technoidentity.vitalz.R
-import com.technoidentity.vitalz.data.datamodel.single_patient.HeartRate
 import com.technoidentity.vitalz.databinding.FragmentDashboardHeartDetailBinding
 import com.technoidentity.vitalz.utils.CustomProgressDialog
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,12 +23,12 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
-class DashboardDetailsHeartFragment : Fragment() {
+class DashboardDetailsFragment : Fragment() {
 
     private lateinit var datePickerDialog: DatePickerDialog
     lateinit var binding: FragmentDashboardHeartDetailBinding
     private lateinit var progressDialog: CustomProgressDialog
-    lateinit var maxDate: String
+    val viewModel: DashboardDetailsViewModel by viewModels()
     lateinit var selectedDate: Date
     var selectedDay: Int = 0
     var selectedMonth: Int = 0
@@ -38,6 +39,12 @@ class DashboardDetailsHeartFragment : Fragment() {
     val month = c.get(Calendar.MONTH)
     val year = c.get(Calendar.YEAR)
 
+    init {
+        selectedDay = day
+        selectedMonth = month+1
+        selectedYear = year
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -45,8 +52,24 @@ class DashboardDetailsHeartFragment : Fragment() {
     ): View {
         binding = FragmentDashboardHeartDetailBinding.inflate(layoutInflater)
         progressDialog = CustomProgressDialog(this.requireContext())
+
+        //setupDefaultDates
+        setInitialDates()
+
         //Getting Arguments From last Fragment
-        val heartData: HeartRate? = arguments?.getParcelable("heartData")
+//        - heartrate
+//        - respiratory
+//        - bloodpressure
+//        - temprature
+//        - oxygen
+
+        //Getting Arguments From last Fragment
+        val isAlive = arguments?.getString("isAlive")
+        if (isAlive == "heart") {
+            binding.tvHeartRate.text = "Heart Rate"
+        } else if (isAlive == "respiratory") {
+            binding.tvHeartRate.text = "Respiratory"
+        }
 
         //Start Date
         binding.layoutStartDateSelect.setOnClickListener {
@@ -87,9 +110,8 @@ class DashboardDetailsHeartFragment : Fragment() {
                 DatePickerDialog.OnDateSetListener { view, mYear, mMonth, mDay ->
                     val date = "" + mYear + "-" + (mMonth + 1) + "-" + mDay
                     binding.tvSelectedEndDate.text = date
-                    maxDate = date
                     val dateFormat = SimpleDateFormat("yyyy-MM-dd")
-                    selectedDate = dateFormat.parse(maxDate)
+                    selectedDate = dateFormat.parse(date)
                     isEndDateSelected = true
                     selectedYear = mYear
                     selectedMonth = mMonth
@@ -105,8 +127,21 @@ class DashboardDetailsHeartFragment : Fragment() {
 
         //Bar Chart
         initializeBarChart()
-        heartData?.let { setBarChart(it) }
+        setBarChart()
         return binding.root
+    }
+
+
+    @SuppressLint("SetTextI18n")
+    private fun setInitialDates() {
+        val endDateConfig = millisToDate()
+        binding.tvSelectedEndDate.text =
+            endDateConfig.get(Calendar.YEAR).toString() +"-"+ endDateConfig.get(Calendar.MONTH).toString()+"-"+ endDateConfig.get(
+                Calendar.DAY_OF_MONTH).toString()
+        endDateConfig.add(Calendar.DAY_OF_MONTH, -6)
+        binding.tvSelectedStartDate.text =
+            endDateConfig.get(Calendar.YEAR).toString() +"-"+ endDateConfig.get(Calendar.MONTH).toString()+"-"+ endDateConfig.get(
+                Calendar.DAY_OF_MONTH).toString()
     }
 
     private fun millisToDate(): Calendar {
@@ -115,7 +150,7 @@ class DashboardDetailsHeartFragment : Fragment() {
         return c
     }
 
-    private fun setBarChart(heartData: HeartRate) {
+    private fun setBarChart() {
         val entries = ArrayList<BarEntry>()
         entries.add(BarEntry(100f, 10f))
         entries.add(BarEntry(200f, 20f))

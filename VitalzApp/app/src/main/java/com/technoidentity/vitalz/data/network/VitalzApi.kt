@@ -2,6 +2,8 @@ package com.technoidentity.vitalz.data.network
 
 import com.technoidentity.vitalz.data.datamodel.careTakerLogin.CareTakerOtpResponse
 import com.technoidentity.vitalz.data.datamodel.careTakerLogin.CareTakerRequest
+import com.technoidentity.vitalz.data.datamodel.dashboardDetail.DashboardDetailResponse
+import com.technoidentity.vitalz.data.datamodel.dashboardDetail.DashboardDetailsRequest
 import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseResponse
 import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseRequest
 import com.technoidentity.vitalz.data.datamodel.hospital_list.HospitalListData
@@ -13,6 +15,7 @@ import com.technoidentity.vitalz.data.datamodel.patient_list.PatientDataList
 import com.technoidentity.vitalz.data.datamodel.patient_list.PatientRequest
 import com.technoidentity.vitalz.data.datamodel.single_patient.SinglePatientDashboardResponse
 import com.technoidentity.vitalz.data.network.Urls.CARETAKER_LOGIN
+import com.technoidentity.vitalz.data.network.Urls.DASHBOARD_DETAIL
 import com.technoidentity.vitalz.data.network.Urls.DOC_NURSE_LOGIN
 import com.technoidentity.vitalz.data.network.Urls.HOSPITAL_LIST
 import com.technoidentity.vitalz.data.network.Urls.MULTIPLE_PATIENT_DASHBOARD
@@ -44,5 +47,8 @@ interface VitalzApi {
 
     @GET(MULTIPLE_PATIENT_DASHBOARD)
     suspend fun getMultiplePatientDashboardList() : Response<MultiplePatientDashboardResponse>
+
+    @POST(DASHBOARD_DETAIL)
+    suspend fun getDashboardDetailsList(request: DashboardDetailsRequest) : DashboardDetailResponse
 
 }

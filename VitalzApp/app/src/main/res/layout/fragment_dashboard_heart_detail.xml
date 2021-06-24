@@ -82,7 +82,7 @@
             <TextView
                 android:id="@+id/tv_selected_start_date"
                 style="@style/viewSize"
-                android:text="@string/sample_startDate"
+                android:text=""
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_select_date"
@@ -121,7 +121,7 @@
             <TextView
                 android:id="@+id/tv_selected_end_date"
                 style="@style/viewSize"
-                android:text="@string/sample_endDate"
+                android:text=""
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_selectEnd_date"

@@ -2,6 +2,8 @@ package com.technoidentity.vitalz.data.repository
 
 import com.technoidentity.vitalz.data.datamodel.careTakerLogin.CareTakerOtpResponse
 import com.technoidentity.vitalz.data.datamodel.careTakerLogin.CareTakerRequest
+import com.technoidentity.vitalz.data.datamodel.dashboardDetail.DashboardDetailResponse
+import com.technoidentity.vitalz.data.datamodel.dashboardDetail.DashboardDetailsRequest
 import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseRequest
 import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseResponse
 import com.technoidentity.vitalz.data.datamodel.hospital_list.HospitalListData
@@ -126,5 +128,11 @@ class UserRepository @Inject constructor(
         } catch (e: Exception) {
             Error(e.message ?: "Contact Admin")
         }
+    }
+
+    override suspend fun getDashboardDetailsList(request: DashboardDetailsRequest): DashboardDetailResponse {
+        return kotlin.runCatching {
+            api.getDashboardDetailsList(request)
+        }.getOrThrow()
     }
 }

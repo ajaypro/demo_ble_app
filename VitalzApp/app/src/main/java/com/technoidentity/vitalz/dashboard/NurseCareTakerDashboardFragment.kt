@@ -66,7 +66,15 @@ class NurseCareTakerDashboardFragment : Fragment() {
         binding.layoutHeartRate.setOnClickListener {
             findNavController().navigate(
                 R.id.action_nurseCareTakerDashboardFragment_to_dashboardDetailsHeartFragment,
-                bundleOf("heartData" to singlePatientDashboardResponse.heartRate)
+                bundleOf(Pair("isAlive","heart"))
+            )
+        }
+
+        //Respiratory Details
+        binding.layoutRespiratory.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_nurseCareTakerDashboardFragment_to_dashboardDetailsHeartFragment,
+                bundleOf(Pair("isAlive","respiratory"))
             )
         }
 

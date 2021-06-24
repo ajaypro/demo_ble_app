@@ -153,6 +153,6 @@
         android:label="BleOperationsFragment" />
     <fragment
         android:id="@+id/dashboardDetailsHeartFragment"
-        android:name="com.technoidentity.vitalz.dashboard.DashboardDetailsHeartFragment"
+        android:name="com.technoidentity.vitalz.dashboard.DashboardDetailsFragment"
         android:label="DashboardDetailsHeartFragment" />
 </navigation>

@@ -2,6 +2,8 @@ package com.technoidentity.vitalz.data.repository
 
 import com.technoidentity.vitalz.data.datamodel.careTakerLogin.CareTakerOtpResponse
 import com.technoidentity.vitalz.data.datamodel.careTakerLogin.CareTakerRequest
+import com.technoidentity.vitalz.data.datamodel.dashboardDetail.DashboardDetailResponse
+import com.technoidentity.vitalz.data.datamodel.dashboardDetail.DashboardDetailsRequest
 import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseResponse
 import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseRequest
 import com.technoidentity.vitalz.data.datamodel.hospital_list.HospitalListData
@@ -29,4 +31,6 @@ interface MainRepository {
     suspend fun getSinglePatientDashboardList(id: String): ResultHandler<SinglePatientDashboardResponse>?
 
     suspend fun getMultiplePatientDashboardList(): ResultHandler<MultiplePatientDashboardResponse>?
+
+    suspend fun getDashboardDetailsList(request: DashboardDetailsRequest): DashboardDetailResponse
 }
