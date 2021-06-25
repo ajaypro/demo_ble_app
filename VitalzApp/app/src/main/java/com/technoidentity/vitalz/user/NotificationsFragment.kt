@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.technoidentity.vitalz.data.datamodel.NotificationData
 import com.technoidentity.vitalz.databinding.FragmentNotificationsBinding
 import com.technoidentity.vitalz.home.HomeActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,26 +25,25 @@ class NotificationsFragment: Fragment() {
     ): View {
         binding = FragmentNotificationsBinding.inflate(inflater)
 
-
-//        val notificationData = mutableListOf(
-//            NotificationData("Notification Title","21/04/2021"),
-//            NotificationData("Notification Title","21/04/2021"),
-//            NotificationData("Notification Title","21/04/2021"),
-//            NotificationData("Notification Title","21/04/2021"),
-//            NotificationData("Notification Title","21/04/2021"),
-//            NotificationData("Notification Title","21/04/2021"),
-//            NotificationData("Notification Title","21/04/2021"),
-//            NotificationData("Notification Title","21/04/2021"),
-//            NotificationData("Notification Title","21/04/2021"),
-//            NotificationData("Notification Title","21/04/2021"),
-//            NotificationData("Notification Title","21/04/2021"),
-//            NotificationData("Notification Title","21/04/2021"),
-//            NotificationData("Notification Title","21/04/2021"),
-//            NotificationData("Notification Title","21/04/2021"),
-//            NotificationData("Notification Title","21/04/2021"),
-//            NotificationData("Notification Title","21/04/2021"),
-//            NotificationData("Notification Title","21/04/2021"),
-//        )
+        val notificationData = mutableListOf(
+            NotificationData("Notification Title","21/04/2021"),
+            NotificationData("Notification Title","21/04/2021"),
+            NotificationData("Notification Title","21/04/2021"),
+            NotificationData("Notification Title","21/04/2021"),
+            NotificationData("Notification Title","21/04/2021"),
+            NotificationData("Notification Title","21/04/2021"),
+            NotificationData("Notification Title","21/04/2021"),
+            NotificationData("Notification Title","21/04/2021"),
+            NotificationData("Notification Title","21/04/2021"),
+            NotificationData("Notification Title","21/04/2021"),
+            NotificationData("Notification Title","21/04/2021"),
+            NotificationData("Notification Title","21/04/2021"),
+            NotificationData("Notification Title","21/04/2021"),
+            NotificationData("Notification Title","21/04/2021"),
+            NotificationData("Notification Title","21/04/2021"),
+            NotificationData("Notification Title","21/04/2021"),
+            NotificationData("Notification Title","21/04/2021"),
+        )
 
         val myAdapter = NotificationAdapter(notificationData)
         binding.rvNotificationList.adapter = myAdapter

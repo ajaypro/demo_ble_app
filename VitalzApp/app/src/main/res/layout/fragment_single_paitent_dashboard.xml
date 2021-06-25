@@ -267,7 +267,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/tv_bp_count"
+                    android:id="@+id/tv_bp_value"
                     style="@style/viewSize"
                     android:text="@string/sample_bp"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
@@ -283,7 +283,7 @@
                     android:textColor="@color/black"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_bp_count" />
+                    app:layout_constraintTop_toBottomOf="@+id/tv_bp_value" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -307,7 +307,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/tv_temperature_count"
+                    android:id="@+id/tv_temperature_value"
                     style="@style/viewSize"
                     android:text="@string/sample_temp"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
@@ -323,7 +323,7 @@
                     android:textColor="@color/black"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_temperature_count" />
+                    app:layout_constraintTop_toBottomOf="@+id/tv_temperature_value" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -347,7 +347,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/tv_activity_count"
+                    android:id="@+id/tv_activity_value"
                     style="@style/viewSize"
                     android:text="@string/sample_activity"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
@@ -363,7 +363,7 @@
                     android:textColor="@color/black"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_activity_count" />
+                    app:layout_constraintTop_toBottomOf="@+id/tv_activity_value" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -387,7 +387,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/tv_posture_count"
+                    android:id="@+id/tv_posture_value"
                     style="@style/viewSize"
                     android:text="@string/sample_posture"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
@@ -403,7 +403,7 @@
                     android:textColor="@color/black"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_posture_count" />
+                    app:layout_constraintTop_toBottomOf="@+id/tv_posture_value" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -426,7 +426,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/tv_oxygen_saturation_count"
+                    android:id="@+id/tv_oxygen_saturation_value"
                     style="@style/viewSize"
                     android:text="@string/sample_oxygen"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
@@ -442,7 +442,7 @@
                     android:textColor="@color/black"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_oxygen_saturation_count" />
+                    app:layout_constraintTop_toBottomOf="@+id/tv_oxygen_saturation_value" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -465,7 +465,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/tv_weight_count"
+                    android:id="@+id/tv_weight_value"
                     style="@style/viewSize"
                     android:text="@string/sample_weight"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
@@ -481,7 +481,7 @@
                     android:textColor="@color/black"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_weight_count" />
+                    app:layout_constraintTop_toBottomOf="@+id/tv_weight_value" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -2,9 +2,9 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'kotlin-parcelize'
     id 'dagger.hilt.android.plugin'
-    id 'androidx.navigation.safeargs'
-    id 'kotlin-android-extensions'
+    id 'androidx.navigation.safeargs.kotlin'
 }
 
 android {
@@ -37,10 +37,6 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-
-    androidExtensions {
-        experimental = true
-    }
 }
 
 dependencies {
@@ -63,6 +59,9 @@ dependencies {
     //Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:${library.navigation}"
     implementation "androidx.navigation:navigation-ui-ktx:${library.navigation}"
+
+    //Logging
+    implementation "com.jakewharton.timber:timber:${library.timber}"
 
     //network
     implementation "com.squareup.okhttp3:logging-interceptor:${library.logging_interceptor}"
@@ -118,7 +117,4 @@ dependencies {
 
     //graph
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
-
-    implementation 'com.jakewharton.timber:timber:4.7.1'
-
 }

@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.technoidentity.vitalz.data.datamodel.careTakerLogin.CareTakerRequest
-import com.technoidentity.vitalz.data.repository.UserRepository
+import com.technoidentity.vitalz.data.repository.UserRepositoryImpl
 import com.technoidentity.vitalz.utils.CoroutinesDispatcherProvider
 import com.technoidentity.vitalz.utils.ResultHandler
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CareTakerMobileViewModel @Inject constructor(
-    private val userRepository: UserRepository,
+    private val userRepositoryImpl: UserRepositoryImpl,
     private val dispatcher: CoroutinesDispatcherProvider
 ) : ViewModel() {
 
@@ -33,7 +33,7 @@ class CareTakerMobileViewModel @Inject constructor(
         request.phoneNo = mobile
         viewModelScope.launch {
             _expectedResult.value = CareTaker.Loading
-            when (val response = userRepository.doMobileOTPCall(request)) {
+            when (val response = userRepositoryImpl.doMobileOTPCall(request)) {
                 is ResultHandler.Error -> {
                     _expectedResult.value =
                     CareTaker.Failure(response.message.toString()

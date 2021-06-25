@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
@@ -21,6 +20,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         style="@style/viewSize"
+        android:id="@+id/device_details"
         android:layout_margin="@dimen/dp_32"
         android:background="@drawable/display_text_box"
         android:paddingStart="@dimen/dp_40"
@@ -33,8 +33,8 @@
 
         <ImageView
             android:id="@+id/imageView_battery"
-            android:layout_width="@dimen/dp_80"
-            android:layout_height="@dimen/dp_80"
+            android:layout_width="@dimen/dp_40"
+            android:layout_height="@dimen/dp_40"
             android:contentDescription="@string/vitalz_logo"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -55,7 +55,7 @@
             android:id="@+id/tx_status"
             style="@style/textViewDevice"
             android:layout_marginTop="@dimen/dp_16"
-            android:text="@string/status"
+            android:text="@string/battery"
             android:textColor="@color/black"
             app:layout_constraintBottom_toTopOf="@+id/tx_connection"
             app:layout_constraintStart_toEndOf="@+id/imageView_battery"
@@ -78,13 +78,13 @@
             android:text=""
             android:textColor="@color/button_blue"
             android:textColorHint="@color/button_blue"
-            app:layout_constraintBottom_toTopOf="@+id/status"
+            app:layout_constraintBottom_toTopOf="@+id/battery"
             app:layout_constraintStart_toEndOf="@id/tx_connection"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed" />
 
         <TextView
-            android:id="@+id/status"
+            android:id="@+id/battery"
             style="@style/textViewDevice"
             android:layout_marginTop="@dimen/dp_16"
             android:hint="@string/fake_status"
@@ -103,10 +103,18 @@
             android:text=""
             android:textColor="@color/button_blue"
             android:textColorHint="@color/button_blue"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/tx_connection"
-            app:layout_constraintTop_toBottomOf="@+id/status" />
+            app:layout_constraintTop_toBottomOf="@+id/battery" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/patient_details_btn"
+        style="@style/button"
+        android:layout_marginTop="72dp"
+        android:text="@string/patient_details"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/device_details" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
