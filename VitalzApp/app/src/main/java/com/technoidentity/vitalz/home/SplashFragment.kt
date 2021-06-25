@@ -49,8 +49,7 @@ class SplashFragment : Fragment() {
                         }
                     } else {
 //                    navController.navigate(R.id.action_splashFragment_to_addDeviceFragment)
-//                        findNavController().navigate(R.id.action_splashFragment_to_userSelectionFragment2)
-                        findNavController().navigate(R.id.action_splashFragment_to_dashboardDetailsHeartFragment)
+                        findNavController().navigate(R.id.action_splashFragment_to_userSelectionFragment2)
                     }
                 }
             }

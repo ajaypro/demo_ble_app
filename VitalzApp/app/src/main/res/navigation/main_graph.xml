@@ -14,9 +14,6 @@
         <action
             android:id="@+id/action_splashFragment_to_userSelectionFragment2"
             app:destination="@id/userSelectionFragment2" />
-        <action
-            android:id="@+id/action_splashFragment_to_dashboardDetailsHeartFragment"
-            app:destination="@id/dashboardDetailsHeartFragment" />
     </fragment>
     <fragment
         android:id="@+id/userSelectionFragment2"
