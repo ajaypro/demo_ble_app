@@ -29,15 +29,10 @@ class DashboardDetailsViewModel @Inject constructor(
             patientId = patientId,
             item = item,
             startDate = startDate,
-            endDate = endDate
-        )
+            endDate = endDate)
         viewModelScope.launch {
             userRepository.getDashboardDetailsList(request).apply {
-//                if (this.success){
-//                    _expectedResult.value = this
-//                }else{
-//                    _expectedResult.value = this
-//                }
+               _expectedResult.value = this
             }
         }
     }

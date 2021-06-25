@@ -3,7 +3,6 @@ package com.technoidentity.vitalz.dashboard
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -53,8 +52,6 @@ class DashboardDetailsFragment : Fragment() {
         binding = FragmentDashboardHeartDetailBinding.inflate(layoutInflater)
         progressDialog = CustomProgressDialog(this.requireContext())
 
-        //setupDefaultDates
-        setInitialDates()
 
         //Getting Arguments From last Fragment
 //        - heartrate
@@ -67,6 +64,7 @@ class DashboardDetailsFragment : Fragment() {
         val isAlive = arguments?.getString("isAlive")
         if (isAlive == "heart") {
             binding.tvHeartRate.text = "Heart Rate"
+            setInitialDates("heartrate")
         } else if (isAlive == "respiratory") {
             binding.tvHeartRate.text = "Respiratory"
         }
@@ -133,15 +131,21 @@ class DashboardDetailsFragment : Fragment() {
 
 
     @SuppressLint("SetTextI18n")
-    private fun setInitialDates() {
+    private fun setInitialDates(item: String) {
         val endDateConfig = millisToDate()
-        binding.tvSelectedEndDate.text =
-            endDateConfig.get(Calendar.YEAR).toString() +"-"+ endDateConfig.get(Calendar.MONTH).toString()+"-"+ endDateConfig.get(
-                Calendar.DAY_OF_MONTH).toString()
+        //default end Date
+        val defaultEndDate = endDateConfig.get(Calendar.YEAR).toString() +"-"+ endDateConfig.get(Calendar.MONTH).toString()+"-"+ endDateConfig.get(
+            Calendar.DAY_OF_MONTH).toString()
+        binding.tvSelectedEndDate.text = defaultEndDate
+
+        //default Start Date
+        val defaultStartDate = endDateConfig.get(Calendar.YEAR).toString() +"-"+ endDateConfig.get(Calendar.MONTH).toString()+"-"+ endDateConfig.get(
+            Calendar.DAY_OF_MONTH).toString()
         endDateConfig.add(Calendar.DAY_OF_MONTH, -6)
-        binding.tvSelectedStartDate.text =
-            endDateConfig.get(Calendar.YEAR).toString() +"-"+ endDateConfig.get(Calendar.MONTH).toString()+"-"+ endDateConfig.get(
-                Calendar.DAY_OF_MONTH).toString()
+        binding.tvSelectedStartDate.text = defaultStartDate
+
+        //Default dates Api-Call
+
     }
 
     private fun millisToDate(): Calendar {
