@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.technoidentity.vitalz.data.datamodel.multiple_patient.MultiplePatientDashboardResponseItem
 import com.technoidentity.vitalz.databinding.RecyclerViewDocPatientListBinding
 
-class MultiplePatientAdapter(val listener: DoctorDashboardFragment) :
+class MultiplePatientAdapter(val listener: MultiPatientDashboardFragment) :
     RecyclerView.Adapter<MultiplePatientAdapter.MultiplePatientViewHolder>() {
 
     private val diffCallBack = object : DiffUtil.ItemCallback<MultiplePatientDashboardResponseItem>() {

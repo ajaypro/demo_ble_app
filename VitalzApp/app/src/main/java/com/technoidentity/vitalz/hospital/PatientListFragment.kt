@@ -45,11 +45,9 @@ class PatientListFragment : Fragment(), PatientAdapter.OnItemClickListener {
             findNavController().navigateUp()
         }
 
-        mobile.let {it->
-            hospitalId.let { hospital->
-                getPatientList(it, hospital)
-            }
-        }. run {
+        if (mobile != null && hospitalId != null){
+            getPatientList(mobile, hospitalId)
+        }else{
             Toast.makeText(context, "Un-Authorized", Toast.LENGTH_SHORT).show()
         }
 
@@ -93,7 +91,7 @@ class PatientListFragment : Fragment(), PatientAdapter.OnItemClickListener {
     override fun onItemClicked(position: Int) {
         val bundle = bundleOf("patientId" to patientAdapter.patient[position].id.toString())
         findNavController().navigate(
-            R.id.action_patientListFragment_to_nurseCareTakerDashboardFragment, bundle
+            R.id.action_patientListFragment_to_singlePatientDashboardFragment, bundle
         )
     }
 }

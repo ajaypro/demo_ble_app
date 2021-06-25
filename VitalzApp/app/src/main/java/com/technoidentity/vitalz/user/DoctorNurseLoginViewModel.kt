@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseRequest
 import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseResponse
-import com.technoidentity.vitalz.data.repository.UserRepository
+import com.technoidentity.vitalz.data.repository.UserRepositoryImpl
 import com.technoidentity.vitalz.utils.CoroutinesDispatcherProvider
 import com.technoidentity.vitalz.utils.ResultHandler
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DoctorNurseLoginViewModel @Inject constructor(
-    private val userRepository: UserRepository,
+    private val userRepositoryImpl: UserRepositoryImpl,
     private val dispatcher: CoroutinesDispatcherProvider
 ) : ViewModel() {
 
@@ -35,16 +35,16 @@ class DoctorNurseLoginViewModel @Inject constructor(
         request.password = password
         viewModelScope.launch {
             _expectedResult.value = DocNurse.Loading
-            when (val response = userRepository.sendDocNurseCredentials(request)) {
+            when (val response = userRepositoryImpl.sendDocNurseCredentials(request)) {
                 is ResultHandler.Error -> {
-                    _expectedResult.value =
-                        DocNurse.Failure(response.message.toString()
+                    _expectedResult.postValue(
+                        DocNurse.Failure(response.message.toString())
                     )}
                 is ResultHandler.Success -> {
                     if (response.data == null) {
-                        _expectedResult.value = DocNurse.Failure("Unexpected Error")
+                        _expectedResult.postValue(DocNurse.Failure("Unexpected Error"))
                     } else {
-                        _expectedResult.value = DocNurse.Success(resultText = "Credentials Send", data = response.data)
+                        _expectedResult.postValue(DocNurse.Success(resultText = "Credentials Send", data = response.data))
                     }
                 }
             }

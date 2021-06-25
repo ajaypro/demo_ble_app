@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.technoidentity.vitalz.data.datamodel.hospital_list.HospitalListData
 import com.technoidentity.vitalz.data.datamodel.hospital_list.HospitalListRequest
-import com.technoidentity.vitalz.data.repository.UserRepository
+import com.technoidentity.vitalz.data.repository.UserRepositoryImpl
 import com.technoidentity.vitalz.utils.CoroutinesDispatcherProvider
 import com.technoidentity.vitalz.utils.ResultHandler
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HospitalViewModel @Inject constructor(
-    private val userRepository: UserRepository,
+    private val userRepositoryImpl: UserRepositoryImpl,
     private val dispatcher: CoroutinesDispatcherProvider
 ) : ViewModel() {
 
@@ -35,7 +35,7 @@ class HospitalViewModel @Inject constructor(
         request.mobile = mobile
         viewModelScope.launch {
             _expectedResult.value = HospitalData.Loading
-            when (val response = userRepository.getHospitalList(request)) {
+            when (val response = userRepositoryImpl.getHospitalList(request)) {
                 is ResultHandler.Error -> {
                     _expectedResult.value =
                         HospitalData.Failure(response.message.toString())}
