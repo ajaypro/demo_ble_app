@@ -21,12 +21,12 @@ import javax.inject.Inject
 
 class UserRepository @Inject constructor(
     private val api: VitalzApi
-) : MainRepository {   override suspend fun doMobileOTPCall(mobile: CareTakerRequest): CareTakerOtpResponse {
-    return kotlin.runCatching {
-        api.getOTP(mobile)
-    }.getOrThrow()
-}
-
+) : MainRepository {
+    override suspend fun doMobileOTPCall(mobile: CareTakerRequest): CareTakerOtpResponse {
+        return kotlin.runCatching {
+            api.getOTP(mobile)
+        }.getOrThrow()
+    }
 
     override suspend fun doOTPSendCall(otpRequest: OtpRequest): ResultHandler<OtpResponse>? {
         val response = api.getLogin(otpRequest)
