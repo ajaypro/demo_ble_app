@@ -1,4 +1,4 @@
-package com.technoidentity.vitalz.bluetooth
+package com.technoidentity.vitalz.bluetooth.connection
 
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.le.*

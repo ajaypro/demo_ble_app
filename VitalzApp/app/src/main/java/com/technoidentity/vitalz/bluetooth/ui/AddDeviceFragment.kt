@@ -1,4 +1,4 @@
-package com.technoidentity.vitalz.bluetooth
+package com.technoidentity.vitalz.bluetooth.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,14 +9,14 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.technoidentity.vitalz.R
 import com.technoidentity.vitalz.databinding.FragmentAddDeviceBinding
-import com.technoidentity.vitalz.home.HomeViewModel
+import com.technoidentity.vitalz.home.SharedViewModel
 
 
 class AddDeviceFragment : Fragment() {
 
     lateinit var binding: FragmentAddDeviceBinding
 
-    val viewModel: HomeViewModel by activityViewModels()
+    val viewModel: SharedViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

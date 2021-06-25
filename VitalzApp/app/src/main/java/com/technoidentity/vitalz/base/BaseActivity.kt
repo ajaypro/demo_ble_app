@@ -4,18 +4,13 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.snackbar.Snackbar
 import com.technoidentity.vitalz.R
-import com.technoidentity.vitalz.bluetooth.AddDeviceFragment
-import com.technoidentity.vitalz.databinding.ActivityBaseBinding
 import com.technoidentity.vitalz.utils.ConnectionType
 import com.technoidentity.vitalz.utils.NetworkUtil
 import com.technoidentity.vitalz.utils.isTablet
 import com.technoidentity.vitalz.utils.showToast
-import dagger.hilt.android.AndroidEntryPoint
 
 
 abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {

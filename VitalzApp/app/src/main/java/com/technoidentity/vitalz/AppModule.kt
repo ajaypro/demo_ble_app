@@ -1,20 +1,20 @@
 package com.technoidentity.vitalz
 
-import android.content.Context
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.le.BluetoothLeScanner
 import android.bluetooth.le.ScanFilter
 import android.bluetooth.le.ScanSettings
+import android.content.Context
 import android.os.ParcelUuid
-import com.technoidentity.vitalz.bluetooth.BleManager
-import com.technoidentity.vitalz.bluetooth.BleScanner
-import com.technoidentity.vitalz.bluetooth.IBleManager
+import com.technoidentity.vitalz.bluetooth.connection.BleManager
+import com.technoidentity.vitalz.bluetooth.connection.BleScanner
+import com.technoidentity.vitalz.bluetooth.connection.IBleManager
 import com.technoidentity.vitalz.data.network.VitalzApi
 import com.technoidentity.vitalz.data.network.VitalzService
 import com.technoidentity.vitalz.data.repository.DeviceRepository
 import com.technoidentity.vitalz.data.repository.DeviceRepositoryImpl
-import com.technoidentity.vitalz.data.repository.MainRepository
 import com.technoidentity.vitalz.data.repository.UserRepository
+import com.technoidentity.vitalz.data.repository.UserRepositoryImpl
 import com.technoidentity.vitalz.utils.Constants
 import com.technoidentity.vitalz.utils.CoroutinesDispatcherProvider
 import dagger.Module
@@ -35,7 +35,7 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun providesMainRepository(api: VitalzApi): MainRepository = UserRepository(api)
+    fun providesMainRepository(api: VitalzApi): UserRepository = UserRepositoryImpl(api)
 
     @Singleton
     @Provides

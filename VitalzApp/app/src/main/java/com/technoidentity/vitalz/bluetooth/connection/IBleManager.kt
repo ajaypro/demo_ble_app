@@ -1,4 +1,4 @@
-package com.technoidentity.vitalz.bluetooth
+package com.technoidentity.vitalz.bluetooth.connection
 
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothGattCharacteristic
@@ -12,13 +12,24 @@ import kotlinx.coroutines.flow.StateFlow
 @ViewModelScoped
 interface IBleManager {
 
+        /**
+         * Bluetooth device data
+         */
+
         fun startScan()
         fun stopScan()
         var isScanning: StateFlow<Boolean>
-        var heartRateCharacteristic: StateFlow<ByteArray>
         var connectedBleDeviceLiveData: LiveData<BleDevice>
         var isDeviceConnected: StateFlow<Boolean>
         var scanChannel: Channel<BluetoothDevice>
         fun connectDevice(device: BluetoothDevice, context: Context)
-        fun readCharacteristic(characteristic: BluetoothGattCharacteristic)
+        fun readCharacteristic(characteristic: BluetoothGattCharacteristic): Boolean
+
+        /**
+         * Patient Data
+         */
+        var heartRateCharacteristic: StateFlow<ByteArray>
+        var ecgCharacteristic: StateFlow<ByteArray>
+        var bodyPosture: LiveData<String>
+        var bodyTemperature: LiveData<String>
     }

@@ -10,9 +10,7 @@ import android.os.Bundle
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
@@ -24,8 +22,6 @@ import com.technoidentity.vitalz.utils.*
 import com.technoidentity.vitalz.utils.Constants.REQUEST_LOCATION_SERVICE
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CompletableDeferred
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 
@@ -35,7 +31,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
 
     override fun getViewBinding() = ActivityHomeBinding.inflate(layoutInflater)
 
-     val homeViewModel: HomeViewModel by viewModels()
+     val sharedViewModel: SharedViewModel by viewModels()
 
     private val bluetoothAdapter by lazy(LazyThreadSafetyMode.NONE) {
         (getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager).adapter
@@ -78,7 +74,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
 
 
         val appBarConfiguration = AppBarConfiguration
-            .Builder(R.id.addDeviceFragment, R.id.bleScanResultFragment) // Add fragments ID that should not have up button
+            .Builder(R.id.homeFragment,R.id.addDeviceFragment, R.id.bleScanResultFragment) // Add fragments ID that should not have up button
             .build()
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
@@ -90,8 +86,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                     showToast(
                         this@HomeActivity,
                         "Scanner initialised successfully")
-                   Timber.d(homeViewModel.javaClass.toString())
-                    homeViewModel.startScan()
+                   Timber.d(sharedViewModel.javaClass.toString())
+                    sharedViewModel.startScan()
                 }
             else {
                     showToast(

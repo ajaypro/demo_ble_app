@@ -10,7 +10,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
@@ -18,20 +18,23 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.technoidentity.vitalz.R
 import com.technoidentity.vitalz.data.datamodel.single_patient.SinglePatientDashboardResponse
 import com.technoidentity.vitalz.databinding.FragmentSinglePaitentDashboardBinding
-import com.technoidentity.vitalz.home.HomeViewModel
+import com.technoidentity.vitalz.home.SharedViewModel
 import com.technoidentity.vitalz.utils.CustomProgressDialog
+import com.technoidentity.vitalz.utils.HEART_RATE_DATA
 import com.technoidentity.vitalz.utils.isTablet
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import timber.log.Timber
 
 @AndroidEntryPoint
 class SinglePatientDashboardFragment : Fragment() {
 
-    val viewModel: SinglePatientDashboardViewModel by viewModels()
-    val homeViewModel: HomeViewModel by activityViewModels()
-    private var patientId : String? = null
+    private val singlePatientDashboardViewModel: SinglePatientDashboardViewModel by viewModels()
+    val sharedViewModel: SharedViewModel by activityViewModels()
     lateinit var binding: FragmentSinglePaitentDashboardBinding
     private lateinit var progressDialog: CustomProgressDialog
     lateinit var singlePatientDashboardResponse: SinglePatientDashboardResponse
+    lateinit var patientId: String
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,23 +52,32 @@ class SinglePatientDashboardFragment : Fragment() {
             binding.layoutBle.visibility = View.GONE
         }
             //Getting Arguments From last Fragment
-            val patientId = arguments?.getString("patientId")
+             patientId = arguments?.getString("patientId").toString()
 
             //Api call to fetch Latest data
-            patientId?.let {
-                singleDashboardApi(it)
-                progressDialog.showLoadingDialog()
-            } ?: run {
-                Toast.makeText(context, "Un-Authorized", Toast.LENGTH_SHORT).show()
-            }
+//            ?: run {
+//                Toast.makeText(context, "Un-Authorized", Toast.LENGTH_SHORT).show()
+//            }
 
         //ViewProfilePage
         binding.ivViewProfile.setOnClickListener {
             findNavController().navigate(R.id.action_singlePatientDashboardFragment_to_userSelectionFragment2,
                 bundleOf("patientData" to singlePatientDashboardResponse))
         }
-
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        when(isTablet(requireContext())) {
+            false -> {
+                bluetoothData(patientId)
+            }
+            true -> {
+                singleDashboardApi(patientId)
+            }
+        }
     }
 
     private fun setPieChartData() {
@@ -80,10 +92,7 @@ class SinglePatientDashboardFragment : Fragment() {
 
         val heartEntries: List<Entry> =
             singlePatientDashboardResponse.heartRate.ratePerMinute.mapIndexed { index, i ->
-                Entry(
-                    index.toFloat(),
-                    i.toFloat()
-                )
+                Entry(index.toFloat(), i.toFloat())
             }
 
         val dataSetHeart = LineDataSet(heartEntries, "Unused label").apply {
@@ -131,9 +140,56 @@ class SinglePatientDashboardFragment : Fragment() {
         binding.pieChartRespiratoryLayout.invalidate()
     }
 
+    private fun bluetoothData(patientId: String) {
+        progressDialog.showLoadingDialog()
+
+        lifecycleScope.launchWhenCreated {
+
+            sharedViewModel.apply {
+                heartRateData.collect {
+                    progressDialog.dismissLoadingDialog()
+
+                    it.forEach { heartRate ->
+                        binding.tvHeartRateCount.text = heartRate.toString().also {
+                            Timber.d("heartrate $it")
+                        }
+                    }
+                    sharedViewModel.sendHeartRateToServer(patientId, HEART_RATE_DATA,it)
+                }
+
+                bodyPosture.observe(viewLifecycleOwner) {
+                    if (!it.isNullOrEmpty()) {
+                        binding.tvPostureValue.text = it.also {
+                            Timber.i("body ${it}")
+                        }
+                    } else {
+                        binding.tvPostureValue.text = "".also {
+                            Timber.i("body ${it}")
+                        }
+                    }
+                }
+
+                bodyTemperature.observe(viewLifecycleOwner) {
+                    if (!it.isNullOrEmpty()) {
+                        binding.tvTemperatureValue.text = it.also {
+                            Timber.i("temp ${it}")
+                        }
+                    } else {
+                        binding.tvTemperatureValue.text = "".also {
+                            Timber.i("temp ${it}")
+                        }
+                    }
+                }
+
+            }
+        }
+
+    }
+
     private fun singleDashboardApi(mobile: String) {
-            viewModel.getSinglePatientData(mobile)
-            viewModel.expectedResult.observe(viewLifecycleOwner, {
+        progressDialog.showLoadingDialog()
+            singlePatientDashboardViewModel.getSinglePatientData(mobile)
+            singlePatientDashboardViewModel.expectedResult.observe(viewLifecycleOwner, {
                 when (it) {
                     is SinglePatientDashboardViewModel.SinglePatient.Success -> {
                         progressDialog.dismissLoadingDialog()
@@ -152,17 +208,19 @@ class SinglePatientDashboardFragment : Fragment() {
     }
 
     private fun setDataFromApiResponse(data: SinglePatientDashboardResponse) {
-        binding.tvSelectedPatient.text = data.name
-        binding.tvHeartRateCount.text = data.heartRate.ratePerMinute.last().toString()
-        binding.tvRespiratoryCount.text = data.respiratoryRate.ratePerMinute.last().toString()
-        binding.tvTemperatureCount.text = data.temperature.bodyTemperature.last().toString()
-        binding.tvBpCount.text = (data.bloodPressure.systolicPressure.last()
-            .toString() + "/" + data.bloodPressure.diastolicPressure.last().toString())
-        binding.tvActivityCount.text = data.step.stepCount.toString()
-        binding.tvPostureCount.text = data.posture.bodyPosture.last()
-        binding.tvOxygenSaturationCount.text =
-            data.oxygenSaturation.oxygenPercentage.last().toString()
-        binding.tvWeightCount.text = data.weight.weight.toString()
-        binding.tvTimeLeft.text = data.device.batteryPercentage.toString()
+        binding.apply {
+            tvSelectedPatient.text = data.name
+            tvHeartRateCount.text = data.heartRate.ratePerMinute.last().toString()
+            tvRespiratoryCount.text = data.respiratoryRate.ratePerMinute.last().toString()
+            tvTemperatureValue.text = data.temperature.bodyTemperature.last().toString()
+            tvBpValue.text = (data.bloodPressure.systolicPressure.last()
+                .toString() + "/" + data.bloodPressure.diastolicPressure.last().toString())
+            tvActivityValue.text = data.step.stepCount.toString()
+            tvPostureValue.text = data.posture.bodyPosture.last()
+            tvOxygenSaturationValue.text =
+                data.oxygenSaturation.oxygenPercentage.last().toString()
+            tvWeightValue.text = data.weight.weight.toString()
+            tvTimeLeft.text = data.device.batteryPercentage.toString()
+        }
     }
 }

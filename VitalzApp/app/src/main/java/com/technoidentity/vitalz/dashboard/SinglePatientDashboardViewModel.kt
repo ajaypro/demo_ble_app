@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.technoidentity.vitalz.data.datamodel.single_patient.SinglePatientDashboardResponse
-import com.technoidentity.vitalz.data.repository.UserRepository
+import com.technoidentity.vitalz.data.repository.UserRepositoryImpl
 import com.technoidentity.vitalz.utils.CoroutinesDispatcherProvider
 import com.technoidentity.vitalz.utils.ResultHandler
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SinglePatientDashboardViewModel @Inject constructor(
-    private val userRepository: UserRepository,
+    private val userRepositoryImpl: UserRepositoryImpl,
     private val dispatcher: CoroutinesDispatcherProvider
 ) : ViewModel() {
 
@@ -32,7 +32,7 @@ class SinglePatientDashboardViewModel @Inject constructor(
     fun getSinglePatientData(patientId: String) {
         viewModelScope.launch{
             _expectedResult.value = SinglePatient.Loading
-            when (val response = userRepository.getSinglePatientDashboardList(patientId)) {
+            when (val response = userRepositoryImpl.getSinglePatientDashboardList(patientId)) {
                 is ResultHandler.Error -> {
                     _expectedResult.value =
                         SinglePatient.Failure(response.message.toString())

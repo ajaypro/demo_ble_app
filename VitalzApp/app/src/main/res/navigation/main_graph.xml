@@ -30,9 +30,6 @@
             android:id="@+id/action_doctorNurseLoginFragment_to_addDeviceFragment"
             app:destination="@id/addDeviceFragment" />
         <action
-            android:id="@+id/action_doctorNurseLoginFragment_to_doctorDashboardFragment2"
-            app:destination="@id/doctorDashboardFragment" />
-        <action
             android:id="@+id/action_doctorNurseLoginFragment_to_singlePatientDashboardFragment"
             app:destination="@id/singlePatientDashboardFragment" />
     </fragment>
@@ -45,49 +42,35 @@
             app:destination="@id/hospitalListFragment" />
     </fragment>
     <fragment
-        android:id="@+id/doctorDashboardFragment"
-        android:name="com.technoidentity.vitalz.dashboard.DoctorDashboardFragment"
-        android:label="DoctorDashboardFragment">
-        <action
-            android:id="@+id/action_doctorDashboardFragment_to_doctorPatientDetailFragment"
-            app:destination="@id/doctorPatientDetailFragment" />
-        <action
-            android:id="@+id/action_doctorDashboardFragment_to_notificationsFragment"
-            app:destination="@id/notificationsFragment" />
-        <action
-            android:id="@+id/action_doctorDashboardFragment_to_userSelectionFragment2"
-            app:destination="@id/userSelectionFragment2" />
-    </fragment>
-    <fragment
         android:id="@+id/singlePatientDetailFragment"
         android:name="com.technoidentity.vitalz.dashboard.SinglePatientDetailFragment"
         android:label="NurseCareTakerPatientDetailFragment" />
     <fragment
         android:id="@+id/addDeviceFragment"
-        android:name="com.technoidentity.vitalz.bluetooth.AddDeviceFragment"
+        android:name="com.technoidentity.vitalz.bluetooth.ui.AddDeviceFragment"
         android:label="AddDeviceFragment">
         <action
             android:id="@+id/action_addDeviceFragment_to_bleScanResultFragment"
             app:destination="@id/bleScanResultFragment" />
     </fragment>
     <fragment
-        android:id="@+id/doctorPatientDetailFragment"
-        android:name="com.technoidentity.vitalz.dashboard.DoctorPatientDetailFragment"
-        android:label="DoctorPatientDetailFragment">
+        android:id="@+id/multiPatientDashboardFragment"
+        android:name="com.technoidentity.vitalz.dashboard.MultiPatientDashboardFragment"
+        android:label="MultiPatientDashboardFragment">
         <argument
             android:name="patientId"
             app:argType="integer" />
         <action
-            android:id="@+id/action_doctorPatientDetailFragment_to_singlePatientDetailFragment"
+            android:id="@+id/action_multiPatientDashboardFragment_to_singlePatientDetailFragment"
             app:destination="@id/singlePatientDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/deviceDetailsFragment"
-        android:name="com.technoidentity.vitalz.bluetooth.DeviceDetailsFragment"
+        android:name="com.technoidentity.vitalz.bluetooth.ui.DeviceDetailsFragment"
         android:label="DeviceDetailsFragment">
         <action
-            android:id="@+id/action_deviceDetailsFragment_to_doctorDashboardFragment"
-            app:destination="@id/doctorDashboardFragment" />
+            android:id="@+id/action_deviceDetailsFragment_to_multiPatientDashboardFragment"
+            app:destination="@id/multiPatientDashboardFragment" />
         <action
             android:id="@+id/action_deviceDetailsFragment_to_singlePatientDashboardFragment"
             app:destination="@id/singlePatientDashboardFragment" />
@@ -135,28 +118,24 @@
         android:label="NotificationsFragment" />
     <fragment
         android:id="@+id/bleScanResultFragment"
-        android:name="com.technoidentity.vitalz.bluetooth.BleScanResultFragment"
+        android:name="com.technoidentity.vitalz.bluetooth.ui.BleScanResultFragment"
         android:label="BleScanResultFragment" >
-        <argument
-            android:name="bleDevice"
-            app:argType="android.bluetooth.BluetoothDevice" />
         <action
             android:id="@+id/action_bleScanResultFragment_to_deviceDetailsFragment"
             app:destination="@id/deviceDetailsFragment" />
     </fragment>
     <fragment
-        android:id="@+id/bleOperationsFragment"
-        android:name="com.technoidentity.vitalz.bluetooth.BleOperationsFragment"
-        android:label="BleOperationsFragment" />
-    <fragment
         android:id="@+id/homeFragment"
         android:name="com.technoidentity.vitalz.home.HomeFragment"
         android:label="HomeFragment" >
         <action
-            android:id="@+id/action_homeFragment_to_addDeviceFragment"
-            app:destination="@id/addDeviceFragment" />
-        <action
             android:id="@+id/action_homeFragment_to_singlePatientDashboardFragment"
             app:destination="@id/singlePatientDashboardFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_doctorNurseLoginFragment"
+            app:destination="@id/doctorNurseLoginFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_addDeviceFragment"
+            app:destination="@id/addDeviceFragment" />
     </fragment>
 </navigation>

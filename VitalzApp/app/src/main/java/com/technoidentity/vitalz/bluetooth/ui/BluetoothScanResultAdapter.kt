@@ -1,4 +1,4 @@
-package com.technoidentity.vitalz.bluetooth
+package com.technoidentity.vitalz.bluetooth.ui
 
 import android.bluetooth.BluetoothDevice
 import android.view.LayoutInflater
@@ -9,9 +9,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.technoidentity.vitalz.R
 import com.technoidentity.vitalz.databinding.DeviceItemListBinding
-import com.technoidentity.vitalz.home.HomeViewModel
+import com.technoidentity.vitalz.home.SharedViewModel
 
-class BluetoothScanResultAdapter(private val bleDeviceClickListener: BleDeviceClickListener, val viewModel: HomeViewModel) :
+class BluetoothScanResultAdapter(private val bleDeviceClickListener: BleDeviceClickListener, val viewModel: SharedViewModel) :
     ListAdapter<BluetoothDevice, BluetoothScanResultAdapter.DeviceListViewHolder>(DeviceDiffCallBack()) {
 
     lateinit var binding: DeviceItemListBinding

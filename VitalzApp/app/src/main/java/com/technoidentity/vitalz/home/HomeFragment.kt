@@ -10,20 +10,19 @@ import kotlinx.coroutines.flow.collect
 
 class HomeFragment : Fragment() {
 
-    val homeViewModel: HomeViewModel by activityViewModels()
+    val sharedViewModel: SharedViewModel by activityViewModels()
 
     override fun onResume() {
         super.onResume()
-        lifecycleScope.launchWhenResumed {
-            homeViewModel.isDeviceConnected.collect {
+            sharedViewModel.isDeviceConnected.observe(this@HomeFragment) {
                 showToast(requireContext(), "homefragment - isdeviceconnected $it")
+                // Navigating based on ble device connection
                 if (!it) {
-                    findNavController().navigate(R.id.action_homeFragment_to_addDeviceFragment)
+                    //findNavController().navigate(R.id.action_homeFragment_to_addDeviceFragment)
+                     findNavController().navigate(R.id.action_homeFragment_to_doctorNurseLoginFragment)
                 } else {
-                    //learn conditional navigation to navigate to load singlepatient fragment when device is connected
                     findNavController().navigate(R.id.action_homeFragment_to_singlePatientDashboardFragment)
                 }
             }
-        }
     }
 }
