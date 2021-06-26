@@ -90,6 +90,6 @@ class PatientListFragment : Fragment(), PatientAdapter.OnItemClickListener {
         val pref = context?.getSharedPreferences(Constants.PREFERENCE_NAME, 0)
         pref?.edit()?.putString(Constants.PATIENTID, patientAdapter.patient[position].id.toString())?.apply()
         findNavController().navigate(
-            R.id.action_patientListFragment_to_nurseCareTakerDashboardFragment)
+            R.id.action_patientListFragment_to_singlePatientDashboardFragment)
     }
 }

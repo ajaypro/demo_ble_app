@@ -9,14 +9,12 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.technoidentity.vitalz.data.datamodel.NotificationData
 import com.technoidentity.vitalz.databinding.FragmentNotificationsBinding
-import com.technoidentity.vitalz.home.HomeActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class NotificationsFragment: Fragment() {
 
     lateinit var binding: FragmentNotificationsBinding
-    private val homeViewModel: HomeActivityViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,

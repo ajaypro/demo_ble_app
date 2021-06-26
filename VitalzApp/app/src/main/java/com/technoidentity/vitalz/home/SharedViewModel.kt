@@ -10,6 +10,8 @@ import com.technoidentity.vitalz.bluetooth.data.RegisteredDevice
 import com.technoidentity.vitalz.data.repository.DeviceRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -88,7 +90,13 @@ class SharedViewModel @Inject constructor(private val bleManager: IBleManager,
 
     val bodyPosture: LiveData<String> = bleManager.bodyPosture
 
+    //Check User Selected What
+    private var _isCareTaker = MutableStateFlow(false)
+    val isSelected: StateFlow<Boolean> = _isCareTaker
 
+    fun isCareTakerSelected(selected : Boolean){
+        _isCareTaker.value = selected
+    }
 
 
 }

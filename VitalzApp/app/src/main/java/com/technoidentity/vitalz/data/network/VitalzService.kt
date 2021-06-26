@@ -13,12 +13,19 @@ import java.util.concurrent.TimeUnit
 
 object VitalzService {
 
-    private lateinit var restApi : VitalzApi
+    private var restApi: VitalzApi? = null
     var token = String()
 
-    fun getRestApi(context: Context): VitalzApi {
-        val sp = context.getSharedPreferences(Constants.PREFERENCE_NAME , Context.MODE_PRIVATE)
-        token = sp.getString(Constants.TOKEN , "").toString()
+    fun getRestApi(context: Context? = null): VitalzApi? {
+        context?.let {
+            val sp = it.getSharedPreferences(Constants.PREFERENCE_NAME , Context.MODE_PRIVATE)
+            token = sp.getString(Constants.TOKEN , token)!!
+        }
+
+        if (restApi!= null) {
+            restApi = null
+
+        }
         init()
         return restApi
     }
