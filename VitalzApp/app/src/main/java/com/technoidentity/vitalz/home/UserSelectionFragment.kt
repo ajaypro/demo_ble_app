@@ -9,11 +9,12 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.technoidentity.vitalz.R
 import com.technoidentity.vitalz.databinding.FragmentUserSelectionBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class UserSelectionFragment : Fragment() {
 
     private lateinit var binding: FragmentUserSelectionBinding
-
     val sharedViewModel: SharedViewModel by activityViewModels()
 
     override fun onCreateView(
@@ -29,9 +30,11 @@ class UserSelectionFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.hospitalLayout.setOnClickListener {
+            sharedViewModel.isCareTakerSelected(false)
             findNavController().navigate(R.id.action_userSelectionFragment2_to_doctorNurseLoginFragment)
         }
         binding.patientCareLayout.setOnClickListener {
+            sharedViewModel.isCareTakerSelected(true)
             findNavController().navigate(R.id.action_userSelectionFragment2_to_careTakerMobileLoginFragment)
         }
     }
