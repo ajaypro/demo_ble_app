@@ -23,4 +23,10 @@ object Urls {
     const val GET_DEVICE_LIST = "/device/device-list"
 
     const val SEND_HEARTRATE = ""
+
+    const val DOCTOR_NOTIFICATION = "/notification/doctor"
+
+    const val NURSE_NOTIFICATION = "/notification/admin-nurse"
+
+    const val CARE_TAKER_NOTIFICATION = "/notification/patient"
 }

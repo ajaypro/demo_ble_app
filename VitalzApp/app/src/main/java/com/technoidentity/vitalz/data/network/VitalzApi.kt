@@ -10,16 +10,21 @@ import com.technoidentity.vitalz.data.datamodel.hospital_list.HospitalListData
 import com.technoidentity.vitalz.data.datamodel.hospital_list.HospitalListRequest
 import com.technoidentity.vitalz.data.datamodel.multiple_patient.MultiplePatientDashboardResponse
 import com.technoidentity.vitalz.data.datamodel.multiple_patient.MultiplePatientDashboardResponseItem
+import com.technoidentity.vitalz.data.datamodel.notification.NotificationCareTakerRequest
+import com.technoidentity.vitalz.data.datamodel.notification.NotificationDoctorRequest
+import com.technoidentity.vitalz.data.datamodel.notification.NotificationResponse
 import com.technoidentity.vitalz.data.datamodel.otp.OtpRequest
 import com.technoidentity.vitalz.data.datamodel.otp.OtpResponse
 import com.technoidentity.vitalz.data.datamodel.patient_list.PatientDataList
 import com.technoidentity.vitalz.data.datamodel.patient_list.PatientRequest
 import com.technoidentity.vitalz.data.datamodel.single_patient.SinglePatientDashboardResponse
 import com.technoidentity.vitalz.data.network.Urls.CARETAKER_LOGIN
+import com.technoidentity.vitalz.data.network.Urls.DOCTOR_NOTIFICATION
 import com.technoidentity.vitalz.data.network.Urls.DOC_NURSE_LOGIN
 import com.technoidentity.vitalz.data.network.Urls.GET_DEVICE_LIST
 import com.technoidentity.vitalz.data.network.Urls.HOSPITAL_LIST
 import com.technoidentity.vitalz.data.network.Urls.MULTIPLE_PATIENT_DASHBOARD
+import com.technoidentity.vitalz.data.network.Urls.NURSE_NOTIFICATION
 import com.technoidentity.vitalz.data.network.Urls.PATIENT_LIST
 import com.technoidentity.vitalz.data.network.Urls.SEND_DEVICE
 import com.technoidentity.vitalz.data.network.Urls.SEND_HEARTRATE
@@ -62,5 +67,14 @@ interface VitalzApi {
 
     @POST(SEND_HEARTRATE)
     suspend fun sendHeartRate(patientId: String, telemetryKey: String, heartRate :ByteArray): Boolean
+
+    @POST(DOCTOR_NOTIFICATION)
+    suspend fun getDoctorNotification(request: NotificationDoctorRequest): NotificationResponse
+
+    @GET(NURSE_NOTIFICATION)
+    suspend fun getNurseNotification(): NotificationResponse
+
+    @POST(CARETAKER_LOGIN)
+    suspend fun getCareTakerNotification(request: NotificationCareTakerRequest): NotificationResponse
 
 }

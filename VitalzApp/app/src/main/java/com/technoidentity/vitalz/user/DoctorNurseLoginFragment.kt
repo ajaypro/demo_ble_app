@@ -10,10 +10,13 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.github.mikephil.charting.utils.Utils
 import com.technoidentity.vitalz.R
 import com.technoidentity.vitalz.data.network.Constants
 import com.technoidentity.vitalz.databinding.FragmentDocnurseLoginBinding
 import com.technoidentity.vitalz.home.SharedViewModel
+import com.technoidentity.vitalz.utils.Constants.DOCTOR
+import com.technoidentity.vitalz.utils.Constants.NURSE
 import com.technoidentity.vitalz.utils.CustomProgressDialog
 import com.technoidentity.vitalz.utils.isTablet
 import dagger.hilt.android.AndroidEntryPoint
@@ -66,12 +69,19 @@ class DoctorNurseLoginFragment : Fragment() {
                                 context?.getSharedPreferences(Constants.PREFERENCE_NAME, 0)
                             pref?.edit()?.putString(Constants.TOKEN, it.data.token)?.apply()
                             progressDialog.dismissLoadingDialog()
-
+                            if (it.data.user?.role == DOCTOR) {
+                                sharedViewModel.checkRole(DOCTOR)
+                            }else{
+                                sharedViewModel.checkRole(NURSE)
+                            }
                             //check for tablet or mobile and navigate
                             when (isTablet(requireContext())) {
                                 false ->
                                 {
                                     findNavController().navigate(R.id.action_doctorNurseLoginFragment_to_multiPatientDashboardFragment)
+                                    val pref =
+                                        context?.getSharedPreferences(Constants.PREFERENCE_NAME, 0)
+                                    pref?.edit()?.putString(Constants.DOCTOR_MOBILE, it.data.user?.phoneNo)?.apply()
                                 }
                                 true ->
                                 {

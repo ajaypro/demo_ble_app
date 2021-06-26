@@ -11,6 +11,7 @@ import android.view.View
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -24,6 +25,9 @@ import com.technoidentity.vitalz.base.BaseActivity
 import com.technoidentity.vitalz.bluetooth.*
 import com.technoidentity.vitalz.databinding.ActivityHomeBinding
 import com.technoidentity.vitalz.utils.*
+import com.technoidentity.vitalz.utils.Constants.CARETAKER
+import com.technoidentity.vitalz.utils.Constants.DOCTOR
+import com.technoidentity.vitalz.utils.Constants.NURSE
 import com.technoidentity.vitalz.utils.Constants.REQUEST_LOCATION_SERVICE
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CompletableDeferred
@@ -91,7 +95,19 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                         }
                     }
                     R.id.notifications_tab -> {
-                        navController.navigate(R.id.notificationsFragment)
+                        sharedViewModel.assignedRole.collect {
+                            when(it){
+                                DOCTOR -> {
+                                    navController.navigate(R.id.notificationsFragment, bundleOf("assignedRole" to DOCTOR))
+                                }
+                                NURSE -> {
+                                    navController.navigate(R.id.notificationsFragment, bundleOf("assignedRole" to NURSE))
+                                }
+                                else -> {
+                                    navController.navigate(R.id.notificationsFragment, bundleOf("assignedRole" to CARETAKER))
+                                }
+                            }
+                        }
                     }
                     R.id.settings_tab -> {
                         navController.navigate(R.id.patientProfileFragment)

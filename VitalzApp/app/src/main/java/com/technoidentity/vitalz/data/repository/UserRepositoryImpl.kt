@@ -8,6 +8,9 @@ import com.technoidentity.vitalz.data.datamodel.hospital_list.HospitalListData
 import com.technoidentity.vitalz.data.datamodel.hospital_list.HospitalListRequest
 import com.technoidentity.vitalz.data.datamodel.multiple_patient.MultiplePatientDashboardResponse
 import com.technoidentity.vitalz.data.datamodel.multiple_patient.MultiplePatientDashboardResponseItem
+import com.technoidentity.vitalz.data.datamodel.notification.NotificationCareTakerRequest
+import com.technoidentity.vitalz.data.datamodel.notification.NotificationDoctorRequest
+import com.technoidentity.vitalz.data.datamodel.notification.NotificationResponse
 import com.technoidentity.vitalz.data.datamodel.otp.OtpRequest
 import com.technoidentity.vitalz.data.datamodel.otp.OtpResponse
 import com.technoidentity.vitalz.data.datamodel.patient_list.PatientDataList
@@ -126,6 +129,24 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun getMultiplePatientDashboardList(): MultiplePatientDashboardResponse {
         return kotlin.runCatching {
             api.getMultiplePatientDashboardList()
+        }.getOrThrow()
+    }
+
+    override suspend fun getNotificationCareTakerList(request: NotificationCareTakerRequest): NotificationResponse {
+        return kotlin.runCatching {
+            api.getCareTakerNotification(request)
+        }.getOrThrow()
+    }
+
+    override suspend fun getNotificationDoctorList(request: NotificationDoctorRequest): NotificationResponse {
+        return kotlin.runCatching {
+            api.getDoctorNotification(request)
+        }.getOrThrow()
+    }
+
+    override suspend fun getNotificationNurseList(): NotificationResponse {
+        return kotlin.runCatching {
+            api.getNurseNotification()
         }.getOrThrow()
     }
 }
