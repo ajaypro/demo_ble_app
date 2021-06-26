@@ -16,11 +16,11 @@ object Urls {
 
     const val SINGLE_PATIENT_DASHBOARD = "http://20.204.14.2/graph/patient/{id}"
 
-    const val MULTIPLE_PATIENT_DASHBOARD = "http://52.140.120.88:8082/agastya/v1/patients"
+    const val MULTIPLE_PATIENT_DASHBOARD = "http://20.204.14.2/graph/patients"
 
-    const val NOTIFICATION_CARE_TAKER = "/notification/patient"
+    const val SEND_DEVICE = "/device/save-device"
 
-    const val NOTIFICATION_DOCTOR = "/notification/doctor"
+    const val GET_DEVICE_LIST = "/device/device-list"
 
-    const val NOTIFICATION_ADMIN_NURSE = "/notification/admin-nurse"
+    const val SEND_HEARTRATE = ""
 }

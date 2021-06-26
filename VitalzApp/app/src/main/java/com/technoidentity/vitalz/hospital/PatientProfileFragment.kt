@@ -5,9 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavArgs
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.technoidentity.vitalz.data.datamodel.single_patient.SinglePatientDashboardResponse
 import com.technoidentity.vitalz.databinding.FragmentViewProfileBinding
 import dagger.hilt.android.AndroidEntryPoint

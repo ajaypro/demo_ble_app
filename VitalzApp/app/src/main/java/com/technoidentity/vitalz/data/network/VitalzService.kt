@@ -1,7 +1,6 @@
 package com.technoidentity.vitalz.data.network
 
 import android.content.Context
-import com.technoidentity.vitalz.BuildConfig
 import com.technoidentity.vitalz.data.network.Urls.BASE_URL
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -14,12 +13,19 @@ import java.util.concurrent.TimeUnit
 
 object VitalzService {
 
-    private lateinit var restApi : VitalzApi
+    private var restApi: VitalzApi? = null
     var token = String()
 
-    fun getRestApi(context: Context): VitalzApi {
-        val sp = context.getSharedPreferences(Constants.PREFERENCE_NAME , Context.MODE_PRIVATE)
-        token = sp.getString(Constants.TOKEN , "").toString()
+    fun getRestApi(context: Context? = null): VitalzApi? {
+        context?.let {
+            val sp = it.getSharedPreferences(Constants.PREFERENCE_NAME , Context.MODE_PRIVATE)
+            token = sp.getString(Constants.TOKEN , token)!!
+        }
+
+        if (restApi!= null) {
+            restApi = null
+
+        }
         init()
         return restApi
     }

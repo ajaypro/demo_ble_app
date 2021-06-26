@@ -11,7 +11,7 @@
         android:textSize="@dimen/sp_32"
         android:textColor="@color/button_blue"
         android:id="@+id/no_device"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"

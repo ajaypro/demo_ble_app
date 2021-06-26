@@ -1,59 +1,34 @@
 package com.technoidentity.vitalz.user
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.AsyncListDiffer
-import androidx.recyclerview.widget.DiffUtil
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.technoidentity.vitalz.data.datamodel.notification.NotificationResponseItem
-import com.technoidentity.vitalz.databinding.RecyclerViewNotificationsListBinding
+import com.technoidentity.vitalz.R
+import com.technoidentity.vitalz.data.datamodel.NotificationData
 
-class NotificationAdapter : RecyclerView.Adapter<NotificationAdapter.NotificationViewHolder>() {
+class NotificationAdapter(var hospitalData: List<NotificationData>) :
+    RecyclerView.Adapter<NotificationAdapter.HospitalViewHolder>() {
 
-    private val diffUtil = object : DiffUtil.ItemCallback<NotificationResponseItem>() {
-        override fun areItemsTheSame(
-            oldItem: NotificationResponseItem,
-            newItem: NotificationResponseItem
-        ): Boolean {
-            return oldItem == newItem
-        }
-
-        override fun areContentsTheSame(
-            oldItem: NotificationResponseItem,
-            newItem: NotificationResponseItem
-        ): Boolean {
-            return oldItem == newItem
-        }
-    }
-
-    private val differ = AsyncListDiffer(this, diffUtil)
-    var notification: List<NotificationResponseItem>
-        get() = differ.currentList
-        set(value) {
-            differ.submitList(value)
-        }
-
-    inner class NotificationViewHolder(val binding: RecyclerViewNotificationsListBinding) :
-        RecyclerView.ViewHolder(binding.root)
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotificationViewHolder {
-        return NotificationViewHolder(
-            RecyclerViewNotificationsListBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent, false
-            )
-        )
-    }
-
-    override fun onBindViewHolder(holder: NotificationViewHolder, position: Int) {
-        holder.binding.apply {
-            val notifications = notification[position]
-            tvNotificationTitle.text = notifications.description
-            tvNotificationDate.text = notifications.createdTime
-        }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HospitalViewHolder {
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.recycler_view_notifications_list, parent, false)
+        return HospitalViewHolder(view)
     }
 
     override fun getItemCount(): Int {
-        return notification.size
+        return hospitalData.size
+    }
+
+    override fun onBindViewHolder(holder: HospitalViewHolder, position: Int) {
+        val data = hospitalData[position]
+        holder.title.text = data.notificationTitle
+        holder.date.text = data.notificationDate
+    }
+
+    inner class HospitalViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val title: TextView = itemView.findViewById(R.id.tv_notification_title)
+        val date: TextView = itemView.findViewById(R.id.tv_notification_date)
     }
 }
