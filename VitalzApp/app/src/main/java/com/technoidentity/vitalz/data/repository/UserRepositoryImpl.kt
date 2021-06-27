@@ -58,21 +58,10 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun sendDocNurseCredentials(docNurseLogin: DocNurseRequest): ResultHandler<DocNurseResponse>? {
-        val response = api.getDocNurseLogin(docNurseLogin)
-        return try {
-            response.let { it ->
-                if (it.isSuccessful) {
-                    it.body()?.let {
-                        ResultHandler.Success(it)
-                    }
-                } else {
-                    Error(response.message())
-                }
-            }
-        } catch (e: Exception) {
-            Error(e.message ?: "Contact Admin")
-        }
+    override suspend fun sendDocNurseCredentials(docNurseLogin: DocNurseRequest): DocNurseResponse {
+      return kotlin.runCatching {
+          api.getDocNurseLogin(docNurseLogin)
+      }.getOrThrow()
     }
 
     override suspend fun getHospitalList(mobile: HospitalListRequest): ResultHandler<HospitalListData>? {

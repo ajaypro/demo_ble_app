@@ -24,7 +24,7 @@ interface UserRepository {
 
     suspend fun doOTPSendCall(otpRequest: OtpRequest): ResultHandler<OtpResponse>?
 
-    suspend fun sendDocNurseCredentials(docNurseLogin: DocNurseRequest): ResultHandler<DocNurseResponse>?
+    suspend fun sendDocNurseCredentials(docNurseLogin: DocNurseRequest): DocNurseResponse
 
     suspend fun getHospitalList(mobile: HospitalListRequest): ResultHandler<HospitalListData>?
 

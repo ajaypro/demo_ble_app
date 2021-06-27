@@ -2,9 +2,13 @@ package com.technoidentity.vitalz.data.network
 
 import android.content.Context
 import com.technoidentity.vitalz.data.network.Urls.BASE_URL
+import com.technoidentity.vitalz.home.HomeActivity
+import com.technoidentity.vitalz.utils.showToast
+import dagger.hilt.android.qualifiers.ApplicationContext
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -32,6 +36,22 @@ object VitalzService {
 
     private fun init() {
         val interceptor = HttpLoggingInterceptor()
+//        val errorInterceptor = object : Interceptor{
+//            override fun intercept(chain: Interceptor.Chain): okhttp3.Response {
+//                val request = chain.request()
+//                val builder: Request.Builder = if(token.isEmpty()){
+//                    request.newBuilder()
+//                }else{
+//                    request.newBuilder().header("Authorization", String.format("Bearer %s", token))
+//                }
+//                val request1 = builder.build()
+//                val response = chain.proceed(request1)
+//                if (response.code == 500 ){
+//
+//                }
+//            }
+//
+//        }
         val headerAuthorizationInterceptor = object : Interceptor {
             @Throws(IOException::class)
             override fun intercept(chain: Interceptor.Chain): okhttp3.Response {

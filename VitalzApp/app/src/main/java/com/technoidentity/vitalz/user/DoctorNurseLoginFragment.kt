@@ -48,7 +48,6 @@ class DoctorNurseLoginFragment : Fragment() {
                 binding.etPassword.text.toString()
             )
         }
-
     }
 
     private fun validateCredentials(username: String, password: String) {
@@ -62,45 +61,40 @@ class DoctorNurseLoginFragment : Fragment() {
             else -> {
                 progressDialog.showLoadingDialog()
                 viewModel.sendDocNurseCredentials(username, password)
-                viewModel.expectedResult.observe(viewLifecycleOwner, {
-                    when (it) {
-                        is DoctorNurseLoginViewModel.DocNurse.Success -> {
-                            val pref =
-                                context?.getSharedPreferences(Constants.PREFERENCE_NAME, 0)
-                            pref?.edit()?.putString(Constants.TOKEN, it.data.token)?.apply()
-                            progressDialog.dismissLoadingDialog()
-                            if (it.data.user?.role == DOCTOR) {
-                                sharedViewModel.checkRole(DOCTOR)
-                            }else{
-                                sharedViewModel.checkRole(NURSE)
+                viewModel.sendDocNurseCredentials(username,password).observe(viewLifecycleOwner, {
+                    if (it.token != null){
+                        val pref =
+                            context?.getSharedPreferences(Constants.PREFERENCE_NAME, 0)
+                        pref?.edit()?.putString(Constants.TOKEN, it.token)?.apply()
+                        progressDialog.dismissLoadingDialog()
+                        if (it.user?.role == DOCTOR) {
+                            sharedViewModel.checkRole(DOCTOR)
+                        }else{
+                            sharedViewModel.checkRole(NURSE)
+                        }
+                        //check for tablet or mobile and navigate
+                        when (isTablet(requireContext())) {
+                            false ->
+                            {
+                                findNavController().navigate(R.id.action_doctorNurseLoginFragment_to_multiPatientDashboardFragment)
+                                val pref =
+                                    context?.getSharedPreferences(Constants.PREFERENCE_NAME, 0)
+                                pref?.edit()?.putString(Constants.DOCTOR_MOBILE, it.user?.phoneNo)?.apply()
                             }
-                            //check for tablet or mobile and navigate
-                            when (isTablet(requireContext())) {
-                                false ->
-                                {
-                                    findNavController().navigate(R.id.action_doctorNurseLoginFragment_to_multiPatientDashboardFragment)
-                                    val pref =
-                                        context?.getSharedPreferences(Constants.PREFERENCE_NAME, 0)
-                                    pref?.edit()?.putString(Constants.DOCTOR_MOBILE, it.data.user?.phoneNo)?.apply()
-                                }
-                                true ->
-                                {
-                                        sharedViewModel.isDeviceConnected.observe(viewLifecycleOwner) { deviceConnected ->
-                                            if (!deviceConnected) {
-                                                findNavController().navigate(R.id.action_doctorNurseLoginFragment_to_addDeviceFragment)
-                                            } else {
-                                                findNavController().navigate(R.id.action_deviceDetailsFragment_to_singlePatientDashboardFragment)
-                                            }
-                                        }
+                            true ->
+                            {
+                                sharedViewModel.isDeviceConnected.observe(viewLifecycleOwner) { deviceConnected ->
+                                    if (!deviceConnected) {
+                                        findNavController().navigate(R.id.action_doctorNurseLoginFragment_to_addDeviceFragment)
+                                    } else {
+                                        findNavController().navigate(R.id.action_deviceDetailsFragment_to_singlePatientDashboardFragment)
+                                    }
                                 }
                             }
                         }
-
-                        is DoctorNurseLoginViewModel.DocNurse.Failure -> {
-                            progressDialog.dismissLoadingDialog()
-                            Toast.makeText(context, it.errorText, Toast.LENGTH_SHORT).show()
-                        }
-                        else -> Unit
+                    }else{
+                        progressDialog.dismissLoadingDialog()
+                        Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
                     }
                 })
             }

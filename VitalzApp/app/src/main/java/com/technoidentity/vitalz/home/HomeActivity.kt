@@ -110,7 +110,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                         }
                     }
                     R.id.settings_tab -> {
-                        navController.navigate(R.id.patientProfileFragment)
+                        navController.navigate(R.id.settingsFragment)
                     }
                 }
             }
@@ -240,7 +240,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                 destination.id == R.id.careTakerMobileOTPFragment ||
                 destination.id == R.id.careTakerMobileLoginFragment ||
                 destination.id == R.id.patientProfileFragment ||
-                destination.id == R.id.doctorNurseLoginFragment
+                destination.id == R.id.doctorNurseLoginFragment ||
+                destination.id == R.id.singlePatientDetailFragment
             ) {
                 binding.bottomNavView.visibility = View.GONE
             } else {

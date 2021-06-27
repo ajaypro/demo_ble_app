@@ -30,6 +30,7 @@ import com.technoidentity.vitalz.data.network.Urls.SEND_DEVICE
 import com.technoidentity.vitalz.data.network.Urls.SEND_HEARTRATE
 import com.technoidentity.vitalz.data.network.Urls.SEND_OTP
 import com.technoidentity.vitalz.data.network.Urls.SINGLE_PATIENT_DASHBOARD
+import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -45,7 +46,7 @@ interface VitalzApi {
     suspend fun getLogin(@Body request: OtpRequest) : Response<OtpResponse>
 
     @POST(DOC_NURSE_LOGIN)
-    suspend fun getDocNurseLogin(@Body request: DocNurseRequest) : Response<DocNurseResponse>
+    suspend fun getDocNurseLogin(@Body request: DocNurseRequest) : DocNurseResponse
 
     @POST(HOSPITAL_LIST)
     suspend fun getHospitalList(@Body request: HospitalListRequest) : Response<HospitalListData>
