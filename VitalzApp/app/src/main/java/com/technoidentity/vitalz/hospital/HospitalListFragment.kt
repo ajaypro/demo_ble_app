@@ -17,11 +17,11 @@ import com.technoidentity.vitalz.utils.CustomProgressDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class HospitalListFragment : Fragment(), HospitalAdapter.OnItemClickListener  {
+class HospitalListFragment : Fragment(), HospitalAdapter.OnItemClickListener {
 
     val viewModel: HospitalViewModel by viewModels()
-    private lateinit var token : String
-    private lateinit var mobile : String
+    private lateinit var token: String
+    private lateinit var mobile: String
     lateinit var binding: FragmentHospitalListBinding
     private lateinit var hospitalAdapter: HospitalAdapter
     private lateinit var progressDialog: CustomProgressDialog
@@ -42,9 +42,9 @@ class HospitalListFragment : Fragment(), HospitalAdapter.OnItemClickListener  {
 
         //setup RecyclerView
         setUpRecyclerView()
-        mobile.let {
-            getHospitalList(it)
-        }
+
+        //Api Call
+        getHospitalList(mobile)
 
         //Search has Cancel icon with visibility GONE
 
@@ -53,21 +53,21 @@ class HospitalListFragment : Fragment(), HospitalAdapter.OnItemClickListener  {
 
     private fun getHospitalList(mobile: String) {
         progressDialog.showLoadingDialog()
-            viewModel.getHospitalListData(mobile)
-            viewModel.expectedResult.observe(viewLifecycleOwner, {
-                when (it) {
-                    is HospitalViewModel.HospitalData.Success -> {
-                        hospitalAdapter.hospitals = it.data
-                        progressDialog.dismissLoadingDialog()
-                    }
-
-                    is HospitalViewModel.HospitalData.Failure -> {
-                        progressDialog.dismissLoadingDialog()
-                        Toast.makeText(context, it.errorText, Toast.LENGTH_SHORT).show()
-                    }
-                    else -> Unit
+        viewModel.getHospitalListData(mobile)
+        viewModel.expectedResult.observe(viewLifecycleOwner, {
+            when (it) {
+                is HospitalViewModel.HospitalData.Success -> {
+                    hospitalAdapter.hospitals = it.data
+                    progressDialog.dismissLoadingDialog()
                 }
-            })
+
+                is HospitalViewModel.HospitalData.Failure -> {
+                    progressDialog.dismissLoadingDialog()
+                    Toast.makeText(context, it.errorText, Toast.LENGTH_SHORT).show()
+                }
+                else -> Unit
+            }
+        })
     }
 
     private fun setUpRecyclerView() = binding.rvHospitalList.apply {
@@ -80,11 +80,12 @@ class HospitalListFragment : Fragment(), HospitalAdapter.OnItemClickListener  {
         val bundle = Bundle()
         bundle.putString("mobile", mobile)
         bundle.putString("hospitalId", hospitalAdapter.hospitals[position].id)
-        if (hospitalAdapter.hospitals.isEmpty()){
+        if (hospitalAdapter.hospitals.isEmpty()) {
             Toast.makeText(context, "No Patient Available", Toast.LENGTH_SHORT).show()
-        }else{
+        } else {
             Navigation.findNavController(requireView()).navigate(
-                R.id.action_hospitalListFragment_to_patientListFragment, bundle)
+                R.id.action_hospitalListFragment_to_patientListFragment, bundle
+            )
         }
     }
 }

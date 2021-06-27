@@ -19,4 +19,10 @@ object Urls {
     const val MULTIPLE_PATIENT_DASHBOARD = "http://20.204.14.2/graph/patients"
 
     const val DASHBOARD_DETAIL = "/graph/item"
+
+    const val SEND_DEVICE = "/device/save-device"
+
+    const val GET_DEVICE_LIST = "/device/device-list"
+
+    const val SEND_HEARTRATE = ""
 }

@@ -56,14 +56,19 @@ class HospitalAdapter(val listener: HospitalListFragment) :
             val fullAddress: String =
                 (hospital.address?.let { it.street } + hospital.address?.let { it.city } +
                         hospital.address?.let { it.state } + hospital.address?.let { it.zipCode })
-            if (hospital.status == true) {
+            if (hospital.status) {
                 tvHospitalName.text = hospital.hospitalName
+                hospitalContainer.isClickable = true
             } else {
+                hospitalContainer.isClickable = false
                 tvHospitalName.setTextColor(Color.GRAY)
                 tvHospitalName.text = hospital.hospitalName
+                tvHospitalId.setTextColor(Color.GRAY)
+                tvHospitalId.text = hospital.id
+                tvHospitalAddress.setTextColor(Color.GRAY)
+                tvHospitalAddress.text = fullAddress
+                ivLocation.setColorFilter(Color.GRAY)
             }
-            tvHospitalId.text = hospital.id
-            tvHospitalAddress.text = fullAddress
         }
     }
 

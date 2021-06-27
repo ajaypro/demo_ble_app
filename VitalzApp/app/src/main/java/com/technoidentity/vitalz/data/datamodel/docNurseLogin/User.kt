@@ -9,20 +9,20 @@ import kotlinx.android.parcel.Parcelize
 data class User(
     @Expose
     @SerializedName("email")
-    val email: String?,
+    val email: String,
     @Expose
     @SerializedName("id")
-    val id: String?,
+    val id: String,
     @Expose
     @SerializedName("name")
-    val name: String?,
+    val name: String,
     @Expose
     @SerializedName("phoneExt")
-    val phoneExt: String?,
+    val phoneExt: String,
     @Expose
     @SerializedName("phoneNo")
-    val phoneNo: String?,
+    val phoneNo: String,
     @Expose
     @SerializedName("role")
-    val role: String?
+    val role: String
 ):Parcelable

@@ -1,7 +1,6 @@
 package com.technoidentity.vitalz.data.network
 
 import android.content.Context
-import com.technoidentity.vitalz.BuildConfig
 import com.technoidentity.vitalz.data.network.Urls.BASE_URL
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -16,13 +15,6 @@ object VitalzService {
 
     private var restApi : VitalzApi? = null
     var token = String()
-
-//    fun getRestApi(context: Context): VitalzApi {
-//        val sp = context.getSharedPreferences(Constants.PREFERENCE_NAME , Context.MODE_PRIVATE)
-//        token = sp.getString(Constants.TOKEN , "").toString()
-//        init()
-//        return restApi
-//    }
 
     fun getRestApi(context: Context? = null): VitalzApi? {
         context?.let {
