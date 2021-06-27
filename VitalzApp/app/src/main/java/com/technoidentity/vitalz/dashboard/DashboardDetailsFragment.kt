@@ -2,19 +2,24 @@ package com.technoidentity.vitalz.dashboard
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.XAxis.XAxisPosition
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.technoidentity.vitalz.R
-import com.technoidentity.vitalz.databinding.FragmentDashboardHeartDetailBinding
+import com.technoidentity.vitalz.data.datamodel.dashboardDetail.DashboardDetailResponse
+import com.technoidentity.vitalz.data.network.Constants
+import com.technoidentity.vitalz.databinding.FragmentDashboardDetailBinding
 import com.technoidentity.vitalz.utils.CustomProgressDialog
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
@@ -25,7 +30,7 @@ import kotlin.collections.ArrayList
 class DashboardDetailsFragment : Fragment() {
 
     private lateinit var datePickerDialog: DatePickerDialog
-    lateinit var binding: FragmentDashboardHeartDetailBinding
+    lateinit var binding: FragmentDashboardDetailBinding
     private lateinit var progressDialog: CustomProgressDialog
     val viewModel: DashboardDetailsViewModel by viewModels()
     lateinit var selectedDate: Date
@@ -37,10 +42,11 @@ class DashboardDetailsFragment : Fragment() {
     val day = c.get(Calendar.DAY_OF_MONTH)
     val month = c.get(Calendar.MONTH)
     val year = c.get(Calendar.YEAR)
+    lateinit var patientId: String
 
     init {
         selectedDay = day
-        selectedMonth = month+1
+        selectedMonth = month + 1
         selectedYear = year
     }
 
@@ -49,9 +55,17 @@ class DashboardDetailsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentDashboardHeartDetailBinding.inflate(layoutInflater)
+        binding = FragmentDashboardDetailBinding.inflate(layoutInflater)
         progressDialog = CustomProgressDialog(this.requireContext())
 
+        //get Shared data
+        val sharedPreferences =
+            context?.getSharedPreferences(Constants.PREFERENCE_NAME, Context.MODE_PRIVATE)
+        patientId = sharedPreferences?.getString(Constants.PATIENTID, null).toString()
+
+        binding.ivBackBtn.setOnClickListener {
+            findNavController().navigateUp()
+        }
 
         //Getting Arguments From last Fragment
 //        - heartrate
@@ -67,6 +81,7 @@ class DashboardDetailsFragment : Fragment() {
             setInitialDates("heartrate")
         } else if (isAlive == "respiratory") {
             binding.tvHeartRate.text = "Respiratory"
+            setInitialDates("respiratory")
         }
 
         //Start Date
@@ -134,18 +149,49 @@ class DashboardDetailsFragment : Fragment() {
     private fun setInitialDates(item: String) {
         val endDateConfig = millisToDate()
         //default end Date
-        val defaultEndDate = endDateConfig.get(Calendar.YEAR).toString() +"-"+ endDateConfig.get(Calendar.MONTH).toString()+"-"+ endDateConfig.get(
-            Calendar.DAY_OF_MONTH).toString()
+        val defaultEndDate =
+            endDateConfig.get(Calendar.YEAR).toString() + "-" + endDateConfig.get(Calendar.MONTH)
+                .toString() + "-" + endDateConfig.get(
+                Calendar.DAY_OF_MONTH
+            ).toString()
         binding.tvSelectedEndDate.text = defaultEndDate
 
         //default Start Date
-        val defaultStartDate = endDateConfig.get(Calendar.YEAR).toString() +"-"+ endDateConfig.get(Calendar.MONTH).toString()+"-"+ endDateConfig.get(
-            Calendar.DAY_OF_MONTH).toString()
+        val defaultStartDate =
+            endDateConfig.get(Calendar.YEAR).toString() + "-" + endDateConfig.get(Calendar.MONTH)
+                .toString() + "-" + endDateConfig.get(
+                Calendar.DAY_OF_MONTH
+            ).toString()
         endDateConfig.add(Calendar.DAY_OF_MONTH, -6)
         binding.tvSelectedStartDate.text = defaultStartDate
 
         //Default dates Api-Call
+        getSelectedDaysData(defaultStartDate, defaultEndDate, item, patientId)
+    }
 
+    private fun getSelectedDaysData(
+        startDate: String,
+       endDate: String,
+        item: String,
+        patientId: String
+    ) {
+        progressDialog.showLoadingDialog()
+        viewModel.getDashboardDetailsData(patientId,item,startDate,endDate).observe(viewLifecycleOwner,{
+            if (it != null){
+                progressDialog.dismissLoadingDialog()
+                setDetailsData(it)
+            }else{
+                progressDialog.dismissLoadingDialog()
+                Toast.makeText(context,"No Data Found", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    private fun setDetailsData(it: DashboardDetailResponse) {
+        binding.tvAverageRate.text = it.weeklyAverage.toString()
+        binding.tvMaxRate.text = it.weeklyMax.toString()
+        binding.tvMinRate.text = it.weeklyMin.toString()
+        //set values in graph list -> it.itemData
     }
 
     private fun millisToDate(): Calendar {

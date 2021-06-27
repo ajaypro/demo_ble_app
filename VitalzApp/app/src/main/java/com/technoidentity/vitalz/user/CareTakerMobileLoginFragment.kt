@@ -53,8 +53,7 @@ class CareTakerMobileLoginFragment : Fragment() {
                 binding.responseMsg.visibility = View.GONE
                 binding.responseMsg.text = ""
                 progressDialog.showLoadingDialog()
-                    viewModel.getCareTakerResponse(mobile)
-                    viewModel.expectedResult.observe(viewLifecycleOwner, {
+                    viewModel.getCareTakerResponse(mobile).observe(viewLifecycleOwner, {
                         if (it.success){
                             progressDialog.dismissLoadingDialog()
                             val bundle = bundleOf("mobileNumber" to mobile)

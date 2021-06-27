@@ -2,6 +2,8 @@ package com.technoidentity.vitalz.data.repository
 
 import com.technoidentity.vitalz.data.datamodel.careTakerLogin.CareTakerOtpResponse
 import com.technoidentity.vitalz.data.datamodel.careTakerLogin.CareTakerRequest
+import com.technoidentity.vitalz.data.datamodel.dashboardDetail.DashboardDetailResponse
+import com.technoidentity.vitalz.data.datamodel.dashboardDetail.DashboardDetailsRequest
 import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseRequest
 import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseResponse
 import com.technoidentity.vitalz.data.datamodel.hospital_list.HospitalListData
@@ -21,21 +23,10 @@ import javax.inject.Inject
 class UserRepositoryImpl @Inject constructor(
     private val api: VitalzApi
 ) : UserRepository {
-    override suspend fun doMobileOTPCall(mobile: CareTakerRequest): ResultHandler<CareTakerOtpResponse>? {
-        val response = api.getOTP(mobile)
-        return try {
-            response.let { it ->
-                if (it.isSuccessful) {
-                    it.body()?.let {
-                        ResultHandler.Success(it)
-                    }
-                } else {
-                    Error(response.message())
-                }
-            }
-        } catch (e: Exception) {
-            Error(e.message ?: "Contact Admin")
-        }
+    override suspend fun doMobileOTPCall(mobile: CareTakerRequest): CareTakerOtpResponse {
+      return kotlin.runCatching {
+          api.getOTP(mobile)
+      }.getOrThrow()
     }
 
     override suspend fun doOTPSendCall(otpRequest: OtpRequest): ResultHandler<OtpResponse>? {
@@ -126,6 +117,12 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun getMultiplePatientDashboardList(): MultiplePatientDashboardResponse {
         return kotlin.runCatching {
             api.getMultiplePatientDashboardList()
+        }.getOrThrow()
+    }
+
+    override suspend fun getDashboardDetailsList(request: DashboardDetailsRequest): DashboardDetailResponse {
+        return kotlin.runCatching {
+            api.getDashboardDetailsList(request)
         }.getOrThrow()
     }
 }

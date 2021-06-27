@@ -108,15 +108,14 @@ class CareTakerMobileOTPFragment : Fragment() {
 
     private fun resendOtpApiCall(mobile: String?) {
         if (mobile != null) {
-            viewModelCareTaker.getCareTakerResponse(mobile)
+            viewModelCareTaker.getCareTakerResponse(mobile).observe(viewLifecycleOwner,{
+                if (it.success) {
+                    Toast.makeText(context, "Otp Sent", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show()
+                }
+            })
         }
-        viewModelCareTaker.expectedResult.observe(viewLifecycleOwner, {
-            if (it.success) {
-                Toast.makeText(context, "Otp Sent", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show()
-            }
-        })
     }
 
     private fun setFocusChangeOnTextEntered() {

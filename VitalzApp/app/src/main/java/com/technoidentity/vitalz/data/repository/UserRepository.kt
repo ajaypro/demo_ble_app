@@ -19,7 +19,7 @@ import com.technoidentity.vitalz.utils.ResultHandler
 
 interface UserRepository {
 
-    suspend fun doMobileOTPCall(mobile: CareTakerRequest): ResultHandler<CareTakerOtpResponse>?
+    suspend fun doMobileOTPCall(mobile: CareTakerRequest): CareTakerOtpResponse
 
     suspend fun doOTPSendCall(otpRequest: OtpRequest): ResultHandler<OtpResponse>?
 
@@ -31,28 +31,7 @@ interface UserRepository {
 
     suspend fun getSinglePatientDashboardList(id: String): ResultHandler<SinglePatientDashboardResponse>?
 
-    override suspend fun getMultiplePatientDashboardList(): ResultHandler<MultiplePatientDashboardResponse>? {
-        val response = api.getMultiplePatientDashboardList()
-        return try {
-            response.let { it ->
-                if (it.isSuccessful) {
-                    it.body()?.let {
-                        ResultHandler.Success(it)
-                    }
-                } else {
-                    Error(response.message())
-                }
-            }
-        } catch (e: Exception) {
-            Error(e.message ?: "Contact Admin")
-        }
-    }
-
-    override suspend fun getDashboardDetailsList(request: DashboardDetailsRequest): DashboardDetailResponse {
-        return kotlin.runCatching {
-            api.getDashboardDetailsList(request)
-        }.getOrThrow()
-    }
-
     suspend fun getMultiplePatientDashboardList(): MultiplePatientDashboardResponse
+
+    suspend fun getDashboardDetailsList(request: DashboardDetailsRequest): DashboardDetailResponse
 }
