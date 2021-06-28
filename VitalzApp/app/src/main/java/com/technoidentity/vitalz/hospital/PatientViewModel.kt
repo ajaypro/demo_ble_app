@@ -1,9 +1,7 @@
 package com.technoidentity.vitalz.hospital
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import com.technoidentity.vitalz.data.datamodel.multiple_patient.MultiplePatientDashboardResponse
 import com.technoidentity.vitalz.data.datamodel.patient_list.PatientDataList
 import com.technoidentity.vitalz.data.datamodel.patient_list.PatientRequest
 import com.technoidentity.vitalz.data.repository.UserRepositoryImpl
@@ -49,6 +47,12 @@ class PatientViewModel @Inject constructor(
                     }
                 }
             }
+        }
+    }
+
+    fun searchPatientInList(text: CharSequence) : LiveData<PatientDataList>{
+        return liveData {
+            emit(userRepositoryImpl.searchPatientList(text.toString()))
         }
     }
 }

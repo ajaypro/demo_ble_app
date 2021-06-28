@@ -1,9 +1,7 @@
 package com.technoidentity.vitalz.hospital
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import com.technoidentity.vitalz.data.datamodel.SearchHospitalRequest
 import com.technoidentity.vitalz.data.datamodel.hospital_list.HospitalListData
 import com.technoidentity.vitalz.data.datamodel.hospital_list.HospitalListRequest
 import com.technoidentity.vitalz.data.repository.UserRepositoryImpl
@@ -27,7 +25,8 @@ class HospitalViewModel @Inject constructor(
     }
 
     private val _expectedResult = MutableLiveData<HospitalData>(
-        HospitalData.Empty)
+        HospitalData.Empty
+    )
     val expectedResult: LiveData<HospitalData> = _expectedResult
 
     fun getHospitalListData(mobile: String) {
@@ -38,7 +37,8 @@ class HospitalViewModel @Inject constructor(
             when (val response = userRepositoryImpl.getHospitalList(request)) {
                 is ResultHandler.Error -> {
                     _expectedResult.value =
-                        HospitalData.Failure(response.message.toString())}
+                        HospitalData.Failure(response.message.toString())
+                }
                 is ResultHandler.Success -> {
                     if (response.data == null) {
                         _expectedResult.value = HospitalData.Failure("Unexpected Error")
@@ -47,6 +47,12 @@ class HospitalViewModel @Inject constructor(
                     }
                 }
             }
+        }
+    }
+
+    fun searchHospitalInList(text: CharSequence, mobile: SearchHospitalRequest): LiveData<HospitalListData> {
+        return liveData {
+            emit(userRepositoryImpl.searchHospitalList(text.toString(), mobile))
         }
     }
 }

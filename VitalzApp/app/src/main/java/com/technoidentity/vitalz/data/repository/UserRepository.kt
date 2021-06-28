@@ -1,5 +1,6 @@
 package com.technoidentity.vitalz.data.repository
 
+import com.technoidentity.vitalz.data.datamodel.SearchHospitalRequest
 import com.technoidentity.vitalz.data.datamodel.careTakerLogin.CareTakerOtpResponse
 import com.technoidentity.vitalz.data.datamodel.careTakerLogin.CareTakerRequest
 import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseRequest
@@ -7,7 +8,6 @@ import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseResponse
 import com.technoidentity.vitalz.data.datamodel.hospital_list.HospitalListData
 import com.technoidentity.vitalz.data.datamodel.hospital_list.HospitalListRequest
 import com.technoidentity.vitalz.data.datamodel.multiple_patient.MultiplePatientDashboardResponse
-import com.technoidentity.vitalz.data.datamodel.multiple_patient.MultiplePatientDashboardResponseItem
 import com.technoidentity.vitalz.data.datamodel.otp.OtpRequest
 import com.technoidentity.vitalz.data.datamodel.otp.OtpResponse
 import com.technoidentity.vitalz.data.datamodel.patient_list.PatientDataList
@@ -30,4 +30,10 @@ interface UserRepository {
     suspend fun getSinglePatientDashboardList(id: String): ResultHandler<SinglePatientDashboardResponse>?
 
     suspend fun getMultiplePatientDashboardList(): MultiplePatientDashboardResponse
+
+    suspend fun searchMultiplePatientDashboardList(request: String): MultiplePatientDashboardResponse
+
+    suspend fun searchHospitalList(parameter: String, request: SearchHospitalRequest): HospitalListData
+
+    suspend fun searchPatientList(request: String): PatientDataList
 }

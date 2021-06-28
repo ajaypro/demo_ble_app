@@ -23,4 +23,10 @@ object Urls {
     const val GET_DEVICE_LIST = "/device/device-list"
 
     const val SEND_HEARTRATE = ""
+
+    const val SEARCH_MULTI_PATIENT = "http://20.204.14.2/graph/search/{parameter}"
+
+    const val SEARCH_PATIENT = "http://20.204.14.2/graph/search/{parameter}"
+
+    const val SEARCH_HOSPITAL= "http://20.204.14.2/login/hospital-name"
 }

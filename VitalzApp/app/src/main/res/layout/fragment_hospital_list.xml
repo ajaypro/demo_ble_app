@@ -49,7 +49,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <EditText
-                android:id="@+id/et_search"
+                android:id="@+id/et_search_hospital"
                 style="@style/search_et_box"
                 android:hint="@string/search_hospital"
                 app:layout_constraintEnd_toStartOf="@+id/iv_cancel_search"
@@ -80,10 +80,9 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_hospital_list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:padding="@dimen/dp_16"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/search_hospitals"
             tools:listitem="@layout/recycler_view_hospital_list" />

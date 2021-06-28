@@ -1,5 +1,6 @@
 package com.technoidentity.vitalz.data.repository
 
+import com.technoidentity.vitalz.data.datamodel.SearchHospitalRequest
 import com.technoidentity.vitalz.data.datamodel.careTakerLogin.CareTakerOtpResponse
 import com.technoidentity.vitalz.data.datamodel.careTakerLogin.CareTakerRequest
 import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseRequest
@@ -7,7 +8,6 @@ import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseResponse
 import com.technoidentity.vitalz.data.datamodel.hospital_list.HospitalListData
 import com.technoidentity.vitalz.data.datamodel.hospital_list.HospitalListRequest
 import com.technoidentity.vitalz.data.datamodel.multiple_patient.MultiplePatientDashboardResponse
-import com.technoidentity.vitalz.data.datamodel.multiple_patient.MultiplePatientDashboardResponseItem
 import com.technoidentity.vitalz.data.datamodel.otp.OtpRequest
 import com.technoidentity.vitalz.data.datamodel.otp.OtpResponse
 import com.technoidentity.vitalz.data.datamodel.patient_list.PatientDataList
@@ -126,6 +126,24 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun getMultiplePatientDashboardList(): MultiplePatientDashboardResponse {
         return kotlin.runCatching {
             api.getMultiplePatientDashboardList()
+        }.getOrThrow()
+    }
+
+    override suspend fun searchMultiplePatientDashboardList(request: String): MultiplePatientDashboardResponse {
+        return kotlin.runCatching {
+            api.searchMultiPatientList(request)
+        }.getOrThrow()
+    }
+
+    override suspend fun searchHospitalList(parameter: String, request: SearchHospitalRequest): HospitalListData {
+        return kotlin.runCatching {
+            api.searchHospitalList(parameter, request)
+        }.getOrThrow()
+    }
+
+    override suspend fun searchPatientList(request: String): PatientDataList {
+        return kotlin.runCatching {
+            api.searchPatientList(request)
         }.getOrThrow()
     }
 }

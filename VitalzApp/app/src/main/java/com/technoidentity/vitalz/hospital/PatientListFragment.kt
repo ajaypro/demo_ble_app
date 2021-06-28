@@ -1,6 +1,8 @@
 package com.technoidentity.vitalz.hospital
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -50,8 +52,45 @@ class PatientListFragment : Fragment(), PatientAdapter.OnItemClickListener {
         getPatientList(mobile, hospitalId)
 
         //In Search Cancel button visibility GONE , please enable while typing
+        binding.etSearch.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (s.isNullOrEmpty()){
+                    binding.ivCancelSearch.visibility = View.GONE
+                    getPatientList(mobile,hospitalId)
+                }else{
+                    binding.ivCancelSearch.visibility = View.VISIBLE
+                    if (start == 2){
+                        searchPatient(s)
+                        binding.ivCancelSearch.setOnClickListener {
+                            binding.etSearch.setText("")
+                            getPatientList(mobile,hospitalId)
+                        }
+                    }
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+        })
 
         return binding.root
+    }
+
+    private fun searchPatient(text: CharSequence) {
+        progressDialog.showLoadingDialog()
+        viewModel.searchPatientInList(text).observe(viewLifecycleOwner, {
+            if (it.isNotEmpty()){
+                patientAdapter.patient = it
+                progressDialog.dismissLoadingDialog()
+            }else{
+                progressDialog.dismissLoadingDialog()
+                Toast.makeText(context, "No Record Found", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     private fun getPatientList(mobile: String, hospitalId: String) {
@@ -63,8 +102,6 @@ class PatientListFragment : Fragment(), PatientAdapter.OnItemClickListener {
                     if (it.data.isEmpty()) {
                         progressDialog.dismissLoadingDialog()
                         binding.rvPatientList.visibility = View.GONE
-                        binding.tvNoRecords.visibility = View.VISIBLE
-                        binding.tvNoRecordBackMsg.visibility = View.VISIBLE
                     } else {
                         patientAdapter.patient = it.data
                         progressDialog.dismissLoadingDialog()

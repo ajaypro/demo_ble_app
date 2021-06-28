@@ -20,5 +20,11 @@ class MultiPatientDashboardViewModel @Inject constructor(
             emit(userRepositoryImpl.getMultiplePatientDashboardList())
         }
     }
+
+    fun searchPatientInList(text: CharSequence): LiveData<MultiplePatientDashboardResponse>{
+        return liveData {
+            emit(userRepositoryImpl.searchMultiplePatientDashboardList(text.toString()))
+        }
+    }
 }
 

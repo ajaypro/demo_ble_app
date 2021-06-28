@@ -2,6 +2,7 @@ package com.technoidentity.vitalz.data.network
 
 import com.technoidentity.vitalz.bluetooth.data.BleMac
 import com.technoidentity.vitalz.bluetooth.data.RegisteredDevice
+import com.technoidentity.vitalz.data.datamodel.SearchHospitalRequest
 import com.technoidentity.vitalz.data.datamodel.careTakerLogin.CareTakerOtpResponse
 import com.technoidentity.vitalz.data.datamodel.careTakerLogin.CareTakerRequest
 import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseRequest
@@ -21,15 +22,15 @@ import com.technoidentity.vitalz.data.network.Urls.GET_DEVICE_LIST
 import com.technoidentity.vitalz.data.network.Urls.HOSPITAL_LIST
 import com.technoidentity.vitalz.data.network.Urls.MULTIPLE_PATIENT_DASHBOARD
 import com.technoidentity.vitalz.data.network.Urls.PATIENT_LIST
+import com.technoidentity.vitalz.data.network.Urls.SEARCH_HOSPITAL
+import com.technoidentity.vitalz.data.network.Urls.SEARCH_MULTI_PATIENT
+import com.technoidentity.vitalz.data.network.Urls.SEARCH_PATIENT
 import com.technoidentity.vitalz.data.network.Urls.SEND_DEVICE
 import com.technoidentity.vitalz.data.network.Urls.SEND_HEARTRATE
 import com.technoidentity.vitalz.data.network.Urls.SEND_OTP
 import com.technoidentity.vitalz.data.network.Urls.SINGLE_PATIENT_DASHBOARD
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.*
 
 interface VitalzApi {
 
@@ -62,5 +63,14 @@ interface VitalzApi {
 
     @POST(SEND_HEARTRATE)
     suspend fun sendHeartRate(patientId: String, telemetryKey: String, heartRate :ByteArray): Boolean
+
+    @GET(SEARCH_MULTI_PATIENT)
+    suspend fun searchMultiPatientList(@Path("parameter") parameter:String): MultiplePatientDashboardResponse
+
+    @POST(SEARCH_HOSPITAL)
+    suspend fun searchHospitalList(@Query("hospitalName") hospitalName:String, @Body request: SearchHospitalRequest): HospitalListData
+
+    @GET(SEARCH_PATIENT)
+    suspend fun searchPatientList(@Path("parameter") parameter:String): PatientDataList
 
 }

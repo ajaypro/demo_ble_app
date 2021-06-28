@@ -2,6 +2,8 @@ package com.technoidentity.vitalz.hospital
 
 import android.content.Context
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.technoidentity.vitalz.R
+import com.technoidentity.vitalz.data.datamodel.SearchHospitalRequest
 import com.technoidentity.vitalz.data.network.Constants
 import com.technoidentity.vitalz.databinding.FragmentHospitalListBinding
 import com.technoidentity.vitalz.utils.CustomProgressDialog
@@ -47,8 +50,47 @@ class HospitalListFragment : Fragment(), HospitalAdapter.OnItemClickListener {
         getHospitalList(mobile)
 
         //Search has Cancel icon with visibility GONE
+        binding.etSearchHospital.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (s.isNullOrEmpty()){
+                    binding.ivCancelSearch.visibility = View.GONE
+                    getHospitalList(mobile)
+                }else{
+                    if (start == 2){
+                        binding.ivCancelSearch.visibility = View.VISIBLE
+                        searchHospital(s)
+                        binding.ivCancelSearch.setOnClickListener {
+                            binding.etSearchHospital.setText("")
+                            getHospitalList(mobile)
+                        }
+                    }
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+        })
 
         return binding.root
+    }
+
+    private fun searchHospital(text: CharSequence) {
+        progressDialog.showLoadingDialog()
+        val request = SearchHospitalRequest()
+        request.phoneNo = this.mobile
+        viewModel.searchHospitalInList(text, request).observe(viewLifecycleOwner, {
+           if (it.isNotEmpty()){
+               progressDialog.dismissLoadingDialog()
+               hospitalAdapter.hospitals = it
+           }else{
+               progressDialog.dismissLoadingDialog()
+               Toast.makeText(context, "No Record Found", Toast.LENGTH_SHORT).show()
+           }
+        })
     }
 
     private fun getHospitalList(mobile: String) {
