@@ -118,10 +118,10 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         }
 
         //Adding badges to Notification
-        val badge = binding.bottomNavView.getOrCreateBadge(R.id.notifications_tab)
-        badge.isVisible = true
-        // An icon only badge will be displayed unless a number is set:
-        badge.number = 99
+//        val badge = binding.bottomNavView.getOrCreateBadge(R.id.notifications_tab)
+//        badge.isVisible = true
+//        // An icon only badge will be displayed unless a number is set:
+//        badge.number = 99
 
 //        networkMonitor = NetworkUtil(this)
 

@@ -19,6 +19,7 @@ import com.technoidentity.vitalz.data.datamodel.patient_list.PatientDataList
 import com.technoidentity.vitalz.data.datamodel.patient_list.PatientRequest
 import com.technoidentity.vitalz.data.datamodel.single_patient.SinglePatientDashboardResponse
 import com.technoidentity.vitalz.data.network.Urls.CARETAKER_LOGIN
+import com.technoidentity.vitalz.data.network.Urls.CARE_TAKER_NOTIFICATION
 import com.technoidentity.vitalz.data.network.Urls.DOCTOR_NOTIFICATION
 import com.technoidentity.vitalz.data.network.Urls.DOC_NURSE_LOGIN
 import com.technoidentity.vitalz.data.network.Urls.GET_DEVICE_LIST
@@ -70,12 +71,12 @@ interface VitalzApi {
     suspend fun sendHeartRate(patientId: String, telemetryKey: String, heartRate :ByteArray): Boolean
 
     @POST(DOCTOR_NOTIFICATION)
-    suspend fun getDoctorNotification(request: NotificationDoctorRequest): NotificationResponse
+    suspend fun getDoctorNotification(@Body request: NotificationDoctorRequest): NotificationResponse
 
     @GET(NURSE_NOTIFICATION)
     suspend fun getNurseNotification(): NotificationResponse
 
-    @POST(CARETAKER_LOGIN)
-    suspend fun getCareTakerNotification(request: NotificationCareTakerRequest): NotificationResponse
+    @POST(CARE_TAKER_NOTIFICATION)
+    suspend fun getCareTakerNotification(@Body request: NotificationCareTakerRequest): NotificationResponse
 
 }

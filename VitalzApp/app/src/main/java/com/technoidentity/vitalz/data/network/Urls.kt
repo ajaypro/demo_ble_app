@@ -24,9 +24,9 @@ object Urls {
 
     const val SEND_HEARTRATE = ""
 
-    const val DOCTOR_NOTIFICATION = "/notification/doctor"
+    const val DOCTOR_NOTIFICATION = "http://20.204.14.2/notification/doctor"
 
-    const val NURSE_NOTIFICATION = "/notification/admin-nurse"
+    const val NURSE_NOTIFICATION = "http://20.204.14.2/notification/admin-nurse"
 
-    const val CARE_TAKER_NOTIFICATION = "/notification/patient"
+    const val CARE_TAKER_NOTIFICATION = "http://20.204.14.2/notification/patient"
 }

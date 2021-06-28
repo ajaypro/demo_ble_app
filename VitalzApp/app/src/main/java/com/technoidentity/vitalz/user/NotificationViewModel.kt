@@ -1,13 +1,11 @@
 package com.technoidentity.vitalz.user
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.technoidentity.vitalz.data.datamodel.notification.NotificationCareTakerRequest
 import com.technoidentity.vitalz.data.datamodel.notification.NotificationDoctorRequest
 import com.technoidentity.vitalz.data.datamodel.notification.NotificationResponse
-import com.technoidentity.vitalz.data.repository.UserRepository
 import com.technoidentity.vitalz.data.repository.UserRepositoryImpl
 import com.technoidentity.vitalz.utils.CoroutinesDispatcherProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NotificationViewModel @Inject constructor(
-    private val userRepository: UserRepository,
+    private val userRepositoryImpl: UserRepositoryImpl,
     private val dispatcher: CoroutinesDispatcherProvider
 ) : ViewModel() {
 
@@ -23,7 +21,7 @@ class NotificationViewModel @Inject constructor(
         val request = NotificationCareTakerRequest()
         request.patientId = patientId
         return liveData {
-            emit(userRepository.getNotificationCareTakerList(request))
+            emit(userRepositoryImpl.getNotificationCareTakerList(request))
         }
     }
 
@@ -31,13 +29,13 @@ class NotificationViewModel @Inject constructor(
         val request = NotificationDoctorRequest()
         request.phoneNo = phoneNo
         return liveData {
-            emit(userRepository.getNotificationDoctorList(request))
+            emit(userRepositoryImpl.getNotificationDoctorList(request))
         }
     }
 
     fun getNotificationsAdminNurseListData(): LiveData<NotificationResponse> {
         return liveData {
-            emit(userRepository.getNotificationNurseList())
+            emit(userRepositoryImpl.getNotificationNurseList())
         }
     }
 }

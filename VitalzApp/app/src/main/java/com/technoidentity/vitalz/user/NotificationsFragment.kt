@@ -17,7 +17,7 @@ import com.technoidentity.vitalz.utils.CustomProgressDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class NotificationsFragment: Fragment() {
+class NotificationsFragment : Fragment() {
 
     lateinit var binding: FragmentNotificationsBinding
     private lateinit var progressDialog: CustomProgressDialog
@@ -34,27 +34,33 @@ class NotificationsFragment: Fragment() {
 
         //Shared Prefs
         val sharedPreferences =
-            context?.getSharedPreferences(com.technoidentity.vitalz.data.network.Constants.PREFERENCE_NAME, Context.MODE_PRIVATE)
-        val mobile = sharedPreferences?.getString(com.technoidentity.vitalz.data.network.Constants.DOCTOR_MOBILE, null).toString()
-        val patientId = sharedPreferences?.getString(com.technoidentity.vitalz.data.network.Constants.PATIENTID, null).toString()
+            context?.getSharedPreferences(
+                com.technoidentity.vitalz.data.network.Constants.PREFERENCE_NAME,
+                Context.MODE_PRIVATE
+            )
+        val mobile = sharedPreferences?.getString(
+            com.technoidentity.vitalz.data.network.Constants.DOCTOR_MOBILE,
+            null
+        ).toString()
+        val patientId = sharedPreferences?.getString(
+            com.technoidentity.vitalz.data.network.Constants.PATIENTID,
+            null
+        ).toString()
 
         //setup Adapter
         setUpRecyclerView()
 
-       when(arguments?.getString("assignedRole")){
-           Constants.DOCTOR ->{
+        when (arguments?.getString("assignedRole")) {
+            Constants.DOCTOR -> {
                 getDoctorNotifications(mobile)
-           }
-           Constants.NURSE -> {
-               getNurseNotifications()
-           }
-           Constants.CARETAKER -> {
-               getCareTakerNotifications(patientId)
-           }
-       }
-
-
-
+            }
+            Constants.NURSE -> {
+                getNurseNotifications()
+            }
+            Constants.CARETAKER -> {
+                getCareTakerNotifications(patientId)
+            }
+        }
         return binding.root
     }
 

@@ -39,7 +39,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_patient_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:background="@drawable/bg_curve"
         android:layout_margin="@dimen/dp_20"
         app:layout_constraintTop_toBottomOf="@+id/app_bar_layout"
@@ -87,12 +88,13 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_patient_list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:visibility="visible"
             android:padding="@dimen/dp_16"
             tools:listitem="@layout/recycler_view_patient_list"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/search_patient"
             />
