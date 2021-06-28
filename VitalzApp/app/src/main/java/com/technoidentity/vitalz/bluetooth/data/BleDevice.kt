@@ -8,7 +8,6 @@ import com.technoidentity.vitalz.bluetooth.connection.BleConnection
 data class BleDevice(
     val device: BluetoothDevice,
     val services: List<BluetoothGattService>? = emptyList(),
-    var battery: String? = null,
     var connectionStatus: BleConnection = BleConnection.DeviceDisconnected
 )
 

@@ -26,7 +26,7 @@ class SharedViewModel @Inject constructor(private val bleManager: IBleManager,
      * Device connection livedata and functions
      */
 
-    val connectedDevice: LiveData<BleDevice> = bleManager.connectedBleDeviceLiveData
+    val connectedDeviceData: LiveData<BleDevice> = bleManager.connectedBleDeviceLiveData
 
     //To call in activity or fragment to dispaly device connectivity common to all screens
     var isDeviceConnected: LiveData<Boolean> = bleManager.isDeviceConnected.asLiveData().also {
@@ -34,6 +34,8 @@ class SharedViewModel @Inject constructor(private val bleManager: IBleManager,
     }
 
     var scanFlow: Flow<BluetoothDevice> = bleManager.scanChannel.receiveAsFlow()
+
+    var deviceBattery: LiveData<Int> = bleManager.battery
 
     var isScanning = bleManager.isScanning.asLiveData()
 
@@ -50,10 +52,11 @@ class SharedViewModel @Inject constructor(private val bleManager: IBleManager,
     var registeredDevice: RegisteredDevice? = null
 
 
-    fun sendDeviceForRegisteration(deviceMacID: BleMac): LiveData<RegisteredDevice> {
+    fun deviceForRegisteration(deviceMacID: BleMac): LiveData<RegisteredDevice> {
         return liveData {
             emit(deviceRepository.sendDeviceWithMacId(deviceMacID).also {
                 registeredDevice = it
+                Timber.i("sharevm ${it.patchId} ${it.macId}")
             })
         }
     }

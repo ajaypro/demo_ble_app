@@ -45,6 +45,9 @@ class BleManager(private val bleScanner: BleScanner) : IBleManager {
     private var _heartRateCharacteristic = MutableStateFlow(byteArrayOf(0))
     override var heartRateCharacteristic: StateFlow<ByteArray> = _heartRateCharacteristic
 
+    private var _deviceBattery = MutableLiveData<Int>()
+    override var battery: LiveData<Int> = _deviceBattery
+
     private var _ecgCharacteristic = MutableStateFlow(byteArrayOf(0))
     override var ecgCharacteristic: StateFlow<ByteArray> = _ecgCharacteristic
 
@@ -104,10 +107,10 @@ class BleManager(private val bleScanner: BleScanner) : IBleManager {
                 _isDeviceConnected.value = true.also {
                     Timber.d("BleManager device connected")
                 }
-                connectedDevice.run {
-                    _connectedBleDeviceLiveData.postValue(
-                        BleDevice(device, connectionStatus = BleConnection.DeviceConnected))
-                }
+//                connectedDevice.run {
+//                    _connectedBleDeviceLiveData.postValue(
+//                        BleDevice(device, connectionStatus = BleConnection.DeviceConnected))
+//                }
                 gatt?.discoverServices()
             } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
                 disconnectGattServer(gatt, BleConnection.DeviceConnectingError)
@@ -120,17 +123,26 @@ class BleManager(private val bleScanner: BleScanner) : IBleManager {
                 return
             }
 
+            connectedDevice.run {
+                connectedDevice =
+                    BleDevice(this.device, gatt?.services,connectionStatus = BleConnection.DeviceConnected)
+                _connectedBleDeviceLiveData.postValue(connectedDevice)
+            }
+
             gatt?.let {
+
+                it.getService(DEVICE_BATTERY_SER_UUID)?.let { batteryService ->
+                    bluetoothGattService = batteryService
+                    readCharacteristic(bluetoothGattService.getCharacteristic(DEVICE_BATTERY_CHAR_UUID))
+                    Timber.d("battery uuid: ${batteryService.uuid}")
+                }
+
                 it.getService(HEART_RATE_SER_UUID)?.let { heartRateService ->
                     bluetoothGattService = heartRateService
                     readCharacteristic(bluetoothGattService.getCharacteristic(HEART_RATE_CHAR_UUID))
                     Timber.d("heartrate uuid: ${heartRateService.uuid}")
                 }
 
-                it.getService(DEVICE_BATTERY_SER_UUID)?.let { batteryService ->
-                    bluetoothGattService = batteryService
-                    readCharacteristic(bluetoothGattService.getCharacteristic(DEVICE_BATTERY_SER_UUID))
-                }
 
 //                it.getService(BODY_POS_SER_UUID)?.let { bodyPostureService ->
 //                    bluetoothGattService = bodyPostureService
@@ -143,11 +155,7 @@ class BleManager(private val bleScanner: BleScanner) : IBleManager {
 //                }
 
             }
-            connectedDevice.run {
-                connectedDevice =
-                    BleDevice(this.device, gatt?.services,connectionStatus = BleConnection.DeviceConnected)
-                _connectedBleDeviceLiveData.postValue(connectedDevice)
-            }
+
         }
 
         override fun onCharacteristicChanged(
@@ -162,7 +170,7 @@ class BleManager(private val bleScanner: BleScanner) : IBleManager {
                 "Error"
             }
             Log.i(TAG, "characteristic value: $messageString")
-            setValueToHeartCharacteristic(characteristic)
+            setValueToCharacteristic(characteristic)
         }
 
         override fun onCharacteristicWrite(
@@ -191,18 +199,18 @@ class BleManager(private val bleScanner: BleScanner) : IBleManager {
                     )
                 }"
             )
-            setValueToHeartCharacteristic(characteristic)
+            setValueToCharacteristic(characteristic)
         }
     }
 
-    private fun setValueToHeartCharacteristic(characteristic: BluetoothGattCharacteristic?) {
+    private fun setValueToCharacteristic(characteristic: BluetoothGattCharacteristic?) {
         connectedDevice.let { bleDevice ->
             if (bleDevice.services?.isEmpty() == true) {
                 Log.i(TAG, "No services with characteristics found.")
                 return
             }
 
-            if (bleDevice.services?.contains(bluetoothGattService) == true) {
+            //if (bleDevice.services?.contains(bluetoothGattService) == true) {
                 when(characteristic?.uuid) {
                     HEART_RATE_CHAR_UUID -> {
                         characteristic?.let {
@@ -212,9 +220,10 @@ class BleManager(private val bleScanner: BleScanner) : IBleManager {
                     }
                     DEVICE_BATTERY_CHAR_UUID -> {
                         characteristic?.let {
-                            _connectedBleDeviceLiveData.postValue(BleDevice(bleDevice.device, battery = it.value.last().toString(),
-                                connectionStatus = BleConnection.DeviceConnected
-                            ))
+                            _deviceBattery.postValue( it.value.last().toInt()).also {
+                                Timber.i("Battery ${it}")
+                            }
+                            _connectedBleDeviceLiveData.postValue(BleDevice(bleDevice.device, connectionStatus = BleConnection.DeviceConnected))
                         }
                         setCharacteristicNotification(DEVICE_BATTERY_CHAR_UUID)
                     }
@@ -237,7 +246,7 @@ class BleManager(private val bleScanner: BleScanner) : IBleManager {
                     }
 
                 }
-            }
+           // }
             _connectedBleDeviceLiveData.postValue(
                 BleDevice(bleDevice.device, connectionStatus = BleConnection.DeviceConnected))
         }

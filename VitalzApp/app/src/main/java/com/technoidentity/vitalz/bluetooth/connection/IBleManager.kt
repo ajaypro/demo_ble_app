@@ -20,6 +20,7 @@ interface IBleManager {
         fun stopScan()
         var isScanning: StateFlow<Boolean>
         var connectedBleDeviceLiveData: LiveData<BleDevice>
+        var battery: LiveData<Int>
         var isDeviceConnected: StateFlow<Boolean>
         var scanChannel: Channel<BluetoothDevice>
         fun connectDevice(device: BluetoothDevice, context: Context)

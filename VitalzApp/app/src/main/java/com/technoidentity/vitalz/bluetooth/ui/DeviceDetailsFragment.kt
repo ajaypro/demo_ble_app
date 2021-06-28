@@ -12,10 +12,7 @@ import com.technoidentity.vitalz.R
 import com.technoidentity.vitalz.bluetooth.connection.BleConnection
 import com.technoidentity.vitalz.databinding.FragmentDeviceDetailsBinding
 import com.technoidentity.vitalz.home.SharedViewModel
-import com.technoidentity.vitalz.utils.asciiToChar
 import com.technoidentity.vitalz.utils.isTablet
-import com.technoidentity.vitalz.utils.showToast
-import kotlinx.coroutines.flow.collect
 import timber.log.Timber
 
 class DeviceDetailsFragment : Fragment() {
@@ -40,23 +37,29 @@ class DeviceDetailsFragment : Fragment() {
 //                if (it) {
 //                    showToast(requireContext(), "Device is connected devicedetails")
 
-                    sharedViewmodel.connectedDevice.observe(viewLifecycleOwner, {
+                    sharedViewmodel.connectedDeviceData.observe(viewLifecycleOwner, { it ->
                         Timber.d("${it.device} ${ it.connectionStatus.toString()}")
                         binding.apply {
                             patchId.text = it.device.name
-                            battery.text = it.battery.also {
-                                Timber.i("Battery ${it}")
+
+                            sharedViewmodel.deviceBattery.observe(viewLifecycleOwner) { batteryValue ->
+                                if (batteryValue > 0) {
+                                    battery.text = batteryValue.toString()
+                                }
+                            //battery.text = it.battery.also {
+                                Timber.i("devbattery ${batteryValue}")
                             }
-                            when (it.connectionStatus) {
-                                BleConnection.DeviceConnected -> {
-                                    connection.text = getString(R.string.connected)
+                                when (it.connectionStatus) {
+                                    BleConnection.DeviceConnected -> {
+                                        connection.text = getString(R.string.connected)
+                                    }
+                                    else -> {
+                                        connection.text = getString(R.string.disconnected)
+                                    }
                                 }
-                                else -> {
-                                    connection.text = getString(R.string.disconnected)
-                                }
+
                             }
 
-                        }
 
                     })
                 }

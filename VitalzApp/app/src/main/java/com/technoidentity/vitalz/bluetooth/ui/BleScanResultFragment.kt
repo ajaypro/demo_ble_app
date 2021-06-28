@@ -8,15 +8,16 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavController
-import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.technoidentity.vitalz.R
+import com.technoidentity.vitalz.bluetooth.data.BleMac
 import com.technoidentity.vitalz.databinding.FragmentBlescanResultBinding
 import com.technoidentity.vitalz.home.SharedViewModel
+import com.technoidentity.vitalz.utils.equalsDevice
+import com.technoidentity.vitalz.utils.showAlert
 import com.technoidentity.vitalz.utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -49,31 +50,38 @@ class BleScanResultFragment : Fragment() {
                 viewModel.toggleScan().also {
                     showToast(requireContext(), "Scanning stopped")
                 }
-//                viewModel.sendDeviceForRegisteration(BleMac(bluetoothDevice.address)).observe(viewLifecycleOwner,{
-//
-//                     it?.let {
-//                         //show alert dialog
-//                     }
-//                        if (it.macId.isNotEmpty())
-//                            when(equalsDevice(it.macId, bluetoothDevice)) {
-//                                true -> {
-//                                    //diaply dialog and navigate to add device page
-//                                }
-//                                else -> {
-//                                    "Something went wrong patchId not generated"
-//                                }
-//                            }
-//                    })
+                viewModel.deviceForRegisteration(BleMac(bluetoothDevice.address)).observe(viewLifecycleOwner,{
+
+                     it?.let {
+                         //show alert dialog
+                     }
+                        if (it.macId.isNotEmpty())
+                            when(equalsDevice(it.macId, bluetoothDevice)) {
+                                true -> {
+                                    requireContext().showAlert(
+                                        title = "Device Registered",
+                                        message = "Do you want to add more devices?",
+                                        positiveBtnClickListener = { _,_ ->
+                                            findNavController().navigate(R.id.action_bleScanResultFragment_to_addDeviceFragment)
+                                        },
+                                        cancelBtnClickListener = { it.dismiss() })
+                                    //diaply dialog and navigate to add device page
+
+                                }
+                                else -> {
+                                    "Something went wrong patchId not generated"
+                                }
+                            }
+                    })
                 viewModel.connectDevice(bluetoothDevice, requireContext().applicationContext)
-                viewModel.isDeviceConnected.observe(viewLifecycleOwner) {
-                    if (it) {
+//                viewModel.deviceBattery.observe(viewLifecycleOwner) {
+//                    if (it > 0) {
                         showToast(requireContext(), "Device is connected BleScanresult")
                         findNavController().navigate(R.id.action_bleScanResultFragment_to_deviceDetailsFragment) // will take bledevice object from viewmodel
-                    } else showToast(requireContext(), "Device is not connected BleScanresult")
-                }
+//                    } else showToast(requireContext(), "Device is not connected BleScanresult")
+//                }
 
             }, viewModel)
-
 
         scanResult(deviceListAdapter)
 

@@ -123,6 +123,9 @@
         <action
             android:id="@+id/action_bleScanResultFragment_to_deviceDetailsFragment"
             app:destination="@id/deviceDetailsFragment" />
+        <action
+            android:id="@+id/action_bleScanResultFragment_to_addDeviceFragment"
+            app:destination="@id/addDeviceFragment" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"

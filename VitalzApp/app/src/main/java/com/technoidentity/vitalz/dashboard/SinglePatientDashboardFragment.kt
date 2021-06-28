@@ -154,7 +154,7 @@ class SinglePatientDashboardFragment : Fragment() {
                             Timber.d("heartrate $it")
                         }
                     }
-                    sharedViewModel.sendHeartRateToServer(patientId, HEART_RATE_DATA,it)
+                    //sharedViewModel.sendHeartRateToServer(patientId, HEART_RATE_DATA,it)
                 }
 
                 bodyPosture.observe(viewLifecycleOwner) {
