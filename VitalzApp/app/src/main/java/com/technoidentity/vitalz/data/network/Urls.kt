@@ -18,7 +18,7 @@ object Urls {
 
     const val MULTIPLE_PATIENT_DASHBOARD = "http://20.204.14.2/graph/patients"
 
-    const val DASHBOARD_DETAIL = "/graph/item"
+    const val DASHBOARD_DETAIL = "http://20.204.14.2/graph/item"
 
     const val SEND_DEVICE = "/device/save-device"
 

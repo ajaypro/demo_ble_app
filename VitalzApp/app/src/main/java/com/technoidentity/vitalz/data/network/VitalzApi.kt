@@ -67,6 +67,6 @@ interface VitalzApi {
     suspend fun sendHeartRate(patientId: String, telemetryKey: String, heartRate :ByteArray): Boolean
 
     @POST(DASHBOARD_DETAIL)
-    suspend fun getDashboardDetailsList(request: DashboardDetailsRequest) : DashboardDetailResponse
+    suspend fun getDashboardDetailsList(@Body request: DashboardDetailsRequest) : DashboardDetailResponse
 
 }

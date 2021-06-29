@@ -166,7 +166,7 @@ class DashboardDetailsFragment : Fragment() {
         binding.tvSelectedStartDate.text = defaultStartDate
 
         //Default dates Api-Call
-        getSelectedDaysData(defaultStartDate, defaultEndDate, item, patientId)
+//        getSelectedDaysData(defaultStartDate, defaultEndDate, item, patientId)
     }
 
     private fun getSelectedDaysData(

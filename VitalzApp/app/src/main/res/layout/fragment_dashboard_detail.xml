@@ -94,6 +94,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_endDate_select"
             style="@style/dateBtn"
+            android:clickable="false"
             android:layout_marginStart="@dimen/dp_5"
             android:padding="@dimen/dp_8"
             app:layout_constraintEnd_toEndOf="parent"
