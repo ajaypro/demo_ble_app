@@ -9,7 +9,6 @@ import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseResponse
 import com.technoidentity.vitalz.data.datamodel.hospital_list.HospitalListData
 import com.technoidentity.vitalz.data.datamodel.hospital_list.HospitalListRequest
 import com.technoidentity.vitalz.data.datamodel.multiple_patient.MultiplePatientDashboardResponse
-import com.technoidentity.vitalz.data.datamodel.multiple_patient.MultiplePatientDashboardResponseItem
 import com.technoidentity.vitalz.data.datamodel.notification.NotificationCareTakerRequest
 import com.technoidentity.vitalz.data.datamodel.notification.NotificationDoctorRequest
 import com.technoidentity.vitalz.data.datamodel.notification.NotificationResponse
@@ -31,7 +30,6 @@ import com.technoidentity.vitalz.data.network.Urls.SEND_DEVICE
 import com.technoidentity.vitalz.data.network.Urls.SEND_HEARTRATE
 import com.technoidentity.vitalz.data.network.Urls.SEND_OTP
 import com.technoidentity.vitalz.data.network.Urls.SINGLE_PATIENT_DASHBOARD
-import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET

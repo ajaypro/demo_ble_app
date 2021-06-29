@@ -1,6 +1,7 @@
 package com.technoidentity.vitalz.user
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -60,7 +61,6 @@ class DoctorNurseLoginFragment : Fragment() {
             }
             else -> {
                 progressDialog.showLoadingDialog()
-                viewModel.sendDocNurseCredentials(username, password)
                 viewModel.sendDocNurseCredentials(username,password).observe(viewLifecycleOwner, {
                     if (it.token != null){
                         val pref =

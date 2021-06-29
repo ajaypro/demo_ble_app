@@ -7,7 +7,6 @@ import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseResponse
 import com.technoidentity.vitalz.data.datamodel.hospital_list.HospitalListData
 import com.technoidentity.vitalz.data.datamodel.hospital_list.HospitalListRequest
 import com.technoidentity.vitalz.data.datamodel.multiple_patient.MultiplePatientDashboardResponse
-import com.technoidentity.vitalz.data.datamodel.multiple_patient.MultiplePatientDashboardResponseItem
 import com.technoidentity.vitalz.data.datamodel.notification.NotificationCareTakerRequest
 import com.technoidentity.vitalz.data.datamodel.notification.NotificationDoctorRequest
 import com.technoidentity.vitalz.data.datamodel.notification.NotificationResponse
@@ -26,18 +25,20 @@ class UserRepositoryImpl @Inject constructor(
 ) : UserRepository {
     override suspend fun doMobileOTPCall(mobile: CareTakerRequest): ResultHandler<CareTakerOtpResponse>? {
         val response = api.getOTP(mobile)
-        return try {
-            response.let { it ->
-                if (it.isSuccessful) {
-                    it.body()?.let {
-                        ResultHandler.Success(it)
+        return response.let {
+            return try {
+                response.let { it ->
+                    if (it.isSuccessful) {
+                        it.body()?.let {
+                            ResultHandler.Success(it)
+                        }
+                    } else {
+                        Error(response.message())
                     }
-                } else {
-                    Error(response.message())
                 }
+            } catch (e: Exception) {
+                Error(e.message ?: "Contact Admin")
             }
-        } catch (e: Exception) {
-            Error(e.message ?: "Contact Admin")
         }
     }
 
@@ -58,14 +59,14 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun sendDocNurseCredentials(docNurseLogin: DocNurseRequest): DocNurseResponse {
-      return kotlin.runCatching {
-          api.getDocNurseLogin(docNurseLogin)
-      }.getOrThrow()
+    override suspend fun sendDocNurseCredentials(request: DocNurseRequest): DocNurseResponse {
+        return kotlin.runCatching {
+            api.getDocNurseLogin(request)
+        }.getOrThrow()
     }
 
-    override suspend fun getHospitalList(mobile: HospitalListRequest): ResultHandler<HospitalListData>? {
-        val response = api.getHospitalList(mobile)
+    override suspend fun getHospitalList(request: HospitalListRequest): ResultHandler<HospitalListData>? {
+        val response = api.getHospitalList(request)
         return try {
             response.let { it ->
                 if (it.isSuccessful) {

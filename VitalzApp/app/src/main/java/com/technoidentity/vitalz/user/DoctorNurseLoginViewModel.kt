@@ -1,5 +1,6 @@
 package com.technoidentity.vitalz.user
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseRequest
 import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseResponse
