@@ -22,6 +22,7 @@ import com.technoidentity.vitalz.data.network.Urls.HOSPITAL_LIST
 import com.technoidentity.vitalz.data.network.Urls.MULTIPLE_PATIENT_DASHBOARD
 import com.technoidentity.vitalz.data.network.Urls.PATIENT_LIST
 import com.technoidentity.vitalz.data.network.Urls.SEND_DEVICE
+import com.technoidentity.vitalz.data.network.Urls.SEND_ECGDATA
 import com.technoidentity.vitalz.data.network.Urls.SEND_HEARTRATE
 import com.technoidentity.vitalz.data.network.Urls.SEND_OTP
 import com.technoidentity.vitalz.data.network.Urls.SINGLE_PATIENT_DASHBOARD
@@ -61,6 +62,9 @@ interface VitalzApi {
     suspend fun getRegisteredDevices(): List<RegisteredDevice>
 
     @POST(SEND_HEARTRATE)
-    suspend fun sendHeartRate(patientId: String, telemetryKey: String, heartRate :ByteArray): Boolean
+    suspend fun sendHeartRate(patientId: String, telemetryKey: String, heartRate :String): Boolean
+
+    @POST(SEND_ECGDATA)
+    suspend fun sendEcgData(patientId: String, telemetryKey: String, ecgData :String): Boolean
 
 }

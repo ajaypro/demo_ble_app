@@ -1,15 +1,11 @@
 package com.technoidentity.vitalz.home
 
-import android.os.Bundle
-import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.technoidentity.vitalz.R
 import com.technoidentity.vitalz.utils.isTablet
 import com.technoidentity.vitalz.utils.showToast
-import kotlinx.coroutines.flow.collect
 
 class HomeFragment : Fragment() {
 
@@ -18,7 +14,7 @@ class HomeFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        if (isTablet(requireContext())) {
+        if (!isTablet(requireContext())) {
             sharedViewModel.isDeviceConnected.observe(this@HomeFragment) {
                 showToast(requireContext(), "homefragment - isdeviceconnected $it")
                 // Navigating based on ble device connection

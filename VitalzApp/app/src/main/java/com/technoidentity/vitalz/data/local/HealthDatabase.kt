@@ -1,18 +1,19 @@
 package com.technoidentity.vitalz.data.local
 
-import android.content.Context
 import androidx.room.Database
-import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.technoidentity.vitalz.bluetooth.SingletonHolder
-import com.technoidentity.vitalz.data.datamodel.HeartRateData
+import com.technoidentity.vitalz.data.local.dao.EcgDataDao
+import com.technoidentity.vitalz.data.local.dao.HeartRateDao
+import com.technoidentity.vitalz.data.local.databaseEntities.EcgDataDb
+import com.technoidentity.vitalz.data.local.databaseEntities.HeartRateDb
+import javax.inject.Singleton
 
-@Database(entities = [(HeartRateData::class)], version = 1, exportSchema = false)
+@Singleton
+@Database(entities = [HeartRateDb::class, EcgDataDb::class], version = 1, exportSchema = false)
 abstract class HealthDatabase : RoomDatabase() {
 
-    companion object: SingletonHolder<HealthDatabase, Context>({
-        Room.databaseBuilder(it.applicationContext, HealthDatabase::class.java, "vitalz.db")
-            .build()
-    })
+   abstract val heartRateDao: HeartRateDao
+
+   abstract val ecgDataDao: EcgDataDao
 
 }

@@ -1,4 +1,4 @@
-package com.technoidentity.vitalz.bluetooth
+package com.technoidentity.vitalz.data.local
 
 
 open class SingletonHolder<out T: Any, in A>(creator: (A) -> T) {

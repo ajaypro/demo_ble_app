@@ -49,6 +49,12 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:${library.constarintLayout}"
     implementation "com.google.android.material:material:${library.material}"
 
+    // Room components
+    implementation "androidx.room:room-ktx:${library.roomVersion}"
+    kapt "androidx.room:room-compiler:${library.roomVersion}"
+    androidTestImplementation "androidx.room:room-testing:${library.roomVersion}"
+
+
     //Fragment
     implementation "androidx.fragment:fragment-ktx:${library.fragment_ktx}"
 

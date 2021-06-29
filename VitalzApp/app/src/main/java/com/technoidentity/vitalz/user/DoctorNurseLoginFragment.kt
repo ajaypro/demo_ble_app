@@ -69,11 +69,11 @@ class DoctorNurseLoginFragment : Fragment() {
 
                             //check for tablet or mobile and navigate
                             when (isTablet(requireContext())) {
-                                false ->
+                                true ->
                                 {
                                     findNavController().navigate(R.id.action_doctorNurseLoginFragment_to_multiPatientDashboardFragment)
                                 }
-                                true ->
+                                false ->
                                 {
                                         sharedViewModel.isDeviceConnected.observe(viewLifecycleOwner) { deviceConnected ->
                                             if (!deviceConnected) {

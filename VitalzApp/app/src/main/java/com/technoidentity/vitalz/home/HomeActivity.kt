@@ -110,7 +110,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
 //        networkMonitor = NetworkUtil(this)
 
         //this tablet check is for BLE Device Scan
-        if (isTablet(this)) {
+        if (!isTablet(this)) {
             lifecycleScope.launchWhenStarted {
                 if (initializeBleScanner()) {
                     showToast(

@@ -129,7 +129,7 @@ class BleManager(private val bleScanner: BleScanner) : IBleManager {
 
                 it.getService(DEVICE_BATTERY_SER_UUID)?.let { batteryService ->
                     bluetoothGattService = batteryService
-                    readCharacteristic(bluetoothGattService.getCharacteristic(DEVICE_BATTERY_SER_UUID))
+                    readCharacteristic(bluetoothGattService.getCharacteristic(DEVICE_BATTERY_CHAR_UUID))
                 }
 
 //                it.getService(BODY_POS_SER_UUID)?.let { bodyPostureService ->

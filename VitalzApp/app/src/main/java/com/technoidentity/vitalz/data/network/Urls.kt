@@ -23,4 +23,6 @@ object Urls {
     const val GET_DEVICE_LIST = "/device/device-list"
 
     const val SEND_HEARTRATE = ""
+
+    const val SEND_ECGDATA = ""
 }

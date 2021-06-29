@@ -3,6 +3,8 @@ package com.technoidentity.vitalz.utils
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothGatt
 import android.bluetooth.BluetoothGattCharacteristic
+import java.lang.IllegalArgumentException
+import java.lang.IllegalStateException
 import java.util.*
 
 
@@ -22,7 +24,32 @@ val TEMP_CHAR_UUID = UUID.fromString("03B875D4-EDE8-4B33-A751-6CE34EC4C745")
 const val CHAR_READ_INITIALIZED_SUCCESS = "Character read initialized successfully"
 const val CHAR_READ_INITIALIZED_FAILURE = "Character read failed"
 const val DEVICE_START_NAME = "HRM"
-const val HEART_RATE_DATA = "heart_rate_data"
+
+const val HEART_RATE_DATA = "heartrate"
+const val BATTERY_DATA = "battery"
+const val ECG_DATA = "ecg"
+
+/**
+ * Telemetry Key
+ */
+
+//enum class TelemetryKey(val value: String) {
+//    HEART_RATE_DATA("heartrate"),
+//    BATTERY_DATA("battery"),
+//    ECG_DATA("ecg");
+//
+//    companion object {
+//        fun create(value: String): TelemetryKey{
+//            return when(value) {
+//                "heartrate" -> HEART_RATE_DATA
+//                "battery" -> BATTERY_DATA
+//                "ecg" -> ECG_DATA
+//                else -> throw IllegalStateException()
+//            }
+//        }
+//    }
+//}
+
 
 /** UUID of the Client Characteristic Configuration Descriptor (0x2902). */
 const val CCC_DESCRIPTOR_UUID = "00002902-0000-1000-8000-00805F9B34FB"
