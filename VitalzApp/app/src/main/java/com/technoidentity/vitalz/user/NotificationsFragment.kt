@@ -2,6 +2,7 @@ package com.technoidentity.vitalz.user
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.technoidentity.vitalz.dashboard.MultiPatientDashboardViewModel
 import com.technoidentity.vitalz.dashboard.MultiplePatientAdapter
 import com.technoidentity.vitalz.databinding.FragmentNotificationsBinding
+import com.technoidentity.vitalz.home.HomeActivity
+import com.technoidentity.vitalz.home.SharedViewModel
 import com.technoidentity.vitalz.utils.Constants
 import com.technoidentity.vitalz.utils.CustomProgressDialog
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,7 +25,9 @@ class NotificationsFragment : Fragment() {
     lateinit var binding: FragmentNotificationsBinding
     private lateinit var progressDialog: CustomProgressDialog
     val viewModel: NotificationViewModel by viewModels()
+    val sharedViewModel: SharedViewModel by viewModels()
     private lateinit var notificationAdapter: NotificationAdapter
+    lateinit var homeActivity : HomeActivity
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -71,6 +76,7 @@ class NotificationsFragment : Fragment() {
             if (it.isNotEmpty()) {
                 progressDialog.dismissLoadingDialog()
                 notificationAdapter.notificationItem = it
+//                sharedViewModel.checkNotificationCount(it.size)
             } else {
                 progressDialog.dismissLoadingDialog()
             }
@@ -84,6 +90,7 @@ class NotificationsFragment : Fragment() {
             if (it.isNotEmpty()) {
                 progressDialog.dismissLoadingDialog()
                 notificationAdapter.notificationItem = it
+//                sharedViewModel.checkNotificationCount(it.size)
             } else {
                 progressDialog.dismissLoadingDialog()
             }
@@ -96,6 +103,8 @@ class NotificationsFragment : Fragment() {
             //check for it.reason success case
             if (it.isNotEmpty()) {
                 progressDialog.dismissLoadingDialog()
+                homeActivity.sharedViewModel._notificationCount.value = it.size
+                Log.v("Count UP $$", "${it.size}")
                 notificationAdapter.notificationItem = it
             } else {
                 progressDialog.dismissLoadingDialog()
@@ -107,5 +116,10 @@ class NotificationsFragment : Fragment() {
         notificationAdapter = NotificationAdapter()
         binding.rvNotificationList.adapter = notificationAdapter
         binding.rvNotificationList.layoutManager = LinearLayoutManager(context)
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        homeActivity = activity as HomeActivity
     }
 }

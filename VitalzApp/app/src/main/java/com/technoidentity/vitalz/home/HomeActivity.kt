@@ -7,11 +7,13 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.os.bundleOf
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -32,12 +34,11 @@ import com.technoidentity.vitalz.utils.Constants.REQUEST_LOCATION_SERVICE
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import timber.log.Timber
-
 
 @AndroidEntryPoint
 class HomeActivity : BaseActivity<ActivityHomeBinding>() {
-
 
     override fun getViewBinding() = ActivityHomeBinding.inflate(layoutInflater)
     val sharedViewModel: SharedViewModel by viewModels()
@@ -118,10 +119,14 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         }
 
         //Adding badges to Notification
-//        val badge = binding.bottomNavView.getOrCreateBadge(R.id.notifications_tab)
-//        badge.isVisible = true
-//        // An icon only badge will be displayed unless a number is set:
-//        badge.number = 99
+        val badge = binding.bottomNavView.getOrCreateBadge(R.id.notifications_tab)
+        badge.isVisible = true
+        Log.v("Count HA $$", "qwerty")
+        // An icon only badge will be displayed unless a number is set:
+        sharedViewModel._notificationCount.observe(this,  {
+            Log.v("Count HA $$", "$it")
+            badge.number = it
+        })
 
 //        networkMonitor = NetworkUtil(this)
 
