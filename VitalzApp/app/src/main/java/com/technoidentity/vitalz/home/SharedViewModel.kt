@@ -107,12 +107,7 @@ class SharedViewModel @Inject constructor(private val bleManager: IBleManager,
     }
 
     //check the Notification Count of User
-     var _notificationCount = MutableLiveData<Int>(0)
-//    val notificationCount: MutableLiveData<Int> = _notificationCount
-
-//    fun checkNotificationCount(count: Int){
-//        _notificationCount.value = count
-//    }
+     var notificationCount = MutableStateFlow(0)
 }
 
 

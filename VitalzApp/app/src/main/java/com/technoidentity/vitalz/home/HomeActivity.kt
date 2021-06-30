@@ -121,12 +121,12 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         //Adding badges to Notification
         val badge = binding.bottomNavView.getOrCreateBadge(R.id.notifications_tab)
         badge.isVisible = true
-        Log.v("Count HA $$", "qwerty")
         // An icon only badge will be displayed unless a number is set:
-        sharedViewModel._notificationCount.observe(this,  {
-            Log.v("Count HA $$", "$it")
-            badge.number = it
-        })
+        lifecycleScope.launchWhenCreated {
+            sharedViewModel.notificationCount.collect {
+                badge.number = it
+            }
+        }
 
 //        networkMonitor = NetworkUtil(this)
 

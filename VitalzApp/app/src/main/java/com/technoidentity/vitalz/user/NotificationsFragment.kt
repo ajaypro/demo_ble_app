@@ -76,7 +76,7 @@ class NotificationsFragment : Fragment() {
             if (it.isNotEmpty()) {
                 progressDialog.dismissLoadingDialog()
                 notificationAdapter.notificationItem = it
-//                sharedViewModel.checkNotificationCount(it.size)
+                homeActivity.sharedViewModel.notificationCount.value = it.size
             } else {
                 progressDialog.dismissLoadingDialog()
             }
@@ -90,7 +90,7 @@ class NotificationsFragment : Fragment() {
             if (it.isNotEmpty()) {
                 progressDialog.dismissLoadingDialog()
                 notificationAdapter.notificationItem = it
-//                sharedViewModel.checkNotificationCount(it.size)
+                homeActivity.sharedViewModel.notificationCount.value = it.size
             } else {
                 progressDialog.dismissLoadingDialog()
             }
@@ -103,8 +103,7 @@ class NotificationsFragment : Fragment() {
             //check for it.reason success case
             if (it.isNotEmpty()) {
                 progressDialog.dismissLoadingDialog()
-                homeActivity.sharedViewModel._notificationCount.value = it.size
-                Log.v("Count UP $$", "${it.size}")
+                homeActivity.sharedViewModel.notificationCount.value = it.size
                 notificationAdapter.notificationItem = it
             } else {
                 progressDialog.dismissLoadingDialog()
