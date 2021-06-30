@@ -47,80 +47,48 @@ class MultiPatientDashboardFragment : Fragment() {
         multiplePatientDashboardApi()
 
         //Search Functionality
-        searchWithStateFlow()
+        binding.etSearchPatient.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
 
-//        binding.etSearchPatient.addTextChangedListener(object : TextWatcher{
-//            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-//            }
-//
-//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-//                if (s.isNullOrEmpty()){
-//                    binding.ivCancelSearchPatient.visibility = View.GONE
-//                    multiplePatientDashboardApi()
-//                }else {
-//                    binding.ivCancelSearchPatient.visibility = View.VISIBLE
-//                    if (start == 2) {
-//                        searchApiCall(s)
-//                        binding.ivCancelSearchPatient.setOnClickListener {
-//                            binding.etSearchPatient.setText("")
-//                            multiplePatientDashboardApi()
-//                        }
-//                    }
-//                }
-//            }
-//
-//            override fun afterTextChanged(s: Editable?) {
-//            }
-//
-//        })
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (s.isNullOrEmpty()){
+                    binding.ivCancelSearchPatient.visibility = View.GONE
+                    multiplePatientDashboardApi()
+                }else {
+                    binding.ivCancelSearchPatient.visibility = View.VISIBLE
+                    if (start == 2) {
+                        searchApiCall(s)
+                        binding.ivCancelSearchPatient.setOnClickListener {
+                            binding.etSearchPatient.setText("")
+                            multiplePatientDashboardApi()
+                        }
+                    }
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+        })
 
         return binding.root
     }
 
-    @FlowPreview
-    private fun searchWithStateFlow() {
-        lifecycleScope.launch {
-            binding.etSearchPatient.getQueryTextChangeStateFlow()
-                .debounce(300)
-                .filter {
-                    if (it.isEmpty()){
-                        return@filter false
-                    }else{
-                        return@filter true
-                    }
+    private fun searchApiCall(s: CharSequence) {
+        progressDialog.showLoadingDialog()
+        viewModel.searchPatientInList(s).observe(viewLifecycleOwner) {
+            if (it.isNotEmpty()) {
+                progressDialog.dismissLoadingDialog()
+                doctorAdapter.multiplePatient = it
+            } else {
+                progressDialog.dismissLoadingDialog()
+                binding.apply {
+                    //check for it.reason error case
+                    rvMultiplePatientDashboardList.visibility = View.GONE
+                    tvNoRecords.visibility = View.VISIBLE
                 }
-                .distinctUntilChanged()
-                .flatMapLatest {
-                    searchApiCall(it)
-                        .catch {
-                            emitAll(flowOf())
-                        }
-                }
-                .flowOn(Dispatchers.Default)
-                .collect {
-                    doctorAdapter.multiplePatient = it.value!!
-                }
-        }
-    }
-
-    private fun searchApiCall(s: CharSequence): Flow<LiveData<MultiplePatientDashboardResponse>> {
-//        progressDialog.showLoadingDialog()
-//        viewModel.searchPatientInList(s).observe(viewLifecycleOwner) {
-//            if (it.isNotEmpty()) {
-//                progressDialog.dismissLoadingDialog()
-//                doctorAdapter.multiplePatient = it
-//            } else {
-//                progressDialog.dismissLoadingDialog()
-//                binding.apply {
-//                    //check for it.reason error case
-//                    rvMultiplePatientDashboardList.visibility = View.GONE
-//                    tvNoRecords.visibility = View.VISIBLE
-//                }
-//            }
-//        }
-        return flow {
-            kotlinx.coroutines.delay(2000)
-            emit(viewModel.searchPatientInList(s))
+            }
         }
     }
 

@@ -2,7 +2,7 @@ package com.technoidentity.vitalz.data.network
 
 object Urls {
 
-    const val BASE_URL = "http://20.204.98.236:8023/"
+    const val BASE_URL = "http://20.204.14.2/"
 
     const val SEND_OTP = "caretaker/send-otp"
 
