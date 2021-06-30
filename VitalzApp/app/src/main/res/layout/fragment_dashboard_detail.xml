@@ -107,7 +107,7 @@
                 style="@style/viewSize"
                 android:text="@string/end_date"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/button_blue"
+                android:textColor="@color/button_grey"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -117,14 +117,15 @@
                 style="@style/viewSize"
                 android:src="@drawable/ic_baseline_calendar_today_24"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_end_date" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_end_date"
+                app:tint="@color/button_grey" />
 
             <TextView
                 android:id="@+id/tv_selected_end_date"
                 style="@style/viewSize"
                 android:text=""
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textColor="@color/black"
+                android:textColor="@color/button_blue"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_selectEnd_date"
                 app:layout_constraintStart_toEndOf="@+id/iv_selectEnd_date"
                 app:layout_constraintTop_toTopOf="@+id/iv_selectEnd_date" />

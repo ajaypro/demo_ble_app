@@ -1,140 +1,209 @@
 //package com.technoidentity.vitalz.dashboard
 //
+//import android.annotation.SuppressLint
 //import android.app.DatePickerDialog
+//import android.content.Context
 //import android.os.Bundle
 //import android.util.Log
 //import android.view.LayoutInflater
 //import android.view.View
 //import android.view.ViewGroup
+//import android.widget.Toast
 //import androidx.fragment.app.Fragment
+//import androidx.fragment.app.viewModels
+//import androidx.navigation.fragment.findNavController
 //import com.github.mikephil.charting.components.XAxis
 //import com.github.mikephil.charting.components.XAxis.XAxisPosition
 //import com.github.mikephil.charting.data.BarData
 //import com.github.mikephil.charting.data.BarDataSet
 //import com.github.mikephil.charting.data.BarEntry
 //import com.technoidentity.vitalz.R
-//import com.technoidentity.vitalz.data.datamodel.single_patient.HeartRate
-//import com.technoidentity.vitalz.databinding.FragmentDashboardHeartDetailBinding
+//import com.technoidentity.vitalz.data.datamodel.dashboardDetail.DashboardDetailResponse
+//import com.technoidentity.vitalz.data.network.Constants
+//import com.technoidentity.vitalz.databinding.FragmentDashboardDetailBinding
 //import com.technoidentity.vitalz.utils.CustomProgressDialog
 //import dagger.hilt.android.AndroidEntryPoint
+//import java.text.DateFormat
 //import java.text.SimpleDateFormat
 //import java.util.*
 //import kotlin.collections.ArrayList
 //
+//
 //@AndroidEntryPoint
-//class DashboardDetailsHeartFragment : Fragment() {
+//class DashboardDetailsFragment : Fragment() {
 //
 //    private lateinit var datePickerDialog: DatePickerDialog
-//    lateinit var binding: FragmentDashboardHeartDetailBinding
+//    lateinit var binding: FragmentDashboardDetailBinding
 //    private lateinit var progressDialog: CustomProgressDialog
-//    lateinit var maxDate : String
-//    lateinit var selectedDate : Date
-//    var selectedDay : Int = 0
-//    var selectedMonth : Int = 0
-//    var selectedYear : Int = 0
+//    val viewModel: DashboardDetailsViewModel by viewModels()
+//    lateinit var selectedDate: Date
+//    var selectedDay: Int = 0
+//    var selectedMonth: Int = 0
+//    var selectedYear: Int = 0
 //    var isEndDateSelected: Boolean = false
 //    val c = Calendar.getInstance()
 //    val day = c.get(Calendar.DAY_OF_MONTH)
 //    val month = c.get(Calendar.MONTH)
 //    val year = c.get(Calendar.YEAR)
+//    lateinit var patientId: String
+//
+//    init {
+//        selectedDay = day
+//        selectedMonth = month + 1
+//        selectedYear = year
+//    }
 //
 //    override fun onCreateView(
 //        inflater: LayoutInflater,
 //        container: ViewGroup?,
 //        savedInstanceState: Bundle?
 //    ): View {
-//        binding = FragmentDashboardHeartDetailBinding.inflate(layoutInflater)
+//        binding = FragmentDashboardDetailBinding.inflate(layoutInflater)
 //        progressDialog = CustomProgressDialog(this.requireContext())
+//
+//        //get Shared data
+//        val sharedPreferences =
+//            context?.getSharedPreferences(Constants.PREFERENCE_NAME, Context.MODE_PRIVATE)
+//        patientId = sharedPreferences?.getString(Constants.PATIENTID, null).toString()
+//
+//        binding.ivBackBtn.setOnClickListener {
+//            findNavController().navigateUp()
+//        }
+//
 //        //Getting Arguments From last Fragment
-//        val heartData: HeartRate? = arguments?.getParcelable("heartData")
+////        - heartrate
+////        - respiratory
+////        - bloodpressure
+////        - temprature
+////        - oxygen
 //
-//        //Calender declaration
-//
-//
-//        //default end date will be today's date and start will be 7 days before end date
-//        //on selecting start date it should have a difference of 7 days  or till today's date
+//        //Getting Arguments From last Fragment
+//        val isAlive = arguments?.getString("isAlive")
+//        if (isAlive == "heart") {
+//            binding.tvHeartRate.text = "Heart Rate"
+//            setInitialDates("heartrate")
+//        } else if (isAlive == "respiratory") {
+//            binding.tvHeartRate.text = "Respiratory"
+//            setInitialDates("respiratory")
+//        }
 //
 //        //Start Date
 //        binding.layoutStartDateSelect.setOnClickListener {
-//            c.add(selectedMonth, -6)
-//            val dateFormat = SimpleDateFormat("yyyy-MM-dd")
-////            val myDate: Date = dateFormat.parse(maxDate)
-////            val newDate = Date(myDate.time - 604800000L) // 7 * 24 * 60 * 60 * 1000
+//            //fetching selected End date as Calender instance
+//            val cal: Calendar = millisToDate()
+//            //Subtracting 7 days from selected End date
+//            cal.add(Calendar.DAY_OF_MONTH, -6)
+//
 //            //Always check for month because they start from 0 as jan and 11 as dec. So, add 1 in month. And Add 2 Days more than present day & change the color of the DatePicker
 //            val datePickerDialog = DatePickerDialog(
 //                requireContext(),
 //                R.style.DialogTheme,
 //                DatePickerDialog.OnDateSetListener { view, mYear, mMonth, mDay ->
-//
+//                    val date = "" + mYear + "-" + (mMonth + 1) + "-" + mDay
+//                    binding.tvSelectedStartDate.text = date
 //                }, year, month, day
 //            )
-////            datePickerDialog.datePicker.minDate = something
-//            datePickerDialog.datePicker.maxDate = c.timeInMillis
+//            //Setting Mini. Date from Selected End date
+//            datePickerDialog.datePicker.minDate = cal.timeInMillis
+//            //Updating Start date if end date is selected
+//            if (isEndDateSelected) {
+//                datePickerDialog.updateDate(
+//                    cal.get(Calendar.YEAR),
+//                    cal.get(Calendar.MONTH),
+//                    cal.get(Calendar.DAY_OF_MONTH)
+//                )
+//            }
+//            //Setting Max. Date from Selected End date
+//            datePickerDialog.datePicker.maxDate = millisToDate().timeInMillis
 //            datePickerDialog.show()
 //        }
 //
 //        //End Date
 //        binding.layoutEndDateSelect.setOnClickListener {
-//            //condition for 7 days more than the selected day
-////            c.add(Calendar.DAY_OF_MONTH, 7)
-//
-//            //Always check for month because they start from 0 as jan and 11 as dec. So, add 1 in month. And Add 2 Days more than present day & change the color of the DatePicker
-//            setEndDate(it)
-//        }
-//
-//        //Bar Chart
-//        initializeBarChart()
-//        heartData?.let { setBarChart(it) }
-//        return binding.root
-//    }
-//
-//    private fun setEndDate(it: View?) {
-//        datePickerDialog = DatePickerDialog(
-//            requireContext(),
-//            R.style.DialogTheme,
-//            DatePickerDialog.OnDateSetListener { view, mYear, mMonth, mDay ->
-//                val date = "" + mYear + "-" + (mMonth + 1) + "-" + mDay
-//                binding.tvSelectedEndDate.text = date
-//                maxDate = date
-//                val dateFormat = SimpleDateFormat("yyyy-MM-dd")
-//                selectedDate = dateFormat.parse(maxDate)
-//                val myDate = dateFormat.format(selectedDate)
-//                Log.v("DATE OnListen: ", " :- $myDate")
-//                Log.v("DATE OnListen 1: ", " :- $maxDate")
-//                Log.v("DATE OnListen 2: ", " :- $selectedDate")
-//                if (!isEndDateSelected){
+//            datePickerDialog = DatePickerDialog(
+//                requireContext(),
+//                R.style.DialogTheme,
+//                DatePickerDialog.OnDateSetListener { view, mYear, mMonth, mDay ->
+//                    val date = "" + mYear + "-" + (mMonth + 1) + "-" + mDay
+//                    binding.tvSelectedEndDate.text = date
+//                    val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+//                    selectedDate = dateFormat.parse(date)
 //                    isEndDateSelected = true
 //                    selectedYear = mYear
 //                    selectedMonth = mMonth
 //                    selectedDay = mDay
-//                    datePickerDialog.updateDate(selectedYear,selectedMonth,selectedDay)
-//                }
-//            }, year, month, day
-//        )
-//        onDateSet(selectedDay,selectedMonth,selectedYear)
-//        if (isEndDateSelected){
-//            datePickerDialog.updateDate(selectedYear,selectedMonth,selectedDay)
+//                }, year, month, day
+//            )
+//            if (isEndDateSelected) {
+//                datePickerDialog.updateDate(selectedYear, selectedMonth, selectedDay)
+//            }
+//            datePickerDialog.datePicker.maxDate = c.timeInMillis
+//            datePickerDialog.show()
 //        }
-//        datePickerDialog.datePicker.maxDate = c.timeInMillis
-//        datePickerDialog.show()
+//
+//        //Bar Chart
+//        initializeBarChart()
+//        setBarChart()
+//        return binding.root
 //    }
 //
-//    private fun millisToDate(timeInMillis: Long) {
-//        val sdf = SimpleDateFormat("dd-MMM-yyyy")
-//        val dateString = sdf.format(timeInMillis)
-//        Log.v("DATE Fun : ", " :- $dateString")
+//
+//    @SuppressLint("SetTextI18n")
+//    private fun setInitialDates(item: String) {
+//        val endDateConfig = millisToDate()
+//        //default end Date
+//        val defaultEndDate =
+//            endDateConfig.get(Calendar.YEAR).toString() + "-" + endDateConfig.get(Calendar.MONTH)
+//                .toString() + "-" + endDateConfig.get(
+//                Calendar.DAY_OF_MONTH
+//            ).toString()
+//        binding.tvSelectedEndDate.text = defaultEndDate
+//
+//        //default Start Date
+//        val defaultStartDate =
+//            endDateConfig.get(Calendar.YEAR).toString() + "-" + endDateConfig.get(Calendar.MONTH)
+//                .toString() + "-" + endDateConfig.get(
+//                Calendar.DAY_OF_MONTH
+//            ).toString()
+//        endDateConfig.add(Calendar.DAY_OF_MONTH, -6)
+//        binding.tvSelectedStartDate.text = defaultStartDate
+//
+//        //Default dates Api-Call
+////        getSelectedDaysData(defaultStartDate, defaultEndDate, item, patientId)
 //    }
 //
-//    private fun onDateSet( mDay: Int, mMonth: Int, mYear: Int) {
+//    private fun getSelectedDaysData(
+//        startDate: String,
+//        endDate: String,
+//        item: String,
+//        patientId: String
+//    ) {
+//        progressDialog.showLoadingDialog()
+//        viewModel.getDashboardDetailsData(patientId,item,startDate,endDate).observe(viewLifecycleOwner,{
+//            if (it != null){
+//                progressDialog.dismissLoadingDialog()
+//                setDetailsData(it)
+//            }else{
+//                progressDialog.dismissLoadingDialog()
+//                Toast.makeText(context,"No Data Found", Toast.LENGTH_SHORT).show()
+//            }
+//        })
+//    }
+//
+//    private fun setDetailsData(it: DashboardDetailResponse) {
+//        binding.tvAverageRate.text = it.weeklyAverage.toString()
+//        binding.tvMaxRate.text = it.weeklyMax.toString()
+//        binding.tvMinRate.text = it.weeklyMin.toString()
+//        //set values in graph list -> it.itemData
+//    }
+//
+//    private fun millisToDate(): Calendar {
 //        val c = Calendar.getInstance()
-//        val sdf = SimpleDateFormat("dd-MMM-yyyy")
-//        c.set(mYear, mMonth, mDay)
-//        val dateString = sdf.format(c.time)
-//        binding.tvSelectedStartDate.text = dateString
-//        Log.v("DATE function: ", " :- $dateString")
+//        c.set(selectedYear, selectedMonth, selectedDay)
+//        return c
 //    }
 //
-//    private fun setBarChart(heartData: HeartRate) {
+//    private fun setBarChart() {
 //        val entries = ArrayList<BarEntry>()
 //        entries.add(BarEntry(100f, 10f))
 //        entries.add(BarEntry(200f, 20f))
@@ -163,7 +232,7 @@
 //        // if more than 60 entries are displayed in the chart, no values will be
 //        // drawn
 //        binding.heartBarChart.setMaxVisibleValueCount(5)
-//        binding.heartBarChart.setVisibleXRange(1F,5F);
+//        binding.heartBarChart.setVisibleXRange(1F, 5F);
 //        binding.heartBarChart.xAxis.setDrawGridLines(true)
 //        // scaling can now only be done on x- and y-axis separately
 //        binding.heartBarChart.setPinchZoom(false)
