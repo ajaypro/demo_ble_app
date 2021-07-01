@@ -8,11 +8,16 @@ import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseResponse
 import com.technoidentity.vitalz.data.datamodel.hospital_list.HospitalListData
 import com.technoidentity.vitalz.data.datamodel.hospital_list.HospitalListRequest
 import com.technoidentity.vitalz.data.datamodel.multiple_patient.MultiplePatientDashboardResponse
+import com.technoidentity.vitalz.data.datamodel.notification.NotificationCareTakerRequest
+import com.technoidentity.vitalz.data.datamodel.notification.NotificationDoctorRequest
+import com.technoidentity.vitalz.data.datamodel.notification.NotificationResponse
 import com.technoidentity.vitalz.data.datamodel.otp.OtpRequest
 import com.technoidentity.vitalz.data.datamodel.otp.OtpResponse
 import com.technoidentity.vitalz.data.datamodel.patient_list.PatientDataList
 import com.technoidentity.vitalz.data.datamodel.patient_list.PatientRequest
 import com.technoidentity.vitalz.data.datamodel.single_patient.SinglePatientDashboardResponse
+import com.technoidentity.vitalz.data.datamodel.updateProfile.ProfileUpdateRequest
+import com.technoidentity.vitalz.data.datamodel.updateProfile.ProfileUpdateResponse
 import com.technoidentity.vitalz.data.network.VitalzApi
 import com.technoidentity.vitalz.utils.ResultHandler
 import com.technoidentity.vitalz.utils.ResultHandler.Error
@@ -89,6 +94,30 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun searchPatientList(request: String): PatientDataList {
         return kotlin.runCatching {
             api.searchPatientList(request)
+        }.getOrThrow()
+    }
+
+    override suspend fun getNotificationCareTakerList(request: NotificationCareTakerRequest): NotificationResponse {
+        return kotlin.runCatching {
+            api.getCareTakerNotification(request)
+        }.getOrThrow()
+    }
+
+    override suspend fun getNotificationDoctorList(request: NotificationDoctorRequest): NotificationResponse {
+        return kotlin.runCatching {
+            api.getDoctorNotification(request)
+        }.getOrThrow()
+    }
+
+    override suspend fun getNotificationNurseList(): NotificationResponse {
+        return kotlin.runCatching {
+            api.getNurseNotification()
+        }.getOrThrow()
+    }
+
+    override suspend fun updatePatientData(request: ProfileUpdateRequest): ProfileUpdateResponse {
+        return kotlin.runCatching {
+            api.updateProfileData(request)
         }.getOrThrow()
     }
 }

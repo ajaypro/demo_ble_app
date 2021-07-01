@@ -1,6 +1,7 @@
 package com.technoidentity.vitalz.user
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,11 +9,15 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.github.mikephil.charting.utils.Utils
 import com.technoidentity.vitalz.R
 import com.technoidentity.vitalz.data.network.Constants
 import com.technoidentity.vitalz.databinding.FragmentDocnurseLoginBinding
 import com.technoidentity.vitalz.home.SharedViewModel
+import com.technoidentity.vitalz.utils.Constants.DOCTOR
+import com.technoidentity.vitalz.utils.Constants.NURSE
 import com.technoidentity.vitalz.utils.CustomProgressDialog
 import com.technoidentity.vitalz.utils.isTablet
 import dagger.hilt.android.AndroidEntryPoint
@@ -43,7 +48,6 @@ class DoctorNurseLoginFragment : Fragment() {
                 binding.etPassword.text.toString()
             )
         }
-
     }
 
     private fun validateCredentials(username: String, password: String) {
@@ -56,17 +60,25 @@ class DoctorNurseLoginFragment : Fragment() {
             }
             else -> {
                 progressDialog.showLoadingDialog()
-                viewModel.sendDocNurseCredentials(username, password).observe(viewLifecycleOwner,{
+                viewModel.sendDocNurseCredentials(username,password).observe(viewLifecycleOwner, {
                     if (it.token != null){
                         val pref =
                             context?.getSharedPreferences(Constants.PREFERENCE_NAME, 0)
                         pref?.edit()?.putString(Constants.TOKEN, it.token)?.apply()
                         progressDialog.dismissLoadingDialog()
+                        if (it.user?.role == DOCTOR) {
+                            sharedViewModel.checkRole(DOCTOR)
+                        }else{
+                            sharedViewModel.checkRole(NURSE)
+                        }
                         //check for tablet or mobile and navigate
                         when (isTablet(requireContext())) {
                             false ->
                             {
                                 findNavController().navigate(R.id.action_doctorNurseLoginFragment_to_multiPatientDashboardFragment)
+                                val pref =
+                                    context?.getSharedPreferences(Constants.PREFERENCE_NAME, 0)
+                                pref?.edit()?.putString(Constants.DOCTOR_MOBILE, it.user?.phoneNo)?.apply()
                             }
                             true ->
                             {
@@ -81,7 +93,7 @@ class DoctorNurseLoginFragment : Fragment() {
                         }
                     }else{
                         progressDialog.dismissLoadingDialog()
-                        Toast.makeText(context, "Something went wrong...", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
                     }
                 })
             }

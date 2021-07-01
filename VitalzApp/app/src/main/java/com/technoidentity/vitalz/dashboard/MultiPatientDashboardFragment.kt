@@ -9,9 +9,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.technoidentity.vitalz.R
+import com.technoidentity.vitalz.data.network.Constants
 import com.technoidentity.vitalz.data.datamodel.multiple_patient.MultiplePatientDashboardResponse
 import com.technoidentity.vitalz.databinding.FragmentMultiplePatientDashboardBinding
 import com.technoidentity.vitalz.home.SharedViewModel
@@ -117,6 +120,10 @@ class MultiPatientDashboardFragment : Fragment() {
     }
 
     fun onItemClicked(layoutPosition: Int) {
+        val pref = context?.getSharedPreferences(Constants.PREFERENCE_NAME, 0)
+        pref?.edit()?.putString(Constants.PATIENTID, doctorAdapter.multiplePatient[layoutPosition].patientId)?.apply()
+        findNavController().navigate(
+            R.id.action_multiPatientDashboardFragment_to_singlePatientDashboardFragment)
     }
 
 }

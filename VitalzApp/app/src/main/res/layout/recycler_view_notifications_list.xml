@@ -16,13 +16,16 @@
 
     <TextView
         android:id="@+id/tv_notification_title"
-        style="@style/viewSize"
-        android:layout_marginStart="@dimen/dp_8"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:text="@string/sample_notification_title"
+        android:layout_marginStart="@dimen/dp_8"
+        android:layout_marginEnd="@dimen/dp_8"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
         android:textColor="@color/button_blue"
         app:layout_constraintBottom_toTopOf="@+id/tv_notification_date"
-        app:layout_constraintStart_toEndOf="@id/iv_notification"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/iv_notification"
         app:layout_constraintTop_toTopOf="@+id/iv_notification"
         app:layout_constraintVertical_chainStyle="packed" />
 

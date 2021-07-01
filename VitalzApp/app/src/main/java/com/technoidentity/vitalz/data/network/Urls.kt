@@ -18,9 +18,9 @@ object Urls {
 
     const val MULTIPLE_PATIENT_DASHBOARD = "graph/patients"
 
-    const val SEND_DEVICE = "/device/save-device"
+    const val REGISTER_DEVICE = "device/register-device"
 
-    const val GET_DEVICE_LIST = "/device/device-list"
+    const val GET_DEVICE_LIST = "device/device-list"
 
     const val SEND_HEARTRATE = ""
 
@@ -29,4 +29,12 @@ object Urls {
     const val SEARCH_PATIENT = "graph/search/{parameter}"
 
     const val SEARCH_HOSPITAL= "login/hospital-name"
+
+    const val DOCTOR_NOTIFICATION = "http://20.204.14.2/notification/doctor"
+
+    const val NURSE_NOTIFICATION = "http://20.204.14.2/notification/admin-nurse"
+
+    const val CARE_TAKER_NOTIFICATION = "http://20.204.14.2/notification/patient"
+
+    const val PROFILE_UPDATE = "http://20.204.14.2/notification/patient"
 }

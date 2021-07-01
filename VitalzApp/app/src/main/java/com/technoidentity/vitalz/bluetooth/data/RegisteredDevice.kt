@@ -11,8 +11,8 @@ sealed class Devices{
 @Parcelize
 data class RegisteredDevice(
     @SerializedName("patchId")
-    val patchId: String = "Invalid Patch",
+    val patchId: String = "Invalid_Patch",
     @SerializedName("macId")
-    val macId: String= "Invalid MacId",
-    var error: String
+    val macId: String= "macId",
+    var error: String= "Invalid device"
 ): Parcelable, Devices()

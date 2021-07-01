@@ -3,6 +3,7 @@ package com.technoidentity.vitalz.utils
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothGatt
 import android.bluetooth.BluetoothGattCharacteristic
+import android.bluetooth.BluetoothGattDescriptor
 import java.util.*
 
 
@@ -10,8 +11,8 @@ val HEART_RATE_SER_UUID = UUID.fromString("03B80E5A-EDE8-4B33-A751-6CE34EC4C700"
 val HEART_RATE_CHAR_UUID = UUID.fromString("03B80E5B-EDE8-4B33-A751-6CE34EC4C700")
 val ECG_RATE_CHAR_UUID = UUID.fromString("03B80E5E-EDE8-4B33-A751-6CE34EC4C700")
 
-val DEVICE_BATTERY_SER_UUID = UUID.fromString("04b8055c-ede8-4b44-a785-6ce34ec4c755")
-val DEVICE_BATTERY_CHAR_UUID = UUID.fromString("04b87594-ede8-4b44-a785-6ce34ec4c755")
+val DEVICE_BATTERY_SER_UUID = UUID.fromString("04B8055C-EDE8-4B44-A785-6CE44EC4C755")
+val DEVICE_BATTERY_CHAR_UUID = UUID.fromString("04B87594-EDE8-4B44-A785-6CE44EC4C755")
 
 val BODY_POS_SER_UUID = UUID.fromString("04B8055C-EDE8-4B44-A751-6CE44EC4C745")
 val BODY_POS_CHAR_UUID = UUID.fromString("04B875D4-EDE8-4B44-A751-6CE44EC4C745")
@@ -47,6 +48,35 @@ fun BluetoothGatt.findCharacteristic(uuid: UUID): BluetoothGattCharacteristic? {
     }
     return null
 }
+
+fun BluetoothGatt.findDescriptor(uuid: UUID): BluetoothGattDescriptor? {
+    services?.forEach { service ->
+        service.characteristics.forEach { characteristic ->
+            characteristic.descriptors?.firstOrNull { descriptor ->
+                descriptor.uuid == uuid
+            }?.let { matchingDescriptor ->
+                return matchingDescriptor
+            }
+        }
+    }
+    return null
+}
+
+fun BluetoothGattDescriptor.isReadable(): Boolean =
+    containsPermission(BluetoothGattDescriptor.PERMISSION_READ)
+
+fun BluetoothGattDescriptor.isWritable(): Boolean =
+    containsPermission(BluetoothGattDescriptor.PERMISSION_WRITE)
+
+fun BluetoothGattDescriptor.containsPermission(permission: Int): Boolean =
+    permissions and permission != 0
+
+/**
+ * Convenience extension function that returns true if this [BluetoothGattDescriptor]
+ * is a Client Characteristic Configuration Descriptor.
+ */
+fun BluetoothGattDescriptor.isCccd() =
+    uuid.toString().toUpperCase(Locale.US) == CCC_DESCRIPTOR_UUID.toUpperCase(Locale.US)
 
 fun BluetoothGattCharacteristic.isReadable(): Boolean =
     containsProperty(BluetoothGattCharacteristic.PROPERTY_READ)

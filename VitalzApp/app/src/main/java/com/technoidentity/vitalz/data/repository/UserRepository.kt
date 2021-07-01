@@ -8,11 +8,17 @@ import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseResponse
 import com.technoidentity.vitalz.data.datamodel.hospital_list.HospitalListData
 import com.technoidentity.vitalz.data.datamodel.hospital_list.HospitalListRequest
 import com.technoidentity.vitalz.data.datamodel.multiple_patient.MultiplePatientDashboardResponse
+import com.technoidentity.vitalz.data.datamodel.multiple_patient.MultiplePatientDashboardResponseItem
+import com.technoidentity.vitalz.data.datamodel.notification.NotificationCareTakerRequest
+import com.technoidentity.vitalz.data.datamodel.notification.NotificationDoctorRequest
+import com.technoidentity.vitalz.data.datamodel.notification.NotificationResponse
 import com.technoidentity.vitalz.data.datamodel.otp.OtpRequest
 import com.technoidentity.vitalz.data.datamodel.otp.OtpResponse
 import com.technoidentity.vitalz.data.datamodel.patient_list.PatientDataList
 import com.technoidentity.vitalz.data.datamodel.patient_list.PatientRequest
 import com.technoidentity.vitalz.data.datamodel.single_patient.SinglePatientDashboardResponse
+import com.technoidentity.vitalz.data.datamodel.updateProfile.ProfileUpdateRequest
+import com.technoidentity.vitalz.data.datamodel.updateProfile.ProfileUpdateResponse
 import com.technoidentity.vitalz.utils.ResultHandler
 
 interface UserRepository {
@@ -36,4 +42,12 @@ interface UserRepository {
     suspend fun searchHospitalList(request: SearchHospitalRequest): HospitalListData
 
     suspend fun searchPatientList(request: String): PatientDataList
+
+    suspend fun getNotificationCareTakerList(request:NotificationCareTakerRequest): NotificationResponse
+
+    suspend fun getNotificationDoctorList(request: NotificationDoctorRequest): NotificationResponse
+
+    suspend fun getNotificationNurseList(): NotificationResponse
+
+    suspend fun updatePatientData(request: ProfileUpdateRequest): ProfileUpdateResponse
 }
