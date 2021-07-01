@@ -72,11 +72,11 @@ class SinglePatientDashboardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        when (isTablet(requireContext())) {
-            true -> {
+        when(isTablet(requireContext())) {
+            false -> {
                 bluetoothData(patientId)
             }
-            false -> {
+            true -> {
                 singleDashboardApi(patientId)
             }
         }
@@ -156,7 +156,7 @@ class SinglePatientDashboardFragment : Fragment() {
                             Timber.d("heartrate $it")
                         }
                     }
-                    sharedViewModel.sendHeartRateToServer(patientId, HEART_RATE_DATA, it)
+                    //sharedViewModel.sendHeartRateToServer(patientId, HEART_RATE_DATA,it)
                 }
 
                 bodyPosture.observe(viewLifecycleOwner) {
