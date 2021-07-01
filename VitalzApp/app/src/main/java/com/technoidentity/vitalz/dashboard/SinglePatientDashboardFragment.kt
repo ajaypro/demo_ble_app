@@ -1,5 +1,6 @@
 package com.technoidentity.vitalz.dashboard
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -17,6 +18,7 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.technoidentity.vitalz.R
 import com.technoidentity.vitalz.data.datamodel.single_patient.SinglePatientDashboardResponse
+import com.technoidentity.vitalz.data.network.Constants
 import com.technoidentity.vitalz.databinding.FragmentSinglePaitentDashboardBinding
 import com.technoidentity.vitalz.home.SharedViewModel
 import com.technoidentity.vitalz.utils.CustomProgressDialog
@@ -48,21 +50,21 @@ class SinglePatientDashboardFragment : Fragment() {
         //nurse -> visibility of BLE layout
         if (isTablet(requireContext())) {
             binding.layoutBle.visibility = View.VISIBLE
-        }else {
+        } else {
             binding.layoutBle.visibility = View.GONE
         }
-            //Getting Arguments From last Fragment
-             patientId = arguments?.getString("patientId").toString()
 
-            //Api call to fetch Latest data
-//            ?: run {
-//                Toast.makeText(context, "Un-Authorized", Toast.LENGTH_SHORT).show()
-//            }
+        //Get Patient Id from Shared Prefs
+        val sharedPreferences =
+            context?.getSharedPreferences(Constants.PREFERENCE_NAME, Context.MODE_PRIVATE)
+        patientId = sharedPreferences?.getString(Constants.PATIENTID, null).toString()
 
         //ViewProfilePage
         binding.ivViewProfile.setOnClickListener {
-            findNavController().navigate(R.id.action_singlePatientDashboardFragment_to_userSelectionFragment2,
-                bundleOf("patientData" to singlePatientDashboardResponse))
+            findNavController().navigate(
+                R.id.action_singlePatientDashboardFragment_to_patientProfileFragment,
+                bundleOf("patientData" to singlePatientDashboardResponse)
+            )
         }
         return binding.root
     }
@@ -188,23 +190,23 @@ class SinglePatientDashboardFragment : Fragment() {
 
     private fun singleDashboardApi(mobile: String) {
         progressDialog.showLoadingDialog()
-            singlePatientDashboardViewModel.getSinglePatientData(mobile)
-            singlePatientDashboardViewModel.expectedResult.observe(viewLifecycleOwner, {
-                when (it) {
-                    is SinglePatientDashboardViewModel.SinglePatient.Success -> {
-                        progressDialog.dismissLoadingDialog()
-                        singlePatientDashboardResponse = it.data
-                        setDataFromApiResponse(it.data)
-                        setPieChartData()
-                    }
-
-                    is SinglePatientDashboardViewModel.SinglePatient.Failure -> {
-                        progressDialog.dismissLoadingDialog()
-                        Toast.makeText(context, it.errorText, Toast.LENGTH_SHORT).show()
-                    }
-                    else -> Unit
+        singlePatientDashboardViewModel.getSinglePatientData(mobile)
+        singlePatientDashboardViewModel.expectedResult.observe(viewLifecycleOwner, {
+            when (it) {
+                is SinglePatientDashboardViewModel.SinglePatient.Success -> {
+                    progressDialog.dismissLoadingDialog()
+                    singlePatientDashboardResponse = it.data
+                    setDataFromApiResponse(it.data)
+                    setPieChartData()
                 }
-            })
+
+                is SinglePatientDashboardViewModel.SinglePatient.Failure -> {
+                    progressDialog.dismissLoadingDialog()
+                    Toast.makeText(context, it.errorText, Toast.LENGTH_SHORT).show()
+                }
+                else -> Unit
+            }
+        })
     }
 
     private fun setDataFromApiResponse(data: SinglePatientDashboardResponse) {

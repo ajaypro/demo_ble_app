@@ -32,6 +32,9 @@
         <action
             android:id="@+id/action_doctorNurseLoginFragment_to_singlePatientDashboardFragment"
             app:destination="@id/singlePatientDashboardFragment" />
+        <action
+            android:id="@+id/action_doctorNurseLoginFragment_to_multiPatientDashboardFragment"
+            app:destination="@id/multiPatientDashboardFragment" />
     </fragment>
     <fragment
         android:id="@+id/careTakerMobileOTPFragment"
@@ -91,6 +94,9 @@
         <action
             android:id="@+id/action_singlePatientDashboardFragment_to_userSelectionFragment2"
             app:destination="@id/userSelectionFragment2" />
+        <action
+            android:id="@+id/action_singlePatientDashboardFragment_to_patientProfileFragment"
+            app:destination="@id/patientProfileFragment" />
     </fragment>
     <fragment
         android:id="@+id/patientProfileFragment"
@@ -140,5 +146,8 @@
         <action
             android:id="@+id/action_homeFragment_to_addDeviceFragment"
             app:destination="@id/addDeviceFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_userSelectionFragment2"
+            app:destination="@id/userSelectionFragment2" />
     </fragment>
 </navigation>

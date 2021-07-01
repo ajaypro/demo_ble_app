@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.technoidentity.vitalz.R
+import com.technoidentity.vitalz.data.network.Constants
 import com.technoidentity.vitalz.databinding.FragmentPatientListBinding
 import com.technoidentity.vitalz.utils.CustomProgressDialog
 import dagger.hilt.android.AndroidEntryPoint
@@ -45,11 +46,8 @@ class PatientListFragment : Fragment(), PatientAdapter.OnItemClickListener {
             findNavController().navigateUp()
         }
 
-        if (mobile != null && hospitalId != null){
-            getPatientList(mobile, hospitalId)
-        }else{
-            Toast.makeText(context, "Un-Authorized", Toast.LENGTH_SHORT).show()
-        }
+        //Api call
+        getPatientList(mobile, hospitalId)
 
         //In Search Cancel button visibility GONE , please enable while typing
 
@@ -89,9 +87,9 @@ class PatientListFragment : Fragment(), PatientAdapter.OnItemClickListener {
     }
 
     override fun onItemClicked(position: Int) {
-        val bundle = bundleOf("patientId" to patientAdapter.patient[position].id.toString())
+        val pref = context?.getSharedPreferences(Constants.PREFERENCE_NAME, 0)
+        pref?.edit()?.putString(Constants.PATIENTID, patientAdapter.patient[position].id.toString())?.apply()
         findNavController().navigate(
-            R.id.action_patientListFragment_to_singlePatientDashboardFragment, bundle
-        )
+            R.id.action_patientListFragment_to_singlePatientDashboardFragment)
     }
 }
