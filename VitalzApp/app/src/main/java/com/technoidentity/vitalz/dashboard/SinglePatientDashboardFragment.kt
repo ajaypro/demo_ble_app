@@ -73,7 +73,7 @@ class SinglePatientDashboardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        when (!isTablet(requireContext())) {
+        when (isTablet(requireContext())) {
             true -> {
                 bluetoothData(patientId)
             }
@@ -235,4 +235,3 @@ class SinglePatientDashboardFragment : Fragment() {
             }
         }
     }
-

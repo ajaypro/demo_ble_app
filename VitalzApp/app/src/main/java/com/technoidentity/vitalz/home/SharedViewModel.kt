@@ -1,6 +1,7 @@
 package com.technoidentity.vitalz.home
 
 import android.bluetooth.BluetoothDevice
+import android.bluetooth.BluetoothGattService
 import android.content.Context
 import androidx.lifecycle.*
 import com.technoidentity.vitalz.bluetooth.connection.IBleManager
@@ -16,6 +17,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.util.*
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
@@ -30,7 +32,7 @@ class SharedViewModel @Inject constructor(private val bleManager: IBleManager,
      * Device connection livedata and functions
      */
 
-    val connectedDevice: LiveData<BleDevice> = bleManager.connectedBleDeviceLiveData
+    val connectedDeviceData: LiveData<BleDevice> = bleManager.connectedBleDeviceLiveData
 
     //To call in activity or fragment to dispaly device connectivity common to all screens
     var isDeviceConnected: LiveData<Boolean> = bleManager.isDeviceConnected.asLiveData().also {
@@ -38,6 +40,8 @@ class SharedViewModel @Inject constructor(private val bleManager: IBleManager,
     }
 
     var scanFlow: Flow<BluetoothDevice> = bleManager.scanChannel.receiveAsFlow()
+
+    var deviceBattery: LiveData<Int> = bleManager.battery
 
     var isScanning = bleManager.isScanning.asLiveData()
 
@@ -51,17 +55,35 @@ class SharedViewModel @Inject constructor(private val bleManager: IBleManager,
         bleManager.connectDevice(device, context)
     }
 
-    var registeredDevice: RegisteredDevice? = null
+      var registeredDevice: RegisteredDevice? = null
 
-    fun sendDeviceForRegisteration(deviceMacID: BleMac): LiveData<RegisteredDevice> {
-        return liveData {
-            emit(deviceRepository.sendDeviceWithMacId(deviceMacID).also {
-                registeredDevice = it
-            })
+
+    fun readCharacteristics(device: BluetoothDevice, uuid: UUID, service: BluetoothGattService) {
+        bleManager.readCharacteristic(device, uuid, service)
+    }
+
+    fun deviceForRegisteration(deviceMacID: BleMac): LiveData<RegisteredDevice> {
+//        viewModelScope.launch {
+//            registeredDevice = deviceRepository.sendDeviceWithMacId(deviceMacID).also {
+//                //registeredDevice = it
+//                Timber.i("sharevm ${it.patchId} ${it.macId}")
+//            }
+//        }
+
+        /**
+         * store registered value in db
+         */
+         return liveData {
+             if(registeredDevice?.macId != deviceMacID.macId) {
+                 emit(deviceRepository.sendDeviceWithMacId(deviceMacID).also {
+                     registeredDevice = it
+                     Timber.i("sharevm ${it.patchId} ${it.macId}")
+                 })
+             }
         }
     }
 
-    fun registeredDevice(device: BluetoothDevice):Triple<Boolean, String?, String?>{
+    fun registeredDevice(device: BluetoothDevice):Triple<Boolean, String?, String?> {
 
         registeredDevice?.let {
             return if(it.macId == device.address) {
