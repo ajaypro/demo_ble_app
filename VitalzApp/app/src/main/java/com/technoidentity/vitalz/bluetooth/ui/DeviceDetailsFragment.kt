@@ -12,7 +12,7 @@ import com.technoidentity.vitalz.R
 import com.technoidentity.vitalz.bluetooth.connection.BleConnection
 import com.technoidentity.vitalz.databinding.FragmentDeviceDetailsBinding
 import com.technoidentity.vitalz.home.SharedViewModel
-import com.technoidentity.vitalz.utils.isTablet
+import com.technoidentity.vitalz.utils.*
 import timber.log.Timber
 
 class DeviceDetailsFragment : Fragment() {
@@ -32,21 +32,19 @@ class DeviceDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         lifecycleScope.launchWhenCreated {
-//            sharedViewmodel.isDeviceConnected.collect{
-//                Timber.d("devicedetails $it")
-//                if (it) {
-//                    showToast(requireContext(), "Device is connected devicedetails")
 
                     sharedViewmodel.connectedDeviceData.observe(viewLifecycleOwner, { it ->
-                        Timber.d("${it.device} ${ it.connectionStatus.toString()}")
+
+                        it.gatt?.getService(DEVICE_BATTERY_SER_UUID)?.let { deviceBatteryService ->
+                            sharedViewmodel.readCharacteristics(it.device, DEVICE_BATTERY_CHAR_UUID, deviceBatteryService)
+                        }
+
                         binding.apply {
-                            patchId.text = it.device.name
+                                patchId.text = sharedViewmodel.registeredDevice?.patchId
 
                             sharedViewmodel.deviceBattery.observe(viewLifecycleOwner) { batteryValue ->
-                                if (batteryValue > 0) {
                                     battery.text = batteryValue.toString()
-                                }
-                            //battery.text = it.battery.also {
+
                                 Timber.i("devbattery ${batteryValue}")
                             }
                                 when (it.connectionStatus) {
@@ -63,12 +61,21 @@ class DeviceDetailsFragment : Fragment() {
 
                     })
                 }
-//                showToast(requireContext(), "Device is disconnected devicedetails")
-//            }
-
 
         binding.patientDetailsBtn.setOnClickListener {
-            //findNavController().navigate(R.id.action_deviceDetailsFragment_to_singlePatientDashboardFragment)
+
+            sharedViewmodel.run {
+                connectedDeviceData.observe(viewLifecycleOwner) {
+                    if(it.connectionStatus == BleConnection.DeviceConnected) {
+
+                        it.gatt?.getService(HEART_RATE_SER_UUID)?.let { heartRateService ->
+                            readCharacteristics(it.device, HEART_RATE_CHAR_UUID, heartRateService)
+                        }
+
+                    }
+
+                }
+            }
             when (isTablet(requireContext())) {
                 true -> findNavController().navigate(R.id.action_deviceDetailsFragment_to_multiPatientDashboardFragment)
                 else -> findNavController().navigate(R.id.action_deviceDetailsFragment_to_singlePatientDashboardFragment)

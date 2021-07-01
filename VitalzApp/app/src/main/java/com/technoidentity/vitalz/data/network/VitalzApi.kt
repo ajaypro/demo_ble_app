@@ -24,11 +24,12 @@ import com.technoidentity.vitalz.data.network.Urls.REGISTER_DEVICE
 import com.technoidentity.vitalz.data.network.Urls.SEND_HEARTRATE
 import com.technoidentity.vitalz.data.network.Urls.SEND_OTP
 import com.technoidentity.vitalz.data.network.Urls.SINGLE_PATIENT_DASHBOARD
+import com.technoidentity.vitalz.notifications.datamodel.PushNotification
+import com.technoidentity.vitalz.utils.FirebaseConstants.CONTENT_TYPE
+import com.technoidentity.vitalz.utils.FirebaseConstants.SERVER_KEY
+import okhttp3.ResponseBody
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.*
 
 interface VitalzApi {
 
@@ -61,5 +62,11 @@ interface VitalzApi {
 
     @POST(SEND_HEARTRATE)
     suspend fun sendHeartRate(patientId: String, telemetryKey: String, heartRate :ByteArray): Boolean
+
+    @Headers("Authorization: key=$SERVER_KEY", "Content-Type:$CONTENT_TYPE")
+    @POST("fcm/send")
+    suspend fun postNotification(
+        @Body notification: PushNotification
+    ): Response<ResponseBody>
 
 }

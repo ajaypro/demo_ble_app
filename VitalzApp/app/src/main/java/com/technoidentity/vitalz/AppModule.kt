@@ -78,7 +78,7 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun providesIbleManager(bleScanner: BleScanner): IBleManager = BleManager(bleScanner)
+    fun providesIbleManager(bleScanner: BleScanner, api: VitalzApi): IBleManager = BleManager(bleScanner, api)
 
 
 }

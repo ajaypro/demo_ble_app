@@ -1,6 +1,7 @@
 package com.technoidentity.vitalz.home
 
 import android.bluetooth.BluetoothDevice
+import android.bluetooth.BluetoothGattService
 import android.content.Context
 import androidx.lifecycle.*
 import com.technoidentity.vitalz.bluetooth.connection.IBleManager
@@ -13,6 +14,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -49,19 +51,35 @@ class SharedViewModel @Inject constructor(private val bleManager: IBleManager,
         bleManager.connectDevice(device, context)
     }
 
-    var registeredDevice: RegisteredDevice? = null
+      var registeredDevice: RegisteredDevice? = null
 
+
+    fun readCharacteristics(device: BluetoothDevice, uuid: UUID, service: BluetoothGattService) {
+        bleManager.readCharacteristic(device, uuid, service)
+    }
 
     fun deviceForRegisteration(deviceMacID: BleMac): LiveData<RegisteredDevice> {
-        return liveData {
-            emit(deviceRepository.sendDeviceWithMacId(deviceMacID).also {
-                registeredDevice = it
-                Timber.i("sharevm ${it.patchId} ${it.macId}")
-            })
+//        viewModelScope.launch {
+//            registeredDevice = deviceRepository.sendDeviceWithMacId(deviceMacID).also {
+//                //registeredDevice = it
+//                Timber.i("sharevm ${it.patchId} ${it.macId}")
+//            }
+//        }
+
+        /**
+         * store registered value in db
+         */
+         return liveData {
+             if(registeredDevice?.macId != deviceMacID.macId) {
+                 emit(deviceRepository.sendDeviceWithMacId(deviceMacID).also {
+                     registeredDevice = it
+                     Timber.i("sharevm ${it.patchId} ${it.macId}")
+                 })
+             }
         }
     }
 
-    fun registeredDevice(device: BluetoothDevice):Triple<Boolean, String?, String?>{
+    fun registeredDevice(device: BluetoothDevice):Triple<Boolean, String?, String?> {
 
         registeredDevice?.let {
             return if(it.macId == device.address) {
@@ -90,9 +108,6 @@ class SharedViewModel @Inject constructor(private val bleManager: IBleManager,
     val bodyTemperature: LiveData<String> = bleManager.bodyTemperature
 
     val bodyPosture: LiveData<String> = bleManager.bodyPosture
-
-
-
 
 }
 

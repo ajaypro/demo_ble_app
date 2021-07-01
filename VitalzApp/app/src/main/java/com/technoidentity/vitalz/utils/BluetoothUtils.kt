@@ -3,6 +3,7 @@ package com.technoidentity.vitalz.utils
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothGatt
 import android.bluetooth.BluetoothGattCharacteristic
+import android.bluetooth.BluetoothGattDescriptor
 import java.util.*
 
 
@@ -47,6 +48,35 @@ fun BluetoothGatt.findCharacteristic(uuid: UUID): BluetoothGattCharacteristic? {
     }
     return null
 }
+
+fun BluetoothGatt.findDescriptor(uuid: UUID): BluetoothGattDescriptor? {
+    services?.forEach { service ->
+        service.characteristics.forEach { characteristic ->
+            characteristic.descriptors?.firstOrNull { descriptor ->
+                descriptor.uuid == uuid
+            }?.let { matchingDescriptor ->
+                return matchingDescriptor
+            }
+        }
+    }
+    return null
+}
+
+fun BluetoothGattDescriptor.isReadable(): Boolean =
+    containsPermission(BluetoothGattDescriptor.PERMISSION_READ)
+
+fun BluetoothGattDescriptor.isWritable(): Boolean =
+    containsPermission(BluetoothGattDescriptor.PERMISSION_WRITE)
+
+fun BluetoothGattDescriptor.containsPermission(permission: Int): Boolean =
+    permissions and permission != 0
+
+/**
+ * Convenience extension function that returns true if this [BluetoothGattDescriptor]
+ * is a Client Characteristic Configuration Descriptor.
+ */
+fun BluetoothGattDescriptor.isCccd() =
+    uuid.toString().toUpperCase(Locale.US) == CCC_DESCRIPTOR_UUID.toUpperCase(Locale.US)
 
 fun BluetoothGattCharacteristic.isReadable(): Boolean =
     containsProperty(BluetoothGattCharacteristic.PROPERTY_READ)
