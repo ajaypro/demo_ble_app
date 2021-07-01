@@ -80,9 +80,9 @@ class UserRepositoryImpl @Inject constructor(
         }.getOrThrow()
     }
 
-    override suspend fun searchHospitalList(parameter: String, request: SearchHospitalRequest): HospitalListData {
+    override suspend fun searchHospitalList(request: SearchHospitalRequest): HospitalListData {
         return kotlin.runCatching {
-            api.searchHospitalList(parameter, request)
+            api.searchHospitalList(request)
         }.getOrThrow()
     }
 

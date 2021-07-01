@@ -33,7 +33,7 @@ interface UserRepository {
 
     suspend fun searchMultiplePatientDashboardList(request: String): MultiplePatientDashboardResponse
 
-    suspend fun searchHospitalList(parameter: String, request: SearchHospitalRequest): HospitalListData
+    suspend fun searchHospitalList(request: SearchHospitalRequest): HospitalListData
 
     suspend fun searchPatientList(request: String): PatientDataList
 }

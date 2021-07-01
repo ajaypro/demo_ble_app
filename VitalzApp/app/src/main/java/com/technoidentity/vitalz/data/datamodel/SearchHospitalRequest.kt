@@ -7,4 +7,7 @@ class SearchHospitalRequest {
     @Expose
     @SerializedName("phoneNo")
     var phoneNo: String? = null
+    @Expose
+    @SerializedName("hospitalName")
+    var hospitalName: String? = null
 }

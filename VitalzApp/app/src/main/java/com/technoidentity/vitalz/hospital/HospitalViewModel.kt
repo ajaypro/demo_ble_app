@@ -17,18 +17,6 @@ class HospitalViewModel @Inject constructor(
     private val dispatcher: CoroutinesDispatcherProvider
 ) : ViewModel() {
 
-    sealed class HospitalData {
-        class Success(val resultText: String, val data: HospitalListData) : HospitalData()
-        class Failure(val errorText: String) : HospitalData()
-        object Loading : HospitalData()
-        object Empty : HospitalData()
-    }
-
-    private val _expectedResult = MutableLiveData<HospitalData>(
-        HospitalData.Empty
-    )
-    val expectedResult: LiveData<HospitalData> = _expectedResult
-
     fun getHospitalListData(mobile: String): LiveData<HospitalListData> {
         val request = HospitalListRequest()
         request.mobile = mobile
@@ -37,9 +25,9 @@ class HospitalViewModel @Inject constructor(
         }
     }
 
-    fun searchHospitalInList(text: CharSequence, mobile: SearchHospitalRequest): LiveData<HospitalListData> {
+    fun searchHospitalInList(request: SearchHospitalRequest): LiveData<HospitalListData> {
         return liveData {
-            emit(userRepositoryImpl.searchHospitalList(text.toString(), mobile))
+            emit(userRepositoryImpl.searchHospitalList(request))
         }
     }
 }

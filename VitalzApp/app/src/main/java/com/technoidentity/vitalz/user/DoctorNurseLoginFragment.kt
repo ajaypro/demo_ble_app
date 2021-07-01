@@ -62,9 +62,6 @@ class DoctorNurseLoginFragment : Fragment() {
                             context?.getSharedPreferences(Constants.PREFERENCE_NAME, 0)
                         pref?.edit()?.putString(Constants.TOKEN, it.token)?.apply()
                         progressDialog.dismissLoadingDialog()
-                        if (it.user?.role == "doctor") {
-                            sharedViewModel.isDoctor.value = true
-                        }
                         //check for tablet or mobile and navigate
                         when (isTablet(requireContext())) {
                             false ->

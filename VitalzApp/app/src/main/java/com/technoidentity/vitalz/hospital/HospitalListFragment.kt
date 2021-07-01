@@ -82,7 +82,8 @@ class HospitalListFragment : Fragment(), HospitalAdapter.OnItemClickListener {
         progressDialog.showLoadingDialog()
         val request = SearchHospitalRequest()
         request.phoneNo = this.mobile
-        viewModel.searchHospitalInList(text, request).observe(viewLifecycleOwner, {
+        request.hospitalName = text.toString()
+        viewModel.searchHospitalInList(request).observe(viewLifecycleOwner, {
            if (it.isNotEmpty()){
                progressDialog.dismissLoadingDialog()
                hospitalAdapter.hospitals = it

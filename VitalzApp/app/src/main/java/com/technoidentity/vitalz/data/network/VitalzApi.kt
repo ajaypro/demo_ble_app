@@ -67,7 +67,7 @@ interface VitalzApi {
     suspend fun searchMultiPatientList(@Path("parameter") parameter:String): MultiplePatientDashboardResponse
 
     @POST(SEARCH_HOSPITAL)
-    suspend fun searchHospitalList(@Query("hospitalName") hospitalName:String, @Body request: SearchHospitalRequest): HospitalListData
+    suspend fun searchHospitalList(@Body request: SearchHospitalRequest): HospitalListData
 
     @GET(SEARCH_PATIENT)
     suspend fun searchPatientList(@Path("parameter") parameter:String): PatientDataList
