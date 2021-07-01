@@ -21,7 +21,6 @@ import com.technoidentity.vitalz.utils.Constants.NURSE
 import com.technoidentity.vitalz.utils.CustomProgressDialog
 import com.technoidentity.vitalz.utils.isTablet
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
 class DoctorNurseLoginFragment : Fragment() {

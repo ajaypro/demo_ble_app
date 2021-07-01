@@ -17,6 +17,8 @@ import com.technoidentity.vitalz.data.datamodel.otp.OtpResponse
 import com.technoidentity.vitalz.data.datamodel.patient_list.PatientDataList
 import com.technoidentity.vitalz.data.datamodel.patient_list.PatientRequest
 import com.technoidentity.vitalz.data.datamodel.single_patient.SinglePatientDashboardResponse
+import com.technoidentity.vitalz.data.datamodel.updateProfile.ProfileUpdateRequest
+import com.technoidentity.vitalz.data.datamodel.updateProfile.ProfileUpdateResponse
 import com.technoidentity.vitalz.data.network.Urls.CARETAKER_LOGIN
 import com.technoidentity.vitalz.data.network.Urls.CARE_TAKER_NOTIFICATION
 import com.technoidentity.vitalz.data.network.Urls.DOCTOR_NOTIFICATION
@@ -26,6 +28,7 @@ import com.technoidentity.vitalz.data.network.Urls.HOSPITAL_LIST
 import com.technoidentity.vitalz.data.network.Urls.MULTIPLE_PATIENT_DASHBOARD
 import com.technoidentity.vitalz.data.network.Urls.NURSE_NOTIFICATION
 import com.technoidentity.vitalz.data.network.Urls.PATIENT_LIST
+import com.technoidentity.vitalz.data.network.Urls.PROFILE_UPDATE
 import com.technoidentity.vitalz.data.network.Urls.SEND_DEVICE
 import com.technoidentity.vitalz.data.network.Urls.SEND_HEARTRATE
 import com.technoidentity.vitalz.data.network.Urls.SEND_OTP
@@ -76,5 +79,8 @@ interface VitalzApi {
 
     @POST(CARE_TAKER_NOTIFICATION)
     suspend fun getCareTakerNotification(@Body request: NotificationCareTakerRequest): NotificationResponse
+
+    @POST(PROFILE_UPDATE)
+    suspend fun updateProfileData(@Body request: ProfileUpdateRequest): ProfileUpdateResponse
 
 }

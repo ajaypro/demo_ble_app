@@ -15,6 +15,8 @@ import com.technoidentity.vitalz.data.datamodel.otp.OtpResponse
 import com.technoidentity.vitalz.data.datamodel.patient_list.PatientDataList
 import com.technoidentity.vitalz.data.datamodel.patient_list.PatientRequest
 import com.technoidentity.vitalz.data.datamodel.single_patient.SinglePatientDashboardResponse
+import com.technoidentity.vitalz.data.datamodel.updateProfile.ProfileUpdateRequest
+import com.technoidentity.vitalz.data.datamodel.updateProfile.ProfileUpdateResponse
 import com.technoidentity.vitalz.data.network.VitalzApi
 import com.technoidentity.vitalz.utils.ResultHandler
 import com.technoidentity.vitalz.utils.ResultHandler.Error
@@ -137,6 +139,12 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun getNotificationNurseList(): NotificationResponse {
         return kotlin.runCatching {
             api.getNurseNotification()
+        }.getOrThrow()
+    }
+
+    override suspend fun updatePatientData(request: ProfileUpdateRequest): ProfileUpdateResponse {
+        return kotlin.runCatching {
+            api.updateProfileData(request)
         }.getOrThrow()
     }
 }

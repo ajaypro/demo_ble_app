@@ -16,6 +16,8 @@ import com.technoidentity.vitalz.data.datamodel.otp.OtpResponse
 import com.technoidentity.vitalz.data.datamodel.patient_list.PatientDataList
 import com.technoidentity.vitalz.data.datamodel.patient_list.PatientRequest
 import com.technoidentity.vitalz.data.datamodel.single_patient.SinglePatientDashboardResponse
+import com.technoidentity.vitalz.data.datamodel.updateProfile.ProfileUpdateRequest
+import com.technoidentity.vitalz.data.datamodel.updateProfile.ProfileUpdateResponse
 import com.technoidentity.vitalz.utils.ResultHandler
 
 interface UserRepository {
@@ -39,4 +41,6 @@ interface UserRepository {
     suspend fun getNotificationDoctorList(request: NotificationDoctorRequest): NotificationResponse
 
     suspend fun getNotificationNurseList(): NotificationResponse
+
+    suspend fun updatePatientData(request: ProfileUpdateRequest): ProfileUpdateResponse
 }
