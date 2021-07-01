@@ -39,7 +39,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_patient_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:background="@drawable/bg_curve"
         android:layout_margin="@dimen/dp_20"
         app:layout_constraintTop_toBottomOf="@+id/app_bar_layout"
@@ -87,38 +88,17 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_patient_list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:visibility="visible"
             android:padding="@dimen/dp_16"
             tools:listitem="@layout/recycler_view_patient_list"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/search_patient"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <TextView
-        android:id="@+id/tv_no_records"
-        style="@style/viewSize"
-        android:visibility="gone"
-        android:text="Sorry! No Records Found"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="@color/button_Red"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tv_no_record_back_msg"
-        style="@style/viewSize"
-        android:visibility="gone"
-        android:layout_marginTop="@dimen/dp_8"
-        android:text="Please select different Hospital"
-        app:layout_constraintEnd_toEndOf="@+id/tv_no_records"
-        app:layout_constraintStart_toStartOf="@+id/tv_no_records"
-        app:layout_constraintTop_toBottomOf="@+id/tv_no_records" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -54,7 +54,7 @@ class CareTakerMobileLoginFragment : Fragment() {
                 binding.responseMsg.text = ""
                 progressDialog.showLoadingDialog()
                     viewModel.getCareTakerResponse(mobile).observe(viewLifecycleOwner, {
-                        if (it.success){
+                        if (it.success == true){
                             progressDialog.dismissLoadingDialog()
                             val bundle = bundleOf("mobileNumber" to mobile)
                             findNavController().navigate(

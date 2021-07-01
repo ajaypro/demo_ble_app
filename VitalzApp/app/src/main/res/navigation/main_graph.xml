@@ -66,6 +66,9 @@
         <action
             android:id="@+id/action_multiPatientDashboardFragment_to_singlePatientDetailFragment"
             app:destination="@id/singlePatientDetailFragment" />
+        <action
+            android:id="@+id/action_multiPatientDashboardFragment_to_singlePatientDashboardFragment"
+            app:destination="@id/singlePatientDashboardFragment" />
     </fragment>
     <fragment
         android:id="@+id/deviceDetailsFragment"
@@ -129,6 +132,9 @@
         <action
             android:id="@+id/action_bleScanResultFragment_to_deviceDetailsFragment"
             app:destination="@id/deviceDetailsFragment" />
+        <action
+            android:id="@+id/action_bleScanResultFragment_to_addDeviceFragment"
+            app:destination="@id/addDeviceFragment" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
@@ -145,6 +151,14 @@
             app:destination="@id/addDeviceFragment" />
         <action
             android:id="@+id/action_homeFragment_to_userSelectionFragment2"
+            app:destination="@id/userSelectionFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.technoidentity.vitalz.user.SettingsFragment"
+        android:label="SettingsFragment" >
+        <action
+            android:id="@+id/action_settingsFragment_to_userSelectionFragment2"
             app:destination="@id/userSelectionFragment2" />
     </fragment>
 </navigation>

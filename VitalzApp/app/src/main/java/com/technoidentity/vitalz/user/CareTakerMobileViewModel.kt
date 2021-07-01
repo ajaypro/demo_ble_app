@@ -19,8 +19,8 @@ class CareTakerMobileViewModel @Inject constructor(
     fun getCareTakerResponse(mobile: String): LiveData<CareTakerOtpResponse> {
         val request = CareTakerRequest()
         request.phoneNo = mobile
-       return liveData {
-           emit(userRepositoryImpl.doMobileOTPCall(request))
-       }
+        return liveData {
+            emit(userRepositoryImpl.doMobileOTPCall(request))
+        }
     }
 }
