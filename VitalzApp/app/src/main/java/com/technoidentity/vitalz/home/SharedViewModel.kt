@@ -112,8 +112,8 @@ class SharedViewModel @Inject constructor(private val bleManager: IBleManager,
     val bodyPosture: LiveData<String> = bleManager.bodyPosture
 
     //Check User Selected What
-    private var _isCareTaker = MutableStateFlow(false)
-    val isSelected: StateFlow<Boolean> = _isCareTaker
+    private var _isCareTaker = MutableLiveData(false)
+    val isSelected: LiveData<Boolean> = _isCareTaker
 
     fun isCareTakerSelected(selected : Boolean){
         _isCareTaker.value = selected

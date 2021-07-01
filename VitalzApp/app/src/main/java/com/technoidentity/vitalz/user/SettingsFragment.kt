@@ -16,6 +16,7 @@ import com.technoidentity.vitalz.databinding.SettingsBinding
 import com.technoidentity.vitalz.home.SharedViewModel
 import com.technoidentity.vitalz.utils.Constants
 import com.technoidentity.vitalz.utils.CustomProgressDialog
+import com.technoidentity.vitalz.utils.isTablet
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 
@@ -34,9 +35,7 @@ class SettingsFragment : Fragment(){
         binding = SettingsBinding.inflate(layoutInflater)
         progressDialog = CustomProgressDialog(this.requireContext())
 
-        //For nurse Update Profile Will be visible else invisible
-//         binding.layoutUpdateProfile.visibility = View.VISIBLE
-
+        //Check Doc or Nurse
         lifecycleScope.launchWhenCreated {
             sharedViewModel.assignedRole.collect {
                 when(it){
@@ -44,7 +43,11 @@ class SettingsFragment : Fragment(){
                         binding.layoutUpdateProfile.visibility = View.GONE
                     }
                     Constants.NURSE -> {
-                        binding.layoutUpdateProfile.visibility = View.VISIBLE
+                        if(isTablet(requireContext())){
+                            binding.layoutUpdateProfile.visibility = View.VISIBLE
+                        }else {
+                            binding.layoutUpdateProfile.visibility = View.GONE
+                        }
 
                     }
                 }

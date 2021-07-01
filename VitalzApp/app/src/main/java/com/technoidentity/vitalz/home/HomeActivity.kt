@@ -84,7 +84,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             lifecycleScope.launchWhenCreated {
                 when (it.itemId) {
                     R.id.home_tab -> {
-                        sharedViewModel.isSelected.collect { status ->
+                        sharedViewModel.isSelected.observe(this@HomeActivity, { status ->
                             when (status) {
                                 true -> {
                                     navController.navigate(R.id.singlePatientDashboardFragment)
@@ -93,7 +93,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                                     navController.navigate(R.id.multiPatientDashboardFragment)
                                 }
                             }
-                        }
+                        })
                     }
                     R.id.notifications_tab -> {
                         sharedViewModel.assignedRole.collect {
