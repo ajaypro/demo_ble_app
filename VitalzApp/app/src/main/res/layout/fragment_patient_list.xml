@@ -101,26 +101,4 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
-        android:id="@+id/tv_no_records"
-        style="@style/viewSize"
-        android:visibility="gone"
-        android:text="Sorry! No Records Found"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="@color/button_Red"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tv_no_record_back_msg"
-        style="@style/viewSize"
-        android:visibility="gone"
-        android:layout_marginTop="@dimen/dp_8"
-        android:text="Please select different Hospital"
-        app:layout_constraintEnd_toEndOf="@+id/tv_no_records"
-        app:layout_constraintStart_toStartOf="@+id/tv_no_records"
-        app:layout_constraintTop_toBottomOf="@+id/tv_no_records" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

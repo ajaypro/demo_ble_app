@@ -2,6 +2,7 @@ package com.technoidentity.vitalz.data.network
 
 import com.technoidentity.vitalz.bluetooth.data.BleMac
 import com.technoidentity.vitalz.bluetooth.data.RegisteredDevice
+import com.technoidentity.vitalz.data.datamodel.SearchHospitalRequest
 import com.technoidentity.vitalz.data.datamodel.careTakerLogin.CareTakerOtpResponse
 import com.technoidentity.vitalz.data.datamodel.careTakerLogin.CareTakerRequest
 import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseRequest
@@ -28,6 +29,9 @@ import com.technoidentity.vitalz.data.network.Urls.HOSPITAL_LIST
 import com.technoidentity.vitalz.data.network.Urls.MULTIPLE_PATIENT_DASHBOARD
 import com.technoidentity.vitalz.data.network.Urls.NURSE_NOTIFICATION
 import com.technoidentity.vitalz.data.network.Urls.PATIENT_LIST
+import com.technoidentity.vitalz.data.network.Urls.SEARCH_HOSPITAL
+import com.technoidentity.vitalz.data.network.Urls.SEARCH_MULTI_PATIENT
+import com.technoidentity.vitalz.data.network.Urls.SEARCH_PATIENT
 import com.technoidentity.vitalz.data.network.Urls.PROFILE_UPDATE
 import com.technoidentity.vitalz.data.network.Urls.REGISTER_DEVICE
 import com.technoidentity.vitalz.data.network.Urls.SEND_HEARTRATE
@@ -43,19 +47,19 @@ import retrofit2.http.*
 interface VitalzApi {
 
     @POST(SEND_OTP)
-    suspend fun getOTP(@Body request: CareTakerRequest) : Response<CareTakerOtpResponse>
+    suspend fun getOTP(@Body request: CareTakerRequest) : CareTakerOtpResponse
 
     @POST(CARETAKER_LOGIN)
-    suspend fun getLogin(@Body request: OtpRequest) : Response<OtpResponse>
+    suspend fun getLogin(@Body request: OtpRequest) : OtpResponse
 
     @POST(DOC_NURSE_LOGIN)
     suspend fun getDocNurseLogin(@Body request: DocNurseRequest) : DocNurseResponse
 
     @POST(HOSPITAL_LIST)
-    suspend fun getHospitalList(@Body request: HospitalListRequest) : Response<HospitalListData>
+    suspend fun getHospitalList(@Body request: HospitalListRequest) : HospitalListData
 
     @POST(PATIENT_LIST)
-    suspend fun getPatientList(@Body request: PatientRequest) : Response<PatientDataList>
+    suspend fun getPatientList(@Body request: PatientRequest) : PatientDataList
 
     @GET(SINGLE_PATIENT_DASHBOARD)
     suspend fun getSinglePatientDashboardList(@Path("id") id: String) : Response<SinglePatientDashboardResponse>
@@ -71,6 +75,15 @@ interface VitalzApi {
 
     @POST(SEND_HEARTRATE)
     suspend fun sendHeartRate(patientId: String, telemetryKey: String, heartRate :ByteArray): Boolean
+
+    @GET(SEARCH_MULTI_PATIENT)
+    suspend fun searchMultiPatientList(@Path("parameter") parameter:String): MultiplePatientDashboardResponse
+
+    @POST(SEARCH_HOSPITAL)
+    suspend fun searchHospitalList(@Body request: SearchHospitalRequest): HospitalListData
+
+    @GET(SEARCH_PATIENT)
+    suspend fun searchPatientList(@Path("parameter") parameter:String): PatientDataList
 
     @Headers("Authorization: key=$SERVER_KEY", "Content-Type:$CONTENT_TYPE")
     @POST("fcm/send")
