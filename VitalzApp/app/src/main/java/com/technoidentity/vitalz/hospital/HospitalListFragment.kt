@@ -46,9 +46,6 @@ class HospitalListFragment : Fragment(), HospitalAdapter.OnItemClickListener {
         //setup RecyclerView
         setUpRecyclerView()
 
-        //Api Call
-        getHospitalList(mobile)
-
         //Search has Cancel icon with visibility GONE
         binding.etSearchHospital.addTextChangedListener(object : TextWatcher{
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -74,6 +71,9 @@ class HospitalListFragment : Fragment(), HospitalAdapter.OnItemClickListener {
             }
 
         })
+
+        //Api Call
+        getHospitalList(mobile)
 
         return binding.root
     }

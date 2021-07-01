@@ -4,19 +4,19 @@ object Urls {
 
     const val BASE_URL = "http://20.204.14.2/"
 
-    const val SEND_OTP = "caretaker/send-otp"
+    const val SEND_OTP = "login/caretaker/send-otp"
 
-    const val CARETAKER_LOGIN = "caretaker/login"
+    const val CARETAKER_LOGIN = "login/caretaker/login"
 
-    const val DOC_NURSE_LOGIN = "staff/login"
+    const val DOC_NURSE_LOGIN = "login/staff/login"
 
-    const val HOSPITAL_LIST = "hospital-name"
+    const val HOSPITAL_LIST = "login/hospital-name"
 
-    const val PATIENT_LIST = "patient-caretakers"
+    const val PATIENT_LIST = "login/patient-caretakers"
 
-    const val SINGLE_PATIENT_DASHBOARD = "http://20.204.14.2/graph/patient/{id}"
+    const val SINGLE_PATIENT_DASHBOARD = "graph/patient/{id}"
 
-    const val MULTIPLE_PATIENT_DASHBOARD = "http://20.204.14.2/graph/patients"
+    const val MULTIPLE_PATIENT_DASHBOARD = "graph/patients"
 
     const val SEND_DEVICE = "/device/save-device"
 
@@ -24,9 +24,9 @@ object Urls {
 
     const val SEND_HEARTRATE = ""
 
-    const val SEARCH_MULTI_PATIENT = "http://20.204.14.2/graph/search/{parameter}"
+    const val SEARCH_MULTI_PATIENT = "graph/search/{parameter}"
 
-    const val SEARCH_PATIENT = "http://20.204.14.2/graph/search/{parameter}"
+    const val SEARCH_PATIENT = "graph/search/{parameter}"
 
-    const val SEARCH_HOSPITAL= "http://20.204.14.2/login/hospital-name"
+    const val SEARCH_HOSPITAL= "login/hospital-name"
 }
