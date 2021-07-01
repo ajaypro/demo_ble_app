@@ -53,21 +53,15 @@ class CareTakerMobileLoginFragment : Fragment() {
                 binding.responseMsg.visibility = View.GONE
                 binding.responseMsg.text = ""
                 progressDialog.showLoadingDialog()
-                    viewModel.getCareTakerResponse(mobile)
-                    viewModel.expectedResult.observe(viewLifecycleOwner, {
-                        when(it){
-                            is CareTakerMobileViewModel.CareTaker.Success -> {
-                                progressDialog.dismissLoadingDialog()
-                                val bundle = bundleOf("mobileNumber" to mobile)
-                                findNavController().navigate(
-                                    R.id.action_careTakerMobileLoginFragment_to_careTakerMobileOTPFragment, bundle)
-                            }
-
-                            is CareTakerMobileViewModel.CareTaker.Failure -> {
-                                Toast.makeText(context, it.errorText, Toast.LENGTH_SHORT).show()
-                                progressDialog.dismissLoadingDialog()
-                            }
-                            else -> Unit
+                    viewModel.getCareTakerResponse(mobile).observe(viewLifecycleOwner, {
+                        if (it.success == true){
+                            progressDialog.dismissLoadingDialog()
+                            val bundle = bundleOf("mobileNumber" to mobile)
+                            findNavController().navigate(
+                                R.id.action_careTakerMobileLoginFragment_to_careTakerMobileOTPFragment, bundle)
+                        }else{
+                            Toast.makeText(context, it.reason, Toast.LENGTH_SHORT).show()
+                            progressDialog.dismissLoadingDialog()
                         }
                     })
             }

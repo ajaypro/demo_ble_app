@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/vitalz">
@@ -39,7 +38,8 @@
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView_add_device" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView_add_device"
+        />
 
     <Button
         android:id="@+id/add_device_btn"
@@ -48,5 +48,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tx_start_device" />
+
+<!--     <include layout="@layout/layout_button"-->
+<!--         android:id="@+id/add_device"-->
+<!--         app:layout_constraintEnd_toEndOf="parent"-->
+<!--         app:layout_constraintStart_toStartOf="parent"-->
+<!--         app:layout_constraintTop_toBottomOf="@+id/tx_start_device"/>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

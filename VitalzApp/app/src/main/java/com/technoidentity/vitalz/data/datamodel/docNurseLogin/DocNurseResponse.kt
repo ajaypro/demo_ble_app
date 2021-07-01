@@ -12,5 +12,11 @@ data class DocNurseResponse(
     val token: String?,
     @Expose
     @SerializedName("user")
-    val user: User?
+    val user: User?,
+    @Expose
+    @SerializedName("statusCode")
+    val statusCode: String? = null,
+    @Expose
+    @SerializedName("message")
+    val message: String? = null
 ):Parcelable

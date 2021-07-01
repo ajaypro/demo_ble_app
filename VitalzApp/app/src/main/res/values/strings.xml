@@ -12,12 +12,13 @@
     <string name="confirm_otp">Confirm OTP</string>
     <string name="start_using_the_device">Start using the Device</string>
     <string name="add_device">Add Device</string>
+    <string name="patient_details">Patient Details</string>
     <string name="title_activity_dashboard">MainActivity</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="patch_id">Patch ID</string>
-    <string name="status">Status</string>
+    <string name="battery">Battery</string>
     <string name="connection">Connection</string>
     <string name="fake_patch_id">763635</string>
     <string name="fake_status">Active</string>
@@ -87,8 +88,6 @@
     <string name="device_name">Device Name</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
-    <string name="disconnected">Disconnected</string>
-    <string name="unable_to_connect">Device disconnected</string>
     <string name="location_permission_available">Location Permission available, Start Scanning…</string>
     <string name="location_permission_not_available">Location Permission not available, requesting…</string>
     <string name="location_permission_required">Location Permission required for Bluetooth Scanning…</string>
@@ -110,12 +109,22 @@
     <string name="sample_date">12/04/2021 ,10:10 AM</string>
     <string name="search_hospital">Search Hospital</string>
     <string name="search_patient">Search Patient</string>
-    <string name="ble_not_suppported">This device does not support Bluetooth, You cannot use the app</string>
     <string name="no_records_found">Sorry! No Records Found</string>
+
+
+    <!-- Ble Connection -->
+    <string name="device_disconnected">Device Disconnected, Try again ?</string>
+    <string name="ble_not_suppported">This device does not support Bluetooth, You cannot use the app</string>
     <string name="start_scan">Start Scan</string>
     <string name="stop_scan">Stop Scan</string>
+    <string name="connection_loading">Connection Loading…</string>
+    <string name="connected">Connected</string>
+    <string name="disconnected">Disconnected</string>
+    <string name="unable_to_connect">Device disconnected</string>
     <string name="error_with_device">Error with bluetooth device</string>
     <string name="no_devices_found">No Devices Found</string>
+    <string name="push_notifications">Push Notifications</string>
+    <string name="logout">Logout</string>
     <string name="vitalz_health">VITALZ HEALTH</string>
 
 </resources>

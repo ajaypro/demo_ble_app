@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     package="com.technoidentity.vitalz"
     xmlns:dist="http://schemas.android.com/apk/distribution">
 
@@ -26,13 +24,20 @@
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.VitalzApp">
         <activity
-            android:name=".home.HomeActivity"
-            android:launchMode="singleTask"
+            android:name=".home.SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>
+                <action android:name="android.intent.action.SPLASHSCREEN" />
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".home.HomeActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.CHOOSER" />
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
     </application>

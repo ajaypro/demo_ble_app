@@ -15,8 +15,8 @@ data class HospitalListDataItem(
     val hospitalName: String?,
     @Expose
     @SerializedName("id")
-    val id: String?,
+    val id: String,
     @Expose
     @SerializedName("status")
-    val status: Boolean?
+    val status: Boolean
 ):Parcelable

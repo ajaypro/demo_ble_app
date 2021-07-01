@@ -2,9 +2,10 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'kotlin-parcelize'
     id 'dagger.hilt.android.plugin'
-    id 'androidx.navigation.safeargs'
-    id 'kotlin-android-extensions'
+    id 'androidx.navigation.safeargs.kotlin'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -37,15 +38,23 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-
-    androidExtensions {
-        experimental = true
-    }
 }
 
 dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+    // FCM
+
+    // Import the Firebase BoM
+    implementation platform('com.google.firebase:firebase-bom:28.2.0')
+
+    //messaging
+    implementation 'com.google.firebase:firebase-messaging-ktx'
+
+    // Add the dependency for the Firebase SDK for Google Analytics 
+    // When using the BoM, don't specify versions in Firebase dependencies
+    implementation 'com.google.firebase:firebase-analytics-ktx'
 
     //UI
     implementation "androidx.appcompat:appcompat:${library.appCompat}"
@@ -63,6 +72,9 @@ dependencies {
     //Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:${library.navigation}"
     implementation "androidx.navigation:navigation-ui-ktx:${library.navigation}"
+
+    //Logging
+    implementation "com.jakewharton.timber:timber:${library.timber}"
 
     //network
     implementation "com.squareup.okhttp3:logging-interceptor:${library.logging_interceptor}"
@@ -118,7 +130,4 @@ dependencies {
 
     //graph
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
-
-    implementation 'com.jakewharton.timber:timber:4.7.1'
-
 }

@@ -1,8 +1,11 @@
 package com.technoidentity.vitalz.data.datamodel.multiple_patient
 
+import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class MultiplePatientDashboardResponseItem(
     @Expose
     @SerializedName("address")
@@ -70,4 +73,4 @@ data class MultiplePatientDashboardResponseItem(
     @Expose
     @SerializedName("weight")
     val weight: Weight
-)
+): Parcelable
