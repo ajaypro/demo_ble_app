@@ -73,10 +73,10 @@ class SinglePatientDashboardFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         when(isTablet(requireContext())) {
-            false -> {
+            true -> {
                 bluetoothData(patientId)
             }
-            true -> {
+            false -> {
                 singleDashboardApi(patientId)
             }
         }

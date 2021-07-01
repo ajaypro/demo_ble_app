@@ -31,20 +31,21 @@ class PatientUpdateViewModel @Inject constructor(
         attendingDoctor: String,
         hospitalId: String
     ): LiveData<ProfileUpdateResponse> {
-        val request = ProfileUpdateRequest()
-        request.patientName = patientName
-        request.age = age
-        request.gender = gender
-        request.height = height
-        request.weight = weight
-        request.address = address
-        request.phoneNumber = phoneNumber
-        request.emergencyContactName = emergencyContactName
-        request.emergencyContactNumber = emergencyContactNumber
-        request.attendingDoctor = attendingDoctor
-        request.hospitalId = hospitalId
-        return liveData {
-            emit(userRepositoryImpl.updatePatientData(request))
+        ProfileUpdateRequest().apply {
+            this.patientName = patientName
+            this.age = age
+            this.gender = gender
+            this.height = height
+            this.weight = weight
+            this.address = address
+            this.phoneNumber = phoneNumber
+            this.emergencyContactName = emergencyContactName
+            this.emergencyContactNumber = emergencyContactNumber
+            this.attendingDoctor = attendingDoctor
+            this.hospitalId = hospitalId
+            return liveData {
+                emit(userRepositoryImpl.updatePatientData(this@apply))
+            }
         }
     }
 }

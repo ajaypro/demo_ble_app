@@ -2,6 +2,7 @@ package com.technoidentity.vitalz.user
 
 import android.os.Bundle
 import android.util.Log
+import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,6 +29,7 @@ class DoctorNurseLoginFragment : Fragment() {
     val viewModel: DoctorNurseLoginViewModel by viewModels()
     val sharedViewModel: SharedViewModel by activityViewModels()
     private lateinit var progressDialog: CustomProgressDialog
+    private var isPasswordVisible: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,6 +49,22 @@ class DoctorNurseLoginFragment : Fragment() {
                 binding.etUserName.text.toString(),
                 binding.etPassword.text.toString()
             )
+        }
+
+        //Password visibility
+        binding.etPassword.inputType =
+            InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+        binding.ivPasswordVisibility.setOnClickListener {
+            if (!isPasswordVisible) {
+                isPasswordVisible = true
+                binding.ivPasswordVisibility.setImageResource(R.drawable.ic_baseline_remove_red_eye_24)
+                binding.etPassword.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+            } else {
+                isPasswordVisible = false
+                binding.etPassword.inputType =
+                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                binding.ivPasswordVisibility.setImageResource(R.drawable.ic_baseline_visibility_off_24)
+            }
         }
     }
 

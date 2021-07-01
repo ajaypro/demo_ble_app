@@ -82,7 +82,9 @@ class HospitalAdapter(val listener: HospitalListFragment) :
         }
 
         override fun onClick(v: View?) {
-            listener.onItemClicked(layoutPosition)
+            if (hospitals[layoutPosition].status == true) {
+                listener.onItemClicked(layoutPosition)
+            }
         }
     }
 }
