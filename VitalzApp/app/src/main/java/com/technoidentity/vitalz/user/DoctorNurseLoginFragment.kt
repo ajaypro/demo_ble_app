@@ -8,7 +8,6 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.technoidentity.vitalz.R
 import com.technoidentity.vitalz.data.network.Constants
@@ -17,7 +16,6 @@ import com.technoidentity.vitalz.home.SharedViewModel
 import com.technoidentity.vitalz.utils.CustomProgressDialog
 import com.technoidentity.vitalz.utils.isTablet
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
 class DoctorNurseLoginFragment : Fragment() {
@@ -58,39 +56,35 @@ class DoctorNurseLoginFragment : Fragment() {
             }
             else -> {
                 progressDialog.showLoadingDialog()
-                viewModel.sendDocNurseCredentials(username, password)
-                viewModel.expectedResult.observe(viewLifecycleOwner, {
-                    when (it) {
-                        is DoctorNurseLoginViewModel.DocNurse.Success -> {
-                            val pref =
-                                context?.getSharedPreferences(Constants.PREFERENCE_NAME, 0)
-                            pref?.edit()?.putString(Constants.TOKEN, it.data.token)?.apply()
-                            progressDialog.dismissLoadingDialog()
-
-                            //check for tablet or mobile and navigate
-                            when (isTablet(requireContext())) {
-                                false ->
-                                {
-                                    findNavController().navigate(R.id.action_doctorNurseLoginFragment_to_multiPatientDashboardFragment)
-                                }
-                                true ->
-                                {
-                                        sharedViewModel.isDeviceConnected.observe(viewLifecycleOwner) { deviceConnected ->
-                                            if (!deviceConnected) {
-                                                findNavController().navigate(R.id.action_doctorNurseLoginFragment_to_addDeviceFragment)
-                                            } else {
-                                                findNavController().navigate(R.id.action_deviceDetailsFragment_to_singlePatientDashboardFragment)
-                                            }
-                                        }
+                viewModel.sendDocNurseCredentials(username, password).observe(viewLifecycleOwner,{
+                    if (it.token != null){
+                        val pref =
+                            context?.getSharedPreferences(Constants.PREFERENCE_NAME, 0)
+                        pref?.edit()?.putString(Constants.TOKEN, it.token)?.apply()
+                        progressDialog.dismissLoadingDialog()
+                        if (it.user?.role == "doctor") {
+                            sharedViewModel.isDoctor.value = true
+                        }
+                        //check for tablet or mobile and navigate
+                        when (isTablet(requireContext())) {
+                            false ->
+                            {
+                                findNavController().navigate(R.id.action_doctorNurseLoginFragment_to_multiPatientDashboardFragment)
+                            }
+                            true ->
+                            {
+                                sharedViewModel.isDeviceConnected.observe(viewLifecycleOwner) { deviceConnected ->
+                                    if (!deviceConnected) {
+                                        findNavController().navigate(R.id.action_doctorNurseLoginFragment_to_addDeviceFragment)
+                                    } else {
+                                        findNavController().navigate(R.id.action_deviceDetailsFragment_to_singlePatientDashboardFragment)
+                                    }
                                 }
                             }
                         }
-
-                        is DoctorNurseLoginViewModel.DocNurse.Failure -> {
-                            progressDialog.dismissLoadingDialog()
-                            Toast.makeText(context, it.errorText, Toast.LENGTH_SHORT).show()
-                        }
-                        else -> Unit
+                    }else{
+                        progressDialog.dismissLoadingDialog()
+                        Toast.makeText(context, "Something went wrong...", Toast.LENGTH_SHORT).show()
                     }
                 })
             }

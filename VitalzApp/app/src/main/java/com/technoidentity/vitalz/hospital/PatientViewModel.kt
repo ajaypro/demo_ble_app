@@ -17,36 +17,12 @@ class PatientViewModel @Inject constructor(
     private val dispatcher: CoroutinesDispatcherProvider
 ) : ViewModel() {
 
-    sealed class PatientData {
-        class Success(val resultText: String, val data: PatientDataList) : PatientData()
-        class Failure(val errorText: String) : PatientData()
-        object Loading : PatientData()
-        object Empty : PatientData()
-    }
-
-    private val _expectedResult = MutableLiveData<PatientData>(
-        PatientData.Empty)
-    val expectedResult: LiveData<PatientData> = _expectedResult
-
-    fun getPatientListData(mobile: String, hospitalId: String) {
+    fun getPatientListData(mobile: String, hospitalId: String): LiveData<PatientDataList> {
         val request = PatientRequest()
         request.hospitalId = hospitalId
         request.phoneNo = mobile
-        viewModelScope.launch {
-            _expectedResult.value = PatientData.Loading
-            when (val response = userRepositoryImpl.getPatientList(request)) {
-                is ResultHandler.Error -> {
-                    _expectedResult.value =
-                        PatientData.Failure(response.message.toString())
-                    }
-                is ResultHandler.Success -> {
-                    if (response.data == null) {
-                        _expectedResult.value = PatientData.Failure("Unexpected Error")
-                    } else {
-                        _expectedResult.value = PatientData.Success("Patient List", response.data)
-                    }
-                }
-            }
+        return liveData {
+            emit(userRepositoryImpl.getPatientList(request))
         }
     }
 

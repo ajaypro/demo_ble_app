@@ -13,8 +13,6 @@ import androidx.navigation.fragment.findNavController
 import com.technoidentity.vitalz.R
 import com.technoidentity.vitalz.data.network.Constants
 import com.technoidentity.vitalz.databinding.FragmentOtpConfirmBinding
-import com.technoidentity.vitalz.user.CareTakerMobileViewModel.CareTaker.Failure
-import com.technoidentity.vitalz.user.CareTakerMobileViewModel.CareTaker.Success
 import com.technoidentity.vitalz.utils.CustomProgressDialog
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -69,21 +67,19 @@ class CareTakerMobileOTPFragment : Fragment() {
             } else {
                 val otpReceived: String = (etOtp1 + etOtp2 + etOtp3 + etOtp4 + etOtp5 + etOtp6)
                 progressDialog.showLoadingDialog()
-                mobile?.let { it1 -> viewModel.getOtpResponse(it1, otpReceived.toInt()) }
-                viewModel.expectedResult.observe(viewLifecycleOwner, {
-                    when (it) {
-                        is OtpMobileViewModel.OtpResponse.Success -> {
-                            val pref =
-                                context?.getSharedPreferences(Constants.PREFERENCE_NAME, 0)
-                            pref?.edit()?.putString(Constants.TOKEN, it.data.token)?.apply()
-                            pref?.edit()?.putString(Constants.MOBILE, it.data.user?.phoneNo)?.apply()
-                            progressDialog.dismissLoadingDialog()
-                            findNavController()
-                                .navigate(R.id.action_careTakerMobileOTPFragment_to_hospitalListFragment)
-                        }
-
-                            is OtpMobileViewModel.OtpResponse.Failure -> {
-                                Toast.makeText(context, it.errorText, Toast.LENGTH_SHORT).show()
+                mobile?.let { mobile ->
+                    viewModel.getOtpResponse(mobile, otpReceived.toInt()).observe(
+                        viewLifecycleOwner, {
+                            if (it.token != null) {
+                                val pref =
+                                    context?.getSharedPreferences(Constants.PREFERENCE_NAME, 0)
+                                pref?.edit()?.putString(Constants.TOKEN, it.token)?.apply()
+                                pref?.edit()?.putString(Constants.MOBILE, it.user?.phoneNo)?.apply()
+                                progressDialog.dismissLoadingDialog()
+                                findNavController()
+                                    .navigate(R.id.action_careTakerMobileOTPFragment_to_hospitalListFragment)
+                            } else {
+                                Toast.makeText(context, "Invalid Otp", Toast.LENGTH_SHORT).show()
                                 binding.etOtp1.setText("")
                                 binding.etOtp2.setText("")
                                 binding.etOtp3.setText("")
@@ -92,30 +88,24 @@ class CareTakerMobileOTPFragment : Fragment() {
                                 binding.etOtp6.setText("")
                                 progressDialog.dismissLoadingDialog()
                             }
-                            else -> Unit
                         }
-                    })
+                    )
                 }
             }
+        }
         return binding.root
     }
 
     private fun resendOtpApiCall(mobile: String?) {
         if (mobile != null) {
-            viewModelCareTaker.getCareTakerResponse(mobile)
-        }
-        viewModelCareTaker.expectedResult.observe(viewLifecycleOwner, {
-            when (it) {
-                is Success -> {
+            viewModelCareTaker.getCareTakerResponse(mobile).observe(viewLifecycleOwner, {
+                if (it.success == true) {
                     Toast.makeText(context, "Otp Sent", Toast.LENGTH_SHORT).show()
-                }
-
-                is Failure -> {
+                } else {
                     Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show()
                 }
-                else -> Unit
-            }
-        })
+            })
+        }
     }
 
     private fun setFocusChangeOnTextEntered() {

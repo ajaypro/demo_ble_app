@@ -95,24 +95,13 @@ class PatientListFragment : Fragment(), PatientAdapter.OnItemClickListener {
 
     private fun getPatientList(mobile: String, hospitalId: String) {
         progressDialog.showLoadingDialog()
-        viewModel.getPatientListData(mobile, hospitalId)
-        viewModel.expectedResult.observe(viewLifecycleOwner, {
-            when (it) {
-                is PatientViewModel.PatientData.Success -> {
-                    if (it.data.isEmpty()) {
-                        progressDialog.dismissLoadingDialog()
-                        binding.rvPatientList.visibility = View.GONE
-                    } else {
-                        patientAdapter.patient = it.data
-                        progressDialog.dismissLoadingDialog()
-                    }
-                }
-
-                is PatientViewModel.PatientData.Failure -> {
-                    progressDialog.dismissLoadingDialog()
-                    Toast.makeText(context, it.errorText, Toast.LENGTH_SHORT).show()
-                }
-                else -> Unit
+        viewModel.getPatientListData(mobile, hospitalId).observe(viewLifecycleOwner,{
+            if (it.isNotEmpty()){
+                patientAdapter.patient = it
+                progressDialog.dismissLoadingDialog()
+            }else{
+                progressDialog.dismissLoadingDialog()
+                Toast.makeText(context, "Something went wrong...", Toast.LENGTH_SHORT).show()
             }
         })
     }

@@ -95,19 +95,13 @@ class HospitalListFragment : Fragment(), HospitalAdapter.OnItemClickListener {
 
     private fun getHospitalList(mobile: String) {
         progressDialog.showLoadingDialog()
-        viewModel.getHospitalListData(mobile)
-        viewModel.expectedResult.observe(viewLifecycleOwner, {
-            when (it) {
-                is HospitalViewModel.HospitalData.Success -> {
-                    hospitalAdapter.hospitals = it.data
-                    progressDialog.dismissLoadingDialog()
-                }
-
-                is HospitalViewModel.HospitalData.Failure -> {
-                    progressDialog.dismissLoadingDialog()
-                    Toast.makeText(context, it.errorText, Toast.LENGTH_SHORT).show()
-                }
-                else -> Unit
+        viewModel.getHospitalListData(mobile).observe(viewLifecycleOwner,{
+            if (it.isNotEmpty()){
+                hospitalAdapter.hospitals = it
+                progressDialog.dismissLoadingDialog()
+            }else{
+                progressDialog.dismissLoadingDialog()
+                Toast.makeText(context, "Something went wrong...", Toast.LENGTH_SHORT).show()
             }
         })
     }

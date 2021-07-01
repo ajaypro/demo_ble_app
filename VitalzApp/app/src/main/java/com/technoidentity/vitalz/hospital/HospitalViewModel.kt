@@ -29,24 +29,11 @@ class HospitalViewModel @Inject constructor(
     )
     val expectedResult: LiveData<HospitalData> = _expectedResult
 
-    fun getHospitalListData(mobile: String) {
+    fun getHospitalListData(mobile: String): LiveData<HospitalListData> {
         val request = HospitalListRequest()
         request.mobile = mobile
-        viewModelScope.launch {
-            _expectedResult.value = HospitalData.Loading
-            when (val response = userRepositoryImpl.getHospitalList(request)) {
-                is ResultHandler.Error -> {
-                    _expectedResult.value =
-                        HospitalData.Failure(response.message.toString())
-                }
-                is ResultHandler.Success -> {
-                    if (response.data == null) {
-                        _expectedResult.value = HospitalData.Failure("Unexpected Error")
-                    } else {
-                        _expectedResult.value = HospitalData.Success("Hospital List", response.data)
-                    }
-                }
-            }
+        return liveData {
+            emit(userRepositoryImpl.getHospitalList(request))
         }
     }
 

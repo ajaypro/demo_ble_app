@@ -34,19 +34,19 @@ import retrofit2.http.*
 interface VitalzApi {
 
     @POST(SEND_OTP)
-    suspend fun getOTP(@Body request: CareTakerRequest) : Response<CareTakerOtpResponse>
+    suspend fun getOTP(@Body request: CareTakerRequest) : CareTakerOtpResponse
 
     @POST(CARETAKER_LOGIN)
-    suspend fun getLogin(@Body request: OtpRequest) : Response<OtpResponse>
+    suspend fun getLogin(@Body request: OtpRequest) : OtpResponse
 
     @POST(DOC_NURSE_LOGIN)
-    suspend fun getDocNurseLogin(@Body request: DocNurseRequest) : Response<DocNurseResponse>
+    suspend fun getDocNurseLogin(@Body request: DocNurseRequest) : DocNurseResponse
 
     @POST(HOSPITAL_LIST)
-    suspend fun getHospitalList(@Body request: HospitalListRequest) : Response<HospitalListData>
+    suspend fun getHospitalList(@Body request: HospitalListRequest) : HospitalListData
 
     @POST(PATIENT_LIST)
-    suspend fun getPatientList(@Body request: PatientRequest) : Response<PatientDataList>
+    suspend fun getPatientList(@Body request: PatientRequest) : PatientDataList
 
     @GET(SINGLE_PATIENT_DASHBOARD)
     suspend fun getSinglePatientDashboardList(@Path("id") id: String) : Response<SinglePatientDashboardResponse>

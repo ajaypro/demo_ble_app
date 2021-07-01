@@ -5,7 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.technoidentity.vitalz.databinding.SettingsBinding
+import com.technoidentity.vitalz.home.SharedViewModel
+import com.technoidentity.vitalz.utils.isTablet
 
 class SettingsFragment : Fragment(){
 

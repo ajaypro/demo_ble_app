@@ -21,89 +21,34 @@ import javax.inject.Inject
 class UserRepositoryImpl @Inject constructor(
     private val api: VitalzApi
 ) : UserRepository {
-    override suspend fun doMobileOTPCall(mobile: CareTakerRequest): ResultHandler<CareTakerOtpResponse>? {
-        val response = api.getOTP(mobile)
-        return try {
-            response.let { it ->
-                if (it.isSuccessful) {
-                    it.body()?.let {
-                        ResultHandler.Success(it)
-                    }
-                } else {
-                    Error(response.message())
-                }
-            }
-        } catch (e: Exception) {
-            Error(e.message ?: "Contact Admin")
-        }
+    override suspend fun doMobileOTPCall(request: CareTakerRequest): CareTakerOtpResponse {
+        return kotlin.runCatching {
+            api.getOTP(request)
+        }.getOrThrow()
     }
 
-    override suspend fun doOTPSendCall(otpRequest: OtpRequest): ResultHandler<OtpResponse>? {
-        val response = api.getLogin(otpRequest)
-        return try {
-            response.let { it ->
-                if (it.isSuccessful) {
-                    it.body()?.let {
-                        ResultHandler.Success(it)
-                    }
-                } else {
-                    Error(response.message())
-                }
-            }
-        } catch (e: Exception) {
-            Error(e.message ?: "Contact Admin")
-        }
+    override suspend fun doOTPSendCall(otpRequest: OtpRequest): OtpResponse {
+        return kotlin.runCatching {
+            api.getLogin(otpRequest)
+        }.getOrThrow()
     }
 
-    override suspend fun sendDocNurseCredentials(docNurseLogin: DocNurseRequest): ResultHandler<DocNurseResponse>? {
-        val response = api.getDocNurseLogin(docNurseLogin)
-        return try {
-            response.let { it ->
-                if (it.isSuccessful) {
-                    it.body()?.let {
-                        ResultHandler.Success(it)
-                    }
-                } else {
-                    Error(response.message())
-                }
-            }
-        } catch (e: Exception) {
-            Error(e.message ?: "Contact Admin")
-        }
+    override suspend fun sendDocNurseCredentials(docNurseLogin: DocNurseRequest): DocNurseResponse {
+        return kotlin.runCatching {
+            api.getDocNurseLogin(docNurseLogin)
+        }.getOrThrow()
     }
 
-    override suspend fun getHospitalList(mobile: HospitalListRequest): ResultHandler<HospitalListData>? {
-        val response = api.getHospitalList(mobile)
-        return try {
-            response.let { it ->
-                if (it.isSuccessful) {
-                    it.body()?.let {
-                        ResultHandler.Success(it)
-                    }
-                } else {
-                    Error(response.message())
-                }
-            }
-        } catch (e: Exception) {
-            Error(e.message ?: "Contact Admin")
-        }
+    override suspend fun getHospitalList(mobile: HospitalListRequest): HospitalListData {
+        return kotlin.runCatching {
+            api.getHospitalList(mobile)
+        }.getOrThrow()
     }
 
-    override suspend fun getPatientList(request: PatientRequest): ResultHandler<PatientDataList>? {
-        val response = api.getPatientList(request)
-        return try {
-            response.let { it ->
-                if (it.isSuccessful) {
-                    it.body()?.let {
-                        ResultHandler.Success(it)
-                    }
-                } else {
-                    Error(response.message())
-                }
-            }
-        } catch (e: Exception) {
-            Error(e.message ?: "Contact Admin")
-        }
+    override suspend fun getPatientList(request: PatientRequest): PatientDataList {
+        return kotlin.runCatching {
+            api.getPatientList(request)
+        }.getOrThrow()
     }
 
     override suspend fun getSinglePatientDashboardList(id: String): ResultHandler<SinglePatientDashboardResponse>? {

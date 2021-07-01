@@ -1,9 +1,6 @@
 package com.technoidentity.vitalz.user
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseRequest
 import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseResponse
 import com.technoidentity.vitalz.data.repository.UserRepositoryImpl
@@ -19,35 +16,12 @@ class DoctorNurseLoginViewModel @Inject constructor(
     private val dispatcher: CoroutinesDispatcherProvider
 ) : ViewModel() {
 
-    sealed class DocNurse {
-        class Success(val resultText: String, val data: DocNurseResponse) : DocNurse()
-        class Failure(val errorText: String) : DocNurse()
-        object Loading : DocNurse()
-        object Empty : DocNurse()
-    }
-
-    private val _expectedResult = MutableLiveData<DocNurse>(DocNurse.Empty)
-    val expectedResult: LiveData<DocNurse> = _expectedResult
-
-    fun sendDocNurseCredentials(username: String, password: String) {
+    fun sendDocNurseCredentials(username: String, password: String): LiveData<DocNurseResponse> {
         val request = DocNurseRequest()
         request.username = username
         request.password = password
-        viewModelScope.launch {
-            _expectedResult.value = DocNurse.Loading
-            when (val response = userRepositoryImpl.sendDocNurseCredentials(request)) {
-                is ResultHandler.Error -> {
-                    _expectedResult.postValue(
-                        DocNurse.Failure(response.message.toString())
-                    )}
-                is ResultHandler.Success -> {
-                    if (response.data == null) {
-                        _expectedResult.postValue(DocNurse.Failure("Unexpected Error"))
-                    } else {
-                        _expectedResult.postValue(DocNurse.Success(resultText = "Credentials Send", data = response.data))
-                    }
-                }
-            }
+        return liveData {
+            emit(userRepositoryImpl.sendDocNurseCredentials(request))
         }
     }
 }
