@@ -20,6 +20,10 @@ object Urls {
 
     const val REGISTER_DEVICE = "device/register-device"
 
+    const val DASHBOARD_DETAIL = "http://20.204.14.2/graph/item"
+
+    const val SEND_DEVICE = "/device/save-device"
+
     const val GET_DEVICE_LIST = "device/device-list"
 
     const val SEND_HEARTRATE = ""

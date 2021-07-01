@@ -71,7 +71,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
         val navController = navHostFragment.navController
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration)
+//        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration)
 
         //bottomNavigation with Navigation Component
         setUpBottomNavigationBar(navController)

@@ -3,6 +3,8 @@ package com.technoidentity.vitalz.data.repository
 import com.technoidentity.vitalz.data.datamodel.SearchHospitalRequest
 import com.technoidentity.vitalz.data.datamodel.careTakerLogin.CareTakerOtpResponse
 import com.technoidentity.vitalz.data.datamodel.careTakerLogin.CareTakerRequest
+import com.technoidentity.vitalz.data.datamodel.dashboardDetail.DashboardDetailResponse
+import com.technoidentity.vitalz.data.datamodel.dashboardDetail.DashboardDetailsRequest
 import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseRequest
 import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseResponse
 import com.technoidentity.vitalz.data.datamodel.hospital_list.HospitalListData
@@ -118,6 +120,12 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun updatePatientData(request: ProfileUpdateRequest): ProfileUpdateResponse {
         return kotlin.runCatching {
             api.updateProfileData(request)
+        }.getOrThrow()
+    }
+
+    override suspend fun getDashboardDetailsList(request: DashboardDetailsRequest): DashboardDetailResponse {
+        return kotlin.runCatching {
+            api.getDashboardDetailsList(request)
         }.getOrThrow()
     }
 }

@@ -6,11 +6,11 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class CareTakerOtpResponse (
+data class CareTakerOtpResponse(
     @Expose
     @SerializedName("reason")
     var reason: String? = null,
     @Expose
     @SerializedName("success")
-    var success: Boolean? = null
-): Parcelable
+    var success: Boolean
+) : Parcelable

@@ -1,6 +1,7 @@
 package com.technoidentity.vitalz.data.network
 
 import android.content.Context
+import android.util.Log
 import com.technoidentity.vitalz.data.network.Urls.BASE_URL
 import com.technoidentity.vitalz.home.HomeActivity
 import com.technoidentity.vitalz.utils.showToast
@@ -22,11 +23,11 @@ object VitalzService {
 
     fun getRestApi(context: Context? = null): VitalzApi? {
         context?.let {
-            val sp = it.getSharedPreferences(Constants.PREFERENCE_NAME, Context.MODE_PRIVATE)
-            token = sp.getString(Constants.TOKEN, token)!!
+            val sp = it.getSharedPreferences(Constants.PREFERENCE_NAME , Context.MODE_PRIVATE)
+            token = sp.getString(Constants.TOKEN , token)!!
         }
 
-        if (restApi != null) {
+        if (restApi!= null) {
             restApi = null
 
         }
@@ -36,6 +37,7 @@ object VitalzService {
 
     private fun init() {
         val interceptor = HttpLoggingInterceptor()
+
         val errorInterceptor = object : Interceptor {
             override fun intercept(chain: Interceptor.Chain): okhttp3.Response {
                 val request = chain.request()
@@ -46,7 +48,7 @@ object VitalzService {
                 }
                 val request1 = builder.build()
                 val response = chain.proceed(request1)
-                when (response.code) {
+                return when (response.code) {
                     500 -> {
                         throw Exception("Server error code: " + response.code + " with error message: " + response.message)
                     }
@@ -55,6 +57,9 @@ object VitalzService {
                     }
                     400 -> {
                         throw Exception("Server error code: " + response.code + " with error message: " + response.message)
+                    }
+                    200 -> {
+                        response
                     }
                     else -> {
                         throw Exception("Server error code: " + response.code + " with error message: " + response.message)
@@ -79,7 +84,7 @@ object VitalzService {
 
         interceptor.level = HttpLoggingInterceptor.Level.BODY
 
-        val client = OkHttpClient.Builder().addInterceptor(headerAuthorizationInterceptor)
+        val client = OkHttpClient.Builder().addInterceptor(headerAuthorizationInterceptor).addInterceptor(errorInterceptor)
             .addInterceptor(interceptor).connectTimeout(100, TimeUnit.SECONDS)
             .writeTimeout(100, TimeUnit.SECONDS).readTimeout(100, TimeUnit.SECONDS).build()
 

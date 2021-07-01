@@ -46,8 +46,8 @@
     </fragment>
     <fragment
         android:id="@+id/singlePatientDetailFragment"
-        android:name="com.technoidentity.vitalz.dashboard.SinglePatientDetailFragment"
-        android:label="NurseCareTakerPatientDetailFragment" />
+        android:name="com.technoidentity.vitalz.dashboard.DashboardDetailsFragment"
+        android:label="DashboardDetailsFragment" />
     <fragment
         android:id="@+id/addDeviceFragment"
         android:name="com.technoidentity.vitalz.bluetooth.ui.AddDeviceFragment"

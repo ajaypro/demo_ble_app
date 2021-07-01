@@ -5,8 +5,10 @@ import com.technoidentity.vitalz.bluetooth.data.RegisteredDevice
 import com.technoidentity.vitalz.data.datamodel.SearchHospitalRequest
 import com.technoidentity.vitalz.data.datamodel.careTakerLogin.CareTakerOtpResponse
 import com.technoidentity.vitalz.data.datamodel.careTakerLogin.CareTakerRequest
-import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseRequest
+import com.technoidentity.vitalz.data.datamodel.dashboardDetail.DashboardDetailResponse
+import com.technoidentity.vitalz.data.datamodel.dashboardDetail.DashboardDetailsRequest
 import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseResponse
+import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseRequest
 import com.technoidentity.vitalz.data.datamodel.hospital_list.HospitalListData
 import com.technoidentity.vitalz.data.datamodel.hospital_list.HospitalListRequest
 import com.technoidentity.vitalz.data.datamodel.multiple_patient.MultiplePatientDashboardResponse
@@ -23,6 +25,7 @@ import com.technoidentity.vitalz.data.datamodel.updateProfile.ProfileUpdateRespo
 import com.technoidentity.vitalz.data.network.Urls.CARETAKER_LOGIN
 import com.technoidentity.vitalz.data.network.Urls.CARE_TAKER_NOTIFICATION
 import com.technoidentity.vitalz.data.network.Urls.DOCTOR_NOTIFICATION
+import com.technoidentity.vitalz.data.network.Urls.DASHBOARD_DETAIL
 import com.technoidentity.vitalz.data.network.Urls.DOC_NURSE_LOGIN
 import com.technoidentity.vitalz.data.network.Urls.GET_DEVICE_LIST
 import com.technoidentity.vitalz.data.network.Urls.HOSPITAL_LIST
@@ -102,5 +105,8 @@ interface VitalzApi {
 
     @POST(PROFILE_UPDATE)
     suspend fun updateProfileData(@Body request: ProfileUpdateRequest): ProfileUpdateResponse
+
+    @POST(DASHBOARD_DETAIL)
+    suspend fun getDashboardDetailsList(@Body request: DashboardDetailsRequest) : DashboardDetailResponse
 
 }

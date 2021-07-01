@@ -66,6 +66,17 @@ class SinglePatientDashboardFragment : Fragment() {
                 bundleOf("patientData" to singlePatientDashboardResponse)
             )
         }
+
+        binding.layoutHeartRate.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_singlePatientDashboardFragment_to_singlePatientDetailFragment , bundleOf("isAlive" to "heart"))
+        }
+
+        binding.layoutRespiratory.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_singlePatientDashboardFragment_to_singlePatientDetailFragment , bundleOf("isAlive" to "respiratory"))
+        }
+
         return binding.root
     }
 
