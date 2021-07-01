@@ -3,6 +3,9 @@ package com.technoidentity.vitalz.utils
 object Constants {
 
     const val GATT_MIN_MTU_SIZE = 23
+    const val DOCTOR = "doctor"
+    const val NURSE = "nurse"
+    const val CARETAKER = "careTaker"
 
     /** Maximum BLE MTU size as defined in gatt_api.h. */
     const val GATT_MAX_MTU_SIZE = 517

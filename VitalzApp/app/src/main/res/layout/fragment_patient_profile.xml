@@ -36,44 +36,16 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <ImageView
-            android:id="@+id/iv_remote_icon"
-            style="@style/dashboard_ble"
-            android:contentDescription="@string/remote_icon"
-            android:src="@drawable/ic_ble_battery"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/app_bar_layout" />
-
-        <TextView
-            android:id="@+id/tv_time_left"
-            style="@style/dashboard_ble"
-            android:hint="@string/fake_time_left"
-            android:text=""
-            android:textColorHint="@color/black"
-            app:layout_constraintStart_toEndOf="@+id/iv_remote_icon"
-            app:layout_constraintTop_toBottomOf="@+id/app_bar_layout" />
-
-        <TextView
-            android:id="@+id/tv_time_left_unit"
-            style="@style/dashboard_ble_battery"
-            app:layout_constraintStart_toEndOf="@+id/tv_time_left"
-            app:layout_constraintTop_toBottomOf="@+id/app_bar_layout" />
-
-        <ImageView
-            android:id="@+id/iv_connectivity_icon"
-            style="@style/dashboard_ble"
-            android:layout_marginEnd="@dimen/dp_20"
-            android:visibility="invisible"
-            android:contentDescription="@string/remote_icon"
-            android:src="@drawable/ic_connectivity_icon"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/app_bar_layout" />
-
         <androidx.constraintlayout.widget.ConstraintLayout
-            style="@style/layout_dashboard"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/dp_16"
+            android:background="@drawable/edit_text_box"
+            android:padding="@dimen/dp_16"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_connectivity_icon">
+            app:layout_constraintTop_toBottomOf="@+id/app_bar_layout">
 
             <ImageView
                 android:id="@+id/iv_add_user"
@@ -104,6 +76,7 @@
                 android:id="@+id/et_name"
                 style="@style/et_dashboard"
                 android:text=""
+                android:hint="Enter Name"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_user_name" />
 
@@ -119,6 +92,7 @@
                 style="@style/heading_dashboard_spinner"
                 android:layout_width="@dimen/dp_150"
                 android:text=""
+                android:hint="27"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_age" />
 
@@ -136,6 +110,8 @@
                 style="@style/heading_dashboard_spinner"
                 android:layout_width="@dimen/dp_150"
                 android:text=""
+                android:hint="M"
+                android:inputType="text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/et_age"
                 app:layout_constraintTop_toBottomOf="@+id/tv_age" />
@@ -152,6 +128,7 @@
                 style="@style/heading_dashboard_spinner"
                 android:layout_width="@dimen/dp_150"
                 android:text=""
+                android:hint="5.7"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_height" />
 
@@ -169,6 +146,7 @@
                 style="@style/heading_dashboard_spinner"
                 android:layout_width="@dimen/dp_150"
                 android:text=""
+                android:hint="65"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/et_age"
                 app:layout_constraintTop_toBottomOf="@+id/tv_weight" />
@@ -191,6 +169,7 @@
                 android:gravity="start"
                 android:inputType="text"
                 android:padding="@dimen/dp_8"
+                android:hint="Enter Address"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toEndOf="parent"
@@ -206,9 +185,10 @@
                 app:layout_constraintTop_toBottomOf="@+id/et_address" />
 
             <EditText
-                android:id="@+id/tv_contact_number"
+                android:id="@+id/et_contact_number"
                 style="@style/et_dashboard"
                 android:inputType="number"
+                android:hint="Enter Patient Mobile Number"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_contact" />
@@ -219,11 +199,13 @@
                 android:text="@string/emergency_contact_name"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_contact_number" />
+                app:layout_constraintTop_toBottomOf="@+id/et_contact_number" />
 
             <EditText
                 android:id="@+id/et_emergency_contact_name"
                 style="@style/et_dashboard"
+                android:inputType="text"
+                android:hint="Enter Patient Emergency Contact Name"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_emergency_contact_name" />
@@ -239,6 +221,7 @@
                 android:id="@+id/et_emergency_contact_number"
                 style="@style/et_dashboard"
                 android:inputType="number"
+                android:hint="Enter Patient Emergency Contact Number"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_emergency_contact_number" />
@@ -253,6 +236,8 @@
             <EditText
                 android:id="@+id/et_attending_doctor"
                 style="@style/et_dashboard"
+                android:inputType="text"
+                android:hint="Enter Doctor's Name"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_attending_doctor" />
@@ -267,13 +252,16 @@
             <EditText
                 android:id="@+id/et_id_hospital"
                 style="@style/et_dashboard"
+                android:inputType="text"
+                android:hint="HOS123"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_id_hospital" />
 
             <Button
-                android:layout_width="match_parent"
+                android:id="@+id/btn_submit"
                 style="@style/button"
+                android:layout_width="match_parent"
                 android:text="@string/submit"
                 android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"

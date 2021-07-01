@@ -72,5 +72,5 @@ data class MultiplePatientDashboardResponseItem(
     val temperature: Temperature,
     @Expose
     @SerializedName("weight")
-    val weight: Weight,
+    val weight: Weight
 ): Parcelable

@@ -119,7 +119,16 @@ class SharedViewModel @Inject constructor(private val bleManager: IBleManager,
         _isCareTaker.value = selected
     }
 
+    //check the role of User
+    private var _role = MutableStateFlow("Un-Authorized")
+    val assignedRole: MutableStateFlow<String> = _role
 
+    fun checkRole(role: String){
+        _role.value = role
+    }
+
+    //check the Notification Count of User
+     var notificationCount = MutableStateFlow(0)
 }
 
 
