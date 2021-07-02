@@ -40,8 +40,10 @@ import com.technoidentity.vitalz.data.network.Urls.REGISTER_DEVICE
 import com.technoidentity.vitalz.data.network.Urls.SEND_ECGDATA
 import com.technoidentity.vitalz.data.network.Urls.SEND_HEARTRATE
 import com.technoidentity.vitalz.data.network.Urls.SEND_OTP
+import com.technoidentity.vitalz.data.network.Urls.SEND_TELEMETRY_NOTIFICATION
 import com.technoidentity.vitalz.data.network.Urls.SINGLE_PATIENT_DASHBOARD
 import com.technoidentity.vitalz.notifications.datamodel.PushNotification
+import com.technoidentity.vitalz.notifications.datamodel.VitalzTelemetryNotification
 import com.technoidentity.vitalz.utils.FirebaseConstants.CONTENT_TYPE
 import com.technoidentity.vitalz.utils.FirebaseConstants.SERVER_KEY
 import okhttp3.ResponseBody
@@ -112,5 +114,8 @@ interface VitalzApi {
 
     @POST(DASHBOARD_DETAIL)
     suspend fun getDashboardDetailsList(@Body request: DashboardDetailsRequest) : DashboardDetailResponse
+
+    @POST(SEND_TELEMETRY_NOTIFICATION)
+    suspend fun sendTelemetryNotification(@Body request: VitalzTelemetryNotification): Boolean
 
 }

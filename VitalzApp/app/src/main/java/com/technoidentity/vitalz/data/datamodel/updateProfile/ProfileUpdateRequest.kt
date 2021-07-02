@@ -40,4 +40,8 @@ class ProfileUpdateRequest(
     @Expose
     @SerializedName("hospitalId")
     var hospitalId: String? = null,
+
+    @Expose
+    @SerializedName("patchId")
+    var patchId: String? = null
 ) : Parcelable

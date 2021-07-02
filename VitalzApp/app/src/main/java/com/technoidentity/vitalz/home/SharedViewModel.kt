@@ -9,6 +9,7 @@ import com.technoidentity.vitalz.bluetooth.data.BleDevice
 import com.technoidentity.vitalz.bluetooth.data.BleMac
 import com.technoidentity.vitalz.bluetooth.data.RegisteredDevice
 import com.technoidentity.vitalz.data.local.databaseEntities.HeartRateDb
+import com.technoidentity.vitalz.data.network.Constants
 import com.technoidentity.vitalz.data.repository.DeviceRepository
 import com.technoidentity.vitalz.utils.showToast
 import dagger.hilt.android.lifecycle.HiltViewModel

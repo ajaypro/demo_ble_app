@@ -7,6 +7,7 @@ import com.technoidentity.vitalz.data.local.dao.HeartRateDao
 import com.technoidentity.vitalz.data.local.databaseEntities.EcgDataDb
 import com.technoidentity.vitalz.data.local.databaseEntities.HeartRateDb
 import com.technoidentity.vitalz.data.network.VitalzApi
+import com.technoidentity.vitalz.notifications.datamodel.VitalzTelemetryNotification
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -40,6 +41,14 @@ private val heartRateDao: HeartRateDao, private val ecgDataDao: EcgDataDao): Dev
     override suspend fun sendEcgData(patientId: String, telemetryKey: String, ecgData: List<Byte>): Boolean {
         return kotlin.runCatching {
             api.sendEcgData(patientId, telemetryKey, ecgData)
+        }.getOrElse {
+            false
+        }
+    }
+
+    override suspend fun sendTelemetryNotification(vitalz: VitalzTelemetryNotification): Boolean {
+        return kotlin.runCatching {
+            api.sendTelemetryNotification(vitalz)
         }.getOrElse {
             false
         }

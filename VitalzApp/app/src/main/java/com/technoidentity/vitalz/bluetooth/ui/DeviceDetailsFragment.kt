@@ -37,6 +37,7 @@ class DeviceDetailsFragment : Fragment() {
 
                         it.gatt?.getService(DEVICE_BATTERY_SER_UUID)?.let { deviceBatteryService ->
                             sharedViewmodel.readCharacteristics(it.device, DEVICE_BATTERY_CHAR_UUID, deviceBatteryService)
+
                         }
 
                         binding.apply {

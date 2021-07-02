@@ -114,7 +114,8 @@ class PatientUpdateProfileFragment : Fragment() {
                     emergencyContactName,
                     emergencyContactNumber,
                     attendingDoctor,
-                    hospitalId).observe(viewLifecycleOwner,{
+                    hospitalId,
+                "get from pref // VITHOS007" ).observe(viewLifecycleOwner,{
                 })
             }
         }
