@@ -37,6 +37,7 @@ class SinglePatientDashboardFragment : Fragment() {
     private lateinit var progressDialog: CustomProgressDialog
     lateinit var singlePatientDashboardResponse: SinglePatientDashboardResponse
     lateinit var patientId: String
+    var heartRateList = mutableListOf<Byte>()
     lateinit var heartEntries: List<Entry>
 
     override fun onCreateView(
@@ -151,8 +152,10 @@ class SinglePatientDashboardFragment : Fragment() {
                         binding.tvHeartRateCount.text = heartRate.toString().also {
                             Timber.d("heartrate $it")
                         }
+                        heartRateList.add(heartRate)
+
                     }
-                    sharedViewModel.sendHeartRateToServer(patientId, HEART_RATE_DATA, it.last().toString())
+                    sharedViewModel.sendHeartRateToServer(patientId, HEART_RATE_DATA, heartRateList)
 
                     it.mapIndexed { index, i ->
                         Entry(index.toFloat(), i.toFloat())

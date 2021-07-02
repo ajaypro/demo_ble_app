@@ -29,7 +29,7 @@ private val heartRateDao: HeartRateDao, private val ecgDataDao: EcgDataDao): Dev
         }
     }
 
-    override suspend fun sendHeartRate(patientId: String, telemetryKey: String, heartRate: String): Boolean {
+    override suspend fun sendHeartRate(patientId: String, telemetryKey: String, heartRate: List<Byte>): Boolean {
         return kotlin.runCatching {
             api.sendHeartRate(patientId, telemetryKey, heartRate)
         }.getOrElse {
@@ -37,7 +37,7 @@ private val heartRateDao: HeartRateDao, private val ecgDataDao: EcgDataDao): Dev
         }
     }
 
-    override suspend fun sendEcgData(patientId: String, telemetryKey: String, ecgData: String): Boolean {
+    override suspend fun sendEcgData(patientId: String, telemetryKey: String, ecgData: List<Byte>): Boolean {
         return kotlin.runCatching {
             api.sendEcgData(patientId, telemetryKey, ecgData)
         }.getOrElse {

@@ -21,7 +21,6 @@ import com.technoidentity.vitalz.data.network.Urls.HOSPITAL_LIST
 import com.technoidentity.vitalz.data.network.Urls.MULTIPLE_PATIENT_DASHBOARD
 import com.technoidentity.vitalz.data.network.Urls.PATIENT_LIST
 import com.technoidentity.vitalz.data.network.Urls.REGISTER_DEVICE
-import com.technoidentity.vitalz.data.network.Urls.SEND_DEVICE
 import com.technoidentity.vitalz.data.network.Urls.SEND_ECGDATA
 import com.technoidentity.vitalz.data.network.Urls.SEND_HEARTRATE
 import com.technoidentity.vitalz.data.network.Urls.SEND_OTP
@@ -63,10 +62,10 @@ interface VitalzApi {
     suspend fun getRegisteredDevices(): List<RegisteredDevice>
 
     @POST(SEND_HEARTRATE)
-    suspend fun sendHeartRate(patientId: String, telemetryKey: String, heartRate :String): Boolean
+    suspend fun sendHeartRate(patientId: String, telemetryKey: String, heartRate :List<Byte>): Boolean
 
     @POST(SEND_ECGDATA)
-    suspend fun sendEcgData(patientId: String, telemetryKey: String, ecgData :String): Boolean
+    suspend fun sendEcgData(patientId: String, telemetryKey: String, ecgData :List<Byte>): Boolean
 
     @Headers("Authorization: key=$SERVER_KEY", "Content-Type:$CONTENT_TYPE")
     @POST("fcm/send")

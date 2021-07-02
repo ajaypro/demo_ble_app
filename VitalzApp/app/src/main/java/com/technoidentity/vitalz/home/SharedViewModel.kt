@@ -109,7 +109,7 @@ class SharedViewModel @Inject constructor(private val bleManager: IBleManager,
 
     var dataToServer by Delegates.notNull<Boolean>()
 
-    fun sendHeartRateToServer(patientId: String, telemetryKey: String, heartRate: String) {
+    fun sendHeartRateToServer(patientId: String, telemetryKey: String, heartRate: List<Byte>) {
 
         viewModelScope.launch {
 
@@ -129,7 +129,7 @@ class SharedViewModel @Inject constructor(private val bleManager: IBleManager,
         }
     }
 
-    private suspend fun senData(patientId: String, telemetryKey: String, heartRateValue: String):Boolean {
+    private suspend fun senData(patientId: String, telemetryKey: String, heartRateValue: List<Byte>):Boolean {
 
                     deviceRepository.sendHeartRate(patientId, telemetryKey, heartRateValue).apply {
                          return if (!this) {

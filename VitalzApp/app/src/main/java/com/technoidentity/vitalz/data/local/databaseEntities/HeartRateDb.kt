@@ -17,13 +17,9 @@ data class HeartRateDb(
     var telemetryKey: String="",
 
     @ColumnInfo(name ="heartRate")
-    var heartRateValue: String
+    var heartRateValue: List<Byte>
 
 )
-
-enum class TelemetryValue {
-
-}
 
 
 

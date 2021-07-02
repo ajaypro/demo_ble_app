@@ -12,11 +12,11 @@ interface DeviceRepository {
 
     suspend fun getRegisteredDevices(): List<RegisteredDevice>
 
-    suspend fun sendHeartRate(patientId: String, telemetryKey: String, heartRate: String): Boolean
+    suspend fun sendHeartRate(patientId: String, telemetryKey: String, heartRate: List<Byte>): Boolean
 
     suspend fun insertHeartRateDb(heartRateDb: HeartRateDb)
 
-    suspend fun sendEcgData(patientId: String, telemetryKey: String, ecgData: String): Boolean
+    suspend fun sendEcgData(patientId: String, telemetryKey: String, ecgData: List<Byte>): Boolean
 
     suspend fun insertEcgDataDb(ecgDataDb: EcgDataDb)
 

@@ -16,7 +16,7 @@ data class EcgDataDb(
     var ecgKey: String = "",
 
     @ColumnInfo(name ="ecg")
-    var heartRateValue: String =""
+    var heartRateValue: List<Byte>
 
 )
 
