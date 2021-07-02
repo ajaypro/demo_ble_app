@@ -43,4 +43,6 @@ object Urls {
     const val PROFILE_UPDATE = "http://20.204.14.2/notification/patient"
 
     const val SEND_ECGDATA = ""
+
+    const val SEND_TELEMETRY_NOTIFICATION = "notification/add-notification"
 }
