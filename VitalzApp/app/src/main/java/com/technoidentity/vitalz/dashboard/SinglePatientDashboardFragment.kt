@@ -37,6 +37,8 @@ class SinglePatientDashboardFragment : Fragment() {
     private lateinit var progressDialog: CustomProgressDialog
     lateinit var singlePatientDashboardResponse: SinglePatientDashboardResponse
     lateinit var patientId: String
+    var heartRateList = mutableListOf<Byte>()
+    lateinit var heartEntries: List<Entry>
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -84,16 +86,16 @@ class SinglePatientDashboardFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         when(isTablet(requireContext())) {
-            true -> {
+            false -> {
                 bluetoothData(patientId)
             }
-            false -> {
+            true -> {
                 singleDashboardApi(patientId)
             }
         }
     }
 
-    private fun setPieChartData() {
+    private fun setPieChartData(heartEntries: List<Entry>) {
         //Heart
         with(binding.pieChartHeartLayout) {
             axisLeft.isEnabled = false
@@ -102,11 +104,6 @@ class SinglePatientDashboardFragment : Fragment() {
             legend.isEnabled = false
             description.isEnabled = false
         }
-
-        val heartEntries: List<Entry> =
-            singlePatientDashboardResponse.heartRate.ratePerMinute.mapIndexed { index, i ->
-                Entry(index.toFloat(), i.toFloat())
-            }
 
         val dataSetHeart = LineDataSet(heartEntries, "Unused label").apply {
             color = Color.RED
@@ -166,74 +163,89 @@ class SinglePatientDashboardFragment : Fragment() {
                         binding.tvHeartRateCount.text = heartRate.toString().also {
                             Timber.d("heartrate $it")
                         }
-                    }
-                    //sharedViewModel.sendHeartRateToServer(patientId, HEART_RATE_DATA,it)
-                }
+                        heartRateList.add(heartRate)
 
-                bodyPosture.observe(viewLifecycleOwner) {
-                    if (!it.isNullOrEmpty()) {
-                        binding.tvPostureValue.text = it.also {
-                            Timber.i("body ${it}")
-                        }
-                    } else {
-                        binding.tvPostureValue.text = "".also {
-                            Timber.i("body ${it}")
-                        }
                     }
-                }
+                    sharedViewModel.sendHeartRateToServer(patientId, HEART_RATE_DATA, heartRateList)
 
-                bodyTemperature.observe(viewLifecycleOwner) {
-                    if (!it.isNullOrEmpty()) {
-                        binding.tvTemperatureValue.text = it.also {
-                            Timber.i("temp ${it}")
-                        }
-                    } else {
-                        binding.tvTemperatureValue.text = "".also {
-                            Timber.i("temp ${it}")
+                    it.mapIndexed { index, i ->
+                        Entry(index.toFloat(), i.toFloat())
+                    }.apply {
+                        setPieChartData(this)
+                    }
+
+                    bodyPosture.observe(viewLifecycleOwner) {
+                        if (!it.isNullOrEmpty()) {
+                            binding.tvPostureValue.text = it.also {
+                                Timber.i("body ${it}")
+                            }
+                        } else {
+                            binding.tvPostureValue.text = "".also {
+                                Timber.i("body ${it}")
+                            }
                         }
                     }
-                }
 
+                    bodyTemperature.observe(viewLifecycleOwner) {
+                        if (!it.isNullOrEmpty()) {
+                            binding.tvTemperatureValue.text = it.also {
+                                Timber.i("temp ${it}")
+                            }
+                        } else {
+                            binding.tvTemperatureValue.text = "".also {
+                                Timber.i("temp ${it}")
+                            }
+                        }
+                    }
+
+                }
             }
-        }
 
-    }
-
-    private fun singleDashboardApi(mobile: String) {
-        progressDialog.showLoadingDialog()
-        singlePatientDashboardViewModel.getSinglePatientData(mobile)
-        singlePatientDashboardViewModel.expectedResult.observe(viewLifecycleOwner, {
-            when (it) {
-                is SinglePatientDashboardViewModel.SinglePatient.Success -> {
-                    progressDialog.dismissLoadingDialog()
-                    singlePatientDashboardResponse = it.data
-                    setDataFromApiResponse(it.data)
-                    setPieChartData()
-                }
-
-                is SinglePatientDashboardViewModel.SinglePatient.Failure -> {
-                    progressDialog.dismissLoadingDialog()
-                    Toast.makeText(context, it.errorText, Toast.LENGTH_SHORT).show()
-                }
-                else -> Unit
-            }
-        })
-    }
-
-    private fun setDataFromApiResponse(data: SinglePatientDashboardResponse) {
-        binding.apply {
-            tvSelectedPatient.text = data.name
-            tvHeartRateCount.text = data.heartRate.ratePerMinute.last().toString()
-            tvRespiratoryCount.text = data.respiratoryRate.ratePerMinute.last().toString()
-            tvTemperatureValue.text = data.temperature.bodyTemperature.last().toString()
-            tvBpValue.text = (data.bloodPressure.systolicPressure.last()
-                .toString() + "/" + data.bloodPressure.diastolicPressure.last().toString())
-            tvActivityValue.text = data.step.stepCount.toString()
-            tvPostureValue.text = data.posture.bodyPosture.last()
-            tvOxygenSaturationValue.text =
-                data.oxygenSaturation.oxygenPercentage.last().toString()
-            tvWeightValue.text = data.weight.weight.toString()
-            tvTimeLeft.text = data.device.batteryPercentage.toString()
         }
     }
-}
+
+        private fun singleDashboardApi(mobile: String) {
+            progressDialog.showLoadingDialog()
+            singlePatientDashboardViewModel.getSinglePatientData(mobile)
+            singlePatientDashboardViewModel.expectedResult.observe(viewLifecycleOwner, {
+                when (it) {
+                    is SinglePatientDashboardViewModel.SinglePatient.Success -> {
+                        progressDialog.dismissLoadingDialog()
+                        it.data.apply {
+                            singlePatientDashboardResponse = this
+                            setDataFromApiResponse(this)
+                            this.heartRate.ratePerMinute.mapIndexed { index, i ->
+                                Entry(index.toFloat(), i.toFloat())
+                            }.run {
+                                setPieChartData(this)
+                            }
+                        }
+
+                    }
+
+                    is SinglePatientDashboardViewModel.SinglePatient.Failure -> {
+                        progressDialog.dismissLoadingDialog()
+                        Toast.makeText(context, it.errorText, Toast.LENGTH_SHORT).show()
+                    }
+                    else -> Unit
+                }
+            })
+        }
+
+        private fun setDataFromApiResponse(data: SinglePatientDashboardResponse) {
+            binding.apply {
+                tvSelectedPatient.text = data.name
+                tvHeartRateCount.text = data.heartRate.ratePerMinute.last().toString()
+                tvRespiratoryCount.text = data.respiratoryRate.ratePerMinute.last().toString()
+                tvTemperatureValue.text = data.temperature.bodyTemperature.last().toString()
+                tvBpValue.text = (data.bloodPressure.systolicPressure.last()
+                    .toString() + "/" + data.bloodPressure.diastolicPressure.last().toString())
+                tvActivityValue.text = data.step.stepCount.toString()
+                tvPostureValue.text = data.posture.bodyPosture.last()
+                tvOxygenSaturationValue.text =
+                    data.oxygenSaturation.oxygenPercentage.last().toString()
+                tvWeightValue.text = data.weight.weight.toString()
+                tvTimeLeft.text = data.device.batteryPercentage.toString()
+            }
+        }
+    }

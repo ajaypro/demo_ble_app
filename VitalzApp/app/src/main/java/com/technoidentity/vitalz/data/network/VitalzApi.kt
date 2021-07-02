@@ -37,6 +37,7 @@ import com.technoidentity.vitalz.data.network.Urls.SEARCH_MULTI_PATIENT
 import com.technoidentity.vitalz.data.network.Urls.SEARCH_PATIENT
 import com.technoidentity.vitalz.data.network.Urls.PROFILE_UPDATE
 import com.technoidentity.vitalz.data.network.Urls.REGISTER_DEVICE
+import com.technoidentity.vitalz.data.network.Urls.SEND_ECGDATA
 import com.technoidentity.vitalz.data.network.Urls.SEND_HEARTRATE
 import com.technoidentity.vitalz.data.network.Urls.SEND_OTP
 import com.technoidentity.vitalz.data.network.Urls.SINGLE_PATIENT_DASHBOARD
@@ -77,7 +78,10 @@ interface VitalzApi {
     suspend fun getRegisteredDevices(): List<RegisteredDevice>
 
     @POST(SEND_HEARTRATE)
-    suspend fun sendHeartRate(patientId: String, telemetryKey: String, heartRate :ByteArray): Boolean
+    suspend fun sendHeartRate(patientId: String, telemetryKey: String, heartRate :List<Byte>): Boolean
+
+    @POST(SEND_ECGDATA)
+    suspend fun sendEcgData(patientId: String, telemetryKey: String, ecgData :List<Byte>): Boolean
 
     @GET(SEARCH_MULTI_PATIENT)
     suspend fun searchMultiPatientList(@Path("parameter") parameter:String): MultiplePatientDashboardResponse

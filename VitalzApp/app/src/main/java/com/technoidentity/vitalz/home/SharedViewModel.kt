@@ -8,16 +8,18 @@ import com.technoidentity.vitalz.bluetooth.connection.IBleManager
 import com.technoidentity.vitalz.bluetooth.data.BleDevice
 import com.technoidentity.vitalz.bluetooth.data.BleMac
 import com.technoidentity.vitalz.bluetooth.data.RegisteredDevice
+import com.technoidentity.vitalz.data.local.databaseEntities.HeartRateDb
 import com.technoidentity.vitalz.data.repository.DeviceRepository
+import com.technoidentity.vitalz.utils.showToast
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
+import kotlin.properties.Delegates
 
 /**
  * This will be used for singlepatient or multipledashbaord
@@ -98,11 +100,51 @@ class SharedViewModel @Inject constructor(private val bleManager: IBleManager,
      */
     var heartRateData: Flow<ByteArray> = bleManager.heartRateCharacteristic
 
-    fun sendHeartRateToServer(patientId: String, telemetryKey: String, heartRate: ByteArray) {
+//    // data inserted in db
+//    private var _isDataInserted = MutableLiveData<Pair<Long,Boolean>>()
+//    var isDataInserted: LiveData<Pair<Long,Boolean>> = _isDataInserted
+
+//    private var _dataToServer = MutableLiveData<Boolean>()
+//    var dataToServer: LiveData<Boolean> =_dataToServer
+
+    var dataToServer by Delegates.notNull<Boolean>()
+
+    fun sendHeartRateToServer(patientId: String, telemetryKey: String, heartRate: List<Byte>) {
+
         viewModelScope.launch {
-            deviceRepository.sendHeartRate(patientId, telemetryKey, heartRate)
-            // setup table and store values in table
+
+             while (isActive) {
+                 // Data is failed to send to server
+                 deviceRepository.getHeartRateDb().collect { heartRateDb ->
+                     senData(heartRateDb.patientId, heartRateDb.telemetryKey, heartRateDb.heartRateValue).apply {
+                         require(this) {
+                            deviceRepository.deleteHeartRateData(heartRateDb)
+                         }
+                     }
+                 }
+                     senData(patientId, telemetryKey, heartRate)
+
+                 delay(10000L)
+             }
         }
+    }
+
+    private suspend fun senData(patientId: String, telemetryKey: String, heartRateValue: List<Byte>):Boolean {
+
+                    deviceRepository.sendHeartRate(patientId, telemetryKey, heartRateValue).apply {
+                         return if (!this) {
+                            dataToServer = false
+                            deviceRepository.insertHeartRateDb(HeartRateDb(patientId = patientId, telemetryKey = telemetryKey , heartRateValue = heartRateValue))
+                            //start service to again send data in api
+                            // if returns true from api data
+                            //database.delete(heartRate)
+                             false
+                        } else {
+                            dataToServer = this // data sent to server
+                             true
+                        }
+                    }
+
     }
 
     var ecgData: Flow<ByteArray>  = bleManager.ecgCharacteristic

@@ -6,9 +6,13 @@ import android.bluetooth.le.ScanFilter
 import android.bluetooth.le.ScanSettings
 import android.content.Context
 import android.os.ParcelUuid
+import androidx.room.Room
 import com.technoidentity.vitalz.bluetooth.connection.BleManager
 import com.technoidentity.vitalz.bluetooth.connection.BleScanner
 import com.technoidentity.vitalz.bluetooth.connection.IBleManager
+import com.technoidentity.vitalz.data.local.HealthDatabase
+import com.technoidentity.vitalz.data.local.dao.EcgDataDao
+import com.technoidentity.vitalz.data.local.dao.HeartRateDao
 import com.technoidentity.vitalz.data.network.VitalzApi
 import com.technoidentity.vitalz.data.network.VitalzService
 import com.technoidentity.vitalz.data.repository.DeviceRepository
@@ -39,7 +43,8 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun providesDeviceRepository(api: VitalzApi): DeviceRepository = DeviceRepositoryImpl(api)
+    fun providesDeviceRepository(api: VitalzApi, heartRateDao: HeartRateDao,
+    ecgDataDao: EcgDataDao): DeviceRepository = DeviceRepositoryImpl(api,heartRateDao, ecgDataDao)
 
     @Singleton
     @Provides
@@ -79,6 +84,19 @@ object AppModule {
     @Singleton
     @Provides
     fun providesIbleManager(bleScanner: BleScanner, api: VitalzApi): IBleManager = BleManager(bleScanner, api)
+
+    @Singleton
+    @Provides
+    fun provideHealthDatabase(@ApplicationContext app: Context) = Room.databaseBuilder(app, HealthDatabase::class.java, "vitalzdb")
+        .build()
+
+    @Singleton
+    @Provides
+    fun provideHeartRateDao(healthDatabase: HealthDatabase) = healthDatabase.heartRateDao
+
+    @Singleton
+    @Provides
+    fun provideEcgRateDao(healthDatabase: HealthDatabase) = healthDatabase.ecgDataDao
 
 
 }
