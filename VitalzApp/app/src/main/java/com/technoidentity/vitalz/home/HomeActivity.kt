@@ -7,10 +7,13 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.core.os.bundleOf
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -24,16 +27,18 @@ import com.technoidentity.vitalz.base.BaseActivity
 import com.technoidentity.vitalz.bluetooth.*
 import com.technoidentity.vitalz.databinding.ActivityHomeBinding
 import com.technoidentity.vitalz.utils.*
+import com.technoidentity.vitalz.utils.Constants.CARETAKER
+import com.technoidentity.vitalz.utils.Constants.DOCTOR
+import com.technoidentity.vitalz.utils.Constants.NURSE
 import com.technoidentity.vitalz.utils.Constants.REQUEST_LOCATION_SERVICE
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import timber.log.Timber
-
 
 @AndroidEntryPoint
 class HomeActivity : BaseActivity<ActivityHomeBinding>() {
-
 
     override fun getViewBinding() = ActivityHomeBinding.inflate(layoutInflater)
     val sharedViewModel: SharedViewModel by viewModels()
@@ -66,7 +71,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
         val navController = navHostFragment.navController
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration)
+//        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration)
 
         //bottomNavigation with Navigation Component
         setUpBottomNavigationBar(navController)
@@ -79,7 +84,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             lifecycleScope.launchWhenCreated {
                 when (it.itemId) {
                     R.id.home_tab -> {
-                        sharedViewModel.isSelected.collect { status ->
+                        sharedViewModel.isSelected.observe(this@HomeActivity, { status ->
                             when (status) {
                                 true -> {
                                     navController.navigate(R.id.singlePatientDashboardFragment)
@@ -88,13 +93,25 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                                     navController.navigate(R.id.multiPatientDashboardFragment)
                                 }
                             }
-                        }
+                        })
                     }
                     R.id.notifications_tab -> {
-                        navController.navigate(R.id.notificationsFragment)
+                        sharedViewModel.assignedRole.collect {
+                            when(it){
+                                DOCTOR -> {
+                                    navController.navigate(R.id.notificationsFragment, bundleOf("assignedRole" to DOCTOR))
+                                }
+                                NURSE -> {
+                                    navController.navigate(R.id.notificationsFragment, bundleOf("assignedRole" to NURSE))
+                                }
+                                else -> {
+                                    navController.navigate(R.id.notificationsFragment, bundleOf("assignedRole" to CARETAKER))
+                                }
+                            }
+                        }
                     }
                     R.id.settings_tab -> {
-                        navController.navigate(R.id.patientProfileFragment)
+                        navController.navigate(R.id.settingsFragment)
                     }
                 }
             }
@@ -105,7 +122,11 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         val badge = binding.bottomNavView.getOrCreateBadge(R.id.notifications_tab)
         badge.isVisible = true
         // An icon only badge will be displayed unless a number is set:
-        badge.number = 99
+        lifecycleScope.launchWhenCreated {
+            sharedViewModel.notificationCount.collect {
+                badge.number = it
+            }
+        }
 
 //        networkMonitor = NetworkUtil(this)
 
@@ -224,7 +245,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                 destination.id == R.id.careTakerMobileOTPFragment ||
                 destination.id == R.id.careTakerMobileLoginFragment ||
                 destination.id == R.id.patientProfileFragment ||
-                destination.id == R.id.doctorNurseLoginFragment
+                destination.id == R.id.doctorNurseLoginFragment ||
+                destination.id == R.id.singlePatientDetailFragment
             ) {
                 binding.bottomNavView.visibility = View.GONE
             } else {

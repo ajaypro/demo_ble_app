@@ -15,6 +15,6 @@ data class HeartRate(
     @Expose
     @SerializedName("ratePerMinute")
     val ratePerMinute: List<Int>
-):Parcelable
-
-
+):Parcelable {
+     fun changeIntToFloat(ratePerMinute: List<Int>) = ratePerMinute
+}

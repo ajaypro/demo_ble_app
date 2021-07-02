@@ -1,5 +1,6 @@
 package com.technoidentity.vitalz.hospital
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.technoidentity.vitalz.R
 import com.technoidentity.vitalz.data.datamodel.hospital_list.HospitalListDataItem
 import com.technoidentity.vitalz.databinding.RecyclerViewHospitalListBinding
 
@@ -56,7 +58,8 @@ class HospitalAdapter(val listener: HospitalListFragment) :
             val fullAddress: String =
                 (hospital.address?.let { it.street } + hospital.address?.let { it.city } +
                         hospital.address?.let { it.state } + hospital.address?.let { it.zipCode })
-            if (hospital.status) {
+            if (hospital.status == true) {
+                tvHospitalName.setTextColor(listener.resources.getColor(R.color.button_blue))
                 tvHospitalName.text = hospital.hospitalName
                 hospitalContainer.isClickable = true
             } else {
@@ -79,7 +82,9 @@ class HospitalAdapter(val listener: HospitalListFragment) :
         }
 
         override fun onClick(v: View?) {
-            listener.onItemClicked(layoutPosition)
+            if (hospitals[layoutPosition].status == true) {
+                listener.onItemClicked(layoutPosition)
+            }
         }
     }
 }

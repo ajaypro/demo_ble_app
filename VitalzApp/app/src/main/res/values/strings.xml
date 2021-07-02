@@ -123,6 +123,7 @@
     <string name="unable_to_connect">Device disconnected</string>
     <string name="error_with_device">Error with bluetooth device</string>
     <string name="no_devices_found">No Devices Found</string>
+    <string name="vitalz_health">VITALZ HEALTH</string>
     <string name="push_notifications">Push Notifications</string>
     <string name="logout">Logout</string>
 

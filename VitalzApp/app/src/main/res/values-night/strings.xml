@@ -51,4 +51,5 @@
     <string name="shortLength">Please enter 10 Digits</string>
     <string name="invalid">Please enter Valid Mobile Number</string>
     <string name="unknown">Please Contact Admin/Hospital</string>
+    <string name="vitalz_health">VITALZ HEALTH</string>
 </resources>
