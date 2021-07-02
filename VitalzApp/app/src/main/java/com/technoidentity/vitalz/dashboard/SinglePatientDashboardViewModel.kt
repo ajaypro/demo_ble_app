@@ -5,16 +5,21 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.technoidentity.vitalz.data.datamodel.single_patient.SinglePatientDashboardResponse
+import com.technoidentity.vitalz.data.repository.DeviceRepository
 import com.technoidentity.vitalz.data.repository.UserRepositoryImpl
+import com.technoidentity.vitalz.notifications.datamodel.VitalzTelemetryNotification
 import com.technoidentity.vitalz.utils.CoroutinesDispatcherProvider
+import com.technoidentity.vitalz.utils.HEART_RATE_DATA
 import com.technoidentity.vitalz.utils.ResultHandler
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class SinglePatientDashboardViewModel @Inject constructor(
     private val userRepositoryImpl: UserRepositoryImpl,
+    private val deviceRepository: DeviceRepository,
     private val dispatcher: CoroutinesDispatcherProvider
 ) : ViewModel() {
 
@@ -30,6 +35,7 @@ class SinglePatientDashboardViewModel @Inject constructor(
     val expectedResult: LiveData<SinglePatient> = _expectedResult
 
     fun getSinglePatientData(patientId: String) {
+
         viewModelScope.launch{
             _expectedResult.value = SinglePatient.Loading
             when (val response = userRepositoryImpl.getSinglePatientDashboardList(patientId)) {
@@ -45,6 +51,12 @@ class SinglePatientDashboardViewModel @Inject constructor(
                     }
                 }
             }
+        }
+    }
+
+    fun sendTelemetryNotification(notification: VitalzTelemetryNotification) {
+        viewModelScope.launch {
+                 deviceRepository.sendTelemetryNotification(notification)
         }
     }
 }

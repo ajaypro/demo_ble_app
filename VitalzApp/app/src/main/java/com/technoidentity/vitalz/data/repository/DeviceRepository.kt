@@ -4,6 +4,7 @@ import com.technoidentity.vitalz.bluetooth.data.BleMac
 import com.technoidentity.vitalz.bluetooth.data.RegisteredDevice
 import com.technoidentity.vitalz.data.local.databaseEntities.EcgDataDb
 import com.technoidentity.vitalz.data.local.databaseEntities.HeartRateDb
+import com.technoidentity.vitalz.notifications.datamodel.VitalzTelemetryNotification
 import kotlinx.coroutines.flow.Flow
 
 interface DeviceRepository {
@@ -27,5 +28,7 @@ interface DeviceRepository {
     suspend fun deleteEcgData(ecgDataDb: EcgDataDb)
 
     suspend fun getEcgDataDb(): Flow<EcgDataDb>
+
+    suspend fun sendTelemetryNotification(vitalz: VitalzTelemetryNotification): Boolean
 
 }

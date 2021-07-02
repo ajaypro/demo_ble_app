@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.technoidentity.vitalz.R
 import com.technoidentity.vitalz.bluetooth.connection.BleConnection
 import com.technoidentity.vitalz.bluetooth.data.BleMac
+import com.technoidentity.vitalz.data.network.Constants
 import com.technoidentity.vitalz.databinding.FragmentBlescanResultBinding
 import com.technoidentity.vitalz.home.SharedViewModel
 import com.technoidentity.vitalz.utils.*
@@ -179,6 +180,11 @@ class BleScanResultFragment : Fragment() {
                         viewModel.deviceForRegisteration(BleMac(device.address))
                             .observe(viewLifecycleOwner) {
                                 if (it.patchId != "Invalid_Patch") {
+
+                                    //storing patch id in shared pref
+                                    val pref = context?.getSharedPreferences(Constants.PREFERENCE_NAME, 0)
+                                    pref?.edit()?.putString(Constants.PATCHID, it.patchId)?.apply()
+
                                     if (indexQuery != -1) {
                                         devices[indexQuery] = device
                                     } else {

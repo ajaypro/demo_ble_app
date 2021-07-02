@@ -21,9 +21,11 @@ import com.technoidentity.vitalz.data.datamodel.single_patient.SinglePatientDash
 import com.technoidentity.vitalz.data.network.Constants
 import com.technoidentity.vitalz.databinding.FragmentSinglePaitentDashboardBinding
 import com.technoidentity.vitalz.home.SharedViewModel
+import com.technoidentity.vitalz.notifications.datamodel.VitalzTelemetryNotification
 import com.technoidentity.vitalz.utils.CustomProgressDialog
 import com.technoidentity.vitalz.utils.HEART_RATE_DATA
 import com.technoidentity.vitalz.utils.isTablet
+import com.technoidentity.vitalz.utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import timber.log.Timber
@@ -160,6 +162,10 @@ class SinglePatientDashboardFragment : Fragment() {
                     progressDialog.dismissLoadingDialog()
 
                     it.forEach { heartRate ->
+                        if(heartRate.toInt() > 30) {
+                            singlePatientDashboardViewModel.sendTelemetryNotification(
+                                VitalzTelemetryNotification(patientId, HEART_RATE_DATA, heartRate.toString()))
+                        }
                         binding.tvHeartRateCount.text = heartRate.toString().also {
                             Timber.d("heartrate $it")
                         }
@@ -204,9 +210,9 @@ class SinglePatientDashboardFragment : Fragment() {
         }
     }
 
-        private fun singleDashboardApi(mobile: String) {
+        private fun singleDashboardApi(patientId: String) {
             progressDialog.showLoadingDialog()
-            singlePatientDashboardViewModel.getSinglePatientData(mobile)
+            singlePatientDashboardViewModel.getSinglePatientData(patientId)
             singlePatientDashboardViewModel.expectedResult.observe(viewLifecycleOwner, {
                 when (it) {
                     is SinglePatientDashboardViewModel.SinglePatient.Success -> {

@@ -29,7 +29,8 @@ class PatientUpdateViewModel @Inject constructor(
         emergencyContactName: String,
         emergencyContactNumber: String,
         attendingDoctor: String,
-        hospitalId: String
+        hospitalId: String,
+        patchId: String
     ): LiveData<ProfileUpdateResponse> {
         ProfileUpdateRequest().apply {
             this.patientName = patientName
@@ -43,6 +44,7 @@ class PatientUpdateViewModel @Inject constructor(
             this.emergencyContactNumber = emergencyContactNumber
             this.attendingDoctor = attendingDoctor
             this.hospitalId = hospitalId
+            this.patchId = patchId
             return liveData {
                 emit(userRepositoryImpl.updatePatientData(this@apply))
             }

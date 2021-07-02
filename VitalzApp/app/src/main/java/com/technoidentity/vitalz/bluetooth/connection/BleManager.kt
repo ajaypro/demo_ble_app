@@ -500,6 +500,7 @@ class BleManager(private val bleScanner: BleScanner, private val api: VitalzApi)
                 HEART_RATE_CHAR_UUID -> {
                     characteristic?.let {
                         _heartRateCharacteristic.value = it.value
+
                         //check for heartrate threshold value
                     }
                     setCharacteristicNotification(HEART_RATE_CHAR_UUID)

@@ -26,6 +26,8 @@ object Urls {
 
     const val GET_DEVICE_LIST = "device/device-list"
 
+    const val UPDATE_DEVICE = "device/update-device"
+
     const val SEND_HEARTRATE = ""
 
     const val SEARCH_MULTI_PATIENT = "graph/search/{parameter}"

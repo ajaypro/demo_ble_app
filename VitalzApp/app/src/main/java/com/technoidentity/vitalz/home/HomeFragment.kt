@@ -14,12 +14,12 @@ class HomeFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        if (!isTablet(requireContext())) {
+        if (isTablet(requireContext())) {
             sharedViewModel.isDeviceConnected.observe(this@HomeFragment) {
                 showToast(requireContext(), "homefragment - isdeviceconnected $it")
                 // Navigating based on ble device connection
                 if (!it) {
-                    //findNavController().navigate(R.id.action_homeFragment_to_addDeviceFragment)
+                    findNavController().navigate(R.id.action_homeFragment_to_addDeviceFragment)
                     findNavController().navigate(R.id.action_homeFragment_to_doctorNurseLoginFragment)
                 } else {
                     findNavController().navigate(R.id.action_homeFragment_to_singlePatientDashboardFragment)
