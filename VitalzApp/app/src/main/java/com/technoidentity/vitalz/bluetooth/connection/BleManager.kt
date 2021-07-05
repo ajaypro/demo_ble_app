@@ -124,6 +124,8 @@ class BleManager(private val bleScanner: BleScanner, private val api: VitalzApi)
 //        }
     }
 
+
+
     fun connect(device: BluetoothDevice, context: Context) {
         if (device.isConnected()) {
             Timber.e("Already connected to ${device.address}!")
@@ -175,7 +177,7 @@ class BleManager(private val bleScanner: BleScanner, private val api: VitalzApi)
         }
     }
 
-    fun enableNotifications(device: BluetoothDevice, characteristic: BluetoothGattCharacteristic) {
+    override fun enableNotifications(device: BluetoothDevice, characteristic: BluetoothGattCharacteristic) {
         if (device.isConnected() &&
             (characteristic.isIndicatable() || characteristic.isNotifiable())
         ) {
@@ -296,58 +298,37 @@ class BleManager(private val bleScanner: BleScanner, private val api: VitalzApi)
                     signalEndOfOperation()
                 }
             }
-//            is EnableNotifications -> with(operation) {
-//                gatt.findCharacteristic(characteristicUuid)?.let { characteristic ->
-//
-//                    val payload = when {
-//                        characteristic.isIndicatable() ->
-//                            BluetoothGattDescriptor.ENABLE_INDICATION_VALUE
-//                        characteristic.isNotifiable() ->
-//                            BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE
-//                        else ->
-//                            error("${characteristic.uuid} doesn't support notifications/indications")
-//                    }
-//
-//                    characteristic.getDescriptor(UUID.fromString(CCC_DESCRIPTOR_UUID))
-//                        ?.let { cccDescriptor ->
-//                            if (!gatt.setCharacteristicNotification(characteristic, true)) {
-//                                Timber.e("setCharacteristicNotification failed for ${characteristic.uuid}")
-//                                signalEndOfOperation()
-//                                return
-//                            }
-//                            cccDescriptor.value = payload
-//                            //cccDescriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE)
-//                            gatt.writeDescriptor(cccDescriptor)
-//                        } ?: this.run {
-//                        Timber.e("${characteristic.uuid} doesn't contain the CCC descriptor!")
-//                        signalEndOfOperation()
-//                    }
-//                } ?: this.run {
-//                    Timber.e("Cannot find $characteristicUuid! Failed to enable notifications.")
-//                    signalEndOfOperation()
-//                }
-//            }
-//            is DisableNotifications -> with(operation) {
-//                gatt.findCharacteristic(characteristicUuid)?.let { characteristic ->
-//                    characteristic.getDescriptor(UUID.fromString(CCC_DESCRIPTOR_UUID))
-//                        ?.let { cccDescriptor ->
-//                            if (!gatt.setCharacteristicNotification(characteristic, false)) {
-//                                Timber.e("setCharacteristicNotification failed for ${characteristic.uuid}")
-//                                signalEndOfOperation()
-//                                return
-//                            }
-//
-//                            cccDescriptor.value = BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE
-//                            gatt.writeDescriptor(cccDescriptor)
-//                        } ?: this.run {
-//                        Timber.e("${characteristic.uuid} doesn't contain the CCC descriptor!")
-//                        signalEndOfOperation()
-//                    }
-//                } ?: this.run {
-//                    Timber.e("Cannot find $characteristicUuid! Failed to disable notifications.")
-//                    signalEndOfOperation()
-//                }
-//            }
+            is EnableNotifications -> with(operation) {
+                gatt.findCharacteristic(characteristicUuid)?.let { characteristic ->
+
+                    val payload = when {
+                        characteristic.isIndicatable() ->
+                            BluetoothGattDescriptor.ENABLE_INDICATION_VALUE
+                        characteristic.isNotifiable() ->
+                            BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE
+                        else ->
+                            error("${characteristic.uuid} doesn't support notifications/indications")
+                    }
+
+                    characteristic.getDescriptor(UUID.fromString(CCC_DESCRIPTOR_UUID))
+                        ?.let { cccDescriptor ->
+                            if (!gatt.setCharacteristicNotification(characteristic, true)) {
+                                Timber.e("setCharacteristicNotification failed for ${characteristic.uuid}")
+                                signalEndOfOperation()
+                                return
+                            }
+                            cccDescriptor.value = payload
+                            //cccDescriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE)
+                            gatt.writeDescriptor(cccDescriptor)
+                        } ?: this.run {
+                        Timber.e("${characteristic.uuid} doesn't contain the CCC descriptor!")
+                        signalEndOfOperation()
+                    }
+                } ?: this.run {
+                    Timber.e("Cannot find $characteristicUuid! Failed to enable notifications.")
+                    signalEndOfOperation()
+                }
+            }
         }
     }
 
@@ -453,14 +434,7 @@ class BleManager(private val bleScanner: BleScanner, private val api: VitalzApi)
                 signalEndOfOperation()
             }
 
-            Log.i(
-                TAG,
-                "onCharacteristicRead status: $status, value: ${
-                    String(
-                        characteristic?.value ?: byteArrayOf(0)
-                    )
-                }"
-            )
+            Log.i(TAG, "onCharacteristicRead status: $status, value: ${String(characteristic?.value ?: byteArrayOf(0))}")
             setValueToCharacteristic(characteristic)
         }
 
@@ -503,7 +477,7 @@ class BleManager(private val bleScanner: BleScanner, private val api: VitalzApi)
 
                         //check for heartrate threshold value
                     }
-                    setCharacteristicNotification(HEART_RATE_CHAR_UUID)
+                    //setCharacteristicNotification(HEART_RATE_CHAR_UUID)
                 }
                 DEVICE_BATTERY_CHAR_UUID -> {
                     characteristic?.let {
@@ -513,19 +487,19 @@ class BleManager(private val bleScanner: BleScanner, private val api: VitalzApi)
                         _connectedBleDeviceLiveData.postValue(
                             BleDevice(bleDevice.device, connectionStatus = BleConnection.DeviceConnected))
                     }
-                    setCharacteristicNotification(DEVICE_BATTERY_CHAR_UUID)
+                    //setCharacteristicNotification(DEVICE_BATTERY_CHAR_UUID)
                 }
                 ECG_RATE_CHAR_UUID -> {
                     characteristic?.let {
                         _ecgCharacteristic.value = it.value
                     }
-                    setCharacteristicNotification(ECG_RATE_CHAR_UUID)
+                    //setCharacteristicNotification(ECG_RATE_CHAR_UUID)
                 }
                 BODY_POS_CHAR_UUID -> {
                     characteristic?.let {
                         _bodyPosture.value = it.value.last().toString()
                     }
-                    setCharacteristicNotification(BODY_POS_CHAR_UUID)
+                    //setCharacteristicNotification(BODY_POS_CHAR_UUID)
                 }
                 TEMP_CHAR_UUID -> {
                     characteristic?.let {
@@ -544,34 +518,34 @@ class BleManager(private val bleScanner: BleScanner, private val api: VitalzApi)
      * Enables notification to start receiving updates from device
      */
 
-    private fun setCharacteristicNotification(uuid: UUID) {
-
-        bluetoothGatt.findCharacteristic(uuid)?.let { characteristic ->
-
-            val payload = when {
-                characteristic.isIndicatable() ->
-                    BluetoothGattDescriptor.ENABLE_INDICATION_VALUE
-                characteristic.isNotifiable() ->
-                    BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE
-                else ->
-                    error("${characteristic.uuid} doesn't support notifications/indications")
-            }
-
-            characteristic.getDescriptor(UUID.fromString(CCC_DESCRIPTOR_UUID))
-                ?.let { cccDescriptor ->
-                    if (!bluetoothGatt.setCharacteristicNotification(characteristic, true)) {
-                        Timber.e("setCharacteristicNotification failed for ${characteristic.uuid}")
-                        return
-                    }
-                    cccDescriptor.value = payload
-                    bluetoothGatt.writeDescriptor(cccDescriptor)
-                } ?: run {
-                Timber.e("${characteristic.uuid} doesn't contain the CCC descriptor!")
-                signalEndOfOperation()
-            }
-        }
-        signalEndOfOperation()
-    }
+//    private fun setCharacteristicNotification(uuid: UUID) {
+//
+//        bluetoothGatt.findCharacteristic(uuid)?.let { characteristic ->
+//
+//            val payload = when {
+//                characteristic.isIndicatable() ->
+//                    BluetoothGattDescriptor.ENABLE_INDICATION_VALUE
+//                characteristic.isNotifiable() ->
+//                    BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE
+//                else ->
+//                    error("${characteristic.uuid} doesn't support notifications/indications")
+//            }
+//
+//            characteristic.getDescriptor(UUID.fromString(CCC_DESCRIPTOR_UUID))
+//                ?.let { cccDescriptor ->
+//                    if (!bluetoothGatt.setCharacteristicNotification(characteristic, true)) {
+//                        Timber.e("setCharacteristicNotification failed for ${characteristic.uuid}")
+//                        return
+//                    }
+//                    cccDescriptor.value = payload
+//                    bluetoothGatt.writeDescriptor(cccDescriptor)
+//                } ?: run {
+//                Timber.e("${characteristic.uuid} doesn't contain the CCC descriptor!")
+//                signalEndOfOperation()
+//            }
+//        }
+//        signalEndOfOperation()
+//    }
 
     fun disconnectGattServer(gatt: BluetoothGatt?, status: BleConnection) {
         connectedDevice.let {

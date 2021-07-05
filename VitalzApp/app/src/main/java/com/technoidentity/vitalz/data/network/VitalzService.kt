@@ -50,19 +50,23 @@ object VitalzService {
                 val response = chain.proceed(request1)
                 return when (response.code) {
                     500 -> {
-                        throw Exception("Server error code: " + response.code + " with error message: " + response.message)
+                        //throw Exception("Server error code: " + response.code + " with error message: " + response.message)
+                        response
                     }
                     401 -> {
-                        throw Exception("Server error code: " + response.code + " with error message: " + response.message)
+                        //throw Exception("Server error code: " + response.code + " with error message: " + response.message)
+                        response
                     }
                     400 -> {
-                        throw Exception("Server error code: " + response.code + " with error message: " + response.message)
+                        //throw Exception("Server error code: " + response.code + " with error message: " + response.message)
+                        response
                     }
                     200 -> {
                         response
                     }
                     else -> {
-                        throw Exception("Server error code: " + response.code + " with error message: " + response.message)
+                        //throw Exception("Server error code: " + response.code + " with error message: " + response.message)
+                        response
                     }
                 }
             }

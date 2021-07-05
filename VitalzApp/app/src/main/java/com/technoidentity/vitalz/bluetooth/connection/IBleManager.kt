@@ -27,6 +27,7 @@ interface IBleManager {
         var scanChannel: Channel<BluetoothDevice>
         fun connectDevice(device: BluetoothDevice, context: Context)
         fun readCharacteristic(device: BluetoothDevice, uuid: UUID, service: BluetoothGattService)
+        fun enableNotifications(device: BluetoothDevice, characteristic: BluetoothGattCharacteristic)
 
         /**
          * Patient Data

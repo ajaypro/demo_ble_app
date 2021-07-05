@@ -18,12 +18,16 @@ import timber.log.Timber
 class DeviceDetailsFragment : Fragment() {
 
 
-     val sharedViewmodel: SharedViewModel by activityViewModels()
+    val sharedViewmodel: SharedViewModel by activityViewModels()
 
     lateinit var binding: FragmentDeviceDetailsBinding
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         binding = FragmentDeviceDetailsBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -33,44 +37,42 @@ class DeviceDetailsFragment : Fragment() {
 
         lifecycleScope.launchWhenCreated {
 
-                    sharedViewmodel.connectedDeviceData.observe(viewLifecycleOwner, { it ->
+            sharedViewmodel.connectedDeviceData.observe(viewLifecycleOwner, { it ->
 
-                        it.gatt?.getService(DEVICE_BATTERY_SER_UUID)?.let { deviceBatteryService ->
-                            sharedViewmodel.readCharacteristics(it.device, DEVICE_BATTERY_CHAR_UUID, deviceBatteryService)
+                binding.apply {
+                    patchId.text = sharedViewmodel.registeredDevice?.patchId
 
+                    sharedViewmodel.deviceBattery.observe(viewLifecycleOwner) { batteryValue ->
+                        battery.text = batteryValue.toString()
+
+                        Timber.i("devbattery ${batteryValue}")
+                    }
+                    when (it.connectionStatus) {
+                        BleConnection.DeviceConnected -> {
+                            connection.text = getString(R.string.connected)
                         }
+                        else -> {
+                            connection.text = getString(R.string.disconnected)
+                        }
+                    }
 
-                        binding.apply {
-                                patchId.text = sharedViewmodel.registeredDevice?.patchId
-
-                            sharedViewmodel.deviceBattery.observe(viewLifecycleOwner) { batteryValue ->
-                                    battery.text = batteryValue.toString()
-
-                                Timber.i("devbattery ${batteryValue}")
-                            }
-                                when (it.connectionStatus) {
-                                    BleConnection.DeviceConnected -> {
-                                        connection.text = getString(R.string.connected)
-                                    }
-                                    else -> {
-                                        connection.text = getString(R.string.disconnected)
-                                    }
-                                }
-
-                            }
-
-
-                    })
                 }
+
+
+            })
+        }
 
         binding.patientDetailsBtn.setOnClickListener {
 
             sharedViewmodel.run {
                 connectedDeviceData.observe(viewLifecycleOwner) {
-                    if(it.connectionStatus == BleConnection.DeviceConnected) {
+                    if (it.connectionStatus == BleConnection.DeviceConnected) {
 
                         it.gatt?.getService(HEART_RATE_SER_UUID)?.let { heartRateService ->
+
                             readCharacteristics(it.device, HEART_RATE_CHAR_UUID, heartRateService)
+                            //Enable notification to recieve changes from device battery status
+                            enableNotifications(it.device, heartRateService.getCharacteristic(HEART_RATE_CHAR_UUID))
                         }
 
                     }

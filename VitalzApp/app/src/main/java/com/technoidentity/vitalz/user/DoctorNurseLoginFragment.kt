@@ -91,20 +91,20 @@ class DoctorNurseLoginFragment : Fragment() {
                         }
                         //check for tablet or mobile and navigate
                         when (isTablet(requireContext())) {
-                            false ->
+                            true ->
                             {
                                 findNavController().navigate(R.id.action_doctorNurseLoginFragment_to_multiPatientDashboardFragment)
                                 val pref =
                                     context?.getSharedPreferences(Constants.PREFERENCE_NAME, 0)
                                 pref?.edit()?.putString(Constants.DOCTOR_MOBILE, it.user?.phoneNo)?.apply()
                             }
-                            true ->
+                            false ->
                             {
                                 sharedViewModel.isDeviceConnected.observe(viewLifecycleOwner) { deviceConnected ->
                                     if (!deviceConnected) {
                                         findNavController().navigate(R.id.action_doctorNurseLoginFragment_to_addDeviceFragment)
                                     } else {
-                                        findNavController().navigate(R.id.action_deviceDetailsFragment_to_singlePatientDashboardFragment)
+                                        findNavController().navigate(R.id.action_doctorNurseLoginFragment_to_singlePatientDashboardFragment)
                                     }
                                 }
                             }

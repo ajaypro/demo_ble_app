@@ -52,7 +52,7 @@ class SinglePatientDashboardFragment : Fragment() {
 
         //check if nurse or caretaker
         //nurse -> visibility of BLE layout
-        if (isTablet(requireContext())) {
+        if (!isTablet(requireContext())) {
             binding.layoutBle.visibility = View.VISIBLE
         } else {
             binding.layoutBle.visibility = View.GONE
@@ -71,10 +71,7 @@ class SinglePatientDashboardFragment : Fragment() {
             )
         }
 
-        binding.layoutHeartRate.setOnClickListener {
-            findNavController().navigate(
-                R.id.action_singlePatientDashboardFragment_to_singlePatientDetailFragment , bundleOf("isAlive" to "heart"))
-        }
+
 
         binding.layoutRespiratory.setOnClickListener {
             findNavController().navigate(
@@ -130,30 +127,32 @@ class SinglePatientDashboardFragment : Fragment() {
             description.isEnabled = false
         }
 
-        val respiratoryEntries: List<Entry> =
-            singlePatientDashboardResponse.respiratoryRate.ratePerMinute.mapIndexed { index, i ->
-                Entry(
-                    index.toFloat(),
-                    i.toFloat()
-                )
-            }
-        val dataSetRespiratory = LineDataSet(respiratoryEntries, "Unused label").apply {
-            color = Color.BLUE
-            setDrawCircles(false)
-            valueTextColor = Color.GRAY
-            highLightColor = Color.RED
-            setDrawValues(false)
-            lineWidth = 3f
-            isHighlightEnabled = true
-            setDrawHighlightIndicators(false)
-        }
-
-        binding.pieChartRespiratoryLayout.data = LineData(dataSetRespiratory)
-        binding.pieChartRespiratoryLayout.invalidate()
+//        val respiratoryEntries: List<Entry> =
+//            singlePatientDashboardResponse.respiratoryRate.ratePerMinute.mapIndexed { index, i ->
+//                Entry(
+//                    index.toFloat(),
+//                    i.toFloat()
+//                )
+//            }
+//        val dataSetRespiratory = LineDataSet(respiratoryEntries, "Unused label").apply {
+//            color = Color.BLUE
+//            setDrawCircles(false)
+//            valueTextColor = Color.GRAY
+//            highLightColor = Color.RED
+//            setDrawValues(false)
+//            lineWidth = 3f
+//            isHighlightEnabled = true
+//            setDrawHighlightIndicators(false)
+//        }
+//
+//        binding.pieChartRespiratoryLayout.data = LineData(dataSetRespiratory)
+//        binding.pieChartRespiratoryLayout.invalidate()
     }
 
     private fun bluetoothData(patientId: String) {
         progressDialog.showLoadingDialog()
+
+        var graphlist = mutableListOf<Int>()
 
         lifecycleScope.launchWhenCreated {
 
@@ -162,9 +161,14 @@ class SinglePatientDashboardFragment : Fragment() {
                     progressDialog.dismissLoadingDialog()
 
                     it.forEach { heartRate ->
-                        if(heartRate.toInt() > 30) {
+                        graphlist.add( heartRate.toInt())
+                        if(heartRate.toInt() == 15) {
                             singlePatientDashboardViewModel.sendTelemetryNotification(
-                                VitalzTelemetryNotification(patientId, HEART_RATE_DATA, heartRate.toString()))
+                                VitalzTelemetryNotification(patientId, HEART_RATE_DATA, heartRate.toString())).apply {
+                                    if(this) {
+                                        showToast(requireContext(), "HeartRate Notification sent")
+                                    }
+                            }
                         }
                         binding.tvHeartRateCount.text = heartRate.toString().also {
                             Timber.d("heartrate $it")
@@ -172,11 +176,16 @@ class SinglePatientDashboardFragment : Fragment() {
                         heartRateList.add(heartRate)
 
                     }
-                    sharedViewModel.sendHeartRateToServer(patientId, HEART_RATE_DATA, heartRateList)
 
-                    it.mapIndexed { index, i ->
+                    binding.layoutHeartRate.setOnClickListener {
+                        findNavController().navigate(
+                            R.id.action_singlePatientDashboardFragment_to_singlePatientDetailFragment , bundleOf("isAlive" to "heart"))
+                    }
+                    //sharedViewModel.sendHeartRateToServer(patientId, HEART_RATE_DATA, heartRateList)
+
+                    graphlist.mapIndexed { index, i ->
                         Entry(index.toFloat(), i.toFloat())
-                    }.apply {
+                    }.run {
                         setPieChartData(this)
                     }
 

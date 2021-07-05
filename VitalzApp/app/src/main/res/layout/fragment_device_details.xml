@@ -88,7 +88,7 @@
             style="@style/textViewDevice"
             android:layout_marginTop="@dimen/dp_16"
             android:hint="@string/fake_status"
-            android:text=""
+            android:text="87"
             android:textColor="@color/button_blue"
             android:textColorHint="@color/button_blue"
             app:layout_constraintBottom_toTopOf="@+id/connection"

@@ -54,6 +54,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     var locationPermissionGranted: CompletableDeferred<Boolean>? = null
     var bluetoothEnabled: CompletableDeferred<Boolean>? = null
 
+    lateinit var navController: NavController
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -70,63 +72,9 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
 
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
-        val navController = navHostFragment.navController
+
+         navController = navHostFragment.navController
 //        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration)
-
-        //bottomNavigation with Navigation Component
-        setUpBottomNavigationBar(navController)
-
-        //setting up bottom Nav with Nav Controller
-        binding.bottomNavView.setupWithNavController(navController)
-
-
-        binding.bottomNavView.setOnNavigationItemSelectedListener {
-            lifecycleScope.launchWhenCreated {
-                when (it.itemId) {
-                    R.id.home_tab -> {
-                        sharedViewModel.isSelected.observe(this@HomeActivity, { status ->
-                            when (status) {
-                                true -> {
-                                    navController.navigate(R.id.singlePatientDashboardFragment)
-                                }
-                                false -> {
-                                    navController.navigate(R.id.multiPatientDashboardFragment)
-                                }
-                            }
-                        })
-                    }
-                    R.id.notifications_tab -> {
-                        sharedViewModel.assignedRole.collect {
-                            when(it){
-                                DOCTOR -> {
-                                    navController.navigate(R.id.notificationsFragment, bundleOf("assignedRole" to DOCTOR))
-                                }
-                                NURSE -> {
-                                    navController.navigate(R.id.notificationsFragment, bundleOf("assignedRole" to NURSE))
-                                }
-                                else -> {
-                                    navController.navigate(R.id.notificationsFragment, bundleOf("assignedRole" to CARETAKER))
-                                }
-                            }
-                        }
-                    }
-                    R.id.settings_tab -> {
-                        navController.navigate(R.id.settingsFragment)
-                    }
-                }
-            }
-            true
-        }
-
-        //Adding badges to Notification
-        val badge = binding.bottomNavView.getOrCreateBadge(R.id.notifications_tab)
-        badge.isVisible = true
-        // An icon only badge will be displayed unless a number is set:
-        lifecycleScope.launchWhenCreated {
-            sharedViewModel.notificationCount.collect {
-                badge.number = it
-            }
-        }
 
 //        networkMonitor = NetworkUtil(this)
 
@@ -190,6 +138,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         return done(true)
     }
 
+
     private fun promptEnableBluetooth() {
         val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
         startBleOnForResult.launch(enableBtIntent)
@@ -235,11 +184,73 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             }
         }
 
+    override fun onResume() {
+        super.onResume()
+
+        //bottomNavigation with Navigation Component
+        setUpBottomNavigationBar(navController)
+
+        //setting up bottom Nav with Nav Controller
+        binding.bottomNavView.setupWithNavController(navController)
+
+
+        binding.bottomNavView.setOnNavigationItemSelectedListener {
+            lifecycleScope.launchWhenCreated {
+                when (it.itemId) {
+                    R.id.home_tab -> {
+                        sharedViewModel.isSelected.observe(this@HomeActivity, { status ->
+                            when (status) {
+                                true -> {
+                                    navController.navigate(R.id.singlePatientDashboardFragment)
+                                }
+                                false -> {
+                                    navController.navigate(R.id.multiPatientDashboardFragment)
+                                }
+                            }
+                        })
+                    }
+                    R.id.notifications_tab -> {
+                        sharedViewModel.assignedRole.collect {
+                            when(it){
+                                DOCTOR -> {
+                                    navController.navigate(R.id.notificationsFragment, bundleOf("assignedRole" to DOCTOR))
+                                }
+                                NURSE -> {
+                                    navController.navigate(R.id.notificationsFragment, bundleOf("assignedRole" to NURSE))
+                                }
+                                else -> {
+                                    navController.navigate(R.id.notificationsFragment, bundleOf("assignedRole" to CARETAKER))
+                                }
+                            }
+                        }
+                    }
+                    R.id.settings_tab -> {
+                        navController.navigate(R.id.settingsFragment)
+                    }
+                }
+            }
+            true
+        }
+
+        //Adding badges to Notification
+        val badge = binding.bottomNavView.getOrCreateBadge(R.id.notifications_tab)
+        badge.isVisible = true
+        // An icon only badge will be displayed unless a number is set:
+        lifecycleScope.launchWhenCreated {
+            sharedViewModel.notificationCount.collect {
+                badge.number = it
+            }
+        }
+
+    }
 
     private fun setUpBottomNavigationBar(navController: NavController) {
         binding.bottomNavView.setupWithNavController(navController)
         navController.addOnDestinationChangedListener { _, destination, _ ->
             if (destination.id == R.id.userSelectionFragment2 ||
+                destination.id == R.id.addDeviceFragment ||
+                destination.id == R.id.bleScanResultFragment ||
+                destination.id == R.id.deviceDetailsFragment ||
                 destination.id == R.id.hospitalListFragment ||
                 destination.id == R.id.patientListFragment ||
                 destination.id == R.id.careTakerMobileOTPFragment ||
@@ -255,8 +266,4 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-//        networkMonitor.register()
-    }
 }
