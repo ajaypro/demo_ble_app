@@ -4,14 +4,17 @@ import com.technoidentity.vitalz.bluetooth.data.BleMac
 import com.technoidentity.vitalz.bluetooth.data.RegisteredDevice
 import com.technoidentity.vitalz.data.local.databaseEntities.EcgDataDb
 import com.technoidentity.vitalz.data.local.databaseEntities.HeartRateDb
+import com.technoidentity.vitalz.data.local.databaseEntities.RegisteredDeviceDb
 import com.technoidentity.vitalz.notifications.datamodel.VitalzTelemetryNotification
 import kotlinx.coroutines.flow.Flow
 
 interface DeviceRepository {
 
-    suspend fun sendDeviceWithMacId(deviceMac: BleMac): RegisteredDevice
+    suspend fun getRegisteredDevice(deviceMac: BleMac): RegisteredDevice
 
     suspend fun getRegisteredDevices(): List<RegisteredDevice>
+
+    fun isDeviceExist(macId: String): Boolean
 
     suspend fun sendHeartRate(patientId: String, telemetryKey: String, heartRate: List<Byte>): Boolean
 
@@ -30,5 +33,9 @@ interface DeviceRepository {
     suspend fun getEcgDataDb(): Flow<EcgDataDb>
 
     suspend fun sendTelemetryNotification(vitalz: VitalzTelemetryNotification): Boolean
+
+    suspend fun insertRegisteredDeviceDb(registeredDeviceDb: RegisteredDeviceDb)
+
+    suspend fun getRegsteredDeviceDb(): RegisteredDeviceDb
 
 }

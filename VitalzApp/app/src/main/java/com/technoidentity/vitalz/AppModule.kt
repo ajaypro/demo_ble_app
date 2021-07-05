@@ -13,6 +13,7 @@ import com.technoidentity.vitalz.bluetooth.connection.IBleManager
 import com.technoidentity.vitalz.data.local.HealthDatabase
 import com.technoidentity.vitalz.data.local.dao.EcgDataDao
 import com.technoidentity.vitalz.data.local.dao.HeartRateDao
+import com.technoidentity.vitalz.data.local.dao.RegisteredDeviceDao
 import com.technoidentity.vitalz.data.network.VitalzApi
 import com.technoidentity.vitalz.data.network.VitalzService
 import com.technoidentity.vitalz.data.repository.DeviceRepository
@@ -44,7 +45,7 @@ object AppModule {
     @Singleton
     @Provides
     fun providesDeviceRepository(api: VitalzApi, heartRateDao: HeartRateDao,
-    ecgDataDao: EcgDataDao): DeviceRepository = DeviceRepositoryImpl(api,heartRateDao, ecgDataDao)
+    ecgDataDao: EcgDataDao, registeredDeviceDao: RegisteredDeviceDao): DeviceRepository = DeviceRepositoryImpl(api,heartRateDao, ecgDataDao, registeredDeviceDao)
 
     @Singleton
     @Provides
@@ -97,6 +98,10 @@ object AppModule {
     @Singleton
     @Provides
     fun provideEcgRateDao(healthDatabase: HealthDatabase) = healthDatabase.ecgDataDao
+
+    @Singleton
+    @Provides
+    fun provideRegisteredDao(healthDatabase: HealthDatabase) = healthDatabase.registeredDeviceDao
 
 
 }

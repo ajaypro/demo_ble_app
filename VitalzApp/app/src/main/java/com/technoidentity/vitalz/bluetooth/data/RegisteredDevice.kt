@@ -4,9 +4,6 @@ import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
-sealed class Devices{
-
-}
 
 @Parcelize
 data class RegisteredDevice(
@@ -14,5 +11,5 @@ data class RegisteredDevice(
     val patchId: String = "Invalid_Patch",
     @SerializedName("macId")
     val macId: String= "macId",
-    var error: String= "Invalid device"
-): Parcelable, Devices()
+    var message: String= "Invalid device"
+): Parcelable

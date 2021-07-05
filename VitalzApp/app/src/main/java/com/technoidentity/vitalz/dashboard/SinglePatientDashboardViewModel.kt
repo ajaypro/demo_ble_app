@@ -54,9 +54,11 @@ class SinglePatientDashboardViewModel @Inject constructor(
         }
     }
 
-    fun sendTelemetryNotification(notification: VitalzTelemetryNotification) {
+    fun sendTelemetryNotification(notification: VitalzTelemetryNotification) : Boolean{
+        var data: Boolean = false
         viewModelScope.launch {
-                 deviceRepository.sendTelemetryNotification(notification)
+                 data = deviceRepository.sendTelemetryNotification(notification)
         }
+        return data
     }
 }

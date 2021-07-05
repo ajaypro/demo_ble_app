@@ -1,7 +1,9 @@
 package com.technoidentity.vitalz.bluetooth.ui
 
 import android.bluetooth.BluetoothDevice
+import android.content.Context
 import android.content.DialogInterface
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -46,111 +48,42 @@ class BleScanResultFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        if (viewModel.registeredDevice == null) {
-//            deviceListAdapter =
-//                BluetoothScanResultAdapter(BleDeviceClickListener { bluetoothDevice ->
-//                    viewModel.toggleScan().also {
-//                        showToast(requireContext(), "Scanning stopped")
-//                    }
-//                    viewModel.deviceForRegisteration(BleMac(bluetoothDevice.address))
-//                    viewModel.registeredDevice?.let {
-//
-//                        when (equalsDevice(it.macId, bluetoothDevice)) {
-//                            true -> {
-//                                requireContext().showAlert(
-//                                    title = "Device Registered",
-//                                    message = "Do you want to add more devices?",
-//                                    positiveBtnClickListener = { _: DialogInterface, _: Int ->
-//                                        findNavController().navigate(R.id.action_bleScanResultFragment_to_addDeviceFragment)
-//                                    },
-//                                    negativeBtnClickListener = { dialog, _ ->
-//                                        dialog.dismiss()
-//                                    })
-//                                //diaply dialog and navigate to add device page
-//
-//                            }
-//                            else -> {
-//                                showToast(context, "Something went wrong patchId not generated")
-//                            }
-//                        }
-//                    }
-//
-//
-//                }, viewModel)
-//        }
-//
-//        if (viewModel.registeredDevice?.patchId != "Invalid Patch") {
-//
-//            deviceListAdapter =
-//                BluetoothScanResultAdapter(BleDeviceClickListener { bluetoothDevice ->
-//                    viewModel.toggleScan().also {
-//                        showToast(requireContext(), "Scanning stopped")
-//                    }
-//                    viewModel.connectDevice(
-//                        bluetoothDevice,
-//                        requireContext().applicationContext
-//                    )
-////                viewModel.deviceBattery.observe(viewLifecycleOwner) {
-////                    if (it > 0) {
-//                    showToast(requireContext(), "Device is connected BleScanresult")
-//                    findNavController().navigate(R.id.action_bleScanResultFragment_to_deviceDetailsFragment) // will take bledevice object from viewmodel
-////                    } else showToast(requireContext(), "Device is not connected BleScanresult")
-////                }
-//                }, viewModel)
-//        }
 
         val deviceListAdapter =
             BluetoothScanResultAdapter(BleDeviceClickListener { bluetoothDevice ->
                 viewModel.toggleScan().also {
                     showToast(requireContext(), "Scanning stopped")
                 }
-                //viewModel.deviceForRegisteration(BleMac(bluetoothDevice.address))
-
-//                     viewModel.registeredDevice.observe(viewLifecycleOwner) {
-//                         if(it.macId.isNotEmpty()) {
-//                             when (equalsDevice(it.macId, bluetoothDevice)) {
-//                                 true -> {
-//                                     requireContext().showAlert(
-//                                         title = "Device Registered",
-//                                         message = "Do you want to add more devices?",
-//                                         positiveBtnClickListener = { _: DialogInterface, _: Int ->
-//                                             findNavController().navigate(R.id.action_bleScanResultFragment_to_addDeviceFragment)
-//                                         },
-//                                         cancelBtnClickListener = { it.dismiss() })
-//                                     //diaply dialog and navigate to add device page
-//
-//                                 }
-//                                 else -> {
-//                                     "Something went wrong patchId not generated"
-//                                 }
-//                             }
-//                         }
-//                     }
-
                 viewModel.connectDevice(bluetoothDevice, requireContext().applicationContext)
-
-//                viewModel.run {
-//                    connectedDeviceData.observe(viewLifecycleOwner) {
-//                        if (it.connectionStatus == BleConnection.DeviceConnected) {
-//
-//                            it.gatt?.getService(DEVICE_BATTERY_SER_UUID)?.let { deviceBatteryService ->
-//                                readCharacteristics(it.device, DEVICE_BATTERY_CHAR_UUID, deviceBatteryService)
-//                            }
-//                        }
-//                    }
-//                }
-
-//                viewModel.deviceBattery.observe(viewLifecycleOwner) {
-//                    if (it > 0) {
-                showToast(requireContext(), "Device is connected BleScanresult")
-                findNavController().navigate(R.id.action_bleScanResultFragment_to_deviceDetailsFragment) // will take bledevice object from viewmodel
-//                    } else showToast(requireContext(), "Device is not connected BleScanresult")
-//                }
 
             }, viewModel)
 
+        viewModel.run {
+            connectedDeviceData.observe(viewLifecycleOwner) {
+                if (it.connectionStatus == BleConnection.DeviceConnected) {
+
+                    it.gatt?.getService(DEVICE_BATTERY_SER_UUID)?.let { deviceBatteryService ->
+
+                        readCharacteristics(it.device, DEVICE_BATTERY_CHAR_UUID, deviceBatteryService)
+                        //Enable notification to recieve changes from device battery status
+                        enableNotifications(it.device, deviceBatteryService.getCharacteristic(DEVICE_BATTERY_CHAR_UUID))
+
+                    }
+                    // navigate after device is connected
+                    findNavController().navigate(R.id.action_bleScanResultFragment_to_deviceDetailsFragment) // will take bledevice object from viewmodel
+                }
+            }
+        }
+//                viewModel.deviceBattery.observe(viewLifecycleOwner) {
+//                    if (it > 0) {
+        //showToast(requireContext(), "Device is connected BleScanresult")
+        //findNavController().navigate(R.id.action_bleScanResultFragment_to_deviceDetailsFragment) // will take bledevice object from viewmodel
+//                    } else showToast(requireContext(), "Device is not connected BleScanresult")
+//                }
+
         scanResult(deviceListAdapter)
     }
+
 
     private fun scanResult(deviceListAdapter: BluetoothScanResultAdapter) {
         binding.bleScanResult.apply {
@@ -160,31 +93,27 @@ class BleScanResultFragment : Fragment() {
         }
         deviceListAdapter.submitList(devices)
 
+        binding.scanBtn.setOnClickListener {
+            viewModel.toggleScan()
+        }
+
+        binding.scanBtn.apply {
+            viewModel.isScanning.observe(viewLifecycleOwner, {
+                if (it) setText(R.string.stop_scan) else setText(R.string.start_scan)
+            })
+        }
+
         lifecycleScope.launchWhenCreated {
-
-            binding.scanBtn.setOnClickListener {
-                viewModel.toggleScan()
-            }
-
-            binding.scanBtn.apply {
-                viewModel.isScanning.observe(viewLifecycleOwner, {
-                    if (it) setText(R.string.stop_scan) else setText(R.string.start_scan)
-                })
-            }
 
             viewModel.scanFlow.distinctUntilChangedBy { it.address }.collect { device ->
                 val indexQuery = devices.indexOfFirst { it.address == device.address }
 
                 when (device.name != null && device.name.startsWith("HRM_")) {
+
                     true -> {
                         viewModel.deviceForRegisteration(BleMac(device.address))
                             .observe(viewLifecycleOwner) {
                                 if (it.patchId != "Invalid_Patch") {
-
-                                    //storing patch id in shared pref
-                                    val pref = context?.getSharedPreferences(Constants.PREFERENCE_NAME, 0)
-                                    pref?.edit()?.putString(Constants.PATCHID, it.patchId)?.apply()
-
                                     if (indexQuery != -1) {
                                         devices[indexQuery] = device
                                     } else {
@@ -197,22 +126,22 @@ class BleScanResultFragment : Fragment() {
                             }
 
                     }
-                   false ->{
-                       if (indexQuery != -1) {
-                           devices[indexQuery] = device
-                       } else {
-                           devices.add(device)
-                           deviceListAdapter.notifyItemChanged(devices.size - 1)
-                           Timber.d("found device with address = ${device.address}")
-                       }
-                   }
+                    false -> {
+                        if (indexQuery != -1) {
+                            devices[indexQuery] = device
+                        } else {
+                            devices.add(device)
+                            deviceListAdapter.notifyItemChanged(devices.size - 1)
+                            Timber.d("found device with address = ${device.address}")
+                        }
+                    }
                 }
 
 
             }
-
         }
 
-
     }
+
+
 }

@@ -16,6 +16,8 @@ class BluetoothScanResultAdapter(private val bleDeviceClickListener: BleDeviceCl
 
     lateinit var binding: DeviceItemListBinding
 
+     //var sharedPreferences = context.getSharedPreferences(Constants.PREFERENCE_NAME, Context.MODE_PRIVATE)
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DeviceListViewHolder {
 
         binding = DeviceItemListBinding.bind(LayoutInflater.from(parent.context).inflate(R.layout.device_item_list, parent, false))
@@ -29,6 +31,7 @@ class BluetoothScanResultAdapter(private val bleDeviceClickListener: BleDeviceCl
     }
 
     inner class DeviceListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+
 
         fun bindView(bleDevice: BluetoothDevice, bleDeviceClickListener: BleDeviceClickListener) {
             viewModel.registeredDevice(bleDevice).apply {
