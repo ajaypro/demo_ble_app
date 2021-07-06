@@ -24,6 +24,9 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        binding = getViewBinding()
+        setContentView(binding.root)
+
         if(isTablet(this)) showToast(this, "This is tablet") else showToast(this, "This is mobile")
 
         networkMonitor = NetworkUtil(this)
