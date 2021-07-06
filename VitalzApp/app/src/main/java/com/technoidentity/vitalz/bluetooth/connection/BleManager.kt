@@ -509,8 +509,7 @@ class BleManager(private val bleScanner: BleScanner, private val api: VitalzApi)
 
             }
             _connectedBleDeviceLiveData.postValue(
-                BleDevice(bleDevice.device, connectionStatus = BleConnection.DeviceConnected)
-            )
+                BleDevice(bleDevice.device, connectionStatus = BleConnection.DeviceConnected))
         }
     }
 

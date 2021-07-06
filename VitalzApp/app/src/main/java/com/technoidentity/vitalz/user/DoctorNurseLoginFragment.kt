@@ -1,19 +1,16 @@
 package com.technoidentity.vitalz.user
 
 import android.os.Bundle
-import android.util.Log
 import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.github.mikephil.charting.utils.Utils
 import com.technoidentity.vitalz.R
+import com.technoidentity.vitalz.base.BaseFragment
 import com.technoidentity.vitalz.data.network.Constants
 import com.technoidentity.vitalz.databinding.FragmentDocnurseLoginBinding
 import com.technoidentity.vitalz.home.SharedViewModel
@@ -24,25 +21,29 @@ import com.technoidentity.vitalz.utils.isTablet
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DoctorNurseLoginFragment : Fragment() {
-    private lateinit var binding: FragmentDocnurseLoginBinding
+class DoctorNurseLoginFragment : BaseFragment<FragmentDocnurseLoginBinding>() {
+
+    override fun getViewBinding() = FragmentDocnurseLoginBinding.inflate(layoutInflater)
+
     val viewModel: DoctorNurseLoginViewModel by viewModels()
     val sharedViewModel: SharedViewModel by activityViewModels()
     private lateinit var progressDialog: CustomProgressDialog
     private var isPasswordVisible: Boolean = false
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentDocnurseLoginBinding.inflate(layoutInflater)
-        progressDialog = CustomProgressDialog(this.requireContext())
-        return binding.root
-    }
+//    override fun onCreateView(
+//        inflater: LayoutInflater,
+//        container: ViewGroup?,
+//        savedInstanceState: Bundle?
+//    ): View {
+//        //binding = FragmentDocnurseLoginBinding.inflate(layoutInflater)
+//
+//        return binding.root
+//    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        progressDialog = CustomProgressDialog(this.requireContext())
 
         binding.btnLoginDocNurse.setOnClickListener {
             validateCredentials(

@@ -41,6 +41,7 @@ import timber.log.Timber
 class HomeActivity : BaseActivity<ActivityHomeBinding>() {
 
     override fun getViewBinding() = ActivityHomeBinding.inflate(layoutInflater)
+
     val sharedViewModel: SharedViewModel by viewModels()
 //    private lateinit var networkMonitor: NetworkUtil
     private val bluetoothAdapter by lazy(LazyThreadSafetyMode.NONE) {
@@ -59,8 +60,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityHomeBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
         val appBarConfiguration = AppBarConfiguration
             .Builder(
