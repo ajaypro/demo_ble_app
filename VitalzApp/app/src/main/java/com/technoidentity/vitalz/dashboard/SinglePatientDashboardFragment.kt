@@ -200,8 +200,8 @@ class SinglePatientDashboardFragment : Fragment() {
                         setPieChartData(this)
                     }
 
-                    bodyPostureData()
-                    bodyTemperatureData()
+//                    bodyPostureData()
+//                    bodyTemperatureData()
                 }
             }
 

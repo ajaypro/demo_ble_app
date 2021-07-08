@@ -38,14 +38,14 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
                         when (type) {
                             ConnectionType.WIFI -> {
                                 //internet_status.text = "Wifi Connection"
-                                Snackbar.make(binding.root, "Connected", Snackbar.LENGTH_SHORT).show()
+                                //Snackbar.make(binding.root, "Connected", Snackbar.LENGTH_SHORT).show()
                             }
                             ConnectionType.CELLULAR -> {
                                 //internet_status.text = "Cellular Connection"
-                                Snackbar.make(binding.root, "Connected", Snackbar.LENGTH_SHORT).show()
+                                //Snackbar.make(binding.root, "Connected", Snackbar.LENGTH_SHORT).show()
                             }
                             else -> {
-                                Snackbar.make(binding.root, "Connected", Snackbar.LENGTH_SHORT).show()
+                                //Snackbar.make(binding.root, "Connected", Snackbar.LENGTH_SHORT).show()
                             }
                         }
                     }
@@ -70,7 +70,7 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
-        networkMonitor.unregister()
+        //networkMonitor.unregister()
     }
 
     abstract fun getViewBinding(): VB
