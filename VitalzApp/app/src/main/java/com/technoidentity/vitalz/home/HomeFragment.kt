@@ -19,8 +19,8 @@ class HomeFragment : Fragment() {
                 showToast(requireContext(), "homefragment - isdeviceconnected $it")
                 // Navigating based on ble device connection
                 if (!it) {
-                    //findNavController().navigate(R.id.action_homeFragment_to_addDeviceFragment)
-                    findNavController().navigate(R.id.action_homeFragment_to_doctorNurseLoginFragment)
+                    findNavController().navigate(R.id.action_homeFragment_to_addDeviceFragment)
+                    //findNavController().navigate(R.id.action_homeFragment_to_doctorNurseLoginFragment)
                 } else {
                     findNavController().navigate(R.id.action_homeFragment_to_singlePatientDashboardFragment)
                 }
