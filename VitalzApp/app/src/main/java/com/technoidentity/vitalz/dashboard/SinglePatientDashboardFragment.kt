@@ -17,15 +17,13 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.technoidentity.vitalz.R
+import com.technoidentity.vitalz.bluetooth.connection.BleConnection
 import com.technoidentity.vitalz.data.datamodel.single_patient.SinglePatientDashboardResponse
 import com.technoidentity.vitalz.data.network.Constants
 import com.technoidentity.vitalz.databinding.FragmentSinglePaitentDashboardBinding
 import com.technoidentity.vitalz.home.SharedViewModel
 import com.technoidentity.vitalz.notifications.datamodel.VitalzTelemetryNotification
-import com.technoidentity.vitalz.utils.CustomProgressDialog
-import com.technoidentity.vitalz.utils.HEART_RATE_DATA
-import com.technoidentity.vitalz.utils.isTablet
-import com.technoidentity.vitalz.utils.showToast
+import com.technoidentity.vitalz.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import timber.log.Timber
@@ -39,7 +37,7 @@ class SinglePatientDashboardFragment : Fragment() {
     private lateinit var progressDialog: CustomProgressDialog
     lateinit var singlePatientDashboardResponse: SinglePatientDashboardResponse
     lateinit var patientId: String
-    var heartRateList = mutableListOf<Byte>()
+    var heartRateGraph = mutableListOf<Int>()
     lateinit var heartEntries: List<Entry>
 
     override fun onCreateView(
@@ -63,14 +61,6 @@ class SinglePatientDashboardFragment : Fragment() {
             context?.getSharedPreferences(Constants.PREFERENCE_NAME, Context.MODE_PRIVATE)
         patientId = sharedPreferences?.getString(Constants.PATIENTID, null).toString()
 
-        //ViewProfilePage
-        binding.ivViewProfile.setOnClickListener {
-            findNavController().navigate(
-                R.id.action_singlePatientDashboardFragment_to_patientProfileFragment,
-                bundleOf("patientData" to singlePatientDashboardResponse)
-            )
-        }
-
 
 
         binding.layoutRespiratory.setOnClickListener {
@@ -91,6 +81,13 @@ class SinglePatientDashboardFragment : Fragment() {
             true -> {
                 singleDashboardApi(patientId)
             }
+        }
+
+        //ViewProfilePage
+        binding.ivViewProfile.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_singlePatientDashboardFragment_to_patientProfileFragment,
+                bundleOf("patientData" to singlePatientDashboardResponse))
         }
     }
 
@@ -152,7 +149,22 @@ class SinglePatientDashboardFragment : Fragment() {
     private fun bluetoothData(patientId: String) {
         progressDialog.showLoadingDialog()
 
-        var graphlist = mutableListOf<Int>()
+        sharedViewModel.run {
+
+            deviceBattery.observe(viewLifecycleOwner){
+                binding.tvTimeLeftUnit.text = it.toString().plus("%")
+            }
+
+            connectedDeviceData.observe(viewLifecycleOwner) {
+                if (it.connectionStatus == BleConnection.DeviceConnected) {
+                    it.gatt?.getService(HEART_RATE_SER_UUID)?.let { heartRateService ->
+                        readCharacteristics(it.device, HEART_RATE_CHAR_UUID, heartRateService)
+                    }
+
+                }
+
+            }
+        }
 
         lifecycleScope.launchWhenCreated {
 
@@ -161,10 +173,10 @@ class SinglePatientDashboardFragment : Fragment() {
                     progressDialog.dismissLoadingDialog()
 
                     it.forEach { heartRate ->
-                        graphlist.add( heartRate.toInt())
+                        heartRateGraph.add( heartRate.toInt())
                         if(heartRate.toInt() == 15) {
                             singlePatientDashboardViewModel.sendTelemetryNotification(
-                                VitalzTelemetryNotification(patientId, HEART_RATE_DATA, heartRate.toString())).apply {
+                                VitalzTelemetryNotification(registeredDevice?.patchId, HEART_RATE_DATA, heartRate.toString())).apply {
                                     if(this) {
                                         showToast(requireContext(), "HeartRate Notification sent")
                                     }
@@ -173,8 +185,7 @@ class SinglePatientDashboardFragment : Fragment() {
                         binding.tvHeartRateCount.text = heartRate.toString().also {
                             Timber.d("heartrate $it")
                         }
-                        heartRateList.add(heartRate)
-
+                        //heartRateList.add(heartRate)
                     }
 
                     binding.layoutHeartRate.setOnClickListener {
@@ -183,41 +194,49 @@ class SinglePatientDashboardFragment : Fragment() {
                     }
                     //sharedViewModel.sendHeartRateToServer(patientId, HEART_RATE_DATA, heartRateList)
 
-                    graphlist.mapIndexed { index, i ->
+                    heartRateGraph.mapIndexed { index, i ->
                         Entry(index.toFloat(), i.toFloat())
                     }.run {
                         setPieChartData(this)
                     }
 
-                    bodyPosture.observe(viewLifecycleOwner) {
-                        if (!it.isNullOrEmpty()) {
-                            binding.tvPostureValue.text = it.also {
-                                Timber.i("body ${it}")
-                            }
-                        } else {
-                            binding.tvPostureValue.text = "".also {
-                                Timber.i("body ${it}")
-                            }
-                        }
-                    }
-
-                    bodyTemperature.observe(viewLifecycleOwner) {
-                        if (!it.isNullOrEmpty()) {
-                            binding.tvTemperatureValue.text = it.also {
-                                Timber.i("temp ${it}")
-                            }
-                        } else {
-                            binding.tvTemperatureValue.text = "".also {
-                                Timber.i("temp ${it}")
-                            }
-                        }
-                    }
-
+                    bodyPostureData()
+                    bodyTemperatureData()
                 }
             }
 
         }
     }
+
+    private fun bodyPostureData(){
+        sharedViewModel.bodyPosture.observe(viewLifecycleOwner) {
+            if (!it.isNullOrEmpty()) {
+                binding.tvPostureValue.text = it.also {
+                    Timber.i("body ${it}")
+                }
+            } else {
+                binding.tvPostureValue.text = "".also {
+                    Timber.i("body ${it}")
+                }
+            }
+        }
+    }
+
+    private fun bodyTemperatureData() {
+        sharedViewModel.bodyTemperature.observe(viewLifecycleOwner) {
+            if (!it.isNullOrEmpty()) {
+                binding.tvTemperatureValue.text = it.also {
+                    Timber.i("temp ${it}")
+                }
+            } else {
+                binding.tvTemperatureValue.text = "".also {
+                    Timber.i("temp ${it}")
+                }
+            }
+        }
+    }
+
+
 
         private fun singleDashboardApi(patientId: String) {
             progressDialog.showLoadingDialog()

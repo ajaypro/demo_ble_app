@@ -1,17 +1,17 @@
 package com.technoidentity.vitalz.data.local
 
-import androidx.room.Database
-import androidx.room.RoomDatabase
-import androidx.room.TypeConverters
+import androidx.room.*
+import androidx.room.migration.AutoMigrationSpec
 import com.technoidentity.vitalz.data.local.dao.EcgDataDao
 import com.technoidentity.vitalz.data.local.dao.HeartRateDao
 import com.technoidentity.vitalz.data.local.dao.RegisteredDeviceDao
 import com.technoidentity.vitalz.data.local.databaseEntities.EcgDataDb
 import com.technoidentity.vitalz.data.local.databaseEntities.HeartRateDb
 import com.technoidentity.vitalz.data.local.databaseEntities.RegisteredDeviceDb
-import javax.inject.Singleton
 
-@Database(entities = [HeartRateDb::class, EcgDataDb::class, RegisteredDeviceDb::class], version = 1, exportSchema = false)
+@Database(version = 2,
+   entities = [HeartRateDb::class, EcgDataDb::class, RegisteredDeviceDb::class],
+   exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class HealthDatabase : RoomDatabase() {
 
@@ -20,5 +20,8 @@ abstract class HealthDatabase : RoomDatabase() {
    abstract val ecgDataDao: EcgDataDao
 
    abstract val registeredDeviceDao: RegisteredDeviceDao
+
+//   @RenameColumn(tableName = "registeredDevice", fromColumnName = "patientId", toColumnName = "patchId")
+//   class HealthAutoMigration: AutoMigrationSpec {}
 
 }

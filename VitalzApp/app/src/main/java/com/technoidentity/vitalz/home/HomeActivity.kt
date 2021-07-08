@@ -194,7 +194,9 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
 
 
         binding.bottomNavView.setOnNavigationItemSelectedListener {
-            lifecycleScope.launchWhenCreated {
+
+            lifecycleScope.launchWhenResumed {
+
                 when (it.itemId) {
                     R.id.home_tab -> {
                         sharedViewModel.isSelected.observe(this@HomeActivity, { status ->
@@ -203,6 +205,9 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                                     navController.navigate(R.id.singlePatientDashboardFragment)
                                 }
                                 false -> {
+                                    if(!isTablet(this@HomeActivity)){
+                                        navController.navigate(R.id.singlePatientDashboardFragment)
+                                    }
                                     navController.navigate(R.id.multiPatientDashboardFragment)
                                 }
                             }
@@ -236,8 +241,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         badge.isVisible = true
         // An icon only badge will be displayed unless a number is set:
         lifecycleScope.launchWhenCreated {
-            sharedViewModel.notificationCount.collect {
-                badge.number = it
+            sharedViewModel.notificationCount.collect { badge.number = it
             }
         }
 
@@ -265,4 +269,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        sharedViewModel.stopScan()
+    }
 }

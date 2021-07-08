@@ -10,7 +10,7 @@ data class RegisteredDeviceDb(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
 
-    @ColumnInfo(name ="patientId")
+    @ColumnInfo(name ="patchId")
     val patchId: String = "Invalid_Patch",
 
     @ColumnInfo(name ="macId")
