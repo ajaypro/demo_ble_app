@@ -22,6 +22,7 @@ class DeviceRepositoryImpl @Inject constructor(
 
     override suspend fun getRegisteredDevice(deviceMac: BleMac): RegisteredDevice {
         return kotlin.runCatching {
+
             when (isDeviceExist(deviceMac.macId)){
                 false -> {
                     api.sendDevicesForRegisteration(deviceMac).apply {

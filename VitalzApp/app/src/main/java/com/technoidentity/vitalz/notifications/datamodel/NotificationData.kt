@@ -6,7 +6,7 @@ data class NotificationData(
 )
 
 data class VitalzTelemetryNotification(
-    val patchId: String,
+    val patchId: String?,
     val telemetryKey: String,
     val telemetryValue: String
 )

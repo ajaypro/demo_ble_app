@@ -30,6 +30,7 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
         if(isTablet(this)) showToast(this, "This is tablet") else showToast(this, "This is mobile")
 
         networkMonitor = NetworkUtil(this)
+
         networkMonitor.result = { isAvailable, type ->
             runOnUiThread {
                 when (isAvailable) {
@@ -37,13 +38,14 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
                         when (type) {
                             ConnectionType.WIFI -> {
                                 //internet_status.text = "Wifi Connection"
-
+                                Snackbar.make(binding.root, "Connected", Snackbar.LENGTH_SHORT).show()
                             }
                             ConnectionType.CELLULAR -> {
                                 //internet_status.text = "Cellular Connection"
+                                Snackbar.make(binding.root, "Connected", Snackbar.LENGTH_SHORT).show()
                             }
                             else -> {
-
+                                Snackbar.make(binding.root, "Connected", Snackbar.LENGTH_SHORT).show()
                             }
                         }
                     }
@@ -55,14 +57,15 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        networkMonitor.register()
+    }
+
     override fun onSupportNavigateUp(): Boolean {
         val navController = this.findNavController(R.id.navHostFragment)
         return navController.navigateUp()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        networkMonitor.register()
     }
 
     override fun onStop() {

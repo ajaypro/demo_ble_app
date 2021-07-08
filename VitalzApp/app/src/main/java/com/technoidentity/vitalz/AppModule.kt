@@ -89,6 +89,7 @@ object AppModule {
     @Singleton
     @Provides
     fun provideHealthDatabase(@ApplicationContext app: Context) = Room.databaseBuilder(app, HealthDatabase::class.java, "vitalzdb")
+        .fallbackToDestructiveMigrationFrom(2)
         .build()
 
     @Singleton

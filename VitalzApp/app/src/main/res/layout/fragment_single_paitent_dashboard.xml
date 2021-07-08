@@ -45,8 +45,6 @@
         <TextView
             android:id="@+id/tv_time_left"
             style="@style/dashboard_ble"
-            android:hint="@string/fake_time_left"
-            android:text=""
             android:textColor="@color/black"
             app:layout_constraintStart_toEndOf="@+id/iv_remote_icon"
             app:layout_constraintTop_toTopOf="parent" />

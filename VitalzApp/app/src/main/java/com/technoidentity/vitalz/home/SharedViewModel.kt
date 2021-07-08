@@ -51,6 +51,8 @@ class SharedViewModel @Inject constructor(
         bleManager.apply { if (isScanning.value) stopScan() else startScan() }
     }
 
+    fun stopScan() = bleManager.stopScan()
+
     fun connectDevice(device: BluetoothDevice, context: Context) {
 
         bleManager.connectDevice(device, context)

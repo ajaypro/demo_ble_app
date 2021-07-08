@@ -66,7 +66,7 @@ class BleScanResultFragment : Fragment() {
 
                         readCharacteristics(it.device, DEVICE_BATTERY_CHAR_UUID, deviceBatteryService)
                         //Enable notification to recieve changes from device battery status
-                        enableNotifications(it.device, deviceBatteryService.getCharacteristic(DEVICE_BATTERY_CHAR_UUID))
+                        //enableNotifications(it.device, deviceBatteryService.getCharacteristic(DEVICE_BATTERY_CHAR_UUID))
 
                     }
                     // navigate after device is connected

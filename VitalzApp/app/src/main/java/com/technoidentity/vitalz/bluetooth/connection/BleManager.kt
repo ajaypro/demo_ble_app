@@ -40,8 +40,6 @@ class BleManager(private val bleScanner: BleScanner, private val api: VitalzApi)
 
     lateinit var connectedDevice: BleDevice
 
-    lateinit var bluetoothGattService: BluetoothGattService
-
     /**
      * Patient data to be updated
      */
@@ -59,10 +57,6 @@ class BleManager(private val bleScanner: BleScanner, private val api: VitalzApi)
 
     private var _bodyTemperature = MutableLiveData<String>()
     override var bodyTemperature: LiveData<String> = _bodyTemperature
-
-
-    //make use of this in singlepaitentdashboard fragment
-    var gattOperationStatus = mutableMapOf<String, Boolean>()
 
     private val deviceGattMap = ConcurrentHashMap<BluetoothDevice, BluetoothGatt>()
     private val operationQueue = ConcurrentLinkedQueue<BleOperationType>()
@@ -86,7 +80,6 @@ class BleManager(private val bleScanner: BleScanner, private val api: VitalzApi)
     override fun connectDevice(device: BluetoothDevice, context: Context) {
         connectedDevice =
             BleDevice(device, connectionStatus = BleConnection.DeviceConnectionLoading(device))
-        //bluetoothGatt = device.connectGatt(context, false, gattClientCallback)
         if (device.isConnected()) {
             Timber.e("Already connected to ${device.address}!")
         } else {
@@ -106,22 +99,8 @@ class BleManager(private val bleScanner: BleScanner, private val api: VitalzApi)
                 service.getCharacteristic(uuid).apply {
                     if (this.isReadable()) {
                         enqueueOperation(CharacteristicRead(device, uuid))
-                       // bluetoothGatt.readCharacteristic(this)
                     }
                 }
-
-//        when (bluetoothGattService.getCharacteristic(uuid).isReadable()) {
-//            true -> {
-//                bluetoothGatt.readCharacteristic(bluetoothGattService.getCharacteristic(uuid)).apply {
-//                    gattOperationStatus[CHAR_READ_INITIALIZED_SUCCESS] = true
-//                    return true
-//                }
-//            }
-//            else -> {
-//                gattOperationStatus[CHAR_READ_INITIALIZED_FAILURE] = false
-//                return false
-//            }
-//        }
     }
 
 
@@ -139,17 +118,6 @@ class BleManager(private val bleScanner: BleScanner, private val api: VitalzApi)
             enqueueOperation(Disconnect(device))
         } else {
             Timber.e("Not connected to ${device.address}, cannot teardown connection!")
-        }
-    }
-
-    fun readCharacteristic(device: BluetoothDevice, characteristic: BluetoothGattCharacteristic) {
-
-        if (device.isConnected() && characteristic.isReadable()) {
-            enqueueOperation(CharacteristicRead(device, characteristic.uuid))
-        } else if (!characteristic.isReadable()) {
-            Timber.e("Attempting to read ${characteristic.uuid} that isn't readable!")
-        } else if (!device.isConnected()) {
-            Timber.e("Not connected to ${device.address}, cannot perform characteristic read")
         }
     }
 
@@ -184,18 +152,6 @@ class BleManager(private val bleScanner: BleScanner, private val api: VitalzApi)
             enqueueOperation(EnableNotifications(device, characteristic.uuid))
         } else if (!device.isConnected()) {
             Timber.e("Not connected to ${device.address}, cannot enable notifications")
-        } else if (!characteristic.isIndicatable() && !characteristic.isNotifiable()) {
-            Timber.e("Characteristic ${characteristic.uuid} doesn't support notifications/indications")
-        }
-    }
-
-    fun disableNotifications(device: BluetoothDevice, characteristic: BluetoothGattCharacteristic) {
-        if (device.isConnected() &&
-            (characteristic.isIndicatable() || characteristic.isNotifiable())
-        ) {
-            enqueueOperation(DisableNotifications(device, characteristic.uuid))
-        } else if (!device.isConnected()) {
-            Timber.e("Not connected to ${device.address}, cannot disable notifications")
         } else if (!characteristic.isIndicatable() && !characteristic.isNotifiable()) {
             Timber.e("Characteristic ${characteristic.uuid} doesn't support notifications/indications")
         }
@@ -349,10 +305,6 @@ class BleManager(private val bleScanner: BleScanner, private val api: VitalzApi)
                     Timber.d("BleManager device connected")
                 }
                 deviceGattMap[gatt.device] = gatt
-//                connectedDevice.run {
-//                    _connectedBleDeviceLiveData.postValue(
-//                        BleDevice(device, connectionStatus = BleConnection.DeviceConnected))
-//                }
                 gatt.discoverServices()
             } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
                 disconnectGattServer(gatt, BleConnection.DeviceConnectingError)
@@ -430,12 +382,13 @@ class BleManager(private val bleScanner: BleScanner, private val api: VitalzApi)
                 return
             }
 
+            Log.i(TAG, "onCharacteristicRead status: $status, value: ${String(characteristic?.value ?: byteArrayOf(0))}")
+            setValueToCharacteristic(characteristic)
+
             if (pendingOperation is CharacteristicRead) {
                 signalEndOfOperation()
             }
 
-            Log.i(TAG, "onCharacteristicRead status: $status, value: ${String(characteristic?.value ?: byteArrayOf(0))}")
-            setValueToCharacteristic(characteristic)
         }
 
         override fun onDescriptorRead(gatt: BluetoothGatt?, descriptor: BluetoothGattDescriptor?, status: Int) {
@@ -469,7 +422,6 @@ class BleManager(private val bleScanner: BleScanner, private val api: VitalzApi)
                 return
             }
 
-            //if (bleDevice.services?.contains(bluetoothGattService) == true) {
             when (characteristic?.uuid) {
                 HEART_RATE_CHAR_UUID -> {
                     characteristic?.let {
@@ -477,17 +429,16 @@ class BleManager(private val bleScanner: BleScanner, private val api: VitalzApi)
 
                         //check for heartrate threshold value
                     }
-                    //setCharacteristicNotification(HEART_RATE_CHAR_UUID)
+                    setCharacteristicNotification(HEART_RATE_CHAR_UUID)
                 }
                 DEVICE_BATTERY_CHAR_UUID -> {
                     characteristic?.let {
                         _deviceBattery.postValue(it.value.filter { it > 0 }.last().toInt()).also {
                             Timber.i("Battery ${it}")
                         }
-                        _connectedBleDeviceLiveData.postValue(
-                            BleDevice(bleDevice.device, connectionStatus = BleConnection.DeviceConnected))
+
                     }
-                    //setCharacteristicNotification(DEVICE_BATTERY_CHAR_UUID)
+                    setCharacteristicNotification(DEVICE_BATTERY_CHAR_UUID)
                 }
                 ECG_RATE_CHAR_UUID -> {
                     characteristic?.let {
@@ -500,16 +451,16 @@ class BleManager(private val bleScanner: BleScanner, private val api: VitalzApi)
                         _bodyPosture.value = it.value.last().toString()
                     }
                     //setCharacteristicNotification(BODY_POS_CHAR_UUID)
-                }
-                TEMP_CHAR_UUID -> {
+                } else ->
+                 {
                     characteristic?.let {
                         _bodyTemperature.value = it.value.last().toString()
                     }
                 }
 
             }
-            _connectedBleDeviceLiveData.postValue(
-                BleDevice(bleDevice.device, connectionStatus = BleConnection.DeviceConnected))
+//            _connectedBleDeviceLiveData.postValue(
+//                BleDevice(bleDevice.device, connectionStatus = BleConnection.DeviceConnected))
         }
     }
 
@@ -517,34 +468,34 @@ class BleManager(private val bleScanner: BleScanner, private val api: VitalzApi)
      * Enables notification to start receiving updates from device
      */
 
-//    private fun setCharacteristicNotification(uuid: UUID) {
-//
-//        bluetoothGatt.findCharacteristic(uuid)?.let { characteristic ->
-//
-//            val payload = when {
-//                characteristic.isIndicatable() ->
-//                    BluetoothGattDescriptor.ENABLE_INDICATION_VALUE
-//                characteristic.isNotifiable() ->
-//                    BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE
-//                else ->
-//                    error("${characteristic.uuid} doesn't support notifications/indications")
-//            }
-//
-//            characteristic.getDescriptor(UUID.fromString(CCC_DESCRIPTOR_UUID))
-//                ?.let { cccDescriptor ->
-//                    if (!bluetoothGatt.setCharacteristicNotification(characteristic, true)) {
-//                        Timber.e("setCharacteristicNotification failed for ${characteristic.uuid}")
-//                        return
-//                    }
-//                    cccDescriptor.value = payload
-//                    bluetoothGatt.writeDescriptor(cccDescriptor)
-//                } ?: run {
-//                Timber.e("${characteristic.uuid} doesn't contain the CCC descriptor!")
-//                signalEndOfOperation()
-//            }
-//        }
-//        signalEndOfOperation()
-//    }
+    private fun setCharacteristicNotification(uuid: UUID) {
+
+        bluetoothGatt.findCharacteristic(uuid)?.let { characteristic ->
+
+            val payload = when {
+                characteristic.isIndicatable() ->
+                    BluetoothGattDescriptor.ENABLE_INDICATION_VALUE
+                characteristic.isNotifiable() ->
+                    BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE
+                else ->
+                    error("${characteristic.uuid} doesn't support notifications/indications")
+            }
+
+            characteristic.getDescriptor(UUID.fromString(CCC_DESCRIPTOR_UUID))
+                ?.let { cccDescriptor ->
+                    if (!bluetoothGatt.setCharacteristicNotification(characteristic, true)) {
+                        Timber.e("setCharacteristicNotification failed for ${characteristic.uuid}")
+                        return
+                    }
+                    cccDescriptor.value = payload
+                    bluetoothGatt.writeDescriptor(cccDescriptor)
+                } ?: run {
+                Timber.e("${characteristic.uuid} doesn't contain the CCC descriptor!")
+                signalEndOfOperation()
+            }
+        }
+        signalEndOfOperation()
+    }
 
     fun disconnectGattServer(gatt: BluetoothGatt?, status: BleConnection) {
         connectedDevice.let {

@@ -43,9 +43,7 @@ class DeviceDetailsFragment : Fragment() {
                     patchId.text = sharedViewmodel.registeredDevice?.patchId
 
                     sharedViewmodel.deviceBattery.observe(viewLifecycleOwner) { batteryValue ->
-                        battery.text = batteryValue.toString()
-
-                        Timber.i("devbattery ${batteryValue}")
+                        battery.text = batteryValue.toString().plus("%")
                     }
                     when (it.connectionStatus) {
                         BleConnection.DeviceConnected -> {
@@ -64,21 +62,6 @@ class DeviceDetailsFragment : Fragment() {
 
         binding.patientDetailsBtn.setOnClickListener {
 
-            sharedViewmodel.run {
-                connectedDeviceData.observe(viewLifecycleOwner) {
-                    if (it.connectionStatus == BleConnection.DeviceConnected) {
-
-                        it.gatt?.getService(HEART_RATE_SER_UUID)?.let { heartRateService ->
-
-                            readCharacteristics(it.device, HEART_RATE_CHAR_UUID, heartRateService)
-                            //Enable notification to recieve changes from device battery status
-                            enableNotifications(it.device, heartRateService.getCharacteristic(HEART_RATE_CHAR_UUID))
-                        }
-
-                    }
-
-                }
-            }
             when (isTablet(requireContext())) {
                 true -> findNavController().navigate(R.id.action_deviceDetailsFragment_to_multiPatientDashboardFragment)
                 else -> findNavController().navigate(R.id.action_deviceDetailsFragment_to_singlePatientDashboardFragment)
