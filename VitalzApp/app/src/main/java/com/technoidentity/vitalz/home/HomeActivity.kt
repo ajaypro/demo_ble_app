@@ -78,7 +78,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
 //        networkMonitor = NetworkUtil(this)
 
         //this tablet check is for BLE Device Scan
-        if (!isTablet(this)) {
+        if (isTablet(this)) {
             lifecycleScope.launchWhenStarted {
                 if (initializeBleScanner()) {
                     showToast(
@@ -240,7 +240,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         val badge = binding.bottomNavView.getOrCreateBadge(R.id.notifications_tab)
         badge.isVisible = true
         // An icon only badge will be displayed unless a number is set:
-        lifecycleScope.launchWhenCreated {
+        lifecycleScope.launchWhenResumed {
             sharedViewModel.notificationCount.collect { badge.number = it
             }
         }

@@ -14,7 +14,7 @@ class HomeFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        if (!isTablet(requireContext())) {
+        if (isTablet(requireContext())) {
             sharedViewModel.isDeviceConnected.observe(this@HomeFragment) {
                 showToast(requireContext(), "homefragment - isdeviceconnected $it")
                 // Navigating based on ble device connection

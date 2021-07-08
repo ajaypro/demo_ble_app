@@ -1,7 +1,6 @@
 package com.technoidentity.vitalz.data.local
 
 import androidx.room.*
-import androidx.room.migration.AutoMigrationSpec
 import com.technoidentity.vitalz.data.local.dao.EcgDataDao
 import com.technoidentity.vitalz.data.local.dao.HeartRateDao
 import com.technoidentity.vitalz.data.local.dao.RegisteredDeviceDao
@@ -21,7 +20,5 @@ abstract class HealthDatabase : RoomDatabase() {
 
    abstract val registeredDeviceDao: RegisteredDeviceDao
 
-//   @RenameColumn(tableName = "registeredDevice", fromColumnName = "patientId", toColumnName = "patchId")
-//   class HealthAutoMigration: AutoMigrationSpec {}
 
 }

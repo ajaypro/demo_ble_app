@@ -30,15 +30,6 @@ class DoctorNurseLoginFragment : BaseFragment<FragmentDocnurseLoginBinding>() {
     private lateinit var progressDialog: CustomProgressDialog
     private var isPasswordVisible: Boolean = false
 
-//    override fun onCreateView(
-//        inflater: LayoutInflater,
-//        container: ViewGroup?,
-//        savedInstanceState: Bundle?
-//    ): View {
-//        //binding = FragmentDocnurseLoginBinding.inflate(layoutInflater)
-//
-//        return binding.root
-//    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -92,14 +83,14 @@ class DoctorNurseLoginFragment : BaseFragment<FragmentDocnurseLoginBinding>() {
                         }
                         //check for tablet or mobile and navigate
                         when (isTablet(requireContext())) {
-                            true ->
+                            false ->
                             {
                                 findNavController().navigate(R.id.action_doctorNurseLoginFragment_to_multiPatientDashboardFragment)
                                 val pref =
                                     context?.getSharedPreferences(Constants.PREFERENCE_NAME, 0)
                                 pref?.edit()?.putString(Constants.DOCTOR_MOBILE, it.user?.phoneNo)?.apply()
                             }
-                            false ->
+                            true ->
                             {
                                 sharedViewModel.isDeviceConnected.observe(viewLifecycleOwner) { deviceConnected ->
                                     if (!deviceConnected) {
@@ -110,7 +101,7 @@ class DoctorNurseLoginFragment : BaseFragment<FragmentDocnurseLoginBinding>() {
                                 }
                             }
                         }
-                    }else{
+                    } else{
                         progressDialog.dismissLoadingDialog()
                         Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
                     }
