@@ -8,6 +8,11 @@ import java.lang.IllegalArgumentException
 import java.lang.IllegalStateException
 import java.util.*
 
+/**
+ * Ble constants
+ */
+
+const val SERVICE_UUID = "ba20fd05-ea08-446d-b007-5dac7b2d1d3b"
 
 val HEART_RATE_SER_UUID = UUID.fromString("03B80E5A-EDE8-4B33-A751-6CE34EC4C700")
 val HEART_RATE_CHAR_UUID = UUID.fromString("03B80E5B-EDE8-4B33-A751-6CE34EC4C700")
@@ -26,9 +31,16 @@ const val CHAR_READ_INITIALIZED_SUCCESS = "Character read initialized successful
 const val CHAR_READ_INITIALIZED_FAILURE = "Character read failed"
 const val DEVICE_START_NAME = "HRM"
 
-const val HEART_RATE_DATA = "heartrate"
-const val BATTERY_DATA = "battery"
+const val HEART_RATE_DATA = "HEART_RATE"
+const val BATTERY_DATA = "BATTERY_DATA"
 const val ECG_DATA = "ecg"
+
+const val ACTIVE_STATUS = "ACTIVE"
+const val INACTIVE_STATUS = "INACTIVE"
+
+const val CONNECTION_GOOD = "GOOD"
+const val CONNECTION_BAD = "BAD"
+
 
 /**
  * Telemetry Key

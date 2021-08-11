@@ -19,6 +19,8 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.technoidentity.vitalz.R
 import com.technoidentity.vitalz.bluetooth.connection.BleConnection
 import com.technoidentity.vitalz.data.datamodel.single_patient.SinglePatientDashboardResponse
+import com.technoidentity.vitalz.data.datamodel.updatedregistereddevice.UpdateRegisteredDeviceRequest
+import com.technoidentity.vitalz.data.datamodel.updatedregistereddevice.UpdatedRegisteredDeviceResponse
 import com.technoidentity.vitalz.data.network.Constants
 import com.technoidentity.vitalz.databinding.FragmentSinglePaitentDashboardBinding
 import com.technoidentity.vitalz.home.SharedViewModel
@@ -27,6 +29,7 @@ import com.technoidentity.vitalz.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import timber.log.Timber
+import kotlin.properties.Delegates
 
 @AndroidEntryPoint
 class SinglePatientDashboardFragment : Fragment() {
@@ -36,9 +39,12 @@ class SinglePatientDashboardFragment : Fragment() {
     lateinit var binding: FragmentSinglePaitentDashboardBinding
     private lateinit var progressDialog: CustomProgressDialog
     lateinit var singlePatientDashboardResponse: SinglePatientDashboardResponse
+    lateinit var updatedRegisteredDeviceResponse: UpdatedRegisteredDeviceResponse
     lateinit var patientId: String
-    var heartRateGraph = mutableListOf<Int>()
-    lateinit var heartEntries: List<Entry>
+    lateinit var patchId: String
+    lateinit var deviceConnectionStatus: BleConnection
+    var batteryValue by Delegates.notNull<String>()
+    var heartRateGraphData = mutableListOf<Int>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -56,17 +62,12 @@ class SinglePatientDashboardFragment : Fragment() {
             binding.layoutBle.visibility = View.GONE
         }
 
+        patchId = arguments?.getString("patchId").toString()
         //Get Patient Id from Shared Prefs
         val sharedPreferences =
             context?.getSharedPreferences(Constants.PREFERENCE_NAME, Context.MODE_PRIVATE)
         patientId = sharedPreferences?.getString(Constants.PATIENTID, null).toString()
 
-
-
-        binding.layoutRespiratory.setOnClickListener {
-            findNavController().navigate(
-                R.id.action_singlePatientDashboardFragment_to_singlePatientDetailFragment , bundleOf("isAlive" to "respiratory"))
-        }
 
         return binding.root
     }
@@ -74,21 +75,54 @@ class SinglePatientDashboardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        when(isTablet(requireContext())) {
-            false -> {
-                bluetoothData(patientId)
-            }
+        binding.layoutHeartRate.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_singlePatientDashboardFragment_to_singlePatientDetailFragment,
+                bundleOf("isAlive" to VitalzConstant.HEART_RATE.item)
+            )
+        }
+
+        binding.layoutRespiratory.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_singlePatientDashboardFragment_to_singlePatientDetailFragment,
+                bundleOf("isAlive" to "respiratory")
+            )
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        when (isTablet(requireContext())) {
             true -> {
+                bluetoothData(patchId)
+                binding.ivViewProfile.setOnClickListener {
+                    findNavController().navigate(
+                        R.id.action_singlePatientDashboardFragment_to_patientProfileFragment,
+                        bundleOf("patientData" to singlePatientDashboardResponse)
+                    )
+                }
+
+            }
+            false -> {
                 singleDashboardApi(patientId)
+                binding.ivViewProfile.setOnClickListener {
+                    findNavController().navigate(
+                        R.id.action_singlePatientDashboardFragment_to_patientProfileFragment,
+                        bundleOf("patientData" to singlePatientDashboardResponse)
+                    )
+                }
+
             }
         }
 
-        //ViewProfilePage
-        binding.ivViewProfile.setOnClickListener {
-            findNavController().navigate(
-                R.id.action_singlePatientDashboardFragment_to_patientProfileFragment,
-                bundleOf("patientData" to singlePatientDashboardResponse))
+        lifecycleScope.launchWhenResumed {
+
+            heartRateBle(patchId)
+            bodyPostureDataBle()
+            bodyTemperatureDataBle()
         }
+
     }
 
     private fun setPieChartData(heartEntries: List<Entry>) {
@@ -146,69 +180,125 @@ class SinglePatientDashboardFragment : Fragment() {
 //        binding.pieChartRespiratoryLayout.invalidate()
     }
 
-    private fun bluetoothData(patientId: String) {
-        progressDialog.showLoadingDialog()
+    private fun bluetoothData(patchId: String) {
+        //progressDialog.showLoadingDialog()
 
-        sharedViewModel.run {
+        sharedViewModel.connectedDeviceData.observe(viewLifecycleOwner, {
+            deviceConnectionStatus = it.connectionStatus
 
-            deviceBattery.observe(viewLifecycleOwner){
-                binding.tvTimeLeftUnit.text = it.toString().plus("%")
-            }
-
-            connectedDeviceData.observe(viewLifecycleOwner) {
-                if (it.connectionStatus == BleConnection.DeviceConnected) {
-                    it.gatt?.getService(HEART_RATE_SER_UUID)?.let { heartRateService ->
-                        readCharacteristics(it.device, HEART_RATE_CHAR_UUID, heartRateService)
-                    }
-
+            if (it.connectionStatus == BleConnection.DeviceConnected) {
+                it.gatt?.getService(HEART_RATE_SER_UUID)?.let { heartRateService ->
+                    sharedViewModel.readCharacteristics(
+                        it.device,
+                        HEART_RATE_CHAR_UUID,
+                        heartRateService
+                    )
                 }
-
+                sharedViewModel.deviceBattery.observe(viewLifecycleOwner,{
+                    binding.tvTimeLeft.text = it.toString().plus("%")
+                    batteryValue = it.toString()
+                })
             }
+        })
+
+        updateDeviceStatus()
+
         }
 
-        lifecycleScope.launchWhenCreated {
+  private fun updateDeviceStatus() {
 
-            sharedViewModel.apply {
-                heartRateData.collect {
-                    progressDialog.dismissLoadingDialog()
+      if(deviceConnectionStatus == BleConnection.DeviceConnected) {
+          // replace static patchid with argument patchid from this method
+          singlePatientDashboardViewModel.updateDevice(
+              UpdateRegisteredDeviceRequest(
+                  batteryValue,
+                  "VITHOS001",
+                  ACTIVE_STATUS,
+                  CONNECTION_GOOD
+              )
+          )
+          singlePatientDashboardViewModel.updateDevice.observe(viewLifecycleOwner) { registeredDeviceResponse ->
+              // updating patientId to dashboarddetailsfragment
+              //updatePatientId(registeredDeviceResponse.patientId)
+              singleDashboardApi(registeredDeviceResponse.patientId)
+              //heartRateBle()
+              updatedRegisteredDeviceResponse = registeredDeviceResponse
+              binding.tvSelectedPatient.text = registeredDeviceResponse.patientName
+          }
+      } else {
+          singlePatientDashboardViewModel
+              .updateDevice(
+                  UpdateRegisteredDeviceRequest(
+                      batteryValue,
+                      patchId,
+                      INACTIVE_STATUS,
+                      CONNECTION_BAD
+                  )
+              )
+          singlePatientDashboardViewModel.updateDevice.observe(viewLifecycleOwner) { registeredDeviceResponse ->
+              updatedRegisteredDeviceResponse = registeredDeviceResponse
+          }
+      }
 
-                    it.forEach { heartRate ->
-                        heartRateGraph.add( heartRate.toInt())
-                        if(heartRate.toInt() == 15) {
-                            singlePatientDashboardViewModel.sendTelemetryNotification(
-                                VitalzTelemetryNotification(registeredDevice?.patchId, HEART_RATE_DATA, heartRate.toString())).apply {
-                                    if(this) {
-                                        showToast(requireContext(), "HeartRate Notification sent")
-                                    }
+  }
+
+
+
+    private suspend fun heartRateBle(patchId: String) {
+
+        sharedViewModel.heartRateData.collect {
+
+            it.forEach { heartRate ->
+
+                //for line graph
+                heartRateGraphData.add(heartRate.toInt())
+
+                if (this::singlePatientDashboardResponse.isInitialized) {
+                    if (checkHeartRateThreshold( Pair(singlePatientDashboardResponse.age, heartRate))) {
+
+                        singlePatientDashboardViewModel.sendTelemetryNotification(
+                            VitalzTelemetryNotification(
+                                patchId,
+                                HEART_RATE_DATA,
+                                heartRate.toString()
+                            )
+                        ).apply {
+
+                            if (this == true) {
+                                showToast(requireContext(), "HeartRate Notification sent")
                             }
                         }
-                        binding.tvHeartRateCount.text = heartRate.toString().also {
-                            Timber.d("heartrate $it")
-                        }
-                        //heartRateList.add(heartRate)
                     }
 
-                    binding.layoutHeartRate.setOnClickListener {
-                        findNavController().navigate(
-                            R.id.action_singlePatientDashboardFragment_to_singlePatientDetailFragment , bundleOf("isAlive" to "heart"))
-                    }
-                    //sharedViewModel.sendHeartRateToServer(patientId, HEART_RATE_DATA, heartRateList)
-
-                    heartRateGraph.mapIndexed { index, i ->
-                        Entry(index.toFloat(), i.toFloat())
-                    }.run {
-                        setPieChartData(this)
+                    binding.tvHeartRateCount.text = heartRate.toString().also {
+                        Timber.d("heartrate $it")
                     }
 
-//                    bodyPostureData()
-//                    bodyTemperatureData()
+                    setGraphData(heartRateGraphData)
                 }
-            }
 
+            }
+            if(!it.contains(0)) {
+                sharedViewModel.sendHeartRateToServer(patchId, HEART_RATE_DATA, it.asList())
+            }
         }
     }
 
-    private fun bodyPostureData(){
+
+    /**
+     *  Use this for settings graph data
+     */
+    private fun setGraphData(graphData: MutableList<Int>) {
+
+        graphData.mapIndexed { index, i ->
+            Entry(index.toFloat(), i.toFloat())
+        }.run {
+            setPieChartData(this)
+        }
+    }
+
+
+    private suspend fun bodyPostureDataBle() {
         sharedViewModel.bodyPosture.observe(viewLifecycleOwner) {
             if (!it.isNullOrEmpty()) {
                 binding.tvPostureValue.text = it.also {
@@ -222,7 +312,7 @@ class SinglePatientDashboardFragment : Fragment() {
         }
     }
 
-    private fun bodyTemperatureData() {
+    private suspend fun bodyTemperatureDataBle() {
         sharedViewModel.bodyTemperature.observe(viewLifecycleOwner) {
             if (!it.isNullOrEmpty()) {
                 binding.tvTemperatureValue.text = it.also {
@@ -237,49 +327,54 @@ class SinglePatientDashboardFragment : Fragment() {
     }
 
 
-
-        private fun singleDashboardApi(patientId: String) {
-            progressDialog.showLoadingDialog()
-            singlePatientDashboardViewModel.getSinglePatientData(patientId)
-            singlePatientDashboardViewModel.expectedResult.observe(viewLifecycleOwner, {
-                when (it) {
-                    is SinglePatientDashboardViewModel.SinglePatient.Success -> {
-                        progressDialog.dismissLoadingDialog()
-                        it.data.apply {
-                            singlePatientDashboardResponse = this
-                            setDataFromApiResponse(this)
-                            this.heartRate.ratePerMinute.mapIndexed { index, i ->
-                                Entry(index.toFloat(), i.toFloat())
-                            }.run {
-                                setPieChartData(this)
-                            }
+    private fun singleDashboardApi(patientId: String) {
+        //progressDialog.showLoadingDialog()
+        singlePatientDashboardViewModel.getSinglePatientData(patientId)
+        singlePatientDashboardViewModel.singlePatientData.observe(viewLifecycleOwner, {
+            when (it) {
+                is SinglePatientDashboardViewModel.SinglePatient.Success -> {
+                    //progressDialog.dismissLoadingDialog()
+                    it.data.apply {
+                        singlePatientDashboardResponse = this
+                        setData(this)
+                        this.heartRate.ratePerMinute.mapIndexed { index, i ->
+                            Entry(index.toFloat(), i.toFloat())
+                        }.run {
+                            setPieChartData(this)
                         }
-
                     }
 
-                    is SinglePatientDashboardViewModel.SinglePatient.Failure -> {
-                        progressDialog.dismissLoadingDialog()
-                        Toast.makeText(context, it.errorText, Toast.LENGTH_SHORT).show()
-                    }
-                    else -> Unit
                 }
-            })
-        }
 
-        private fun setDataFromApiResponse(data: SinglePatientDashboardResponse) {
-            binding.apply {
-                tvSelectedPatient.text = data.name
+                is SinglePatientDashboardViewModel.SinglePatient.Failure -> {
+                    progressDialog.dismissLoadingDialog()
+                    Toast.makeText(context, it.errorText, Toast.LENGTH_SHORT).show()
+                }
+                else -> Unit
+            }
+        })
+    }
+
+    private fun setData(data: SinglePatientDashboardResponse) {
+
+        binding.apply {
+            tvSelectedPatient.text = data.name
+            if (isTablet(requireContext())) {
                 tvHeartRateCount.text = data.heartRate.ratePerMinute.last().toString()
-                tvRespiratoryCount.text = data.respiratoryRate.ratePerMinute.last().toString()
-                tvTemperatureValue.text = data.temperature.bodyTemperature.last().toString()
-                tvBpValue.text = (data.bloodPressure.systolicPressure.last()
-                    .toString() + "/" + data.bloodPressure.diastolicPressure.last().toString())
-                tvActivityValue.text = data.step.stepCount.toString()
-                tvPostureValue.text = data.posture.bodyPosture.last()
-                tvOxygenSaturationValue.text =
-                    data.oxygenSaturation.oxygenPercentage.last().toString()
-                tvWeightValue.text = data.weight.weight.toString()
                 tvTimeLeft.text = data.device.batteryPercentage.toString()
             }
+            tvRespiratoryCount.text = data.respiratoryRate.ratePerMinute.last().toString()
+            tvTemperatureValue.text = data.temperature.bodyTemperature.last().toString()
+            tvBpValue.text = (data.bloodPressure.systolicPressure.last()
+                .toString() + "/" + data.bloodPressure.diastolicPressure.last().toString())
+            tvActivityValue.text = data.step.stepCount.toString()
+            tvPostureValue.text = data.posture.bodyPosture.last()
+            tvOxygenSaturationValue.text =
+                data.oxygenSaturation.oxygenPercentage.last().toString()
+            tvWeightValue.text = data.weight.weight.toString()
+
         }
     }
+
+}
+

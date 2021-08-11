@@ -43,7 +43,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     override fun getViewBinding() = ActivityHomeBinding.inflate(layoutInflater)
 
     val sharedViewModel: SharedViewModel by viewModels()
-//    private lateinit var networkMonitor: NetworkUtil
     private val bluetoothAdapter by lazy(LazyThreadSafetyMode.NONE) {
         (getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager).adapter
     }
@@ -73,9 +72,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
 
          navController = navHostFragment.navController
-//        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration)
-
-//        networkMonitor = NetworkUtil(this)
 
         //this tablet check is for BLE Device Scan
         if (isTablet(this)) {

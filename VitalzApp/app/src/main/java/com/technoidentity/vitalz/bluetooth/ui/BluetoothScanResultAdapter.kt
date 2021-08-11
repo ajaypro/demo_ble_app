@@ -36,7 +36,7 @@ class BluetoothScanResultAdapter(private val bleDeviceClickListener: BleDeviceCl
         fun bindView(bleDevice: BluetoothDevice, bleDeviceClickListener: BleDeviceClickListener) {
             viewModel.registeredDevice(bleDevice).apply {
                 if(this.first){
-                    binding.bleDeviceName.text = this.second
+                    binding.bleDeviceName.text = this.second // patch id
                     binding.bleMacTxt.visibility = View.GONE
                 } else {
                     binding.bleDeviceName.text = this.second

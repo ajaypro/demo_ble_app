@@ -7,6 +7,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.technoidentity.vitalz.bluetooth.data.*
+import com.technoidentity.vitalz.data.datamodel.updatedregistereddevice.UpdateRegisteredDeviceRequest
 import com.technoidentity.vitalz.data.network.VitalzApi
 import com.technoidentity.vitalz.utils.*
 import dagger.hilt.android.scopes.ViewModelScoped
@@ -43,6 +44,7 @@ class BleManager(private val bleScanner: BleScanner, private val api: VitalzApi)
     /**
      * Patient data to be updated
      */
+
     private var _heartRateCharacteristic = MutableStateFlow(byteArrayOf(0))
     override var heartRateCharacteristic: StateFlow<ByteArray> = _heartRateCharacteristic
 
@@ -503,7 +505,7 @@ class BleManager(private val bleScanner: BleScanner, private val api: VitalzApi)
                 BleDevice(it.device, services = it.services, connectionStatus = status))
         }
         _isDeviceConnected.value = false.also {
-            Timber.d("BleManager device connected")
+            Timber.d("BleManager device disconnected")
         }
         gatt?.disconnect()
         gatt?.close()

@@ -7,8 +7,8 @@ import com.technoidentity.vitalz.data.datamodel.careTakerLogin.CareTakerOtpRespo
 import com.technoidentity.vitalz.data.datamodel.careTakerLogin.CareTakerRequest
 import com.technoidentity.vitalz.data.datamodel.dashboardDetail.DashboardDetailResponse
 import com.technoidentity.vitalz.data.datamodel.dashboardDetail.DashboardDetailsRequest
-import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseResponse
 import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseRequest
+import com.technoidentity.vitalz.data.datamodel.docNurseLogin.DocNurseResponse
 import com.technoidentity.vitalz.data.datamodel.hospital_list.HospitalListData
 import com.technoidentity.vitalz.data.datamodel.hospital_list.HospitalListRequest
 import com.technoidentity.vitalz.data.datamodel.multiple_patient.MultiplePatientDashboardResponse
@@ -22,26 +22,28 @@ import com.technoidentity.vitalz.data.datamodel.patient_list.PatientRequest
 import com.technoidentity.vitalz.data.datamodel.single_patient.SinglePatientDashboardResponse
 import com.technoidentity.vitalz.data.datamodel.updateProfile.ProfileUpdateRequest
 import com.technoidentity.vitalz.data.datamodel.updateProfile.ProfileUpdateResponse
+import com.technoidentity.vitalz.data.datamodel.updatedregistereddevice.UpdateRegisteredDeviceRequest
+import com.technoidentity.vitalz.data.datamodel.updatedregistereddevice.UpdatedRegisteredDeviceResponse
 import com.technoidentity.vitalz.data.network.Urls.CARETAKER_LOGIN
 import com.technoidentity.vitalz.data.network.Urls.CARE_TAKER_NOTIFICATION
-import com.technoidentity.vitalz.data.network.Urls.DOCTOR_NOTIFICATION
 import com.technoidentity.vitalz.data.network.Urls.DASHBOARD_DETAIL
+import com.technoidentity.vitalz.data.network.Urls.DOCTOR_NOTIFICATION
 import com.technoidentity.vitalz.data.network.Urls.DOC_NURSE_LOGIN
 import com.technoidentity.vitalz.data.network.Urls.GET_DEVICE_LIST
 import com.technoidentity.vitalz.data.network.Urls.HOSPITAL_LIST
 import com.technoidentity.vitalz.data.network.Urls.MULTIPLE_PATIENT_DASHBOARD
 import com.technoidentity.vitalz.data.network.Urls.NURSE_NOTIFICATION
 import com.technoidentity.vitalz.data.network.Urls.PATIENT_LIST
+import com.technoidentity.vitalz.data.network.Urls.PROFILE_UPDATE
+import com.technoidentity.vitalz.data.network.Urls.REGISTER_DEVICE
 import com.technoidentity.vitalz.data.network.Urls.SEARCH_HOSPITAL
 import com.technoidentity.vitalz.data.network.Urls.SEARCH_MULTI_PATIENT
 import com.technoidentity.vitalz.data.network.Urls.SEARCH_PATIENT
-import com.technoidentity.vitalz.data.network.Urls.PROFILE_UPDATE
-import com.technoidentity.vitalz.data.network.Urls.REGISTER_DEVICE
-import com.technoidentity.vitalz.data.network.Urls.SEND_ECGDATA
-import com.technoidentity.vitalz.data.network.Urls.SEND_HEARTRATE
 import com.technoidentity.vitalz.data.network.Urls.SEND_OTP
+import com.technoidentity.vitalz.data.network.Urls.SEND_TELEMETRY
 import com.technoidentity.vitalz.data.network.Urls.SEND_TELEMETRY_NOTIFICATION
 import com.technoidentity.vitalz.data.network.Urls.SINGLE_PATIENT_DASHBOARD
+import com.technoidentity.vitalz.data.network.Urls.UPDATE_DEVICE
 import com.technoidentity.vitalz.notifications.datamodel.PushNotification
 import com.technoidentity.vitalz.notifications.datamodel.VitalzTelemetryNotification
 import com.technoidentity.vitalz.utils.FirebaseConstants.CONTENT_TYPE
@@ -79,10 +81,13 @@ interface VitalzApi {
     @GET(GET_DEVICE_LIST)
     suspend fun getRegisteredDevices(): List<RegisteredDevice>
 
-    @POST(SEND_HEARTRATE)
+    @PUT(UPDATE_DEVICE)
+    suspend fun updateRegisteredDevice(@Body request: UpdateRegisteredDeviceRequest): UpdatedRegisteredDeviceResponse
+
+    @POST(SEND_TELEMETRY)
     suspend fun sendHeartRate(patientId: String, telemetryKey: String, heartRate :List<Byte>): Boolean
 
-    @POST(SEND_ECGDATA)
+    @POST(SEND_TELEMETRY)
     suspend fun sendEcgData(patientId: String, telemetryKey: String, ecgData :List<Byte>): Boolean
 
     @GET(SEARCH_MULTI_PATIENT)

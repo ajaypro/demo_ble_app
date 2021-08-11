@@ -93,7 +93,7 @@
     <style name="dashboard_ble_battery">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">@dimen/dp_32</item>
-        <item name="android:layout_marginStart">@dimen/dp_8</item>
+        <item name="android:layout_marginStart">@dimen/dp_5</item>
         <item name="android:layout_marginTop">@dimen/dp_8</item>
         <item name="android:text">@string/fake_time_left_unit</item>
         <item name="android:gravity">center</item>

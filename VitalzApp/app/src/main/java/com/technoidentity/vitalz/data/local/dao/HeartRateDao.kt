@@ -10,4 +10,7 @@ abstract class HeartRateDao: BaseDao<HeartRateDb> {
 
     @Query("SELECT * FROM heartratetable")
     abstract fun getHeartRate(): Flow<HeartRateDb>
+
+    @Query("SELECT EXISTS(SELECT * FROM heartratetable)")
+    abstract fun isExists(): Boolean
 }

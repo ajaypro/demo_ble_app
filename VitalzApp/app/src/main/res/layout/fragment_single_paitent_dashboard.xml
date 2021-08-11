@@ -29,7 +29,7 @@
         android:id="@+id/layout_ble"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/app_bar_layout">
@@ -47,12 +47,6 @@
             style="@style/dashboard_ble"
             android:textColor="@color/black"
             app:layout_constraintStart_toEndOf="@+id/iv_remote_icon"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_time_left_unit"
-            style="@style/dashboard_ble_battery"
-            app:layout_constraintStart_toEndOf="@+id/tv_time_left"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView

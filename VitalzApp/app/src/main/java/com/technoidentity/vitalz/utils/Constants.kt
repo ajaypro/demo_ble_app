@@ -16,9 +16,16 @@ object Constants {
     const val REQUEST_LOCATION_SERVICE = 32002
     const val PERMISSION_REQUEST_FINE_LOCATION = 32003
 
-    /**
-     * Ble constants
-     */
 
-    const val SERVICE_UUID = "ba20fd05-ea08-446d-b007-5dac7b2d1d3b"
+}
+
+/**
+ *  Vitalz constants
+ */
+enum class VitalzConstant(val item : String){
+    HEART_RATE("heartrate"),
+    RESPIRATORY("respiratory"),
+    BLOOD_PRESSURE("bloodpressure"),
+    TEMPERATURE("temprature"),
+    OXYGEN("oxygen")
 }

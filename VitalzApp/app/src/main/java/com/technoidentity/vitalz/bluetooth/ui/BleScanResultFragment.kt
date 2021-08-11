@@ -112,7 +112,7 @@ class BleScanResultFragment : Fragment() {
 
                     true -> {
                         viewModel.deviceForRegisteration(BleMac(device.address))
-                            .observe(viewLifecycleOwner) {
+                            viewModel.registeredDevice?.let {
                                 if (it.patchId != "Invalid_Patch") {
                                     if (indexQuery != -1) {
                                         devices[indexQuery] = device

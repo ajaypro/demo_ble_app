@@ -16,12 +16,9 @@ import com.technoidentity.vitalz.data.local.dao.HeartRateDao
 import com.technoidentity.vitalz.data.local.dao.RegisteredDeviceDao
 import com.technoidentity.vitalz.data.network.VitalzApi
 import com.technoidentity.vitalz.data.network.VitalzService
-import com.technoidentity.vitalz.data.repository.DeviceRepository
-import com.technoidentity.vitalz.data.repository.DeviceRepositoryImpl
-import com.technoidentity.vitalz.data.repository.UserRepository
-import com.technoidentity.vitalz.data.repository.UserRepositoryImpl
-import com.technoidentity.vitalz.utils.Constants
+import com.technoidentity.vitalz.data.repository.*
 import com.technoidentity.vitalz.utils.CoroutinesDispatcherProvider
+import com.technoidentity.vitalz.utils.SERVICE_UUID
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -44,8 +41,13 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun providesDeviceRepository(api: VitalzApi, heartRateDao: HeartRateDao,
-    ecgDataDao: EcgDataDao, registeredDeviceDao: RegisteredDeviceDao): DeviceRepository = DeviceRepositoryImpl(api,heartRateDao, ecgDataDao, registeredDeviceDao)
+    fun providesDeviceRepository(api: VitalzApi, registeredDeviceDao: RegisteredDeviceDao): DeviceRepository = DeviceRepositoryImpl(api, registeredDeviceDao)
+
+    @Singleton
+    @Provides
+    fun providesPatientRepository(api: VitalzApi, heartRateDao: HeartRateDao,
+                                 ecgDataDao: EcgDataDao): PatientRepository = PatientRepositoryImpl(api, heartRateDao, ecgDataDao)
+
 
     @Singleton
     @Provides
@@ -67,7 +69,7 @@ object AppModule {
     @Singleton
     @Provides
     fun providesScanFilter() = listOf(ScanFilter.Builder()
-                .setServiceUuid(ParcelUuid.fromString(Constants.SERVICE_UUID))
+                .setServiceUuid(ParcelUuid.fromString(SERVICE_UUID))
                 .build())
 
     @Singleton

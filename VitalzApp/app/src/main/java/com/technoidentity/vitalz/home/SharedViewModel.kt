@@ -11,6 +11,9 @@ import com.technoidentity.vitalz.bluetooth.data.BleMac
 import com.technoidentity.vitalz.bluetooth.data.RegisteredDevice
 import com.technoidentity.vitalz.data.local.databaseEntities.HeartRateDb
 import com.technoidentity.vitalz.data.repository.DeviceRepository
+import com.technoidentity.vitalz.data.repository.PatientRepository
+import com.technoidentity.vitalz.notifications.datamodel.VitalzTelemetryNotification
+import com.technoidentity.vitalz.utils.HEART_RATE_DATA
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
@@ -25,7 +28,8 @@ import kotlin.properties.Delegates
 @HiltViewModel
 class SharedViewModel @Inject constructor(
     private val bleManager: IBleManager,
-    private val deviceRepository: DeviceRepository
+    private val deviceRepository: DeviceRepository,
+    private val patientRepository: PatientRepository
 ) : ViewModel() {
 
     /**
@@ -71,19 +75,19 @@ class SharedViewModel @Inject constructor(
         bleManager.enableNotifications(device, characteristic)
     }
 
-    fun deviceForRegisteration(deviceMacID: BleMac): LiveData<RegisteredDevice> {
+    fun deviceForRegisteration(deviceMacID: BleMac): RegisteredDevice? {
 
-        return liveData {
-            withContext(Dispatchers.IO) {
-                deviceRepository.getRegisteredDevice(deviceMacID).apply {
-                    withContext(Dispatchers.Main) {
-                        emit(this@apply)
-                        registeredDevice = this@apply
-                        Timber.i("sharevm ${this@apply.patchId} ${this@apply.macId}")
-                    }
+        viewModelScope.launch(Dispatchers.IO) {
+
+            deviceRepository.registeredDevice(deviceMacID).apply {
+                withContext(Dispatchers.Main) {
+                    registeredDevice = this@apply
+                    Timber.i("sharevm ${this@apply.patchId} ${this@apply.macId}")
                 }
             }
+
         }
+        return registeredDevice
     }
 
     fun registeredDevice(device: BluetoothDevice): Triple<Boolean, String?, String?> {
@@ -101,46 +105,73 @@ class SharedViewModel @Inject constructor(
     /**
      * Patient data livedata and functions
      */
+
+    private var _updatePatientId: MutableLiveData<String> = MutableLiveData()
+    val updatePatientId:LiveData<String> = _updatePatientId
+
+    fun updatePatientId(patientId: String) {
+        _updatePatientId.value = patientId
+    }
+
     var heartRateData: Flow<ByteArray> = bleManager.heartRateCharacteristic
+
+    private var _telemetryNotification = MutableLiveData<Pair<Boolean, String>>()
+     val telemetryNotification: LiveData<Pair<Boolean, String>> = _telemetryNotification
+
+    suspend fun sendTelemetryNotification(heartRate: String): Boolean {
+
+            return patientRepository.sendTelemetryNotification(VitalzTelemetryNotification (
+                    registeredDevice?.patchId, HEART_RATE_DATA, heartRate)).apply {
+                        _telemetryNotification.value = Pair(this, heartRate)
+            }
+        }
+
 
     var dataToServer by Delegates.notNull<Boolean>()
 
-    fun sendHeartRateToServer(patientId: String, telemetryKey: String, heartRate: List<Byte>) {
+    fun sendHeartRateToServer(patchId: String, telemetryKey: String, heartRate: List<Byte>) {
 
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
 
             while (isActive) {
                 // Data is failed to send to server
-                deviceRepository.getHeartRateDb().collect { heartRateDb ->
-                    senData(
-                        heartRateDb.patientId,
-                        heartRateDb.telemetryKey,
-                        heartRateDb.heartRateValue
-                    ).apply {
-                        require(this) {
-                            deviceRepository.deleteHeartRateData(heartRateDb)
+                    when (patientRepository.isHeartRateExists()) {
+                        true -> {
+                            patientRepository.getHeartRateDb().collect { heartRateDb ->
+                                senData(
+                                    heartRateDb.patchId,
+                                    heartRateDb.telemetryKey,
+                                    heartRateDb.heartRateValue
+                                ).apply {
+                                    require(this) {
+                                        patientRepository.deleteHeartRateData(heartRateDb)
+                                    }
+                                }
+                            }
+                        }
+                        false -> {
+                            senData(patchId, telemetryKey, heartRate)
+                            // sending data very 10 secs
+                            delay(10000L)
                         }
                     }
                 }
-                senData(patientId, telemetryKey, heartRate)
-
-                delay(10000L)
             }
         }
-    }
+
 
     private suspend fun senData(
-        patientId: String,
+        patchId: String,
         telemetryKey: String,
         heartRateValue: List<Byte>
     ): Boolean {
 
-        deviceRepository.sendHeartRate(patientId, telemetryKey, heartRateValue).apply {
+        patientRepository.sendHeartRate(patchId, telemetryKey, heartRateValue).apply {
             return if (!this) {
                 dataToServer = false
-                deviceRepository.insertHeartRateDb(
+                patientRepository.insertHeartRateDb(
                     HeartRateDb(
-                        patientId = patientId,
+                        patchId = patchId,
                         telemetryKey = telemetryKey,
                         heartRateValue = heartRateValue
                     )

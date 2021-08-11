@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.github.mikephil.charting.components.XAxis
@@ -21,7 +22,9 @@ import com.technoidentity.vitalz.R
 import com.technoidentity.vitalz.data.datamodel.dashboardDetail.DashboardDetailResponse
 import com.technoidentity.vitalz.data.network.Constants
 import com.technoidentity.vitalz.databinding.FragmentDashboardDetailBinding
+import com.technoidentity.vitalz.home.SharedViewModel
 import com.technoidentity.vitalz.utils.CustomProgressDialog
+import com.technoidentity.vitalz.utils.VitalzConstant.*
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.*
@@ -34,7 +37,9 @@ class DashboardDetailsFragment : Fragment() {
     lateinit var binding: FragmentDashboardDetailBinding
     private lateinit var progressDialog: CustomProgressDialog
     val viewModel: DashboardDetailsViewModel by viewModels()
+    val sharedViewModel: SharedViewModel by activityViewModels()
     lateinit var patientId: String
+    lateinit var itemSelected: String
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -99,13 +104,33 @@ class DashboardDetailsFragment : Fragment() {
 //        - temprature
 //        - oxygen
         //Getting Arguments From last Fragment
-        val isAlive = arguments?.getString("isAlive")
-        if (isAlive == "heart") {
-            binding.tvHeartRate.text = "Heart Rate"
-            setInitialDates("heartrate")
-        } else if (isAlive == "respiratory") {
-            binding.tvHeartRate.text = "Respiratory"
-            setInitialDates("respiratory")
+        //Getting Arguments From last Fragment
+        when (arguments?.getString("isAlive")) {
+            HEART_RATE.item -> {
+                binding.tvHeartRate.text = "Heart Rate"
+                itemSelected = HEART_RATE.item
+                setInitialDates(itemSelected)
+            }
+            RESPIRATORY.item -> {
+                binding.tvHeartRate.text = "Respiratory"
+                itemSelected = RESPIRATORY.item
+                setInitialDates(itemSelected)
+            }
+            BLOOD_PRESSURE.item -> {
+                binding.tvHeartRate.text = "Blood Pressure"
+                itemSelected = BLOOD_PRESSURE.item
+                setInitialDates(itemSelected)
+            }
+            TEMPERATURE.item -> {
+                binding.tvHeartRate.text = "Temperature"
+                itemSelected = TEMPERATURE.item
+                setInitialDates(itemSelected)
+            }
+            OXYGEN.item -> {
+                binding.tvHeartRate.text = "Oxygen"
+                itemSelected = OXYGEN.item
+                setInitialDates(itemSelected)
+            }
         }
 
         //Bar Chart
@@ -114,11 +139,12 @@ class DashboardDetailsFragment : Fragment() {
         return binding.root
     }
 
-
     @SuppressLint("SetTextI18n")
     private fun setInitialDates(item: String) {
-        //Default dates Api-Call
-//        getSelectedDaysData(defaultStartDate, defaultEndDate, item, patientId)
+
+                    //Default dates Api-Call
+//        getSelectedDaysData(defaultStartDate, defaultEndDate, item, it)
+
     }
 
     private fun getSelectedDaysData(
@@ -172,6 +198,7 @@ class DashboardDetailsFragment : Fragment() {
     }
 
     private fun initializeBarChart() {
+
         binding.heartBarChart.description.isEnabled = false
         // if more than 60 entries are displayed in the chart, no values will be
         // drawn

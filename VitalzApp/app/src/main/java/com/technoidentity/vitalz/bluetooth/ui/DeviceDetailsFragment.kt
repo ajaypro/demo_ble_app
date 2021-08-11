@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -22,6 +23,8 @@ class DeviceDetailsFragment : Fragment() {
 
     lateinit var binding: FragmentDeviceDetailsBinding
 
+    lateinit var patchIdValue: String
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,12 +38,14 @@ class DeviceDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        lifecycleScope.launchWhenCreated {
 
             sharedViewmodel.connectedDeviceData.observe(viewLifecycleOwner, { it ->
 
                 binding.apply {
-                    patchId.text = sharedViewmodel.registeredDevice?.patchId
+                    sharedViewmodel.registeredDevice?.let {
+                        patchId.text = it.patchId
+                        patchIdValue = it.patchId
+                    }
 
                     sharedViewmodel.deviceBattery.observe(viewLifecycleOwner) { batteryValue ->
                         battery.text = batteryValue.toString().plus("%")
@@ -56,15 +61,14 @@ class DeviceDetailsFragment : Fragment() {
 
                 }
 
-
             })
-        }
+
 
         binding.patientDetailsBtn.setOnClickListener {
 
             when (isTablet(requireContext())) {
-                true -> findNavController().navigate(R.id.action_deviceDetailsFragment_to_multiPatientDashboardFragment)
-                else -> findNavController().navigate(R.id.action_deviceDetailsFragment_to_singlePatientDashboardFragment)
+                false -> findNavController().navigate(R.id.action_deviceDetailsFragment_to_multiPatientDashboardFragment)
+                else -> findNavController().navigate(R.id.action_deviceDetailsFragment_to_singlePatientDashboardFragment, bundleOf("patchId" to patchIdValue))
             }
 
         }

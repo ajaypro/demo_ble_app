@@ -11,7 +11,7 @@ data class HeartRateDb(
     val id: Int = 0,
 
     @ColumnInfo(name ="patientId")
-    var patientId: String = "",
+    var patchId: String = "",
 
     @ColumnInfo(name = "telemetryKey")
     var telemetryKey: String="",

@@ -14,6 +14,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
+import java.lang.Exception
 import java.util.concurrent.TimeUnit
 
 object VitalzService {
@@ -52,10 +53,18 @@ object VitalzService {
                     500 -> {
                         //throw Exception("Server error code: " + response.code + " with error message: " + response.message)
                         response
+                        try {
+                            Response.Builder().message(response.message).build()
+                        } catch (e: Exception) {
+                            Response.Builder().message(e.localizedMessage).build()
+                        } finally {
+                            Response.Builder().message("Server not responding").build()
+                        }
                     }
                     401 -> {
                         //throw Exception("Server error code: " + response.code + " with error message: " + response.message)
                         response
+
                     }
                     400 -> {
                         //throw Exception("Server error code: " + response.code + " with error message: " + response.message)

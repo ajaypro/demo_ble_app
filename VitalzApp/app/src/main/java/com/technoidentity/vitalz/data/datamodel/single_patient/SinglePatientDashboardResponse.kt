@@ -5,6 +5,8 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
+sealed class SinglePatientData
+
 @Parcelize
 data class SinglePatientDashboardResponse(
     @Expose
@@ -73,4 +75,52 @@ data class SinglePatientDashboardResponse(
     @Expose
     @SerializedName("weight")
     val weight: Weight
-):Parcelable
+):Parcelable, SinglePatientData()
+
+@Parcelize
+data class SinglePatientBleData(
+    @Expose
+    @SerializedName("address")
+    val address: String? = null,
+    @Expose
+    @SerializedName("age")
+    val age: Int? = null,
+    @Expose
+    @SerializedName("bloodPressure")
+    val bloodPressure: BloodPressure? = null,
+    @Expose
+    @SerializedName("contactNumber")
+    val contactNumber: String? = null,
+    @Expose
+    @SerializedName("device")
+    val device: Device? = null,
+    @Expose
+    @SerializedName("doctorContactNumber")
+    val doctorContactNumber: String? = null,
+    @Expose
+    @SerializedName("doctorName")
+    val doctorName: String? = null,
+    @Expose
+    @SerializedName("emergencyContactName")
+    val emergencyContactName: String? = null,
+    @Expose
+    @SerializedName("emergencyContactNumber")
+    val emergencyContactNumber: String? = null,
+    @Expose
+    @SerializedName("gender")
+    val gender: String? = null,
+    
+    @Expose
+    @SerializedName("height")
+    val height: Double? = null,
+    @Expose
+    @SerializedName("hospitalId")
+    val hospitalId: String? = null,
+    @Expose
+    @SerializedName("name")
+    val name: String? = null,
+    @Expose
+    @SerializedName("otherHealthIssues")
+    val otherHealthIssues: String? = null,
+    
+):Parcelable, SinglePatientData()

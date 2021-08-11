@@ -100,6 +100,9 @@
         <action
             android:id="@+id/action_singlePatientDashboardFragment_to_patientProfileFragment"
             app:destination="@id/patientProfileFragment" />
+        <argument
+            android:name="patchId"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/patientProfileFragment"

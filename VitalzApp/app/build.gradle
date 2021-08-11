@@ -80,6 +80,7 @@ dependencies {
     implementation "androidx.fragment:fragment-ktx:${library.fragment_ktx}"
 
     //Lifecycle
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.4.0-alpha02"
     implementation "androidx.lifecycle:lifecycle-extensions:${library.lifeCycle}"
     kapt "androidx.lifecycle:lifecycle-compiler:${library.lifeCycle}"
 
